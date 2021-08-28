@@ -1,10 +1,7 @@
 package info.itsthesky.disky3.api.emojis;
 
-import info.itsthesky.disky.DiSky;
-import info.itsthesky.disky.tools.emojis.Emoji;
-import info.itsthesky.disky.tools.emojis.EmojiLoader;
-import info.itsthesky.disky.tools.emojis.EmojiParser;
-import info.itsthesky.disky.tools.emojis.EmojiTrie;
+
+import info.itsthesky.disky3.DiSky;
 
 import java.io.IOException;
 import java.io.InputStream;
