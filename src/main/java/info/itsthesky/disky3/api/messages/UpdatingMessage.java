@@ -137,6 +137,11 @@ public class UpdatingMessage implements ISnowflake {
     }
 
     @Override
+    public String toString() {
+        return getMessage().getContentRaw();
+    }
+
+    @Override
     public long getIdLong() {
         return Long.parseLong(this.ID);
     }

@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core;
+package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

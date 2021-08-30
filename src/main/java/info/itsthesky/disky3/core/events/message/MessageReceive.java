@@ -2,11 +2,11 @@ package info.itsthesky.disky3.core.events.message;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.JDA;
-import info.itsthesky.disky.tools.object.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

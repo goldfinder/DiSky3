@@ -1,6 +1,6 @@
 package info.itsthesky.disky3.api.skript.events;
 
-import info.itsthesky.disky.managers.BotManager;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -25,12 +25,12 @@ public class EventListener<T> extends ListenerAdapter {
     public static void addListener(EventListener<?> listener) {
         removeListener(listener);
         listeners.add(listener);
-        BotManager.execute(jda -> jda.addEventListener(listener));
+        BotManager.globalExecute(bot -> bot.getCore().addEventListener(listener));
     }
 
     public static void removeListener(EventListener<?> listener) {
         listeners.remove(listener);
-        BotManager.execute(jda -> jda.removeEventListener(listener));
+        BotManager.globalExecute(bot -> bot.getCore().removeEventListener(listener));
     }
 
     @SuppressWarnings("unchecked")

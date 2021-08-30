@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core;
+package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -7,6 +7,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.MessageHelper;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
@@ -25,18 +27,18 @@ public class EffEditMessage extends WaiterBotEffect {
     static {
         register(
                 EffEditMessage.class,
-                "edit [the] [message] %message% (with|to show) %embedbuilder/text/messagebuilder%"
+                "edit [the] [message] %message% (with|to show) %embedbuilder/string/messagebuilder%"
         );
     }
 
     private Expression<UpdatingMessage> exprMessage;
     private Expression<Object> exprToReplaceWith;
 
-
     @Override
+    @SuppressWarnings("unchecked")
     public boolean initEffect(Expression[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.exprMessage = (Expression<UpdatingMessage>) exprs[0];
-        this.exprToReplaceWith = (Expression<Object>) exprs[0];
+        this.exprToReplaceWith = (Expression<Object>) exprs[1];
         return true;
     }
 
@@ -54,18 +56,24 @@ public class EffEditMessage extends WaiterBotEffect {
                 if (channel.compareTo(message.getMessage().getTextChannel()) == 0) {
 
                     channel.retrieveMessageById(message.getID()).queue(
-                            msg -> {
-                                MessageHelper.parseEditMessage(msg, content);
+                            msg -> message.getMessage().editMessage(Utils.parseMessageContent(content).build()).queue(t -> {
                                 restart();
-                            }
+                            }, ex -> {
+                                DiSky.exception(ex, getNode());
+                                restart();
+                            })
                     );
 
                 }
             }
 
         } else {
-            MessageHelper.parseEditMessage(message.getMessage(), content);
-            restart();
+            message.getMessage().editMessage(Utils.parseMessageContent(content).build()).queue(t -> {
+                restart();
+            }, ex -> {
+                DiSky.exception(ex, getNode());
+                restart();
+            });
         }
     }
 

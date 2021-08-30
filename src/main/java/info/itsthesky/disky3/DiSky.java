@@ -2,12 +2,15 @@ package info.itsthesky.disky3;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,10 +24,8 @@ public final class DiSky extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        log("");
         INSTANCE = this;
 
-        ln();
         // ################## METRICS ################## //
         int pluginId = 10911;
         Metrics metrics = new Metrics(this, pluginId);
@@ -46,6 +47,16 @@ public final class DiSky extends JavaPlugin {
             }
             return map;
         }));
+
+        ln();
+        warn("  _____  _  _____ _                 ____  ");
+        warn(" |  __ \\(_)/ ____| |               |___ \\ ");
+        warn(" | |  | |_| (___ | | ___   _  __   ____) |");
+        warn(" | |  | | |\\___ \\| |/ / | | | \\ \\ / /__ < ");
+        warn(" | |__| | |____) |   <| |_| |  \\ V /___) |");
+        warn(" |_____/|_|_____/|_|\\_\\__, |   \\_/|____/ ");
+        warn("                        __/ |             ");
+        warn("                       |___/              ");
 
         ln();
         // ################## SKRIPT ################## //
@@ -76,13 +87,20 @@ public final class DiSky extends JavaPlugin {
         ln();
         success("DiSky seems to be loaded correctly!");
         success("If you found any bugs or have any suggestion, feel free to join our discord: https://discord.gg/whWuXwaVwM");
-        success("");
+        ln();
     }
 
     @Override
     public void onDisable() {
+        ln();
+        log("Disabling DiSky's bot & instance ...");
         BotManager.reset();
+        success("Disable success!");
+        ln();
+        warn("Hope we see you back soon :<");
+        ln();
         INSTANCE = null;
+        SKRIPT_ADDON = null;
     }
 
     public static DiSky getInstance() {
@@ -104,10 +122,48 @@ public final class DiSky extends JavaPlugin {
     }
 
     public static void success(String message) {
-        Bukkit.getServer().getConsoleSender().sendMessage(Utils.colored("&3[DiSky] &a" + message));
+        Bukkit.getServer().getConsoleSender().sendMessage(Utils.colored("&2[DiSky] &a" + message));
     }
 
     public static void warn(String message) {
         Bukkit.getServer().getConsoleSender().sendMessage(Utils.colored("&6[DiSky] &e" + message));
+    }
+
+    public static void bigError(String message) {
+        Bukkit.getServer().getConsoleSender().sendMessage(Utils.colored("&4&l#!#! &c" + message));
+    }
+
+    public static void lnError() {
+        bigError("&1");
+    }
+
+    public static void exception(
+            Throwable ex,
+            NodeInformation info
+    ) {
+        lnError();
+        bigError("You just got an error while using DiSky!");
+        bigError("Message: &4&n" + ex.getMessage());
+        lnError();
+
+        if (!(ex instanceof DiSkyException)) {
+            bigError("If you don't understand the message just above, then send the following line to Sky on discord:");
+            String skyRelatedLine = "Cannot determinate the related java line!";
+            for (StackTraceElement e : ex.getStackTrace())
+                if (e.toString().contains("itsthesky")) {
+                    skyRelatedLine = e.toString();
+                    break;
+                }
+            bigError(skyRelatedLine);
+            lnError();
+        }
+
+        bigError("More informations:");
+        bigError("   - Related script file: " + info.getFileName());
+        bigError("   - Related line: " + info.getLine());
+        bigError("   - Related line code: " + info.getLineContent());
+        lnError();
+        bigError("End of the error.");
+        lnError();
     }
 }

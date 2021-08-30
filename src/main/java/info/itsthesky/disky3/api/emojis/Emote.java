@@ -1,8 +1,8 @@
-package info.itsthesky.disky3.api.messages;
+package info.itsthesky.disky3.api.emojis;
 
-import info.itsthesky.disky3.api.emojis.EmojiParser;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Emoji;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class Emote implements IMentionable {
     private net.dv8tion.jda.api.entities.Emote emote;
     private final boolean isEmote;
     private final String mention;
-    private Emoji emoji;
+    private net.dv8tion.jda.api.entities.Emoji emoji;
 
     public Emote(String name, String mention) {
         this.name = name.replaceAll(":", "");
@@ -28,7 +28,7 @@ public class Emote implements IMentionable {
         }
     }
 
-    public Emote(Emoji emoji) {
+    public Emote(net.dv8tion.jda.api.entities.Emoji emoji) {
         this.emoji = emoji;
         this.mention = emoji.getName();
         this.name = emoji.getId();

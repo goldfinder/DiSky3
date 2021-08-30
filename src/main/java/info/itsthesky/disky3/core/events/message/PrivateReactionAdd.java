@@ -25,10 +25,10 @@ public class PrivateReactionAdd extends DiSkyEvent<PrivateMessageReactionAddEven
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtPrivateReactionAdd.class, info.itsthesky.disky.tools.object.Emote.class, new Getter<info.itsthesky.disky.tools.object.Emote, EvtPrivateReactionAdd>() {
+       EventValues.registerEventValue(EvtPrivateReactionAdd.class, info.itsthesky.disky3.api.emojis.Emote.class, new Getter<info.itsthesky.disky3.api.emojis.Emote, EvtPrivateReactionAdd>() {
             @Override
-            public info.itsthesky.disky.tools.object.Emote get(EvtPrivateReactionAdd event) {
-                return info.itsthesky.disky.tools.object.Emote.fromReaction(event.getJDAEvent().getReactionEmote());
+            public info.itsthesky.disky3.api.emojis.Emote get(EvtPrivateReactionAdd event) {
+                return info.itsthesky.disky3.api.emojis.Emote.fromReaction(event.getJDAEvent().getReactionEmote());
             }
         }, 0);
 

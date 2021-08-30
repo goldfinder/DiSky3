@@ -6,7 +6,7 @@ import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.JDA;
-import info.itsthesky.disky.tools.object.UpdatingMessage;
+import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 
@@ -47,10 +47,10 @@ public class ReactionAdd extends DiSkyEvent<GuildMessageReactionAddEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtReactionAdd.class, info.itsthesky.disky.tools.object.Emote.class, new Getter<info.itsthesky.disky.tools.object.Emote, EvtReactionAdd>() {
+       EventValues.registerEventValue(EvtReactionAdd.class, info.itsthesky.disky3.api.emojis.Emote.class, new Getter<info.itsthesky.disky3.api.emojis.Emote, EvtReactionAdd>() {
             @Override
-            public info.itsthesky.disky.tools.object.Emote get(EvtReactionAdd event) {
-                return info.itsthesky.disky.tools.object.Emote.fromReaction(event.getJDAEvent().getReactionEmote());
+            public info.itsthesky.disky3.api.emojis.Emote get(EvtReactionAdd event) {
+                return info.itsthesky.disky3.api.emojis.Emote.fromReaction(event.getJDAEvent().getReactionEmote());
             }
         }, 0);
 

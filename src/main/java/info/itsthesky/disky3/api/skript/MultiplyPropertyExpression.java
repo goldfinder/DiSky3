@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 /**
  * Way to make SimplePropertyExpression return multiple objects
- * Copyright (C) 2021 @Olyno and edited by Sky
+ * <br>Copyright (C) 2021 @Olyno and edited by ItsTheSky for DiSky's utilities
  */
 public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<T> {
 

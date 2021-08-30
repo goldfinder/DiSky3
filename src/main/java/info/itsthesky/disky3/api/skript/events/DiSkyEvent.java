@@ -5,9 +5,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.config.Config;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.log.SkriptLogger;
-import info.itsthesky.disky.managers.BotManager;
-import info.itsthesky.disky.tools.Utils;
+import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.BotManager;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -130,10 +131,10 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
 
                 event.setJDAEvent(JDAEvent);
                 Utils.async(() -> {
-                    for (Value value : getValues()) {
-                        valueMap.put(value.clazz, value.getter.get(JDAEvent));
-                    }
-                    event.setValueMap(valueMap);
+                    //for (Value value : getValues()) {
+                        //valueMap.put(value.clazz, value.getter.get(JDAEvent));
+                    //}
+                    //event.setValueMap(valueMap);
                     Utils.sync(() -> {
                         if (getTrigger() != null) {
                             getTrigger().execute(event);
@@ -161,7 +162,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(@NotNull Event e, boolean debug) {
         return stringRepresentation;
     }
 
@@ -179,7 +180,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
      * @param event The JDA event to be checked
      */
     public boolean check(D event) {
-        return bot == null || bot.equalsIgnoreCase(BotManager.getNameByJDA(event.getJDA()));
+        return bot == null || bot.equalsIgnoreCase(BotManager.searchFromJDA(event.getJDA()).getName());
     }
 
     public Class<? extends Event> getBukkitClass() {
@@ -190,21 +191,5 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
         return jdaClass;
     }
 
-    @SuppressWarnings("unchecked")
-    public Value[] getValues() {
-        return new Value[]{};
-    }
-
-    public class Value {
-
-        private final DiSkyGetter<D, Object> getter;
-        private final Class<?> clazz;
-
-        public Value(Class<?> clazz, DiSkyGetter<D, Object> getter) {
-            this.getter = getter;
-            this.clazz = clazz;
-        }
-
-    }
 
 }

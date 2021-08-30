@@ -5,7 +5,7 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import info.itsthesky.disky.tools.object.UpdatingMessage;
+import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;

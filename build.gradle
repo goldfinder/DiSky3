@@ -47,6 +47,13 @@ dependencies {
     compile 'org.jsoup:jsoup:1.14.1'
 }
 
+jar {
+    archiveName 'DiSky ' + version + ".jar"
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
