@@ -8,3 +8,6 @@ softdepend: [ Skript ]
 authors: [ ItsTheSky ]
 description: The new generation of Discord managing with Skript!
 website: https://disky.itsthesky.info/
+commands:
+    disky:
+        description: Main DiSky command

@@ -1,8 +1,16 @@
 package info.itsthesky.disky3.api;
 
+import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.registrations.EventValues;
+import ch.njol.skript.util.Color;
+import ch.njol.skript.util.Getter;
+import ch.njol.skript.util.SkriptColor;
+import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -16,6 +24,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,8 +48,24 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static <T, F> T tryOrDie(Function<F, T> function, F instance, T defaultValue) {
+        try {
+            return function.apply(instance);
+        } catch (Exception ex) {
+            return defaultValue;
+        }
+    }
+
     public static boolean equalsAnyIgnoreCase(String toMatch, String... potentialMatches) {
         return Arrays.asList(potentialMatches).contains(toMatch);
+    }
+
+    public static Color convert(org.bukkit.Color original) {
+        return SkriptColor.fromBukkitColor(original);
+    }
+
+    public static SkriptColor convert(java.awt.Color original) {
+        return SkriptColor.fromBukkitColor(org.bukkit.Color.fromRGB(original.getRGB()));
     }
 
     public static <F, T> T[] convertArray(
@@ -68,6 +93,55 @@ public final class Utils {
             builder.append(content.toString());
         }
         return builder;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz) {
+        if (expr != null)
+            return expr;
+        Class<? extends Event>[] events = ScriptLoader.getCurrentEvents();
+        for (Class<? extends Event> e : events == null ? new Class[0] : events) {
+            Getter getter = EventValues.getEventValueGetter(e, clazz, 0);
+            if (getter != null) {
+                return new SimpleExpression<T>() {
+                    @Override
+                    protected T[] get(Event e) {
+                        T value = (T) getter.get(e);
+                        if (value == null)
+                            return null;
+                        T[] arr = (T[]) Array.newInstance(clazz, 1);
+                        arr[0] = value;
+                        return arr;
+                    }
+
+                    @Override
+                    public boolean isSingle() {
+                        return true;
+                    }
+
+                    @Override
+                    public Class<? extends T> getReturnType() {
+                        return clazz;
+                    }
+
+                    @Override
+                    public boolean isDefault() {
+                        return true;
+                    }
+
+                    @Override
+                    public String toString(Event e, boolean debug) {
+                        return "defaulted event value expression";
+                    }
+
+                    @Override
+                    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+                        return true;
+                    }
+                };
+            }
+        }
+        return null;
     }
 
     @Nullable
