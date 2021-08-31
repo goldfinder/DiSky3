@@ -1,6 +1,10 @@
 package info.itsthesky.disky3.core.skript.properties.embed;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -14,6 +18,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Embed Title URL")
+@Description("Represent the title url of an embed. Keep in mind you need a title text set in order to add an URL!")
+@Since("3.0")
+@Examples("set title url of embed to \"https://www.youtube.com/watch?v=7JEqsCFrD_c\"")
 public class EmbedTitleURL extends SimplePropertyExpression<EmbedBuilder, String> {
 
     static {

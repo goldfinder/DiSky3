@@ -19,17 +19,17 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Name("Embed Title")
-@Description("Represent the title text of an embed.")
+@Name("Embed Author")
+@Description("Represent the author text of embed.")
 @Since("3.0")
-@Examples("set title of embed to \"Title :)\"")
-public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
+@Examples("set author of embed to \"Sky !\"")
+public class EmbedAuthor extends SimplePropertyExpression<EmbedBuilder, String> {
 
     static {
         register(
-                EmbedTitle.class,
+                EmbedAuthor.class,
                 String.class,
-                "[embed] title",
+                "[embed] author",
                 "embedbuilder"
         );
     }
@@ -39,41 +39,48 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Override
     protected @NotNull String getPropertyName() {
-        return "embed title";
+        return "embed author";
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         useScope = EffectSection.isCurrentSection(ScopeEmbed.class);
         info = new NodeInformation();
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }
 
-    @Nullable
     @Override
-    public String convert(EmbedBuilder builder) {
-        return builder.build().getTitle();
+    public @NotNull String convert(EmbedBuilder builder) {
+        return builder.isEmpty() ? null : builder.build().getAuthor().getName();
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
-            final String value = delta[0].toString();
+            final String value = (String) delta[0];
             final @Nullable EmbedBuilder embed = Utils.verifyVar(e, getExpr(), null);
 
-            if (value == null || embed == null) return;
+            if (embed == null) return;
 
-            String previousURL = null;
-            if (!embed.isEmpty())
-                previousURL = embed.build().getUrl();
+            String previousAuthorURL = Utils.tryOrDie(
+                    builder -> builder.build().getAuthor().getUrl(),
+                    embed,
+                    null
+            );
+
+            String previousAuthorIcon = Utils.tryOrDie(
+                    builder -> builder.build().getAuthor().getIconUrl(),
+                    embed,
+                    null
+            );
 
             try {
 
-                embed.setTitle(value, previousURL);
+                embed.setAuthor(value, previousAuthorURL, previousAuthorIcon);
 
                 if (useScope)
-                    ScopeEmbed.lastEmbed.setTitle(value, previousURL);
+                    ScopeEmbed.lastEmbed.setAuthor(value, previousAuthorURL, previousAuthorIcon);
 
             } catch (Exception ex) {
                 DiSky.exception(ex, info);
@@ -84,14 +91,16 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(
+                    String.class
+            );
         return CollectionUtils.array();
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 }

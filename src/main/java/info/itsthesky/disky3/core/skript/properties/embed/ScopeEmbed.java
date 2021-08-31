@@ -48,7 +48,7 @@ public class ScopeEmbed extends EffectSection {
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
-        if (exprs.length != 0) exprID = (Expression<String>) exprs[0];
+        exprID = (Expression<String>) exprs[0];
         if (checkIfCondition()) return false;
         if (!hasSection()) return false;
         loadSection(true);

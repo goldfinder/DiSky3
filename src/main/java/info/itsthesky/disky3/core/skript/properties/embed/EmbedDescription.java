@@ -1,10 +1,6 @@
 package info.itsthesky.disky3.core.skript.properties.embed;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -16,20 +12,15 @@ import info.itsthesky.disky3.api.skript.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Name("Embed Title")
-@Description("Represent the title text of an embed.")
-@Since("3.0")
-@Examples("set title of embed to \"Title :)\"")
-public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
+public class EmbedDescription extends SimplePropertyExpression<EmbedBuilder, String> {
 
     static {
         register(
-                EmbedTitle.class,
+                EmbedDescription.class,
                 String.class,
-                "[embed] title",
+                "[embed] desc[ription]",
                 "embedbuilder"
         );
     }
@@ -38,8 +29,8 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
     private NodeInformation info;
 
     @Override
-    protected @NotNull String getPropertyName() {
-        return "embed title";
+    protected String getPropertyName() {
+        return "embed description";
     }
 
     @Override
@@ -52,7 +43,7 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
     @Nullable
     @Override
     public String convert(EmbedBuilder builder) {
-        return builder.build().getTitle();
+        return builder.build().getDescription();
     }
 
     @Override
@@ -64,16 +55,12 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
             if (value == null || embed == null) return;
 
-            String previousURL = null;
-            if (!embed.isEmpty())
-                previousURL = embed.build().getUrl();
-
             try {
 
-                embed.setTitle(value, previousURL);
+                embed.setDescription(value);
 
                 if (useScope)
-                    ScopeEmbed.lastEmbed.setTitle(value, previousURL);
+                    ScopeEmbed.lastEmbed.setDescription(value);
 
             } catch (Exception ex) {
                 DiSky.exception(ex, info);

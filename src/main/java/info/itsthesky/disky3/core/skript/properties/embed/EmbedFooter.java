@@ -8,6 +8,7 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.util.Color;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
@@ -19,17 +20,17 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Name("Embed Title")
-@Description("Represent the title text of an embed.")
+@Name("Embed Footer")
+@Description("Represent the footer text of embed.")
 @Since("3.0")
-@Examples("set title of embed to \"Title :)\"")
-public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
+@Examples("set footer of embed to \"Hello world /!\\\"")
+public class EmbedFooter extends SimplePropertyExpression<EmbedBuilder, String> {
 
     static {
         register(
-                EmbedTitle.class,
+                EmbedFooter.class,
                 String.class,
-                "[embed] title",
+                "[embed] footer",
                 "embedbuilder"
         );
     }
@@ -39,41 +40,42 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Override
     protected @NotNull String getPropertyName() {
-        return "embed title";
+        return "embed footer";
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         useScope = EffectSection.isCurrentSection(ScopeEmbed.class);
         info = new NodeInformation();
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }
 
-    @Nullable
     @Override
-    public String convert(EmbedBuilder builder) {
-        return builder.build().getTitle();
+    public @NotNull String convert(EmbedBuilder builder) {
+        return builder.isEmpty() ? null : builder.build().getFooter().getText();
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
-            final String value = delta[0].toString();
+            final String value = (String) delta[0];
             final @Nullable EmbedBuilder embed = Utils.verifyVar(e, getExpr(), null);
 
-            if (value == null || embed == null) return;
+            if (embed == null) return;
 
-            String previousURL = null;
-            if (!embed.isEmpty())
-                previousURL = embed.build().getUrl();
+            String previousFooterURL = Utils.tryOrDie(
+                    builder -> builder.build().getFooter().getIconUrl(),
+                    embed,
+                    null
+            );
 
             try {
 
-                embed.setTitle(value, previousURL);
+                embed.setFooter(value, previousFooterURL);
 
                 if (useScope)
-                    ScopeEmbed.lastEmbed.setTitle(value, previousURL);
+                    ScopeEmbed.lastEmbed.setFooter(value, previousFooterURL);
 
             } catch (Exception ex) {
                 DiSky.exception(ex, info);
@@ -84,14 +86,16 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(
+                    String.class
+            );
         return CollectionUtils.array();
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 }

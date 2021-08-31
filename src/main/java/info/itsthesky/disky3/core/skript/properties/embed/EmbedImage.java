@@ -16,20 +16,19 @@ import info.itsthesky.disky3.api.skript.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Name("Embed Title")
-@Description("Represent the title text of an embed.")
+@Name("Embed Image")
+@Description("Represent the image of an embed. Must be a http link (external image), or use 'attachment://<name>' and upload an image through the upload effect to use local image.")
 @Since("3.0")
-@Examples("set title of embed to \"Title :)\"")
-public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
+@Examples("set image of embed to \"https://starwars-universe.com/images/actualites/the_mandalorian/thechild.jpg\"")
+public class EmbedImage extends SimplePropertyExpression<EmbedBuilder, String> {
 
     static {
         register(
-                EmbedTitle.class,
+                EmbedImage.class,
                 String.class,
-                "[embed] title",
+                "[embed] image",
                 "embedbuilder"
         );
     }
@@ -38,8 +37,8 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
     private NodeInformation info;
 
     @Override
-    protected @NotNull String getPropertyName() {
-        return "embed title";
+    protected String getPropertyName() {
+        return "embed image";
     }
 
     @Override
@@ -52,7 +51,7 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
     @Nullable
     @Override
     public String convert(EmbedBuilder builder) {
-        return builder.build().getTitle();
+        return builder.build().getImage().getUrl();
     }
 
     @Override
@@ -64,16 +63,12 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
             if (value == null || embed == null) return;
 
-            String previousURL = null;
-            if (!embed.isEmpty())
-                previousURL = embed.build().getUrl();
-
             try {
 
-                embed.setTitle(value, previousURL);
+                embed.setImage(value);
 
                 if (useScope)
-                    ScopeEmbed.lastEmbed.setTitle(value, previousURL);
+                    ScopeEmbed.lastEmbed.setImage(value);
 
             } catch (Exception ex) {
                 DiSky.exception(ex, info);

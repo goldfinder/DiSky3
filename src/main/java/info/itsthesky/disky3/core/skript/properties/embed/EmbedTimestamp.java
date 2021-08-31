@@ -8,6 +8,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.util.Color;
+import ch.njol.skript.util.Date;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
@@ -19,17 +21,19 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Name("Embed Title")
-@Description("Represent the title text of an embed.")
+import java.time.Instant;
+
+@Name("Embed Timestamp")
+@Description("Represent the timestamp of an embed, it's the date wrote next to the footer text.")
 @Since("3.0")
-@Examples("set title of embed to \"Title :)\"")
-public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
+@Examples("set timestamp of embed to now")
+public class EmbedTimestamp extends SimplePropertyExpression<EmbedBuilder, Date> {
 
     static {
         register(
-                EmbedTitle.class,
-                String.class,
-                "[embed] title",
+                EmbedTimestamp.class,
+                Date.class,
+                "[embed] timestamp",
                 "embedbuilder"
         );
     }
@@ -39,41 +43,36 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Override
     protected @NotNull String getPropertyName() {
-        return "embed title";
+        return "embed timestamp";
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         useScope = EffectSection.isCurrentSection(ScopeEmbed.class);
         info = new NodeInformation();
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }
 
-    @Nullable
     @Override
-    public String convert(EmbedBuilder builder) {
-        return builder.build().getTitle();
+    public @NotNull Date convert(EmbedBuilder builder) {
+        return builder.isEmpty() ? null : new Date(builder.build().getTimestamp().getNano());
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
-            final String value = delta[0].toString();
+            final Date value = (Date) delta[0];
             final @Nullable EmbedBuilder embed = Utils.verifyVar(e, getExpr(), null);
 
-            if (value == null || embed == null) return;
-
-            String previousURL = null;
-            if (!embed.isEmpty())
-                previousURL = embed.build().getUrl();
+            if (embed == null) return;
 
             try {
 
-                embed.setTitle(value, previousURL);
+                embed.setTimestamp(Instant.ofEpochMilli(value.getTimestamp()));
 
                 if (useScope)
-                    ScopeEmbed.lastEmbed.setTitle(value, previousURL);
+                    ScopeEmbed.lastEmbed.setTimestamp(Instant.ofEpochMilli(value.getTimestamp()));
 
             } catch (Exception ex) {
                 DiSky.exception(ex, info);
@@ -84,14 +83,16 @@ public class EmbedTitle extends SimplePropertyExpression<EmbedBuilder, String> {
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(
+                    Date.class
+            );
         return CollectionUtils.array();
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
+    public @NotNull Class<? extends Date> getReturnType() {
+        return Date.class;
     }
 }
