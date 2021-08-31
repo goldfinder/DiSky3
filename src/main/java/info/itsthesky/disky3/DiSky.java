@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import info.itsthesky.disky3.core.DiSkyCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
@@ -79,6 +80,8 @@ public final class DiSky extends JavaPlugin {
         }
         success("Loaded Skript's syntaxes successfully!");
 
+        getCommand("disky").setExecutor(new DiSkyCommand());
+
         ln();
         // ################## INFOS ################## //
         log("This is the first v3 of DiSky, including an awesome rework of DiSky!");
@@ -139,7 +142,7 @@ public final class DiSky extends JavaPlugin {
 
     public static void exception(
             Throwable ex,
-            NodeInformation info
+            @Nullable NodeInformation info
     ) {
         lnError();
         bigError("You just got an error while using DiSky!");
@@ -158,11 +161,12 @@ public final class DiSky extends JavaPlugin {
             lnError();
         }
 
-        bigError("More informations:");
-        bigError("   - Related script file: " + info.getFileName());
-        bigError("   - Related line: " + info.getLine());
-        bigError("   - Related line code: " + info.getLineContent());
-        lnError();
+        if (info != null ) {
+            bigError("More informations:");
+            bigError("   - Related script file: " + info.getFileName() + " (Line " + info.getLine() + ")");
+            bigError("   - Related line code: " + info.getLineContent());
+            lnError();
+        }
         bigError("End of the error.");
         lnError();
     }
