@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 
@@ -47,10 +48,10 @@ public class MemberRoleAdd extends DiSkyEvent<GuildMemberRoleAddEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtMemberRoleAdd.class, JDA.class, new Getter<JDA, EvtMemberRoleAdd>() {
+       EventValues.registerEventValue(EvtMemberRoleAdd.class, Bot.class, new Getter<Bot, EvtMemberRoleAdd>() {
             @Override
-            public JDA get(EvtMemberRoleAdd event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtMemberRoleAdd event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

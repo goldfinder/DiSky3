@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateHoistedEvent;
 
@@ -54,10 +55,10 @@ public class RoleHoisted extends DiSkyEvent<RoleUpdateHoistedEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtRoleHoisted.class, JDA.class, new Getter<JDA, EvtRoleHoisted>() {
+       EventValues.registerEventValue(EvtRoleHoisted.class, Bot.class, new Getter<Bot, EvtRoleHoisted>() {
             @Override
-            public JDA get(EvtRoleHoisted event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtRoleHoisted event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

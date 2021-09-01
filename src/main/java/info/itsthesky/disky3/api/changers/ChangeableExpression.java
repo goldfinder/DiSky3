@@ -1,13 +1,11 @@
 package info.itsthesky.disky3.api.changers;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.core.EffChange;
 import org.bukkit.event.Event;
 
 public abstract class ChangeableExpression implements Expression {

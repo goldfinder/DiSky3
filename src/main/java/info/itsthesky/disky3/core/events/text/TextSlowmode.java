@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateSlowmodeEvent;
@@ -33,10 +34,10 @@ public class TextSlowmode extends DiSkyEvent<TextChannelUpdateSlowmodeEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtTextSlowmode.class, JDA.class, new Getter<JDA, EvtTextSlowmode>() {
+       EventValues.registerEventValue(EvtTextSlowmode.class, Bot.class, new Getter<Bot, EvtTextSlowmode>() {
             @Override
-            public JDA get(EvtTextSlowmode event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtTextSlowmode event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

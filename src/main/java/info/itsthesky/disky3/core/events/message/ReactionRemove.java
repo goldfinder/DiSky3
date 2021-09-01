@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
@@ -62,10 +63,10 @@ public class ReactionRemove extends DiSkyEvent<GuildMessageReactionRemoveEvent> 
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtReactionRemove.class, JDA.class, new Getter<JDA, EvtReactionRemove>() {
+       EventValues.registerEventValue(EvtReactionRemove.class, Bot.class, new Getter<Bot, EvtReactionRemove>() {
             @Override
-            public JDA get(EvtReactionRemove event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtReactionRemove event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

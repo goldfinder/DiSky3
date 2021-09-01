@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.user.update.UserUpdateAvatarEvent;
@@ -46,10 +47,10 @@ public class UserAvatar extends DiSkyEvent<UserUpdateAvatarEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtUserAvatar.class, JDA.class, new Getter<JDA, EvtUserAvatar>() {
+       EventValues.registerEventValue(EvtUserAvatar.class, Bot.class, new Getter<Bot, EvtUserAvatar>() {
             @Override
-            public JDA get(EvtUserAvatar event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtUserAvatar event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

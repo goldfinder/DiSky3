@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateBannerEvent;
 
@@ -44,10 +45,10 @@ public class GuildBanner extends DiSkyEvent<GuildUpdateBannerEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtGuildBanner.class, JDA.class, new Getter<JDA, EvtGuildBanner>() {
+       EventValues.registerEventValue(EvtGuildBanner.class, Bot.class, new Getter<Bot, EvtGuildBanner>() {
             @Override
-            public JDA get(EvtGuildBanner event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtGuildBanner event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

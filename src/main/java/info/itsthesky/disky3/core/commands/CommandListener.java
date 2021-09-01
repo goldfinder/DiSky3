@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
+
 public class CommandListener extends ListenerAdapter {
     public static MessageReceivedEvent lastCommandEvent;
 
@@ -75,6 +77,9 @@ public class CommandListener extends ListenerAdapter {
                         String usedPrefixes = usedCommand.split("")[0].toLowerCase(Locale.ROOT);
                     } catch (Exception ignored) {}
                     String rawCommand = "";
+
+                    // Setting back the new (nullable) event guild
+                    LAST_GUILD_COMMAND = e.isFromGuild() ? e.getGuild() : null;
 
                     // TODO: 29/05/2021 Fix the global prefix system. Hard to interfere with original one :'(
                     if (nonNull(usedCommand)) {

@@ -6,7 +6,8 @@ import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 
@@ -47,10 +48,10 @@ public class PrivateReceive extends DiSkyEvent<PrivateMessageReceivedEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtPrivateReceive.class, JDA.class, new Getter<JDA, EvtPrivateReceive>() {
+       EventValues.registerEventValue(EvtPrivateReceive.class, Bot.class, new Getter<Bot, EvtPrivateReceive>() {
             @Override
-            public JDA get(EvtPrivateReceive event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtPrivateReceive event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

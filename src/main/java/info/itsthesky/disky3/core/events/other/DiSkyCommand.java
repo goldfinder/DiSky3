@@ -9,7 +9,8 @@ import info.itsthesky.disky3.api.skript.events.BukkitEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.core.commands.CommandObject;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bukkit.event.Cancellable;
@@ -67,10 +68,10 @@ public class DiSkyCommand extends SkriptEvent {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtDiSkyCommand.class, JDA.class, new Getter<JDA, EvtDiSkyCommand>() {
+        EventValues.registerEventValue(EvtDiSkyCommand.class, Bot.class, new Getter<Bot, EvtDiSkyCommand>() {
             @Override
-            public JDA get(EvtDiSkyCommand event) {
-                return event.jdaEvent.getJDA();
+            public Bot get(EvtDiSkyCommand event) {
+                return BotManager.searchFromJDA(event.jdaEvent.getJDA());
             }
         }, 0);
     }

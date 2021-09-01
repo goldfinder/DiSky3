@@ -1,12 +1,17 @@
 
 package info.itsthesky.disky3.core;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.registrations.Comparators;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.DiSkyType;
+import info.itsthesky.disky3.api.StaticData;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.DiSkyComparator;
@@ -18,6 +23,10 @@ import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 
 public class Types {
 
@@ -43,10 +52,10 @@ public class Types {
 			/*
 			 * Custom entities which need a precise comparator
 			 */
-			Comparators.registerComparator(JDA.class, JDA.class, new Comparator<JDA, JDA>() {
+			Comparators.registerComparator(Bot.class, Bot.class, new Comparator<Bot, Bot>() {
 				@Override
-				public Relation compare(JDA jda, JDA jda2) {
-					if (jda.getSelfUser().getId().equals(jda2.getSelfUser().getId()))
+				public @NotNull Relation compare(@NotNull Bot jda, @NotNull Bot jda2) {
+					if (jda.getCore().getSelfUser().getId().equals(jda2.getCore().getSelfUser().getId()))
 						return Relation.EQUAL;
 					return Relation.NOT_EQUAL;
 				}
@@ -90,7 +99,15 @@ public class Types {
 				"member",
 				"members?",
 				Member::getEffectiveName,
-				input -> BotManager.globalSearch(bot -> Utils.searchMember(bot.getCore(), input)),
+				input -> {
+					final @Nullable Guild guild = LAST_GUILD_COMMAND;
+					if (guild == null) {
+						DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
+						return null;
+					} else {
+						return guild.getMemberById(Utils.parseLong(input, false, true));
+					}
+				},
 				false
 		).register();
 		new DiSkyType<>(
@@ -154,10 +171,10 @@ public class Types {
 				"presences?"
 		).register();
 		new DiSkyType<>(
-				JDA.class,
+				Bot.class,
 				"bot",
 				"bots?",
-				bot -> BotManager.searchFromJDA(bot).getName(),
+				Bot::getName,
 				null,
 				false
 		).register();

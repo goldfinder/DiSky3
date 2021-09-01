@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdateNameEvent;
@@ -47,10 +48,10 @@ public class VoiceName extends DiSkyEvent<VoiceChannelUpdateNameEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtVoiceName.class, JDA.class, new Getter<JDA, EvtVoiceName>() {
+       EventValues.registerEventValue(EvtVoiceName.class, Bot.class, new Getter<Bot, EvtVoiceName>() {
             @Override
-            public JDA get(EvtVoiceName event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtVoiceName event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

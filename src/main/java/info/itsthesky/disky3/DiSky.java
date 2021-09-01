@@ -7,6 +7,7 @@ import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.core.EffChange;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import org.bukkit.Bukkit;
@@ -66,6 +67,7 @@ public final class DiSky extends JavaPlugin {
             success("Skript found! Starting registration ...");
             SKRIPT_ADDON = Skript.registerAddon(this);
             try {
+                Skript.registerEffect(EffChange.class, EffChange.patterns.getPatterns());
                 SKRIPT_ADDON.loadClasses("info.itsthesky.disky3.core");
             } catch (IOException e) {
                 e.printStackTrace();

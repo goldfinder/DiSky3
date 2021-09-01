@@ -6,7 +6,8 @@ import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
 
@@ -77,10 +78,10 @@ public class MessageEdit extends DiSkyEvent<GuildMessageUpdateEvent> {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtMessageEdit.class, JDA.class, new Getter<JDA, EvtMessageEdit>() {
+        EventValues.registerEventValue(EvtMessageEdit.class, Bot.class, new Getter<Bot, EvtMessageEdit>() {
             @Override
-            public JDA get(EvtMessageEdit event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtMessageEdit event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

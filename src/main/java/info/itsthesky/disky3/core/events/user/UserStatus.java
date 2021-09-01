@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
@@ -62,10 +63,10 @@ public class UserStatus extends DiSkyEvent<UserUpdateOnlineStatusEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtUserStatus.class, JDA.class, new Getter<JDA, EvtUserStatus>() {
+       EventValues.registerEventValue(EvtUserStatus.class, Bot.class, new Getter<Bot, EvtUserStatus>() {
             @Override
-            public JDA get(EvtUserStatus event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtUserStatus event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

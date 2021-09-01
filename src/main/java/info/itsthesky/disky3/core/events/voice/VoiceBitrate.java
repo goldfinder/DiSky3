@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdateBitrateEvent;
@@ -33,10 +34,10 @@ public class VoiceBitrate extends DiSkyEvent<VoiceChannelUpdateBitrateEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtVoiceBitrate.class, JDA.class, new Getter<JDA, EvtVoiceBitrate>() {
+       EventValues.registerEventValue(EvtVoiceBitrate.class, Bot.class, new Getter<Bot, EvtVoiceBitrate>() {
             @Override
-            public JDA get(EvtVoiceBitrate event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtVoiceBitrate event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

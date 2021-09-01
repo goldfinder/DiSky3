@@ -4,15 +4,17 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import info.itsthesky.disky3.api.skript.events.BukkitEvent;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 
 public class TrackEvent extends BukkitEvent {
     static {
-        EventValues.registerEventValue(TrackEvent.class, JDA.class, new Getter<JDA, TrackEvent>() {
+        EventValues.registerEventValue(TrackEvent.class, Bot.class, new Getter<Bot, TrackEvent>() {
             @Override
-            public JDA get(TrackEvent event) {
-                return event.getJDA();
+            public Bot get(TrackEvent event) {
+                return BotManager.searchFromJDA(event.getJDA());
             }
         }, 0);
 

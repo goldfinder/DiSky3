@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMuteEvent;
 
@@ -33,10 +34,10 @@ public class VoiceMute extends DiSkyEvent<GuildVoiceMuteEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtVoiceMute.class, JDA.class, new Getter<JDA, EvtVoiceMute>() {
+       EventValues.registerEventValue(EvtVoiceMute.class, Bot.class, new Getter<Bot, EvtVoiceMute>() {
             @Override
-            public JDA get(EvtVoiceMute event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtVoiceMute event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

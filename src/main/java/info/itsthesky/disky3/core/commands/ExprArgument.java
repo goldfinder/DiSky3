@@ -8,6 +8,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.Literal;
+import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.log.ErrorQuality;
@@ -15,10 +16,12 @@ import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.Utils;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
+import info.itsthesky.disky3.api.StaticData;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,8 +32,6 @@ import java.util.List;
 @Description("Get an argument in a discord command builder.")
 
 public class ExprArgument extends SimpleExpression<Object> {
-
-    public static List<Argument<?>> LAST_ARGUMENTS = new ArrayList<>();
 
     static {
         Skript.registerExpression(ExprArgument.class, Object.class, ExpressionType.SIMPLE,
@@ -49,14 +50,14 @@ public class ExprArgument extends SimpleExpression<Object> {
             return false;
 
         List<Argument<?>> currentArguments = CommandFactory.getInstance().currentArguments;
-        final List<Argument<?>> lastArguments = LAST_ARGUMENTS;
+        final List<Argument<?>> lastArguments = StaticData.LAST_ARGUMENTS;
         if (currentArguments == null) {
             if (lastArguments.isEmpty()) {
-                Skript.error("The expression 'argument' can only be used within a command", ErrorQuality.SEMANTIC_ERROR);
+                Skript.error("The expression 'argument' can only be used within a command or discord command", ErrorQuality.SEMANTIC_ERROR);
                 return false;
             } else {
                 currentArguments = lastArguments;
-                LAST_ARGUMENTS = new ArrayList<>();
+                StaticData.LAST_ARGUMENTS = new ArrayList<>();
             }
         }
         if (currentArguments.size() == 0) {

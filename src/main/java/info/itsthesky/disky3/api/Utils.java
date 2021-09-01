@@ -173,9 +173,8 @@ public final class Utils {
     @Nullable
     public static Member searchMember(JDA bot, String id) {
         for (Guild guild : bot.getGuilds()) {
-            for (Member member : guild.getMembers()) {
-                if (member.getId().equalsIgnoreCase(id)) return member;
-            }
+            if (guild.getMemberById(id) != null)
+                return guild.getMemberById(id);
         }
         return null;
     }

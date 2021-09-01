@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.category.update.CategoryUpdateNameEvent;
 
@@ -37,10 +38,10 @@ public class CategoryName extends DiSkyEvent<CategoryUpdateNameEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtCategoryName.class, JDA.class, new Getter<JDA, EvtCategoryName>() {
+       EventValues.registerEventValue(EvtCategoryName.class, Bot.class, new Getter<Bot, EvtCategoryName>() {
             @Override
-            public JDA get(EvtCategoryName event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtCategoryName event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

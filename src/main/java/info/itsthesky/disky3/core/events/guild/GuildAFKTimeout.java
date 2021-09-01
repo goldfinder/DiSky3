@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateAfkTimeoutEvent;
 
@@ -45,10 +46,10 @@ public class GuildAFKTimeout extends DiSkyEvent<GuildUpdateAfkTimeoutEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtGuildAFKTimeout.class, JDA.class, new Getter<JDA, EvtGuildAFKTimeout>() {
+       EventValues.registerEventValue(EvtGuildAFKTimeout.class, Bot.class, new Getter<Bot, EvtGuildAFKTimeout>() {
             @Override
-            public JDA get(EvtGuildAFKTimeout event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtGuildAFKTimeout event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

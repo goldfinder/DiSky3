@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.api.changers; /**
+package info.itsthesky.disky3.core; /**
  * This file is part of Skript.
  * <p>
  * Skript is free software: you can redistribute it and/or modify
@@ -39,6 +39,8 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.changers.*;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +56,7 @@ public class EffChange extends Effect {
 
     public static Bot currentBot;
     private static boolean parsing;
-    private static Patterns<ChangeMode> patterns = new Patterns<>(new Object[][]{
+    public static Patterns<ChangeMode> patterns = new Patterns<>(new Object[][]{
             {"(add|give) %objects% to (%~objects%) [(with|using) %-bot%]", ChangeMode.ADD},
             {"increase %~objects% by (%objects%) [(with|using) %-bot%]", ChangeMode.ADD},
             {"give %~objects% (%objects%) as %-bot%", ChangeMode.ADD},
@@ -71,16 +73,14 @@ public class EffChange extends Effect {
             {"reset (%~objects%) [(with|using) %-bot%]", ChangeMode.RESET}
     });
 
-    static {
-        Skript.registerEffect(EffChange.class, patterns.getPatterns());
-    }
-
     @SuppressWarnings("null")
     private Expression<?> changed;
     @Nullable
     private Expression<?> changer = null;
 
     private Expression<Bot> bot;
+
+    private NodeInformation node;
 
     @SuppressWarnings("null")
     private ChangeMode mode;
@@ -107,6 +107,7 @@ public class EffChange extends Effect {
     @Override
     public boolean init(final Expression<?>[] exprs, final int matchedPattern, final Kleenean isDelayed, final ParseResult parser) {
         parsing = true;
+        node = new NodeInformation();
         mode = patterns.getInfo(matchedPattern);
         switch (mode) {
             case ADD:
@@ -311,6 +312,8 @@ public class EffChange extends Effect {
             } else {
                 changed.change(e, delta, mode);
             }
+        } catch (Exception ex) {
+            DiSky.exception(ex, node);
         } finally {
             currentBot = null;
         }

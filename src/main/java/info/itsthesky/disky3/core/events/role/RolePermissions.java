@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
@@ -54,10 +55,10 @@ public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtRolePermissions.class, JDA.class, new Getter<JDA, EvtRolePermissions>() {
+       EventValues.registerEventValue(EvtRolePermissions.class, Bot.class, new Getter<Bot, EvtRolePermissions>() {
             @Override
-            public JDA get(EvtRolePermissions event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtRolePermissions event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

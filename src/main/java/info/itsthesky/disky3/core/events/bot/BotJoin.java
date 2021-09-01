@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 
@@ -24,10 +25,10 @@ public class BotJoin extends DiSkyEvent<GuildJoinEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtBotJoin.class, JDA.class, new Getter<JDA, EvtBotJoin>() {
+       EventValues.registerEventValue(EvtBotJoin.class, Bot.class, new Getter<Bot, EvtBotJoin>() {
             @Override
-            public JDA get(EvtBotJoin event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtBotJoin event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

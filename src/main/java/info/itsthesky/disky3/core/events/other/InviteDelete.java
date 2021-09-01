@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.invite.GuildInviteDeleteEvent;
 
@@ -61,10 +62,10 @@ public class InviteDelete extends DiSkyEvent<GuildInviteDeleteEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtInviteDelete.class, JDA.class, new Getter<JDA, EvtInviteDelete>() {
+       EventValues.registerEventValue(EvtInviteDelete.class, Bot.class, new Getter<Bot, EvtInviteDelete>() {
             @Override
-            public JDA get(EvtInviteDelete event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtInviteDelete event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

@@ -2,10 +2,11 @@ package info.itsthesky.disky3.core.events.user;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildUnbanEvent;
 
@@ -33,10 +34,10 @@ public class UserUnban extends DiSkyEvent<GuildUnbanEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtUserUnban.class, JDA.class, new Getter<JDA, EvtUserUnban>() {
+       EventValues.registerEventValue(EvtUserUnban.class, Bot.class, new Getter<Bot, EvtUserUnban>() {
             @Override
-            public JDA get(EvtUserUnban event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtUserUnban event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

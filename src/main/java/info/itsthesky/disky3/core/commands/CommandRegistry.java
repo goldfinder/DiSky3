@@ -17,6 +17,8 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -97,10 +99,10 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
                 }
                 , 0);
 
-        EventValues.registerEventValue(CommandEvent.class, JDA.class, new Getter<JDA, CommandEvent>() {
+        EventValues.registerEventValue(CommandEvent.class, Bot.class, new Getter<Bot, CommandEvent>() {
             @Override
-            public JDA get(CommandEvent event) {
-                return event.getBot();
+            public Bot get(CommandEvent event) {
+                return BotManager.searchFromJDA(event.getBot());
             }
         }, 0);
     }
@@ -127,10 +129,6 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
         nukeSectionNode(sectionNode);
 
         return cmd != null;
-    }
-
-    @Override
-    public void afterParse(Config config) {
     }
 
     @Override

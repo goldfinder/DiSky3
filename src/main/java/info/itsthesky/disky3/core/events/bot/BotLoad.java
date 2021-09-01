@@ -8,10 +8,10 @@ package info.itsthesky.disky3.core.events.bot;
                 .setName("Bot Load");
 
 
-        EventValues.registerEventValue(EvtBotLoad.class, JDA.class, new Getter<JDA, EvtBotLoad>() {
+        EventValues.registerEventValue(EvtBotLoad.class, Bot.class, new Getter<Bot, EvtBotLoad>() {
             @Override
-            public JDA get(EvtBotLoad event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtBotLoad event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

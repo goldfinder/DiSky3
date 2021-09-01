@@ -4,7 +4,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 
@@ -53,10 +54,10 @@ public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtVoiceLeave.class, JDA.class, new Getter<JDA, EvtVoiceLeave>() {
+        EventValues.registerEventValue(EvtVoiceLeave.class, Bot.class, new Getter<Bot, EvtVoiceLeave>() {
             @Override
-            public JDA get(EvtVoiceLeave event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtVoiceLeave event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

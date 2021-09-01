@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
 
@@ -59,10 +60,10 @@ public class GuildName extends DiSkyEvent<GuildUpdateNameEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtGuildName.class, JDA.class, new Getter<JDA, EvtGuildName>() {
+       EventValues.registerEventValue(EvtGuildName.class, Bot.class, new Getter<Bot, EvtGuildName>() {
             @Override
-            public JDA get(EvtGuildName event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtGuildName event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

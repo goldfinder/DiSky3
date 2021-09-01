@@ -1,11 +1,11 @@
 package info.itsthesky.disky3.api.changers;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.expressions.base.PropertyExpression;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.core.EffChange;
 import org.bukkit.event.Event;
 
 public abstract class ChangeablePropertyExpression<F, T> extends PropertyExpression<F, T> {

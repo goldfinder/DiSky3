@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent;
 
@@ -39,10 +40,10 @@ public class PrivateReactionAdd extends DiSkyEvent<PrivateMessageReactionAddEven
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtPrivateReactionAdd.class, JDA.class, new Getter<JDA, EvtPrivateReactionAdd>() {
+       EventValues.registerEventValue(EvtPrivateReactionAdd.class, Bot.class, new Getter<Bot, EvtPrivateReactionAdd>() {
             @Override
-            public JDA get(EvtPrivateReactionAdd event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtPrivateReactionAdd event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

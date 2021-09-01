@@ -2,7 +2,7 @@ package info.itsthesky.disky3.api.changers;
 
 import ch.njol.skript.classes.Changer;
 import info.itsthesky.disky3.api.bot.Bot;
-import info.itsthesky.disky3.api.skript.events.Registration;
+import info.itsthesky.disky3.core.EffChange;
 
 public abstract class DiSkyChanger<T> implements Changer<T> {
 

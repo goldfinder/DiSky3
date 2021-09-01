@@ -5,7 +5,8 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 
@@ -33,10 +34,10 @@ public class MemberBan extends DiSkyEvent<GuildBanEvent> {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtMemberBan.class, JDA.class, new Getter<JDA, EvtMemberBan>() {
+        EventValues.registerEventValue(EvtMemberBan.class, Bot.class, new Getter<Bot, EvtMemberBan>() {
             @Override
-            public JDA get(EvtMemberBan event) {
-                return event.getJDAEvent().getJDA();
+            public Bot get(EvtMemberBan event) {
+                return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 

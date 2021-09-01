@@ -5,7 +5,8 @@ import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import net.dv8tion.jda.api.JDA;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;import info.itsthesky.disky3.api.bot.BotManager;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,12 +19,12 @@ public class TrackResume extends SkriptEvent {
 
     }
 
-    private Expression<JDA> bot;
+    private Expression<Bot> bot;
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(Literal<?>[] exprs, int i, SkriptParser.ParseResult parseResult) {
-        bot = (Expression<JDA>) exprs[0];
+        bot = (Expression<Bot>) exprs[0];
         return true;
     }
 
