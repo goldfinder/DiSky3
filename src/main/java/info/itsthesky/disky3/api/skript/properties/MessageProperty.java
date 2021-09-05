@@ -14,4 +14,7 @@ public abstract class MessageProperty<T> extends CustomProperty<UpdatingMessage,
         return "message";
     }
 
+    static {
+        setFromType("message");
+    }
 }

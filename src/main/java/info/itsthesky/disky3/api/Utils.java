@@ -12,12 +12,12 @@ import ch.njol.skript.util.Getter;
 import ch.njol.skript.util.SkriptColor;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.skript.properties.UserMemberProperty;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Event;
@@ -25,6 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +56,21 @@ public final class Utils {
             return function.apply(instance);
         } catch (Exception ex) {
             return defaultValue;
+        }
+    }
+
+    public static String now() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
+    public static boolean isURL(String url) {
+        try {
+            final URL url1 = new URL(url);
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
     }
 
@@ -93,6 +111,23 @@ public final class Utils {
             builder.append(content.toString());
         }
         return builder;
+    }
+
+    public static User parseUser(Object o) {
+        return o instanceof Member ? ((Member) o).getUser() : (User) o;
+    }
+
+    public static MessageChannel parseMessageChannel(Object content) {
+
+        if (content == null)
+            return null;
+
+        if (content instanceof GuildChannel && ((GuildChannel) content).getType().equals(ChannelType.TEXT)) {
+            return (TextChannel) content;
+        } else if (content instanceof TextChannel) {
+            return (TextChannel) content;
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")

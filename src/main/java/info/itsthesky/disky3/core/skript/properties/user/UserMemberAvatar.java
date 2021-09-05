@@ -4,21 +4,27 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
-import info.itsthesky.disky3.api.skript.properties.UserProperty;
+import info.itsthesky.disky3.api.skript.properties.UserMemberProperty;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 @Name("User Avatar")
 @Description("Get the avatar URL of the user. If the user doesn't have any avatar, return the default avatar URL.")
 @Since("3.0")
 @Examples("avatar of event-user")
-public class UserAvatar extends UserProperty<String> {
+public class UserMemberAvatar extends UserMemberProperty<String> {
 
     static {
         register(
-                UserAvatar.class,
-                User.class,
+                UserMemberAvatar.class,
+                Object.class,
                 "[discord] [user] avatar"
         );
+    }
+
+    @Override
+    public @NotNull Class<? extends String> getReturnType() {
+        return String.class;
     }
 
     @Override

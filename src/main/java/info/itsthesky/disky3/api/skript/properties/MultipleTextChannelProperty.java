@@ -13,4 +13,7 @@ public abstract class MultipleTextChannelProperty<T> extends MultipleCustomPrope
         return "textchannel";
     }
 
+    static {
+        setFromType("textchannel");
+    }
 }

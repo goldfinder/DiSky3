@@ -1,9 +1,12 @@
 package info.itsthesky.disky3.core;
 
+import ch.njol.skript.Skript;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,6 +46,16 @@ public class DiSkyCommand implements CommandExecutor {
                         warn("    - " + bot.getName() + " (&6Connected as "+bot.getCore().getSelfUser().getName() + "#" +bot.getCore().getSelfUser().getDiscriminator()+"&e)");
                 }
 
+                ln();
+                return true;
+            case "debug":
+                ln();
+                log("Debug of " + Utils.now() + ":");
+                ln();
+                log("    DiSky version: &3v" + DiSky.getInstance().getDescription().getVersion());
+                log("    Skript version: &3v" + Skript.getVersion());
+                log("    Server Version: &3v" + Bukkit.getVersion() + "");
+                log("    Loaded Bots: &3" + BotManager.getLoadedBots().size() + " bot(s)");
                 ln();
                 return true;
             case "info":
@@ -88,6 +101,7 @@ public class DiSkyCommand implements CommandExecutor {
         log("/disky help &7- &3Show this page");
         log("/disky info <bot name> &7- &3Show information about a loaded bot");
         log("/disky list &7- &3Show a list of every loaded bot");
+        log("/disky debug &7- &3Show debug information (to send in our Discord for help)");
         ln();
     }
 }

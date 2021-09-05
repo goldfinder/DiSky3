@@ -14,4 +14,7 @@ public abstract class TextChannelProperty<T> extends CustomProperty<TextChannel,
         return "textchannel";
     }
 
+    static {
+        setFromType("textchannel");
+    }
 }

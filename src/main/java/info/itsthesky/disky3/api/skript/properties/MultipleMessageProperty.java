@@ -10,4 +10,8 @@ public abstract class MultipleMessageProperty<T> extends MultipleCustomProperty<
     protected @NotNull String getPropertyName() {
         return "message";
     }
+
+    static {
+        setFromType("message");
+    }
 }

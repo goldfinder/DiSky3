@@ -12,6 +12,7 @@ public abstract class MultipleCustomProperty<F, T> extends MultiplyPropertyExpre
 
     private static String propertyString;
     private static Class<?> propertyClass;
+    private static String fromType;
 
     protected static void register(
             Class itemClass,
@@ -24,12 +25,12 @@ public abstract class MultipleCustomProperty<F, T> extends MultiplyPropertyExpre
                 itemClass,
                 propertyClass,
                 property,
-                getFromType()
+                fromType
         );
     }
 
-    protected static String getFromType() {
-        return null;
+    protected static void setFromType(String s) {
+        fromType = s;
     }
 
     @Override

@@ -19,14 +19,17 @@ public abstract class WaiterBotEffect<T> extends WaiterEffect<T> {
 
     private final static String PREFIX = "[(with|using) [the] %-bot%]";
 
-    private NodeInformation nodes;
-    protected @NotNull NodeInformation getNode() {
-        return nodes;
-    }
-
     private Expression<Bot> usedBot;
     protected @Nullable Expression<Bot> getUsedBot() {
         return usedBot;
+    }
+
+    public void setUsedBot(Expression<Bot> usedBot) {
+        this.usedBot = usedBot;
+    }
+
+    protected boolean botDefined(Event e) {
+        return usedBot != null && usedBot.getSingle(e) != null;
     }
 
     protected static void register(
@@ -47,7 +50,6 @@ public abstract class WaiterBotEffect<T> extends WaiterEffect<T> {
     @SuppressWarnings("unchecked")
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         ScriptLoader.hasDelayBefore = Kleenean.TRUE;
-        this.nodes = new NodeInformation();
         this.usedBot = (Expression<Bot>) expressions[expressions.length - 1];
         return initEffect(expressions, i, kleenean, parseResult);
     }

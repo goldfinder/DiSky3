@@ -28,9 +28,9 @@ public abstract class BotExpression<T> extends SimpleExpression<T> {
         return usedBot;
     }
 
-    protected void register(
-            Class<? extends BotExpression<T>> exprClass,
-            Class<T> typeClass,
+    protected static void register(
+            Class exprClass,
+            Class typeClass,
             String... patterns
     ) {
 

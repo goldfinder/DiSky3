@@ -4,8 +4,7 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
-import info.itsthesky.disky3.api.skript.properties.MultipleUserProperty;
-import info.itsthesky.disky3.api.skript.properties.UserProperty;
+import info.itsthesky.disky3.api.skript.properties.MultipleUserMemberProperty;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
@@ -13,7 +12,7 @@ import net.dv8tion.jda.api.entities.User;
 @Description("Get the mutual guilds of the user.")
 @Since("3.0")
 @Examples("mutual guilds of event-user")
-public class UserMutualGuilds extends MultipleUserProperty<Guild> {
+public class UserMutualGuilds extends MultipleUserMemberProperty<Guild> {
 
     static {
         register(

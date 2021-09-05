@@ -11,6 +11,7 @@ public abstract class CustomProperty<F, T> extends SimplePropertyExpression<F, T
 
     private static String propertyString;
     private static Class<?> propertyClass;
+    private static String fromType;
 
     protected static void register(
             Class itemClass,
@@ -23,12 +24,12 @@ public abstract class CustomProperty<F, T> extends SimplePropertyExpression<F, T
                 itemClass,
                 propertyClass,
                 property,
-                getFromType()
+                fromType
         );
     }
 
-    protected static String getFromType() {
-        return null;
+    protected static void setFromType(String s) {
+        fromType = s;
     }
 
     @Override
@@ -39,8 +40,8 @@ public abstract class CustomProperty<F, T> extends SimplePropertyExpression<F, T
     public abstract T converting(F original);
 
     @Override
-    public @NotNull T convert(@NotNull F updatingMessage) {
-        return converting(updatingMessage);
+    public @NotNull T convert(@NotNull F entity) {
+        return converting(entity);
     }
 
     @Override

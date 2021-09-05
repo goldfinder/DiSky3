@@ -19,13 +19,19 @@ public abstract class WaiterEffect<T> extends Effect {
 
     private Event event;
     private Object localVars;
+    private NodeInformation node;
     @Nullable protected Variable<T> changedVariable = null;
 
     public abstract boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult);
 
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         ScriptLoader.hasDelayBefore = Kleenean.TRUE;
+        node = new NodeInformation();
         return initEffect(expressions, i, kleenean, parseResult);
+    }
+
+    public NodeInformation getNode() {
+        return node;
     }
 
     public abstract void runEffect(Event e);
