@@ -19,13 +19,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.net.URL;
 
-public class GuildName extends ChangeablePropertyExpression<Guild, String> {
+public class GuildBanner extends ChangeablePropertyExpression<Guild, String> {
 
     static {
         register(
-                GuildName.class,
+                GuildBanner.class,
                 String.class,
-                "[discord] name",
+                "[discord] banner",
                 "guild"
         );
     }
@@ -48,12 +48,40 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
 
         guild = bot.getCore().getGuildById(guild.getId());
 
-        guild.getManager().setName(value).queue(null, ex -> DiSky.exception(ex, info));
+        final InputStream iconStream;
+        if (Utils.isURL(value)) {
+            try {
+                iconStream = new URL(value).openStream();
+            } catch (IOException ioException) {
+                DiSky.exception(ioException, info);
+                return;
+            }
+        } else {
+            final File iconFile = new File(value);
+            if (iconFile == null || !iconFile.exists())
+                return;
+            try {
+                iconStream = new FileInputStream(iconFile);
+            } catch (FileNotFoundException ex) {
+                DiSky.exception(ex, info);
+                return;
+            }
+        }
+
+        final Icon icon;
+        try {
+            icon = Icon.from(iconStream);
+        } catch (IOException ioException) {
+            DiSky.exception(ioException, info);
+            return;
+        }
+
+        guild.getManager().setBanner(icon).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
     protected String @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
-        return new String[] {source[0].getName()};
+        return new String[] {source[0].getBannerUrl()};
     }
 
     @Override
@@ -63,7 +91,7 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "discord name of " + getExpr().toString(e, debug);
+        return "banner of " + getExpr().toString(e, debug);
     }
 
     @Override

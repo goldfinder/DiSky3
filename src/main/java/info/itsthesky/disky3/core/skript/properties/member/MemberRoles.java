@@ -28,7 +28,7 @@ public class MemberRoles extends ChangeablePropertyExpression<Member, Role> {
     }
 
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean vixioChanger) {
+    public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE)
             return CollectionUtils.array(Role.class);
         return CollectionUtils.array();

@@ -38,9 +38,10 @@ import ch.njol.skript.util.Utils;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
-import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.changers.*;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import info.itsthesky.disky3.api.skript.WaiterEffect;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,7 +106,7 @@ public class EffChange extends Effect {
 
     @SuppressWarnings({"unchecked", "null"})
     @Override
-    public boolean init(final Expression<?>[] exprs, final int matchedPattern, final Kleenean isDelayed, final ParseResult parser) {
+    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
         parsing = true;
         node = new NodeInformation();
         mode = patterns.getInfo(matchedPattern);
@@ -287,7 +288,7 @@ public class EffChange extends Effect {
     }
 
     @Override
-    protected void execute(final Event e) {
+    public void execute(final Event e) {
         final Expression<?> changer = this.changer;
         final Object[] delta = changer == null ? null : changer.getArray(e);
         final Bot bot = info.itsthesky.disky3.api.Utils.verifyVar(e, this.bot, null);
@@ -317,12 +318,6 @@ public class EffChange extends Effect {
         } finally {
             currentBot = null;
         }
-//		changed.change(e, new Changer2<Object>() {
-//			@Override
-//			public Object change(Object o) {
-//				return delta;
-//			}
-//		}, mode);
     }
 
     @Override

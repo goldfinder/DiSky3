@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.Emoji;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Emote implements IMentionable {
@@ -26,6 +28,13 @@ public class Emote implements IMentionable {
         } else {
             return new Emote(EmojiParser.parseToAliases(emote.getEmoji()), emote.getEmoji());
         }
+    }
+
+    public static Emote[] convert(Collection<net.dv8tion.jda.api.entities.Emote> originals) {
+        final List<Emote> e = new ArrayList<>();
+        for (net.dv8tion.jda.api.entities.Emote em : originals)
+            e.add(new Emote(em));
+        return e.toArray(new Emote[0]);
     }
 
     public Emote(net.dv8tion.jda.api.entities.Emoji emoji) {

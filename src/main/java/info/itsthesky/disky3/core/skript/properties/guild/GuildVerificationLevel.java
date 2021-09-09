@@ -19,13 +19,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.net.URL;
 
-public class GuildName extends ChangeablePropertyExpression<Guild, String> {
+public class GuildVerificationLevel extends ChangeablePropertyExpression<Guild, Guild.VerificationLevel> {
 
     static {
         register(
-                GuildName.class,
-                String.class,
-                "[discord] name",
+                GuildVerificationLevel.class,
+                Guild.VerificationLevel.class,
+                "[discord] verif[ication] level",
                 "guild"
         );
     }
@@ -35,7 +35,7 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(Guild.VerificationLevel.class);
         return CollectionUtils.array();
     }
 
@@ -43,27 +43,28 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
         Guild guild = Utils.verifyVar(e, getExpr(), null);
-        final String value = delta[0].toString();
+        final Guild.VerificationLevel value = (Guild.VerificationLevel) delta[0];
         if (value == null || guild == null) return;
+
 
         guild = bot.getCore().getGuildById(guild.getId());
 
-        guild.getManager().setName(value).queue(null, ex -> DiSky.exception(ex, info));
+        guild.getManager().setVerificationLevel(value).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
-    protected String @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
-        return new String[] {source[0].getName()};
+    protected Guild.VerificationLevel @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
+        return new Guild.VerificationLevel[] {source[0].getVerificationLevel()};
     }
 
     @Override
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
+    public @NotNull Class<? extends Guild.VerificationLevel> getReturnType() {
+        return Guild.VerificationLevel.class;
     }
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "discord name of " + getExpr().toString(e, debug);
+        return "verification level of " + getExpr().toString(e, debug);
     }
 
     @Override

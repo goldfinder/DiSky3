@@ -94,6 +94,11 @@ public class Types {
 				input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)),
 				false
 		).register();
+		DiSkyType.fromEnum(
+				Guild.VerificationLevel.class,
+				"verificationlevel",
+				"verificationlevels?"
+		);
 		new DiSkyType<>(
 				Member.class,
 				"member",

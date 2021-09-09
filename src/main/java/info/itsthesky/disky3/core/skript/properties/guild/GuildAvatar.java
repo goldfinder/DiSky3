@@ -35,7 +35,7 @@ public class GuildAvatar extends ChangeablePropertyExpression<Guild, String> {
     private NodeInformation info;
 
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean vixioChanger) {
+    public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(String.class);
         return CollectionUtils.array();

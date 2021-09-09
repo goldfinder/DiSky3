@@ -21,7 +21,7 @@ public abstract class DiSkyChanger<T> implements Changer<T> {
         }
     }
 
-    public abstract Class<?>[] acceptChange(ChangeMode mode, boolean vixioChanger);
+    public abstract Class<?>[] acceptChange(ChangeMode mode, boolean diskyChanger);
 
     public abstract void change(T[] what, Object[] delta, Bot bot, Changer.ChangeMode mode);
 

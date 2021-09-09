@@ -11,21 +11,18 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Icon;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
-import java.net.URL;
-
-public class GuildName extends ChangeablePropertyExpression<Guild, String> {
+public class GuildAFKChannel extends ChangeablePropertyExpression<Guild, VoiceChannel> {
 
     static {
         register(
-                GuildName.class,
-                String.class,
-                "[discord] name",
+                GuildAFKChannel.class,
+                VoiceChannel.class,
+                "[discord] afk [voice( |-)] channel",
                 "guild"
         );
     }
@@ -35,7 +32,7 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(VoiceChannel.class);
         return CollectionUtils.array();
     }
 
@@ -43,27 +40,28 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
         Guild guild = Utils.verifyVar(e, getExpr(), null);
-        final String value = delta[0].toString();
+        final VoiceChannel value = (VoiceChannel) delta[0];
         if (value == null || guild == null) return;
+        
 
         guild = bot.getCore().getGuildById(guild.getId());
 
-        guild.getManager().setName(value).queue(null, ex -> DiSky.exception(ex, info));
+        guild.getManager().setAfkChannel(value).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
-    protected String @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
-        return new String[] {source[0].getName()};
+    protected VoiceChannel @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
+        return new VoiceChannel[] {source[0].getAfkChannel()};
     }
 
     @Override
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
+    public @NotNull Class<? extends VoiceChannel> getReturnType() {
+        return VoiceChannel.class;
     }
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "discord name of " + getExpr().toString(e, debug);
+        return "afk channel of " + getExpr().toString(e, debug);
     }
 
     @Override

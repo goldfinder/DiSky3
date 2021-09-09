@@ -6,26 +6,24 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Icon;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
-import java.net.URL;
-
-public class GuildName extends ChangeablePropertyExpression<Guild, String> {
+public class GuildCommunity extends ChangeablePropertyExpression<Guild, TextChannel> {
 
     static {
         register(
-                GuildName.class,
-                String.class,
-                "[discord] name",
+                GuildCommunity.class,
+                TextChannel.class,
+                "[discord] community update[s] [text( |-)]channel",
                 "guild"
         );
     }
@@ -35,7 +33,7 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(String.class);
+            return CollectionUtils.array(TextChannel.class);
         return CollectionUtils.array();
     }
 
@@ -43,27 +41,28 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
         Guild guild = Utils.verifyVar(e, getExpr(), null);
-        final String value = delta[0].toString();
+        final TextChannel value = (TextChannel) delta[0];
         if (value == null || guild == null) return;
+        
 
         guild = bot.getCore().getGuildById(guild.getId());
 
-        guild.getManager().setName(value).queue(null, ex -> DiSky.exception(ex, info));
+        guild.getManager().setCommunityUpdatesChannel(value).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
-    protected String @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
-        return new String[] {source[0].getName()};
+    protected TextChannel @NotNull [] get(@NotNull Event e, Guild @NotNull [] source) {
+        return new TextChannel[] {source[0].getCommunityUpdatesChannel()};
     }
 
     @Override
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
+    public @NotNull Class<? extends TextChannel> getReturnType() {
+        return TextChannel.class;
     }
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "discord name of " + getExpr().toString(e, debug);
+        return "community update channel of " + getExpr().toString(e, debug);
     }
 
     @Override

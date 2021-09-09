@@ -21,6 +21,7 @@ public abstract class WaiterEffect<T> extends Effect {
     private Object localVars;
     private NodeInformation node;
     @Nullable protected Variable<T> changedVariable = null;
+    private boolean isStopped;
 
     public abstract boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult);
 
@@ -28,6 +29,10 @@ public abstract class WaiterEffect<T> extends Effect {
         ScriptLoader.hasDelayBefore = Kleenean.TRUE;
         node = new NodeInformation();
         return initEffect(expressions, i, kleenean, parseResult);
+    }
+
+    public boolean isStopped() {
+        return isStopped;
     }
 
     public NodeInformation getNode() {
@@ -53,6 +58,7 @@ public abstract class WaiterEffect<T> extends Effect {
     @Nullable
     @Override
     protected TriggerItem walk(Event e) {
+        isStopped = true;
         debug(e, true);
         event = e;
 
@@ -61,7 +67,10 @@ public abstract class WaiterEffect<T> extends Effect {
             Variables.setLocalVariables(e, localVars);
 
         if (!Skript.getInstance().isEnabled()) // See https://github.com/SkriptLang/Skript/issues/3702
+        {
+            isStopped = false;
             return null;
+        }
 
         runEffect(e);
 
@@ -82,6 +91,8 @@ public abstract class WaiterEffect<T> extends Effect {
     }
 
     protected void runItems(Event e, T object) {
+
+        isStopped = false;
 
         if (localVars != null)
             Variables.setLocalVariables(e, localVars);

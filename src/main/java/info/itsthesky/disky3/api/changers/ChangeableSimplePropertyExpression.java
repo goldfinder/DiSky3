@@ -27,7 +27,7 @@ public abstract class ChangeableSimplePropertyExpression<F, T> extends SimplePro
         return true;
     }
 
-    public abstract Class<?>[] acceptChange(Changer.ChangeMode mode, boolean vixioChanger);
+    public abstract Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger);
 
     public abstract void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode);
 

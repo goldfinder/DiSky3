@@ -51,6 +51,20 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static boolean isBetween(Number value, Number min, Number max) {
+        return value.doubleValue() >= min.doubleValue() && value.doubleValue() <= max.doubleValue();
+    }
+
+    public static <T> Expression<T> verifyDefaultToEvent(
+            Expression<?> expr, Expression<T> exprSomething, Class<T> entityClass
+    ) {
+        if (expr == null) {
+            return defaultToEventValue(exprSomething, entityClass);
+        } else {
+            return (Expression<T>) expr;
+        }
+    }
+
     public static <T, F> T tryOrDie(Function<F, T> function, F instance, T defaultValue) {
         try {
             return function.apply(instance);
