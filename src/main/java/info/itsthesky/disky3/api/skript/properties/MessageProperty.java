@@ -1,7 +1,7 @@
 package info.itsthesky.disky3.api.skript.properties;
 
-import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.properties.base.CustomProperty;
 import org.jetbrains.annotations.NotNull;
 
 /**

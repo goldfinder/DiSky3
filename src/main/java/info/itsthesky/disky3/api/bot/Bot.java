@@ -1,9 +1,10 @@
 package info.itsthesky.disky3.api.bot;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.ISnowflake;
 import org.jetbrains.annotations.NotNull;
 
-public class Bot implements Comparable<Bot> {
+public class Bot implements Comparable<Bot>, ISnowflake {
 
     private final JDA core;
     private final String name;
@@ -26,5 +27,10 @@ public class Bot implements Comparable<Bot> {
         if (first.getName().equalsIgnoreCase(getName()))
             return 0;
         return -1;
+    }
+
+    @Override
+    public long getIdLong() {
+        return getCore().getSelfUser().getIdLong();
     }
 }

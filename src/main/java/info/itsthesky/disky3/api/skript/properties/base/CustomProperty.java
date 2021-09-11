@@ -1,14 +1,13 @@
-package info.itsthesky.disky3.api.skript.properties;
+package info.itsthesky.disky3.api.skript.properties.base;
 
+import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
-import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Same as {@link CustomProperty} but for multiple elements
  * @author ItsTheSky
  */
-public abstract class MultipleCustomProperty<F, T> extends MultiplyPropertyExpression<F, T> {
+public abstract class CustomProperty<F, T> extends SimplePropertyExpression<F, T> {
 
     private static String propertyString;
     private static Class<?> propertyClass;
@@ -38,11 +37,11 @@ public abstract class MultipleCustomProperty<F, T> extends MultiplyPropertyExpre
         return propertyString;
     }
 
-    public abstract T[] converting(F original);
+    public abstract T converting(F original);
 
     @Override
-    public @NotNull T[] convert(@NotNull F updatingMessage) {
-        return converting(updatingMessage);
+    public @NotNull T convert(@NotNull F entity) {
+        return converting(entity);
     }
 
     @Override

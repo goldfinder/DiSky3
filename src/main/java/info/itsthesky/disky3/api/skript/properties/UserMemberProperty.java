@@ -1,7 +1,7 @@
 package info.itsthesky.disky3.api.skript.properties;
 
 import info.itsthesky.disky3.api.Utils;
-import net.dv8tion.jda.api.entities.Member;
+import info.itsthesky.disky3.api.skript.properties.base.CustomProperty;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 

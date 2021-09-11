@@ -1,7 +1,7 @@
 package info.itsthesky.disky3.api.skript.properties;
 
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
-import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
+import info.itsthesky.disky3.api.skript.properties.base.MultipleCustomProperty;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MultipleMessageProperty<T> extends MultipleCustomProperty<UpdatingMessage, T> {

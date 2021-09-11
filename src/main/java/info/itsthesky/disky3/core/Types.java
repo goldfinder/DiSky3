@@ -26,6 +26,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 
 public class Types {
@@ -173,7 +175,10 @@ public class Types {
 		new DiSkyType<>(
 				Activity.class,
 				"presence",
-				"presences?"
+				"presences?",
+				a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(),
+				input -> null,
+				false
 		).register();
 		new DiSkyType<>(
 				Bot.class,

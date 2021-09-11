@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.properties;
 
+import info.itsthesky.disky3.api.skript.properties.base.MultipleCustomProperty;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;

@@ -8,6 +8,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Checker;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -55,7 +56,7 @@ public abstract class PropertyCondition<T> extends Condition implements Checker<
         return this.expr.check(e, this, this.isNegated());
     }
 
-    public abstract boolean check(T var1);
+    public abstract boolean check(@NotNull T var1);
 
     protected abstract String getPropertyName();
 

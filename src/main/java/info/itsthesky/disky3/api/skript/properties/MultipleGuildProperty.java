@@ -1,6 +1,6 @@
 package info.itsthesky.disky3.api.skript.properties;
 
-import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.properties.base.MultipleCustomProperty;
 import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 
