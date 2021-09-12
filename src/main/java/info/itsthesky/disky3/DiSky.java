@@ -31,6 +31,7 @@ public final class DiSky extends JavaPlugin {
         // ################## METRICS ################## //
         int pluginId = 10911;
         Metrics metrics = new Metrics(this, pluginId);
+        // Author: Olyno
         metrics.addCustomChart(new Metrics.SimplePie("skript_version", () ->
                 Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()));
         metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
