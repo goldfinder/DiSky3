@@ -12,10 +12,13 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterBotEffect;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
+import info.itsthesky.disky3.api.skript.events.InteractionEvent;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.Interaction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,20 +29,26 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffReplyWith.class,
-                "reply with [the] [message] %embedbuilder/string/messagebuilder% [and store (it|the message) in %-object%]"
+                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [and store (it|the message) in %-object%]"
         );
     }
 
     private Expression<Object> exprMessage;
+    private boolean isHidden;
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean initEffect(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
 
-        if (!Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(MessageEvent.class)) {
-            Skript.error("The reply effect can only be used in message event!");
+        if (
+                !Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(MessageEvent.class) &&
+                        !(Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(InteractionEvent.class))
+        ) {
+            Skript.error("The reply effect can only be used in message / interaction event!");
             return false;
         }
+
+        isHidden = parseResult.expr.contains("reply with personal") || parseResult.expr.contains("reply with hidden");
 
         exprMessage = (Expression<Object>) exprs[0];
 
@@ -54,28 +63,41 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
         MessageBuilder message = Utils.parseMessageContent(Utils.verifyVar(e, exprMessage, null));
         if (message == null) return;
 
-        MessageChannel channel;
-        if (Utils.verifyVar(e, getUsedBot(), null) != null) {
-            if (((MessageEvent) e).getMessageChannel() instanceof PrivateChannel) {
-                channel = BotManager.specificSearch(getUsedBot().getSingle(e), bot -> bot.getCore().getPrivateChannelById(((MessageEvent) e).getMessageChannel().getId()));
-            } else {
-                channel = BotManager.specificSearch(getUsedBot().getSingle(e), bot -> bot.getCore().getTextChannelById(((MessageEvent) e).getMessageChannel().getId()));
-            }
+        if (e instanceof InteractionEvent) {
+
+            GenericInteractionCreateEvent interaction = ((InteractionEvent) e).getInteractionEvent();
+            interaction
+                    .reply(message.build())
+                    .setEphemeral(isHidden)
+                    .queue(msg -> restart(),
+                            ex -> DiSky.exception(ex, getNode()
+                            ));
+
         } else {
-            channel = ((MessageEvent) e).getMessageChannel();
+
+            MessageChannel channel;
+            if (Utils.verifyVar(e, getUsedBot(), null) != null) {
+                if (((MessageEvent) e).getMessageChannel() instanceof PrivateChannel) {
+                    channel = BotManager.specificSearch(getUsedBot().getSingle(e), bot -> bot.getCore().getPrivateChannelById(((MessageEvent) e).getMessageChannel().getId()));
+                } else {
+                    channel = BotManager.specificSearch(getUsedBot().getSingle(e), bot -> bot.getCore().getTextChannelById(((MessageEvent) e).getMessageChannel().getId()));
+                }
+            } else {
+                channel = ((MessageEvent) e).getMessageChannel();
+            }
+
+            if (channel == null) return;
+
+            channel
+                    .sendMessage(message.build())
+                    .queue(msg -> restart(UpdatingMessage.from(msg)),
+                            ex -> DiSky.exception(ex, getNode())
+                    );
         }
-
-        if (channel == null) return;
-
-        channel
-                .sendMessage(message.build())
-                .queue(msg -> restart(UpdatingMessage.from(msg)),
-                        ex -> DiSky.exception(ex, getNode())
-                );
     }
 
     @Override
     public String toStringEffect(@Nullable Event e, boolean debug) {
-        return "reply with ";
+        return "reply with " + exprMessage.toString(e, debug);
     }
 }
