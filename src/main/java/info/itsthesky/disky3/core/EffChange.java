@@ -1,4 +1,6 @@
-package info.itsthesky.disky3.core; /**
+package info.itsthesky.disky3.core;
+
+/**
  * This file is part of Skript.
  * <p>
  * Skript is free software: you can redistribute it and/or modify
@@ -40,8 +42,6 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.*;
 import info.itsthesky.disky3.api.skript.NodeInformation;
-import info.itsthesky.disky3.api.skript.WaiterEffect;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 

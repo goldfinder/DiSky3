@@ -8,6 +8,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,7 +50,7 @@ public abstract class WaiterBotEffect<T> extends WaiterEffect<T> {
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        ScriptLoader.hasDelayBefore = Kleenean.TRUE;
+        SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
         this.usedBot = (Expression<Bot>) expressions[expressions.length - 1];
         return initEffect(expressions, i, kleenean, parseResult);
     }

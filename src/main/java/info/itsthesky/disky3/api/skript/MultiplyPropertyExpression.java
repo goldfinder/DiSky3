@@ -6,6 +6,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
@@ -34,6 +35,7 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(final Expression<?>[] expr, final int matchedPattern, final Kleenean isDelayed, final SkriptParser.ParseResult parseResult) {
+        SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
         this.expr = (Expression<? extends F>) expr[0];
         return true;
     }

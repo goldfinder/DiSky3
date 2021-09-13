@@ -7,6 +7,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.timings.SkriptTimings;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ public abstract class WaiterEffect<T> extends Effect {
     public abstract boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult);
 
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        ScriptLoader.hasDelayBefore = Kleenean.TRUE;
+        SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
         node = new NodeInformation();
         return initEffect(expressions, i, kleenean, parseResult);
     }
@@ -87,7 +88,7 @@ public abstract class WaiterEffect<T> extends Effect {
 
     protected void changeVariable(Event e, Object object) {
         if (changedVariable != null)
-            changedVariable.change(e, new Object[] {object}, Changer.ChangeMode.SET);
+            changedVariable.change(e, (object instanceof Object[] ? (Object[]) object : new Object[] {object}), Changer.ChangeMode.SET);
     }
 
     protected void runItems(Event e, T object) {

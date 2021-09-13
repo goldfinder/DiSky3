@@ -1,7 +1,6 @@
 
 package info.itsthesky.disky3.core;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.registrations.Comparators;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
@@ -9,16 +8,21 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.DiSkyType;
-import info.itsthesky.disky3.api.StaticData;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.emojis.Emote;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.DiSkyComparator;
+import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import info.itsthesky.disky3.core.commands.CommandObject;
-import net.dv8tion.jda.api.*;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
@@ -150,12 +154,17 @@ public class Types {
 				false
 		).register();
 		new DiSkyType<>(
-				Guild.class,
-				"guild",
-				"guilds?",
-				Guild::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(input)),
+				ButtonRow.class,
+				"buttonrow",
+				"buttonrows?",
+				ButtonRow::toString,
+				null,
 				false
+		).register();
+		new DiSkyType<>(
+				Button.class,
+				"button",
+				"buttons?"
 		).register();
 		new DiSkyType<>(
 				SelectionMenu.Builder.class,
@@ -167,10 +176,13 @@ public class Types {
 				"selectchoice",
 				"selectchoices?"
 		).register();
-		DiSkyType.fromEnum(
-				ButtonStyle.class,
-				"buttonstyle",
-				"buttonstyles?"
+		new DiSkyType<>(
+				Guild.class,
+				"guild",
+				"guilds?",
+				Guild::getName,
+				input -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(input)),
+				false
 		).register();
 		new DiSkyType<>(
 				Activity.class,
@@ -236,7 +248,9 @@ public class Types {
 				Invite.class,
 				"invite",
 				"invites?",
-				null
+				Invite::getUrl,
+				null,
+				false
 		).register();
 		new DiSkyType<>(
 				MessageBuilder.class,
@@ -258,6 +272,11 @@ public class Types {
 				Permission.class,
 				"permission",
 				"permissions?"
+		).register();
+		DiSkyType.fromEnum(
+				ButtonStyle.class,
+				"buttonstyle",
+				"buttonstyles?"
 		).register();
 		DiSkyType.fromEnum(
 				GatewayIntent.class,

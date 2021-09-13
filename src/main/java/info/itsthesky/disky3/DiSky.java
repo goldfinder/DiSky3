@@ -2,11 +2,15 @@ package info.itsthesky.disky3;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.util.Version;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
+import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
+import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.core.EffChange;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.core.DiSkyCommand;
@@ -22,6 +26,8 @@ public final class DiSky extends JavaPlugin {
 
     private static DiSky INSTANCE;
     private static SkriptAddon SKRIPT_ADDON;
+    private static Version INSTALLED_SKRIPT_VERSION;
+    private static SkriptAdapter SKRIPT_ADAPTER;
 
     @Override
     public void onEnable() {
@@ -82,6 +88,20 @@ public final class DiSky extends JavaPlugin {
         }
         success("Loaded Skript's syntaxes successfully!");
 
+        INSTALLED_SKRIPT_VERSION = new Version("" + Skript.getInstance().getDescription().getVersion()); // Skript version;
+        for (SkriptAdapter adapter : new SkriptAdapter[] {new SkriptV2_3(), new SkriptV2_6()}) {
+            if (INSTALLED_SKRIPT_VERSION.isSmallerThan(adapter.getMinimalVersion()))
+                continue;
+            SKRIPT_ADAPTER = adapter;
+        }
+
+        if (SKRIPT_ADAPTER == null) {
+            error("Unable to find a Skript adapter for your current Skript version ("+INSTALLED_SKRIPT_VERSION+")");
+            error("DiSky could not work correctly, please install at least a 2.3.X Skript version!");
+        } else {
+            success("Successfully loaded Skript adapter for minimal " + SKRIPT_ADAPTER.getMinimalVersion() + " version!");
+        }
+
         getCommand("disky").setExecutor(new DiSkyCommand());
 
         ln();
@@ -112,6 +132,18 @@ public final class DiSky extends JavaPlugin {
         if (INSTANCE == null)
             throw new IllegalStateException("DiSky is not running!");
         return INSTANCE;
+    }
+
+    public static SkriptAdapter getSkriptAdapter() {
+        return SKRIPT_ADAPTER;
+    }
+
+    public static SkriptAddon getSkriptAddon() {
+        return SKRIPT_ADDON;
+    }
+
+    public static Version getInstalledSkriptVersion() {
+        return INSTALLED_SKRIPT_VERSION;
     }
 
     public static void ln() {

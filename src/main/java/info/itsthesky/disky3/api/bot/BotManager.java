@@ -10,8 +10,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class BotManager {
 
@@ -30,6 +32,10 @@ public final class BotManager {
         return LOADED_BOTS
                 .stream()
                 .anyMatch(loop -> name.equalsIgnoreCase(loop.getName()));
+    }
+
+    public static Set<JDA> getBotsJDA() {
+        return getLoadedBots().stream().map(Bot::getCore).collect(Collectors.toSet());
     }
 
     public static boolean add(Bot bot) {

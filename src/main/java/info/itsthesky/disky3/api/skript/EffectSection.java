@@ -9,6 +9,7 @@ import ch.njol.skript.log.*;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.api.ReflectionUtils;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;
@@ -162,11 +163,11 @@ public abstract class EffectSection extends Condition {
         if (section != null && name != null && events != null && events.length > 0) {
             String previousName = ScriptLoader.getCurrentEventName();
             Class<? extends Event>[] previousEvents = ScriptLoader.getCurrentEvents();
-            Kleenean previousDelay = ScriptLoader.hasDelayBefore;
+            Kleenean previousDelay = SkriptAdapter.getInstance().getHasDelayedBefore();
             ScriptLoader.setCurrentEvent(name, events);
             loadSection(setNext);
             ScriptLoader.setCurrentEvent(previousName, previousEvents);
-            ScriptLoader.hasDelayBefore = previousDelay;
+            SkriptAdapter.getInstance().setHasDelayedBefore(previousDelay);
         }
     }
 

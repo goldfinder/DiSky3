@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Name("User Badges")
 @Description("Get every badges the user has, except Nitro & Nitro boost one.")
@@ -26,11 +27,7 @@ public class UserBadges extends MultipleUserMemberProperty<String> {
 
     @Override
     public String[] converting(User original) {
-        final List<String> strings = new ArrayList<>();
-        for (User.UserFlag flag : original == null ? new ArrayList<User.UserFlag>() : original.getFlags())
-            strings.add(flag.getName());
-
-        return strings.toArray(new String[0]);
+        return (original == null ? new ArrayList<User.UserFlag>() : original.getFlags()).stream().map(User.UserFlag::getName).toArray(String[]::new);
     }
 
 }

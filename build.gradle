@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'info.itsthesky'
-version = '3.0-alpha3'
+version = '3.0-alpha5'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -24,6 +24,10 @@ repositories {
 
 dependencies {
     implementation 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    implementation (group: 'com.github.SkriptLang', name: 'Skript', version: '2.6-beta3') {
+        exclude group: 'com.sk89q.worldguard', module: 'worldguard-legacy'
+        exclude group: 'net.milkbowl.vault', module: 'Vault'
+    }
     implementation (group: 'com.github.SkriptLang', name: 'Skript', version: '2.5.3') {
         exclude group: 'com.sk89q.worldguard', module: 'worldguard-legacy'
         exclude group: 'net.milkbowl.vault', module: 'Vault'

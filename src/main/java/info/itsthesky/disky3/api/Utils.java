@@ -8,16 +8,23 @@ import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Color;
+import ch.njol.skript.util.Date;
 import ch.njol.skript.util.Getter;
 import ch.njol.skript.util.SkriptColor;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.skript.properties.UserMemberProperty;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.emojis.EmojiManager;
+import info.itsthesky.disky3.api.emojis.EmojiParser;
+import info.itsthesky.disky3.api.emojis.Emote;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Event;
@@ -27,11 +34,11 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * All these code were made & are owned by ItsTheSky!
@@ -53,6 +60,23 @@ public final class Utils {
 
     public static boolean isBetween(Number value, Number min, Number max) {
         return value.doubleValue() >= min.doubleValue() && value.doubleValue() <= max.doubleValue();
+    }
+
+    public static Emoji convert(Emote emote) {
+        return emote.isEmote() ? Emoji.fromEmote(emote.getEmote()) : Emoji.fromUnicode(emote.getAsMention());
+    }
+
+    public static List<ActionRow> convert(List<Object> items) {
+        final List<ActionRow> rows = new ArrayList<>();
+        for (Object i : items) {
+            ActionRow row = (i instanceof ActionRow ? (ActionRow) i : ActionRow.of((SelectionMenu) i));
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    public static Date convert(OffsetDateTime time) {
+        return new Date(time.toInstant().toEpochMilli(), TimeZone.getTimeZone("GMT"));
     }
 
     public static <T> Expression<T> verifyDefaultToEvent(
@@ -98,6 +122,66 @@ public final class Utils {
 
     public static SkriptColor convert(java.awt.Color original) {
         return SkriptColor.fromBukkitColor(org.bukkit.Color.fromRGB(original.getRGB()));
+    }
+
+    public static Emote unicodeFrom(String input, Guild guild) {
+        String id = input.replaceAll("[^0-9]", "");
+        if (id.isEmpty()) {
+            try {
+                if (guild == null) {
+                    Set<JDA> jdaInstances = BotManager.getBotsJDA();
+                    for (JDA jda : jdaInstances) {
+                        Collection<net.dv8tion.jda.api.entities.Emote> emoteCollection = jda.getEmotesByName(input, false);
+                        if (!emoteCollection.isEmpty()) {
+                            return new Emote(emoteCollection.iterator().next());
+                        }
+                    }
+                    return unicodeFrom(input);
+                }
+                Collection<net.dv8tion.jda.api.entities.Emote> emotes = guild.getEmotesByName(input, false);
+                if (emotes.isEmpty()) {
+                    return unicodeFrom(input);
+                }
+
+                return new Emote(emotes.iterator().next());
+            } catch (UnsupportedOperationException | NoSuchElementException x) {
+                return null;
+            }
+        } else {
+            if (guild == null) {
+                Set<JDA> jdaInstances = BotManager.getBotsJDA();
+                for (JDA jda : jdaInstances) {
+                    net.dv8tion.jda.api.entities.Emote emote = jda.getEmoteById(id);
+                    if (emote != null) {
+                        return new Emote(emote);
+                    }
+                }
+                return unicodeFrom(input);
+            }
+            try {
+                net.dv8tion.jda.api.entities.Emote emote = guild.getEmoteById(id);
+                if (emote == null) {
+                    net.dv8tion.jda.api.entities.Emote emote1 = guild.getJDA().getEmoteById(id);
+                    if (!(emote1 == null)) {
+                        return new Emote(emote1);
+                    }
+                    return null;
+                }
+
+                return new Emote(emote);
+            } catch (UnsupportedOperationException | NoSuchElementException x) {
+                return null;
+            }
+        }
+    }
+
+    public static Emote unicodeFrom(String input) {
+        if (EmojiManager.isEmoji(input)) {
+            return new Emote(input, EmojiParser.parseToUnicode(input));
+        } else {
+            String emote = input.contains(":") ? input : ":" + input + ":";
+            return new Emote(input.replaceAll(":", ""), EmojiParser.parseToUnicode(emote));
+        }
     }
 
     public static <F, T> T[] convertArray(
