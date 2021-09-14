@@ -58,6 +58,10 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static <T> T[] verifyVars(@NotNull Event e, @Nullable Expression<T> expression, T[] defaultValue) {
+        return expression == null ? defaultValue : (expression.getArray(e) == null ? defaultValue : expression.getArray(e));
+    }
+
     public static boolean isBetween(Number value, Number min, Number max) {
         return value.doubleValue() >= min.doubleValue() && value.doubleValue() <= max.doubleValue();
     }

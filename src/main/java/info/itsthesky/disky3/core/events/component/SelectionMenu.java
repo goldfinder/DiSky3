@@ -7,10 +7,7 @@ import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.InteractionEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
@@ -33,6 +30,13 @@ public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
             @Override
             public GuildChannel get(EvtSelectionMenu event) {
                 return (GuildChannel) event.getJDAEvent().getChannel();
+            }
+        }, 0);
+
+        EventValues.registerEventValue(EvtSelectionMenu.class, TextChannel.class, new Getter<TextChannel, EvtSelectionMenu>() {
+            @Override
+            public TextChannel get(EvtSelectionMenu event) {
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 

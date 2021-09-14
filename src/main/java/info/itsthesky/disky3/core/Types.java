@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.AttachmentOption;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -272,6 +273,11 @@ public class Types {
 				Permission.class,
 				"permission",
 				"permissions?"
+		).register();
+		DiSkyType.fromEnum(
+				AttachmentOption.class,
+				"attachmentoption",
+				"attachmentoptions?"
 		).register();
 		DiSkyType.fromEnum(
 				ButtonStyle.class,
