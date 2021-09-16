@@ -28,6 +28,7 @@ public final class DiSky extends JavaPlugin {
     private static SkriptAddon SKRIPT_ADDON;
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
+    private static final boolean DEBUG = true;
 
     @Override
     public void onEnable() {
@@ -122,6 +123,11 @@ public final class DiSky extends JavaPlugin {
 
     public static SkriptAddon getSkriptAddon() {
         return SKRIPT_ADDON;
+    }
+
+    public static void debug(String message) {
+        if (DEBUG)
+            log(message);
     }
 
     public static Version getInstalledSkriptVersion() {

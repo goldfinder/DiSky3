@@ -2,6 +2,7 @@ package info.itsthesky.disky3.api;
 
 import info.itsthesky.disky3.core.commands.Argument;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
