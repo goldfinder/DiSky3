@@ -14,11 +14,13 @@ import info.itsthesky.disky3.api.skript.WaiterBotEffect;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
 import info.itsthesky.disky3.api.skript.events.InteractionEvent;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
+import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.Interaction;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,11 +31,12 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffReplyWith.class,
-                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [and store (it|the message) in %-object%]"
+                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [with [the] (row|component)[s] %buttonrows/%] [and store (it|the message) in %-object%]"
         );
     }
 
     private Expression<Object> exprMessage;
+    private Expression<Object> exprComponents;
     private boolean isHidden;
 
     @Override
@@ -51,8 +54,9 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
         isHidden = parseResult.expr.contains("reply with personal") || parseResult.expr.contains("reply with hidden");
 
         exprMessage = (Expression<Object>) exprs[0];
+        exprComponents = (Expression<Object>) exprs[1];
 
-        final Variable<?> var = Utils.parseVar(exprs[1], false);
+        final Variable<?> var = Utils.parseVar(exprs[2], false);
         setChangedVariable((Variable<UpdatingMessage>) var);
 
         return true;
@@ -61,6 +65,7 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     @Override
     public void runEffect(Event e) {
         MessageBuilder message = Utils.parseMessageContent(Utils.verifyVar(e, exprMessage, null));
+        ActionRow[] rows = Utils.parseComponents(Utils.verifyVars(e, exprComponents, new Object[0]));
         if (message == null) return;
 
         if (e instanceof InteractionEvent) {
@@ -69,6 +74,7 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
             interaction
                     .reply(message.build())
                     .setEphemeral(isHidden)
+                    .addActionRows(rows)
                     .queue(msg -> restart(),
                             ex -> DiSky.exception(ex, getNode()
                             ));
@@ -90,6 +96,7 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
 
             channel
                     .sendMessage(message.build())
+                    .setActionRows(rows)
                     .queue(msg -> restart(UpdatingMessage.from(msg)),
                             ex -> DiSky.exception(ex, getNode())
                     );
