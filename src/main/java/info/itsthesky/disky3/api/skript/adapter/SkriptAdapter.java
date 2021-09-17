@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.adapter;
 
+import ch.njol.skript.log.HandlerList;
 import ch.njol.skript.util.Version;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
@@ -20,6 +21,8 @@ public interface SkriptAdapter {
     void setHasDelayedBefore(Kleenean value);
 
     Kleenean getHasDelayedBefore();
+
+    HandlerList getHandlers();
 
     boolean isCurrentEvents(Class<? extends Event>... events);
 

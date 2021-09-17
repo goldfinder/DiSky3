@@ -2,25 +2,24 @@ package info.itsthesky.disky3;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Version;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
-import info.itsthesky.disky3.core.EffChange;
-import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.core.DiSkyCommand;
+import info.itsthesky.disky3.core.EffChange;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class DiSky extends JavaPlugin {
 
@@ -76,6 +75,13 @@ public final class DiSky extends JavaPlugin {
             if (INSTALLED_SKRIPT_VERSION.isSmallerThan(adapter.getMinimalVersion()))
                 continue;
             SKRIPT_ADAPTER = adapter;
+        }
+
+        try {
+            Object o =SkriptLogger.class.getField("handlers").get(null);
+            SKRIPT_ADAPTER = new SkriptV2_3();
+        } catch (Exception ex) {
+            SKRIPT_ADAPTER = new SkriptV2_6();
         }
 
         if (SKRIPT_ADAPTER == null) {

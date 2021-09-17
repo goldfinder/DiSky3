@@ -2,6 +2,8 @@ package info.itsthesky.disky3.api.skript.adapter;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.parser.ParserInstance;
+import ch.njol.skript.log.HandlerList;
+import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Version;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.ReflectionUtils;
@@ -32,6 +34,11 @@ public class SkriptV2_3 implements SkriptAdapter {
                 ScriptLoader.class,
                 "hasDelayBefore"
         );
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return ReflectionUtils.getFieldValue(SkriptLogger.class, "handlers");
     }
 
     @SafeVarargs

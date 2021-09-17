@@ -18,6 +18,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.EmojiManager;
 import info.itsthesky.disky3.api.emojis.EmojiParser;
 import info.itsthesky.disky3.api.emojis.Emote;
+import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -356,4 +357,19 @@ public final class Utils {
         return parseVar(expression, false, showError);
     }
 
+    public static ActionRow[] parseComponents(Object[] vars) {
+        final List<ActionRow> rows = new ArrayList<>();
+        for (Object o : vars) {
+            if (o instanceof ButtonRow) {
+                rows.add(
+                        ActionRow.of(((ButtonRow) o).getButtons())
+                );
+            } else {
+                rows.add(
+                        ActionRow.of(((SelectionMenu.Builder) o).build())
+                );
+            }
+        }
+        return rows.toArray(new ActionRow[0]);
+    }
 }

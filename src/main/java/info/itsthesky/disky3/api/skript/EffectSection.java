@@ -78,7 +78,7 @@ public abstract class EffectSection extends Condition {
         //Stop the current one
         logger.stop();
         //Using reflection to access the iterator of handlers
-        HandlerList handler = ReflectionUtils.getFieldValue(SkriptLogger.class, "handlers");
+        HandlerList handler = SkriptAdapter.getInstance().getHandlers();
         if (handler == null)
             return;
         Iterator<LogHandler> it = handler.iterator();
