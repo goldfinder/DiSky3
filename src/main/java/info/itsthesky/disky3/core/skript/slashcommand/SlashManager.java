@@ -2,11 +2,15 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.Skript;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.bukkit.Bukkit;
 
@@ -28,6 +32,17 @@ public final class SlashManager {
         return true;
     }
 
+    public static boolean registerGuilds(SlashObject cmd, List<String> guilds, List<String> roles) {
+        Bukkit.getScheduler().runTaskLater(
+                DiSky.getInstance(),
+                () -> refreshGuilds(convert(cmd), guilds, roles),
+                (alreadyWaited ? 30 : 80)
+        );
+        if (!alreadyWaited)
+            alreadyWaited = true;
+        return true;
+    }
+
     private static CommandData convert(SlashObject cmd) {
         CommandData command = new CommandData(cmd.getName(), cmd.getDescription());
 
@@ -37,11 +52,12 @@ public final class SlashManager {
                     new OptionData(
                             arg.getType(),
                             arg.getName(),
-                            arg.getDesc()
+                            arg.getDesc(),
+                            !arg.isOptional()
                     )
-                            .setRequired(!arg.isOptional())
             );
         }
+
         return command;
     }
 
@@ -52,6 +68,91 @@ public final class SlashManager {
                 formattedBots.add(BotManager.searchFromName(botName));
         }
         return formattedBots;
+    }
+
+    private static List<Guild> convertGuilds(List<String> asList) {
+        final List<Guild> guilds = new ArrayList<>();
+        for (String s : asList) {
+            final Guild found;
+            if (Utils.isNumeric(s)) {
+                found = BotManager.globalSearch(bot -> bot.getCore().getGuildById(s));
+            } else {
+                found = BotManager.globalSearch(bot -> bot.getCore().getGuildsByName(s, true).get(0));
+            }
+            if (found != null)
+                guilds.add(found);
+        }
+        return guilds;
+    }
+
+    private static List<CommandPrivilege> convertRoles(List<String> asList) {
+        final List<CommandPrivilege> guilds = new ArrayList<>();
+        for (String s : asList) {
+            final Role found;
+            if (Utils.isNumeric(s)) {
+                found = BotManager.globalSearch(bot -> bot.getCore().getRoleById(s));
+            } else {
+                found = BotManager.globalSearch(bot -> bot.getCore().getRolesByName(s, true).get(0));
+            }
+            if (found != null)
+                guilds.add(CommandPrivilege.disable(found));
+        }
+        return guilds;
+    }
+
+    private static boolean refreshGuilds(CommandData command, List<String> guilds, List<String> allowedRoles) {
+        if (guilds == null || guilds.isEmpty())
+            return false;
+        final List<CommandPrivilege> privileges = convertRoles(allowedRoles);
+
+        for (Guild guild : convertGuilds(guilds)) {
+
+            guild.retrieveCommands().queue(cmds -> {
+
+                Command registered = null;
+                DiSky.debug("Starting registering " + command.getName());
+                for (Command command1 : cmds) {
+                    if (command1.getName().equalsIgnoreCase(command.getName()))
+                        registered = command1;
+                }
+                final boolean shouldEdit = registered != null;
+
+                // Mean we can just edit the command
+                DiSky.debug("Should edit: " + shouldEdit);
+                if (shouldEdit) {
+
+                    DiSky.debug("Editing slash command " + command.getName());
+                    registered
+                            .editCommand()
+                            .apply(command)
+                            .queue(refreshedCommand -> {
+                                guild.updateCommandPrivilegesById(
+                                        refreshedCommand.getId(),
+                                        privileges
+                                ).queue();
+                            });
+
+                } else {
+
+                    CommandListUpdateAction action = guild.updateCommands();
+                    action.addCommands(command).queue(
+                            cmds2 -> {
+                                for (Command cmd1 : cmds2)
+                                {
+                                    if (command.getName().equalsIgnoreCase(cmd1.getName()))
+                                        guild.updateCommandPrivilegesById(
+                                                cmd1.getId(),
+                                                privileges
+                                        ).queue();
+                                }
+                            }
+                    );
+
+                }
+            });
+
+        }
+        return true;
     }
 
     private static boolean refresh(CommandData command, List<String> bots) {
@@ -74,12 +175,6 @@ public final class SlashManager {
                 DiSky.debug("Should edit: " + shouldEdit);
                 if (shouldEdit) {
 
-                    if (!shouldEdit(registered, command))
-                    {
-                        DiSky.debug("Should not edit slash because name & desc are same.");
-                        return;
-                    }
-
                     DiSky.debug("Editing slash command " + command.getName());
                     registered
                             .editCommand()
@@ -97,11 +192,6 @@ public final class SlashManager {
 
         }
         return true;
-    }
-
-    public static boolean shouldEdit(Command first, CommandData second) {
-        return !first.getName().equalsIgnoreCase(second.getName()) ||
-                !first.getDescription().equalsIgnoreCase(second.getDescription());
     }
 
     public static boolean unregister(SlashObject command) {

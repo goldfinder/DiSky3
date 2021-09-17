@@ -7,6 +7,7 @@ import ch.njol.skript.log.ParseLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import net.dv8tion.jda.api.entities.Guild;
 
 import java.io.File;
 import java.util.List;
@@ -17,19 +18,25 @@ public class SlashObject {
     private final List<String> aliases;
     private final String description;
     private final List<String> bots;
+    private final List<String> guilds;
+    private final List<String> roles;
 
     private final Trigger trigger;
 
     private final List<SlashArgument> arguments;
 
     public SlashObject(File script, String name, List<SlashArgument> arguments,
-                       List<String> aliases, String description, List<String> bots, List<TriggerItem> items
+                       List<String> aliases, String description, List<String> bots, List<TriggerItem> items,
+                       List<String> guilds,
+                       List<String> roles
                        ) {
         this.name = name;
         if (aliases != null) {
             aliases.removeIf(alias -> alias.equalsIgnoreCase(name));
         }
         this.aliases = aliases;
+        this.guilds = guilds;
+        this.roles = roles;
         this.description = Utils.replaceEnglishChatStyles(description);
         this.bots = bots;
         this.arguments = arguments;
@@ -42,11 +49,13 @@ public class SlashObject {
 
         try {
 
-            try {
-                if (bots != null && !bots.contains(BotManager.searchFromJDA(event.getBot()).getName())) {
-                    return false;
-                }
-            } catch (NullPointerException ignored) {}
+            if (!bots.isEmpty()) {
+                try {
+                    if (bots != null && !bots.contains(BotManager.searchFromJDA(event.getBot()).getName())) {
+                        return false;
+                    }
+                } catch (NullPointerException ignored) { }
+            }
 
             // again, bukkit apis are mostly sync so run it on the main thread
             info.itsthesky.disky3.api.Utils.sync(() -> trigger.execute(event));
@@ -58,12 +67,20 @@ public class SlashObject {
         return true;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
     public String getName() {
         return name;
     }
 
     public List<String> getAliases() {
         return aliases;
+    }
+
+    public List<String> getGuilds() {
+        return guilds;
     }
 
     public String getDescription() {

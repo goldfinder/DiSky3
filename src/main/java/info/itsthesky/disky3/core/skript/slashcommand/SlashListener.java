@@ -1,5 +1,7 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
+import net.dv8tion.jda.api.events.application.ApplicationCommandUpdateEvent;
+import net.dv8tion.jda.api.events.application.GenericApplicationCommandEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -25,4 +27,5 @@ public class SlashListener extends ListenerAdapter {
             ));
         }
     }
+
 }

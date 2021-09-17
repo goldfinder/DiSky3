@@ -8,14 +8,17 @@ import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
+import ch.njol.util.NonNullPair;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.EffectSection;
 import info.itsthesky.disky3.core.commands.Argument;
 import info.itsthesky.disky3.core.commands.CommandObject;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +39,9 @@ public class SlashFactory {
 
     private final SectionValidator commandStructure = new SectionValidator()
             .addEntry("description", true)
-            .addEntry("bots", false)
+            .addEntry("bots", true)
+            .addEntry("guilds", true)
+            .addEntry("roles", true)
             .addSection("trigger", false);
 
     public HashMap<SlashData, SlashObject> commandMap = new HashMap<>();
@@ -118,12 +123,30 @@ public class SlashFactory {
                 return null;
             }
 
-            @Nullable String desc = m.group(3);
+            final String name;
+            final String desc;
+
+            final String infoInput = m.group(3);
+            if (infoInput.matches("\\{(.+)}")) {
+                final NonNullPair<String, String> values = SlashArgument.parseArgumentValues(
+                        infoInput.replaceAll("\\{", "").replaceAll("}", "")
+                );
+                if (values == null) {
+                    Skript.error("Unable to match the name & description pattern. It MUST be under '\"name\", \"desc\"' form!");
+                    return null;
+                }
+                name = values.getFirst();
+                desc = values.getSecond();
+            } else {
+                name = argumentType.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
+                desc = infoInput;
+            }
 
             final SlashArgument argument = new SlashArgument(
                     argumentType,
                     optionals > 0,
-                    desc
+                    desc,
+                    name
             );
 
             if (argument == null)
@@ -148,19 +171,32 @@ public class SlashFactory {
         String botString = ScriptLoader.replaceOptions(node.get("bots", ""));
         List<String> bots = botString.isEmpty() ? new ArrayList<>() : Arrays.asList(botString.split(listPattern));
 
+        String guildString = ScriptLoader.replaceOptions(node.get("guilds", ""));
+        List<String> guilds = guildString.isEmpty() ? new ArrayList<>() : Arrays.asList(guildString.split(listPattern));
+
+        String roleStrings = ScriptLoader.replaceOptions(node.get("roles", ""));
+        List<String> roles = roleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(roleStrings.split(listPattern));
+
         RetainingLogHandler errors = SkriptLogger.startRetainingLog();
         SlashObject slashObject;
         this.currentArguments = currentArguments;
         try {
             slashObject = new SlashObject(
                     node.getConfig().getFile(), command, currentArguments, aliases,
-                    description, bots, ScriptLoader.loadItems(trigger)
+                    description, bots, ScriptLoader.loadItems(trigger), guilds, roles
             );
         } finally {
             EffectSection.stopLog(errors);
         }
 
-        SlashManager.register(slashObject, bots);
+        if (!guilds.isEmpty()) {
+            SlashManager.registerGuilds(slashObject, guilds, roles);
+        } else if (!bots.isEmpty()) {
+            SlashManager.register(slashObject, bots);
+        } else {
+            Skript.error("Unable to get either bots or guilds to register the slash command on.");
+            return null;
+        }
 
         this.commandMap.put(new SlashData(command, slashObject), slashObject);
         return slashObject;

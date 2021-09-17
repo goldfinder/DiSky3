@@ -83,6 +83,10 @@ public final class Utils {
         return new Date(time.toInstant().toEpochMilli(), TimeZone.getTimeZone("GMT"));
     }
 
+    public static boolean isNumeric(String s) {
+        return s.matches("-?\\d+(\\.\\d+)?");
+    }
+
     public static <T> Expression<T> verifyDefaultToEvent(
             Expression<?> expr, Expression<T> exprSomething, Class<T> entityClass
     ) {
