@@ -5,6 +5,7 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -56,6 +57,7 @@ public class DiSkyCommand implements CommandExecutor {
                 log("    Skript version: &3v" + Skript.getVersion());
                 log("    Server Version: &3v" + Bukkit.getVersion() + "");
                 log("    Loaded Bots: &3" + BotManager.getLoadedBots().size() + " bot(s)");
+                log("    JDA Version: &3" + JDAInfo.VERSION + " bot(s)");
                 ln();
                 return true;
             case "info":
