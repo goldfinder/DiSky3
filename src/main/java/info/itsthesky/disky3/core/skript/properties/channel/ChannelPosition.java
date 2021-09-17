@@ -21,7 +21,7 @@ public class ChannelPosition extends ChangeablePropertyExpression<GuildChannel, 
         register(
                 ChannelPosition.class,
                 Number.class,
-                "[discord] mention [tag]",
+                "[discord] position [level]",
                 "channel"
         );
     }
