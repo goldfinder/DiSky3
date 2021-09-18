@@ -32,8 +32,10 @@ public class EffKickMember extends WaiterEffect {
         final Bot bot = exprBot.getSingle(e);
         final @Nullable String reason = Utils.verifyVar(e, exprReason);
 
-        if (member == null || bot == null)
+        if (member == null || bot == null) {
+            restart();
             return;
+        }
 
         member.getGuild().retrieveMemberById(member.getId()).queue(m -> {
             m.kick(reason).queue(

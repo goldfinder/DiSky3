@@ -7,6 +7,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.timings.SkriptTimings;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -73,7 +74,11 @@ public abstract class WaiterEffect<T> extends Effect {
             return null;
         }
 
-        runEffect(e);
+        try {
+            runEffect(e);
+        } catch (Exception ex) {
+            DiSky.exception(ex, getNode());
+        }
 
         return null;
     }
