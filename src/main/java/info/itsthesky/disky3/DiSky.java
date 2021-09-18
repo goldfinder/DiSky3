@@ -77,13 +77,6 @@ public final class DiSky extends JavaPlugin {
             SKRIPT_ADAPTER = adapter;
         }
 
-        try {
-            Object o =SkriptLogger.class.getField("handlers").get(null);
-            SKRIPT_ADAPTER = new SkriptV2_3();
-        } catch (Exception ex) {
-            SKRIPT_ADAPTER = new SkriptV2_6();
-        }
-
         if (SKRIPT_ADAPTER == null) {
             error("Unable to find a Skript adapter for your current Skript version ("+INSTALLED_SKRIPT_VERSION+")");
             error("DiSky could not work correctly, please install at least a 2.3.X Skript version!");

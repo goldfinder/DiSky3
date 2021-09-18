@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -10,6 +10,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.skript.AsyncEffect;
 import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;

@@ -27,11 +27,7 @@ public class SkriptV2_6 implements SkriptAdapter {
 
     @Override
     public HandlerList getHandlers() {
-        return ReflectionUtils.invokeMethod(
-                SkriptLogger.class,
-                "getHandlers",
-                null
-        );
+        return ParserInstance.get().getHandlers();
     }
 
     @SafeVarargs

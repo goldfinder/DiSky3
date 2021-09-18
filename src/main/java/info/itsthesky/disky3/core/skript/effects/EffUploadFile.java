@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;

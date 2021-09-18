@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -18,11 +18,10 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.AsyncEffect;
 import info.itsthesky.disky3.api.skript.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
-
-import javax.security.auth.login.LoginException;
 
 @Name("Login to Bot")
 @Description("Register and load a new discord bot from a token and with a specific Name." +

@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -11,15 +11,12 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterBotEffect;
-import info.itsthesky.disky3.api.skript.WaiterEffect;
 import info.itsthesky.disky3.api.skript.events.InteractionEvent;
 import info.itsthesky.disky3.api.skript.events.MessageEvent;
-import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.interactions.Interaction;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +28,7 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffReplyWith.class,
-                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [with [the] (row|component)[s] %buttonrows/%] [and store (it|the message) in %-object%]"
+                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [with [the] (row|component)[s] %-buttonrows/%] [and store (it|the message) in %-object%]"
         );
     }
 
