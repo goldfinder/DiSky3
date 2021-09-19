@@ -16,7 +16,7 @@ public class MemberHasPermission extends EasyPropertyCondition<Member> {
         register(
                 MemberHasPermission.class,
                 PropertyCondition.PropertyType.HAVE,
-                "[the] permission[s] %permissions%",
+                "[the] [discord] permission[s] %permissions%",
                 "member"
         );
     }
@@ -27,7 +27,7 @@ public class MemberHasPermission extends EasyPropertyCondition<Member> {
     public boolean check(Event e, Member entity) {
         final Permission[] perms = exprPerms.getArray(e);
         if (perms.length == 0) return false;
-        return entity.hasPermission(perms);
+        return isNegated() != entity.hasPermission(perms);
     }
 
     @Override

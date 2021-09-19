@@ -27,7 +27,7 @@ public class RoleColor extends ChangeablePropertyExpression<Role, Color> {
         register(
                 RoleColor.class,
                 Color.class,
-                "[discord] color",
+                "[discord] [role] color",
                 "role"
         );
     }
