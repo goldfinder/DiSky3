@@ -2,10 +2,15 @@ package info.itsthesky.disky3.api;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.Variable;
+import ch.njol.skript.classes.Changer;
+import ch.njol.skript.command.Argument;
+import ch.njol.skript.config.Config;
+import ch.njol.skript.config.Node;
+import ch.njol.skript.config.SectionNode;
+import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.log.RetainingLogHandler;
+import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Color;
 import ch.njol.skript.util.Date;
@@ -32,6 +37,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -57,6 +64,10 @@ public final class Utils {
 
     public static <T> T verifyVar(@NotNull Event e, @Nullable Expression<T> expression, T defaultValue) {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
+    }
+
+    public static boolean containInterface(Class<?> clazz, Class<?> inter) {
+        return Arrays.asList(clazz.getInterfaces()).contains(inter);
     }
 
     public static <T> T[] verifyVars(@NotNull Event e, @Nullable Expression<T> expression, T[] defaultValue) {

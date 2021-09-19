@@ -16,8 +16,8 @@ public class EffAddField extends Effect {
 
     static {
         Skript.registerEffect(EffAddField.class,
-                "add field (named|with name) %string% [and] with [the] value %string% to [fields of] %embed%",
-                "add inline field (named|with name) %string% [and] with [the] value %string% to [fields of] %embed%");
+                "add field (named|with name) %string% [and] with [the] value %string% to [fields of] %embedbuilder%",
+                "add inline field (named|with name) %string% [and] with [the] value %string% to [fields of] %embedbuilder%");
     }
 
     private Expression<String> exprName;
