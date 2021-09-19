@@ -11,7 +11,11 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Effect that can easily manage how the TriggerItem are executed.
@@ -93,7 +97,7 @@ public abstract class WaiterEffect<T> extends Effect {
 
     protected void changeVariable(Event e, Object object) {
         if (changedVariable != null)
-            changedVariable.change(e, (object instanceof Object[] ? (Object[]) object : new Object[] {object}), Changer.ChangeMode.SET);
+            changedVariable.change(e, (object instanceof Object[] ? (Object[]) object : new Object[]{object}), Changer.ChangeMode.SET);
     }
 
     protected void runItems(Event e, T object) {
