@@ -4,27 +4,18 @@ import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.config.validate.SectionValidator;
-import ch.njol.skript.lang.ParseContext;
+import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.VariableString;
+import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
+import ch.njol.skript.util.StringMode;
 import ch.njol.util.NonNullPair;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.Utils;
-import info.itsthesky.disky3.api.bot.Bot;
-import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.EffectSection;
-import info.itsthesky.disky3.core.commands.Argument;
-import info.itsthesky.disky3.core.commands.CommandObject;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import org.bukkit.event.Event;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,15 +24,16 @@ public class SlashFactory {
 
     private static final SlashFactory INSTANCE = new SlashFactory();
     private final Pattern commandPattern = Pattern.compile("(?i)^(on )?slash command (\\S+)(\\s+(.+))?$");
-    private final Pattern argumentPattern = Pattern.compile("<\\s*(?:(.+?)\\s*:\\s*)?(.+?)\\s*(?:=\\s*(" + SkriptParser.wildcard + "))?\\s*>");
+    private final Pattern argumentPattern = Pattern.compile("<\\s*(?:(.+?)\\s*?\\s*)?(.+?)\\s*(?:=\\s*([^\"]*?(?:\"[^\"]*?\"[^\"]*?)*?))?\\s*>");
     private final Pattern escape = Pattern.compile("[" + Pattern.quote("(|)<>%\\") + "]");
     private final String listPattern = "\\s*,\\s*|\\s+(and|or|, )\\s+";
 
     private final SectionValidator commandStructure = new SectionValidator()
-            .addEntry("description", true)
+            .addEntry("description", false)
             .addEntry("bots", true)
             .addEntry("guilds", true)
-            .addEntry("roles", true)
+            .addEntry("allowed roles", true)
+            .addEntry("disallowed roles", true)
             .addSection("trigger", false);
 
     public HashMap<SlashData, SlashObject> commandMap = new HashMap<>();
@@ -51,10 +43,6 @@ public class SlashFactory {
 
     public static SlashFactory getInstance() {
         return INSTANCE;
-    }
-
-    private String escape(final String s) {
-        return "" + escape.matcher(s).replaceAll("\\\\$0");
     }
 
     public SlashObject add(SectionNode node) {
@@ -114,7 +102,8 @@ public class SlashFactory {
 
             lastEnd = m.end();
 
-            String arg = m.group(2);
+            // Because
+            String arg = m.group(1) + m.group(2);
             OptionType argumentType;
             try {
                 argumentType = OptionType.valueOf(arg.replaceAll(" ", "_").toUpperCase(Locale.ROOT));
@@ -165,7 +154,6 @@ public class SlashFactory {
         }
 
         SectionNode trigger = (SectionNode) node.get("trigger");
-        String description = ScriptLoader.replaceOptions(node.get("description", ""));
         List<String> aliases = Arrays.asList(ScriptLoader.replaceOptions(node.get("aliases", "")).split(listPattern));
 
         String botString = ScriptLoader.replaceOptions(node.get("bots", ""));
@@ -174,8 +162,34 @@ public class SlashFactory {
         String guildString = ScriptLoader.replaceOptions(node.get("guilds", ""));
         List<String> guilds = guildString.isEmpty() ? new ArrayList<>() : Arrays.asList(guildString.split(listPattern));
 
-        String roleStrings = ScriptLoader.replaceOptions(node.get("roles", ""));
-        List<String> roles = roleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(roleStrings.split(listPattern));
+        String allowedRoleStrings = ScriptLoader.replaceOptions(node.get("allowed roles", ""));
+        String disallowedRoleStrings = ScriptLoader.replaceOptions(node.get("disallowed roles", ""));
+        List<String> allowedRoles = allowedRoleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(allowedRoleStrings.split(listPattern));
+        List<String> disallowedRoles = disallowedRoleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(disallowedRoleStrings.split(listPattern));
+
+        // Added the parse to the command description
+        Expression<String> description;
+        String rawDesc = ScriptLoader.replaceOptions(node.get("description", ""));
+        if (rawDesc.isEmpty()) {
+            Skript.error("The command description cannot be empty!");
+            return null;
+        }
+
+        // Unboxing the expression if people put ""
+        if (rawDesc.startsWith("\"") && rawDesc.endsWith("\""))
+            rawDesc = rawDesc.substring(1, rawDesc.length() - 1);
+
+        // Parsing the raw description to an usable expression
+        description = VariableString.newInstance(rawDesc, StringMode.MESSAGE);
+        try {
+            if (((VariableString) description).isSimple())
+                description = new SimpleLiteral<>(rawDesc, false);
+        } catch (NullPointerException ignored) { }
+        if (description == null)
+        {
+            Skript.error("The command description cannot be null (this normally can't happen)");
+            return null;
+        }
 
         RetainingLogHandler errors = SkriptLogger.startRetainingLog();
         SlashObject slashObject;
@@ -183,14 +197,15 @@ public class SlashFactory {
         try {
             slashObject = new SlashObject(
                     node.getConfig().getFile(), command, currentArguments, aliases,
-                    description, bots, ScriptLoader.loadItems(trigger), guilds, roles
+                    description, bots, ScriptLoader.loadItems(trigger), guilds,
+                    allowedRoles, disallowedRoles
             );
         } finally {
             EffectSection.stopLog(errors);
         }
 
         if (!guilds.isEmpty()) {
-            SlashManager.registerGuilds(slashObject, guilds, roles);
+            SlashManager.registerGuilds(slashObject, guilds);
         } else if (!bots.isEmpty()) {
             SlashManager.register(slashObject, bots);
         } else {
