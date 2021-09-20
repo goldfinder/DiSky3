@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
+import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.util.SimpleEvent;
@@ -15,20 +16,21 @@ import java.util.List;
 public class SlashObject {
 
     private final String name;
+    private final Expression<String> description;
     private final List<String> aliases;
-    private final String description;
     private final List<String> bots;
     private final List<String> guilds;
-    private final List<String> roles;
+    private final List<String> allowedRoles;
+    private final List<String> disallowedRoles;
 
     private final Trigger trigger;
 
     private final List<SlashArgument> arguments;
 
     public SlashObject(File script, String name, List<SlashArgument> arguments,
-                       List<String> aliases, String description, List<String> bots, List<TriggerItem> items,
+                       List<String> aliases, Expression<String> description, List<String> bots, List<TriggerItem> items,
                        List<String> guilds,
-                       List<String> roles
+                       List<String> allowedRoles, List<String> disallowedRoles
                        ) {
         this.name = name;
         if (aliases != null) {
@@ -36,8 +38,9 @@ public class SlashObject {
         }
         this.aliases = aliases;
         this.guilds = guilds;
-        this.roles = roles;
-        this.description = Utils.replaceEnglishChatStyles(description);
+        this.allowedRoles = allowedRoles;
+        this.disallowedRoles = disallowedRoles;
+        this.description = description;
         this.bots = bots;
         this.arguments = arguments;
         trigger = new Trigger(script, "discord command " + name, new SimpleEvent(), items);
@@ -67,10 +70,6 @@ public class SlashObject {
         return true;
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
-
     public String getName() {
         return name;
     }
@@ -83,12 +82,20 @@ public class SlashObject {
         return guilds;
     }
 
-    public String getDescription() {
+    public Expression<String> getDescription() {
         return description;
     }
 
     public List<String> getBots() {
         return bots;
+    }
+
+    public List<String> getAllowedRoles() {
+        return allowedRoles;
+    }
+
+    public List<String> getDisallowedRoles() {
+        return disallowedRoles;
     }
 
     public List<SlashArgument> getArguments() {

@@ -3,6 +3,8 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 import ch.njol.util.NonNullPair;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

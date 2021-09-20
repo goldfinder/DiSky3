@@ -24,7 +24,7 @@ public final class SlashManager {
     public static boolean register(SlashObject cmd, List<String> bots) {
         Bukkit.getScheduler().runTaskLater(
                 DiSky.getInstance(),
-                () -> refresh(convert(cmd), bots),
+                () -> refresh(cmd, bots),
                 (alreadyWaited ? 30 : 80)
         );
         if (!alreadyWaited)
@@ -32,80 +32,23 @@ public final class SlashManager {
         return true;
     }
 
-    public static boolean registerGuilds(SlashObject cmd, List<String> guilds, List<String> roles) {
+    public static void registerGuilds(SlashObject cmd, List<String> guilds) {
         Bukkit.getScheduler().runTaskLater(
                 DiSky.getInstance(),
-                () -> refreshGuilds(convert(cmd), guilds, roles),
+                () -> refreshGuilds(cmd, guilds),
                 (alreadyWaited ? 30 : 80)
         );
         if (!alreadyWaited)
             alreadyWaited = true;
-        return true;
     }
 
-    private static CommandData convert(SlashObject cmd) {
-        CommandData command = new CommandData(cmd.getName(), cmd.getDescription());
-
-        for (SlashArgument arg : cmd.getArguments())
-        {
-            command.addOptions(
-                    new OptionData(
-                            arg.getType(),
-                            arg.getName(),
-                            arg.getDesc(),
-                            !arg.isOptional()
-                    )
-            );
-        }
-
-        return command;
-    }
-
-    private static List<Bot> convert(List<String> s) {
-        List<Bot> formattedBots = new ArrayList<>();
-        for (String botName : s) {
-            if (BotManager.searchFromName(botName) != null)
-                formattedBots.add(BotManager.searchFromName(botName));
-        }
-        return formattedBots;
-    }
-
-    private static List<Guild> convertGuilds(List<String> asList) {
-        final List<Guild> guilds = new ArrayList<>();
-        for (String s : asList) {
-            final Guild found;
-            if (Utils.isNumeric(s)) {
-                found = BotManager.globalSearch(bot -> bot.getCore().getGuildById(s));
-            } else {
-                found = BotManager.globalSearch(bot -> bot.getCore().getGuildsByName(s, true).get(0));
-            }
-            if (found != null)
-                guilds.add(found);
-        }
-        return guilds;
-    }
-
-    private static List<CommandPrivilege> convertRoles(List<String> asList) {
-        final List<CommandPrivilege> guilds = new ArrayList<>();
-        for (String s : asList) {
-            final Role found;
-            if (Utils.isNumeric(s)) {
-                found = BotManager.globalSearch(bot -> bot.getCore().getRoleById(s));
-            } else {
-                found = BotManager.globalSearch(bot -> bot.getCore().getRolesByName(s, true).get(0));
-            }
-            if (found != null)
-                guilds.add(CommandPrivilege.disable(found));
-        }
-        return guilds;
-    }
-
-    private static boolean refreshGuilds(CommandData command, List<String> guilds, List<String> allowedRoles) {
+    private static void refreshGuilds(SlashObject cmd, List<String> guilds) {
         if (guilds == null || guilds.isEmpty())
-            return false;
-        final List<CommandPrivilege> privileges = convertRoles(allowedRoles);
+            return;
+        CommandData command = SlashUtils.parseCommand(cmd);
+        List<CommandPrivilege> privileges = SlashUtils.parsePrivileges(cmd);
 
-        for (Guild guild : convertGuilds(guilds)) {
+        for (Guild guild : SlashUtils.parseGuilds(guilds)) {
 
             guild.retrieveCommands().queue(cmds -> {
 
@@ -152,14 +95,15 @@ public final class SlashManager {
             });
 
         }
-        return true;
     }
 
-    private static boolean refresh(CommandData command, List<String> bots) {
+    private static void refresh(SlashObject cmd, List<String> bots) {
         if (bots == null || bots.isEmpty())
-            return false;
+            return;
+        CommandData command = SlashUtils.parseCommand(cmd);
+        List<CommandPrivilege> privileges = SlashUtils.parsePrivileges(cmd);
 
-        for (Bot bot : convert(bots)) {
+        for (Bot bot : SlashUtils.parseBots(bots)) {
 
             bot.getCore().retrieveCommands().queue(cmds -> {
 
@@ -191,10 +135,9 @@ public final class SlashManager {
             });
 
         }
-        return true;
     }
 
-    public static boolean unregister(SlashObject command) {
+    public static void unregister(SlashObject command) {
 
         for (Bot bot : BotManager.getLoadedBots()) {
 
@@ -210,6 +153,5 @@ public final class SlashManager {
 
         }
 
-        return true;
     }
 }
