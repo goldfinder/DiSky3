@@ -30,10 +30,16 @@ public class SlashFactory {
 
     private final SectionValidator commandStructure = new SectionValidator()
             .addEntry("description", false)
+
             .addEntry("bots", true)
             .addEntry("guilds", true)
+
             .addEntry("allowed roles", true)
             .addEntry("disallowed roles", true)
+
+            .addEntry("allowed users", true)
+            .addEntry("disallowed users", true)
+
             .addSection("trigger", false);
 
     public HashMap<SlashData, SlashObject> commandMap = new HashMap<>();
@@ -167,6 +173,11 @@ public class SlashFactory {
         List<String> allowedRoles = allowedRoleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(allowedRoleStrings.split(listPattern));
         List<String> disallowedRoles = disallowedRoleStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(disallowedRoleStrings.split(listPattern));
 
+        String allowedUserStrings = ScriptLoader.replaceOptions(node.get("allowed users", ""));
+        String disallowedUserStrings = ScriptLoader.replaceOptions(node.get("disallowed users", ""));
+        List<String> allowedUsers = allowedUserStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(allowedUserStrings.split(listPattern));
+        List<String> disallowedUsers = disallowedUserStrings.isEmpty() ? new ArrayList<>() : Arrays.asList(disallowedUserStrings.split(listPattern));
+
         // Added the parse to the command description
         Expression<String> description;
         String rawDesc = ScriptLoader.replaceOptions(node.get("description", ""));
@@ -198,7 +209,8 @@ public class SlashFactory {
             slashObject = new SlashObject(
                     node.getConfig().getFile(), command, currentArguments, aliases,
                     description, bots, ScriptLoader.loadItems(trigger), guilds,
-                    allowedRoles, disallowedRoles
+                    allowedRoles, disallowedRoles,
+                    allowedUsers, disallowedUsers
             );
         } finally {
             EffectSection.stopLog(errors);

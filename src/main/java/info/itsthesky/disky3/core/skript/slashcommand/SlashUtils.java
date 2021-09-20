@@ -75,6 +75,10 @@ public final class SlashUtils {
             privileges.add(CommandPrivilege.enable(a));
         for (Role d : parseRoles(cmd.getDisallowedRoles()))
             privileges.add(CommandPrivilege.disable(d));
+        for (User d : parseUsers(cmd.getAllowedUsers()))
+            privileges.add(CommandPrivilege.enable(d));
+        for (User d : parseUsers(cmd.getDisallowedUsers()))
+            privileges.add(CommandPrivilege.disable(d));
         return privileges;
     }
 
@@ -106,6 +110,22 @@ public final class SlashUtils {
                 found = BotManager.globalSearch(bot -> bot.getCore().getGuildById(s));
             } else {
                 found = BotManager.globalSearch(bot -> bot.getCore().getGuildsByName(s, true).get(0));
+            }
+            if (found != null)
+                guilds.add(found);
+        }
+        return guilds;
+    }
+
+    public static List<User> parseUsers(List<String> asList) {
+        final List<User> guilds = new ArrayList<>();
+        for (String s : asList) {
+            final User found;
+            // We assume the target is already cached by any way so don't need to retrieve it.
+            if (Utils.isNumeric(s)) {
+                found = BotManager.globalSearch(bot -> bot.getCore().getUserById(s));
+            } else {
+                found = BotManager.globalSearch(bot -> bot.getCore().getUsersByName(s, true).get(0));
             }
             if (found != null)
                 guilds.add(found);

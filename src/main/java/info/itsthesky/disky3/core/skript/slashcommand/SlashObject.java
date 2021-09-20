@@ -22,6 +22,8 @@ public class SlashObject {
     private final List<String> guilds;
     private final List<String> allowedRoles;
     private final List<String> disallowedRoles;
+    private final List<String> allowedUsers;
+    private final List<String> disallowedUsers;
 
     private final Trigger trigger;
 
@@ -30,7 +32,8 @@ public class SlashObject {
     public SlashObject(File script, String name, List<SlashArgument> arguments,
                        List<String> aliases, Expression<String> description, List<String> bots, List<TriggerItem> items,
                        List<String> guilds,
-                       List<String> allowedRoles, List<String> disallowedRoles
+                       List<String> allowedRoles, List<String> disallowedRoles,
+                       List<String> allowedUsers, List<String> disallowedUsers
                        ) {
         this.name = name;
         if (aliases != null) {
@@ -40,6 +43,8 @@ public class SlashObject {
         this.guilds = guilds;
         this.allowedRoles = allowedRoles;
         this.disallowedRoles = disallowedRoles;
+        this.disallowedUsers = disallowedUsers;
+        this.allowedUsers = allowedUsers;
         this.description = description;
         this.bots = bots;
         this.arguments = arguments;
@@ -96,6 +101,14 @@ public class SlashObject {
 
     public List<String> getDisallowedRoles() {
         return disallowedRoles;
+    }
+
+    public List<String> getAllowedUsers() {
+        return allowedUsers;
+    }
+
+    public List<String> getDisallowedUsers() {
+        return disallowedUsers;
     }
 
     public List<SlashArgument> getArguments() {
