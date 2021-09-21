@@ -13,8 +13,12 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterBotEffect;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Name("Edit Message")
 @Description({"Edit a discord message. The rest of the code will be executed when Discord will agreed the message edit action!"})
@@ -26,18 +30,21 @@ public class EffEditMessage extends WaiterBotEffect {
     static {
         register(
                 EffEditMessage.class,
-                "edit [the] [message] %message% (with|to show) %embedbuilder/string/messagebuilder%"
+                "edit [the] [message] %message% (with|to show) %embedbuilder/string/messagebuilder%",
+                "edit [the] [message] %message% (with|to show) %embedbuilder/string/messagebuilder% and keep [the] (button|component|row)[s]"
         );
     }
 
     private Expression<UpdatingMessage> exprMessage;
     private Expression<Object> exprToReplaceWith;
+    private boolean keepComponents;
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean initEffect(Expression[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.exprMessage = (Expression<UpdatingMessage>) exprs[0];
         this.exprToReplaceWith = (Expression<Object>) exprs[1];
+        keepComponents = i == 1;
         return true;
     }
 
@@ -47,6 +54,8 @@ public class EffEditMessage extends WaiterBotEffect {
         Object content = exprToReplaceWith.getSingle(e);
         if (message == null || content == null) return;
 
+        final List<ActionRow> rows = keepComponents ? message.getMessage().getActionRows() : new ArrayList<>();
+
         if (getUsedBot() != null) {
 
             Bot bot = (Bot) getUsedBot().getSingle(e);
@@ -54,24 +63,33 @@ public class EffEditMessage extends WaiterBotEffect {
             for (TextChannel channel : bot.getCore().getTextChannels()) {
                 if (channel.compareTo(message.getMessage().getTextChannel()) == 0) {
 
-                    channel.retrieveMessageById(message.getID()).queue(
-                            msg -> message.getMessage().editMessage(Utils.parseMessageContent(content).build()).queue(t -> {
-                                restart();
-                            }, ex -> {
-                                DiSky.exception(ex, getNode());
-                                restart();
-                            })
+                    channel
+                            .retrieveMessageById(message.getID())
+                            .queue(
+                                    msg -> message
+                                            .getMessage()
+                                            .editMessage(Utils.parseMessageContent(content).build())
+                                            .setActionRows(rows)
+                                            .queue(t -> {
+                                                        restart();
+                                                    }, ex -> {
+                                                        DiSky.exception(ex, getNode());
+                                                        restart();
+                                                    }
+                                            )
                     );
 
                 }
             }
 
         } else {
-            message.getMessage().editMessage(Utils.parseMessageContent(content).build()).queue(t -> {
-                restart();
-            }, ex -> {
-                DiSky.exception(ex, getNode());
-                restart();
+            message
+                    .getMessage()
+                    .editMessage(Utils.parseMessageContent(content).build())
+                    .setActionRows(rows)
+                    .queue(t -> restart(), ex -> {
+                        DiSky.exception(ex, getNode());
+                        restart();
             });
         }
     }
