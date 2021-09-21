@@ -14,7 +14,7 @@ public class RoleDelete extends DiSkyEvent<RoleDeleteEvent> {
 
     static {
         DiSkyEvent.register("Inner Event Name", RoleDelete.class, EvtRoleDelete.class,
-                "[guild] role delete]")
+                "[guild] role delete")
                 .setName("Docs Event Name")
                 .setDesc("Event description")
                 .setExample("Event Example");
