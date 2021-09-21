@@ -18,6 +18,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 
@@ -26,11 +28,11 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
     static {
         Skript.registerEffect(
                 EffUploadFile.class,
-                "upload [the] [file] %string% [(named|with name) %-string%] [with [the] content %-embedbuilder/string/messagebuilder%] (to|in) [the] [channel] %channel/user/member% [(using|with) [bot] %-bot%] [with [attachments] options %-attachmentoptions%] [and store (it|the message) in %-object%]"
+                "upload [the] [file] %string"+ (Utils.skImageInstalled() ? "/image" : "") +"% [(named|with name) %-string%] [with [the] content %-embedbuilder/string/messagebuilder%] (to|in) [the] [channel] %channel/user/member% [(using|with) [bot] %-bot%] [with [attachments] options %-attachmentoptions%] [and store (it|the message) in %-object%]"
         );
     }
 
-    private Expression<String> exprPath;
+    private Expression<Object> exprFile;
     private Expression<String> exprName;
     private Expression<Object> exprContent;
     private Expression<Object> exprTarget;
@@ -41,7 +43,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
     @SuppressWarnings("unchecked")
     public boolean initEffect(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
 
-        exprPath = (Expression<String>) exprs[0];
+        exprFile = (Expression<Object>) exprs[0];
         exprName = (Expression<String>) exprs[1];
         exprContent = (Expression<Object>) exprs[2];
         exprTarget = (Expression<Object>) exprs[3];
@@ -64,36 +66,53 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
     @Override
     public void runEffect(Event e) {
         Object target = exprTarget.getSingle(e);
-        String path = exprPath.getSingle(e);
+        Object input = exprFile.getSingle(e);
         Bot bot = exprBot.getSingle(e);
         final AttachmentOption[] options = Utils.verifyVars(e, exprOptions, new AttachmentOption[0]);
 
         if (
                 target == null ||
-                        path == null ||
+                        input == null ||
                         bot == null
         ) return;
 
         final @Nullable MessageBuilder builder = Utils.parseMessageContent(Utils.verifyVar(e, exprContent));
 
-        final String fileName = Utils.verifyVar(e, exprName, getFromString(path));
+        final String fileName = Utils.verifyVar(e, exprName, (input instanceof BufferedImage ? "image.png" : getFromString(input.toString())));
         final InputStream fileStream;
-        if (Utils.isURL(path)) {
+
+        if (input instanceof BufferedImage) {
+
+            BufferedImage image = (BufferedImage) input;
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
             try {
-                fileStream = new URL(path).openStream();
+                ImageIO.write(image, "png", os);
             } catch (IOException ioException) {
                 DiSky.exception(ioException, getNode());
                 return;
             }
+            fileStream = new ByteArrayInputStream(os.toByteArray());
+
         } else {
-            final File fileFile = new File(path);
-            if (fileFile == null || !fileFile.exists())
-                return;
-            try {
-                fileStream = new FileInputStream(fileFile);
-            } catch (FileNotFoundException ex) {
-                DiSky.exception(ex, getNode());
-                return;
+            final String path = (String) input;
+            if (Utils.isURL(path)) {
+                try {
+                    fileStream = new URL(path).openStream();
+                } catch (IOException ioException) {
+                    DiSky.exception(ioException, getNode());
+                    return;
+                }
+            } else {
+                final File fileFile = new File(path);
+                if (fileFile == null || !fileFile.exists())
+                    return;
+                try {
+                    fileStream = new FileInputStream(fileFile);
+                } catch (FileNotFoundException ex) {
+                    DiSky.exception(ex, getNode());
+                    return;
+                }
             }
         }
 
@@ -152,6 +171,6 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "upload " + exprPath.toString(e, debug) + " to channel / user " + exprTarget.toString(e, debug);
+        return "upload " + exprFile.toString(e, debug) + " to channel / user " + exprTarget.toString(e, debug);
     }
 }

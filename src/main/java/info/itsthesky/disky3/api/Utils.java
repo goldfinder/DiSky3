@@ -132,6 +132,15 @@ public final class Utils {
         }
     }
 
+    public static boolean skImageInstalled() {
+        try {
+            Class.forName("info.itsthesky.SkImage.SkImage");
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public static boolean equalsAnyIgnoreCase(String toMatch, String... potentialMatches) {
         return Arrays.asList(potentialMatches).contains(toMatch);
     }
