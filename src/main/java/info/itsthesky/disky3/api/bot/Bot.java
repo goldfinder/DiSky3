@@ -29,6 +29,10 @@ public class Bot implements Comparable<Bot>, ISnowflake {
         return -1;
     }
 
+    public void shutdown() {
+        BotManager.remove(this);
+    }
+
     @Override
     public long getIdLong() {
         return getCore().getSelfUser().getIdLong();

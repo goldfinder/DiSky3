@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.bot;
 
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.messages.MessageUpdater;
 import info.itsthesky.disky3.api.skript.events.EventListener;
 import info.itsthesky.disky3.core.commands.CommandListener;
@@ -92,6 +93,9 @@ public final class BotManager {
         if (!isLoaded(bot.getName()))
             return false;
         LOADED_BOTS.remove(bot);
+        DiSky.warn("Shutdown of bot " + bot.getName() + " ...");
+        bot.getCore().shutdownNow();
+        DiSky.success("Shutdown complete!");
         return true;
     }
 }
