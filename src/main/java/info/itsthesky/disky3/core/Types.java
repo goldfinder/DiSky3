@@ -16,10 +16,7 @@ import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.DiSkyComparator;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import info.itsthesky.disky3.core.commands.CommandObject;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.Button;
@@ -77,235 +74,50 @@ public class Types {
 	}
 
 	static {
-		new DiSkyType<>(
-				Category.class,
-				"category",
-				"categor(y|ies)",
-				AbstractChannel::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getCategoryById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				MessageSticker.class,
-				"sticker",
-				"stickers?",
-				MessageSticker::getName,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				User.class,
-				"user",
-				"users?",
-				User::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)),
-				false
-		).register();
-		DiSkyType.fromEnum(
-				Guild.VerificationLevel.class,
-				"verificationlevel",
-				"verificationlevels?"
-		);
-		new DiSkyType<>(
-				Member.class,
-				"member",
-				"members?",
-				Member::getEffectiveName,
-				input -> {
-					final @Nullable Guild guild = LAST_GUILD_COMMAND;
-					if (guild == null) {
-						DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
-						return null;
-					} else {
-						return guild.getMemberById(Utils.parseLong(input, false, true));
-					}
-				},
-				false
-		).register();
-		new DiSkyType<>(
-				Role.class,
-				"role",
-				"roles?",
-				Role::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getRoleById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				VoiceChannel.class,
-				"voicechannel",
-				"voicechannels?",
-				AbstractChannel::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getVoiceChannelById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				TextChannel.class,
-				"textchannel",
-				"textchannels?",
-				TextChannel::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				GuildChannel.class,
-				"channel",
-				"channels?",
-				GuildChannel::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				ButtonRow.class,
-				"buttonrow",
-				"buttonrows?",
-				ButtonRow::toString,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				Button.class,
-				"button",
-				"buttons?"
-		).register();
-		new DiSkyType<>(
-				SelectionMenu.Builder.class,
-				"selectbuilder",
-				"selectbuilders?"
-		).register();
-		new DiSkyType<>(
-				SelectOption.class,
-				"selectchoice",
-				"selectchoices?"
-		).register();
-		new DiSkyType<>(
-				Guild.class,
-				"guild",
-				"guilds?",
-				Guild::getName,
-				input -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(input)),
-				false
-		).register();
-		new DiSkyType<>(
-				Activity.class,
-				"presence",
-				"presences?",
-				a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(),
-				input -> null,
-				false
-		).register();
-		new DiSkyType<>(
-				Bot.class,
-				"bot",
-				"bots?",
-				Bot::getName,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				Emote.class,
-				"emote",
-				"emotes?",
-				Emote::getName,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				WebhookMessageBuilder.class,
-				"webhookmessagebuilder",
-				"webhookmessagebuilders?",
-				null
-		).register();
-		new DiSkyType<>(
-				UpdatingMessage.class,
-				"message",
-				"messages?",
-				msg -> msg.getMessage().getContentRaw(),
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				Webhook.class,
-				"webhookbuilder",
-				"webhookbuilders?",
-				null
-		).register();
-		new DiSkyType<>(
-				EmbedBuilder.class,
-				"embedbuilder",
-				"embedbuilders?",
-				embed -> embed.getDescriptionBuilder().toString(),
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				CommandObject.class,
-				"discordcommand",
-				"discordcommands?",
-				CommandObject::getName,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				Invite.class,
-				"invite",
-				"invites?",
-				Invite::getUrl,
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				MessageBuilder.class,
-				"messagebuilder",
-				"messagebuilders?",
-				msg -> msg.getStringBuilder().toString(),
-				null,
-				false
-		).register();
-		new DiSkyType<>(
-				Message.Attachment.class,
-				"attachment",
-				"attachments?",
-				Message.Attachment::getFileName,
-				null,
-				false
-		).register();
-		DiSkyType.fromEnum(
-				Permission.class,
-				"permission",
-				"permissions?"
-		).register();
-		DiSkyType.fromEnum(
-				AttachmentOption.class,
-				"attachmentoption",
-				"attachmentoptions?"
-		).register();
-		DiSkyType.fromEnum(
-				ButtonStyle.class,
-				"buttonstyle",
-				"buttonstyles?"
-		).register();
-		DiSkyType.fromEnum(
-				GatewayIntent.class,
-				"intent",
-				"intents?"
-		).register();
-		DiSkyType.fromEnum(
-				OnlineStatus.class,
-				"onlinestatus",
-				"onlinestatus"
-		).register();
-		new DiSkyType<>(
-				AudioTrack.class,
-				"track",
-				"tracks?",
-				track -> track.getInfo().title,
-				null,
-				false
-		).register();
-		DiSkyType.fromEnum(
-				OptionType.class,
-				"optiontype",
-				"optiontypes?"
-		).register();
+
+		new DiSkyType<>(Category.class, "category", "categor(y|ies)", AbstractChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getCategoryById(input)), false).register();
+		new DiSkyType<>(MessageSticker.class, "sticker", "stickers?", MessageSticker::getName, null, false).register();
+		new DiSkyType<>(User.class, "user", "users?", User::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)), false).register();
+		new DiSkyType<>(Role.class, "role", "roles?", Role::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getRoleById(input)), false).register();
+		new DiSkyType<>(VoiceChannel.class, "voicechannel", "voicechannels?", AbstractChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getVoiceChannelById(input)), false).register();
+		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
+		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
+		new DiSkyType<>(ButtonRow.class, "buttonrow", "buttonrows?", ButtonRow::toString, null, false).register();
+		new DiSkyType<>(Button.class, "button", "buttons?").register();
+		new DiSkyType<>(SelectionMenu.Builder.class, "selectbuilder", "selectbuilders?").register();
+		new DiSkyType<>(SelectOption.class, "selectchoice", "selectchoices?").register();
+		new DiSkyType<>(Guild.class, "guild", "guilds?", Guild::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(input)), false).register();
+		new DiSkyType<>(Activity.class, "presence", "presences?", a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(), input -> null, false).register();
+		new DiSkyType<>(Bot.class, "bot", "bots?", Bot::getName, null, false).register();
+		new DiSkyType<>(Emote.class, "emote", "emotes?", Emote::getName, null, false).register();
+		new DiSkyType<>(WebhookMessageBuilder.class, "webhookmessagebuilder", "webhookmessagebuilders?", null).register();
+		new DiSkyType<>(UpdatingMessage.class, "message", "messages?", msg -> msg.getMessage().getContentRaw(), null, false).register();
+		new DiSkyType<>(Webhook.class, "webhookbuilder", "webhookbuilders?", null).register();
+		new DiSkyType<>(EmbedBuilder.class, "embedbuilder", "embedbuilders?", embed -> embed.getDescriptionBuilder().toString(), null, false).register();
+		new DiSkyType<>(CommandObject.class, "discordcommand", "discordcommands?", CommandObject::getName, null, false).register();
+		new DiSkyType<>(Invite.class, "invite", "invites?", Invite::getUrl, null, false).register();
+		new DiSkyType<>(MessageBuilder.class, "messagebuilder", "messagebuilders?", msg -> msg.getStringBuilder().toString(), null, false).register();
+		new DiSkyType<>(Message.Attachment.class, "attachment", "attachments?", Message.Attachment::getFileName, null, false).register();
+		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
+
+		DiSkyType.fromEnum(Permission.class, "permission", "permissions?").register();
+		DiSkyType.fromEnum(AttachmentOption.class, "attachmentoption", "attachmentoptions?").register();
+		DiSkyType.fromEnum(ButtonStyle.class, "buttonstyle", "buttonstyles?").register();
+		DiSkyType.fromEnum(ButtonStyle.class, "buttonstyle", "buttonstyles?").register();
+		DiSkyType.fromEnum(GatewayIntent.class, "intent", "intents?").register();
+		DiSkyType.fromEnum(OnlineStatus.class, "onlinestatus", "onlinestatus").register();
+		DiSkyType.fromEnum(OptionType.class, "optiontype", "optiontypes?").register();
+		DiSkyType.fromEnum(Guild.VerificationLevel.class, "verificationlevel", "verificationlevels?").register();
+		DiSkyType.fromEnum(Region.class, "region", "regions?").register();
+
+		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
+			final @Nullable Guild guild = LAST_GUILD_COMMAND;
+			if (guild == null) {
+				DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
+				return null;
+			} else {
+				return guild.getMemberById(Utils.parseLong(input, false, true));
+			}
+		}, false).register();
 	}
 }
