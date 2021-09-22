@@ -16,7 +16,7 @@ public class EffShutdownBot extends Effect {
     static {
         Skript.registerEffect(
                 EffShutdownBot.class,
-                "(close instance|shut( |-)down) [the] [bot] %bot%"
+                "(close instance|shut[( |-)]down) [the] [bot] %bot%"
         );
     }
 
