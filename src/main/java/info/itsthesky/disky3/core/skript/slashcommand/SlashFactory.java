@@ -2,21 +2,26 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
+import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.config.validate.SectionValidator;
+import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
-import ch.njol.util.NonNullPair;
+import ch.njol.skript.util.Utils;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.api.skript.EffectSection;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.internal.utils.tuple.MutableTriple;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,9 +29,18 @@ public class SlashFactory {
 
     private static final SlashFactory INSTANCE = new SlashFactory();
     private final Pattern commandPattern = Pattern.compile("(?i)^(on )?slash command (\\S+)(\\s+(.+))?$");
-    private final Pattern argumentPattern = Pattern.compile("<\\s*(?:(.+?)\\s*?\\s*)?(.+?)\\s*(?:=\\s*([^\"]*?(?:\"[^\"]*?\"[^\"]*?)*?))?\\s*>");
+    private final Pattern argumentPattern = Pattern.compile("<\\s*(?:(.+?)\\s*?\\s*)?(.+?)\\s*>");
     private final Pattern escape = Pattern.compile("[" + Pattern.quote("(|)<>%\\") + "]");
     private final String listPattern = "\\s*,\\s*|\\s+(and|or|, )\\s+";
+
+    private final SectionValidator optionStructure = new SectionValidator()
+            .addEntry("name", false)
+            .addEntry("description", false)
+            .addSection("default values", true);
+
+    private final SectionValidator presetStructure = new SectionValidator()
+            .addEntry("name", false)
+            .addEntry("value", false);
 
     private final SectionValidator commandStructure = new SectionValidator()
             .addEntry("description", false)
@@ -39,6 +53,8 @@ public class SlashFactory {
 
             .addEntry("allowed users", true)
             .addEntry("disallowed users", true)
+
+            .addSection("options", true)
 
             .addSection("trigger", false);
 
@@ -108,7 +124,6 @@ public class SlashFactory {
 
             lastEnd = m.end();
 
-            // Because
             String arg = m.group(1) + m.group(2);
             OptionType argumentType;
             try {
@@ -118,30 +133,9 @@ public class SlashFactory {
                 return null;
             }
 
-            final String name;
-            final String desc;
-
-            final String infoInput = m.group(3);
-            if (infoInput.matches("\\{(.+)}")) {
-                final NonNullPair<String, String> values = SlashArgument.parseArgumentValues(
-                        infoInput.replaceAll("\\{", "").replaceAll("}", "")
-                );
-                if (values == null) {
-                    Skript.error("Unable to match the name & description pattern. It MUST be under '\"name\", \"desc\"' form!");
-                    return null;
-                }
-                name = values.getFirst();
-                desc = values.getSecond();
-            } else {
-                name = argumentType.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
-                desc = infoInput;
-            }
-
             final SlashArgument argument = new SlashArgument(
                     argumentType,
-                    optionals > 0,
-                    desc,
-                    name
+                    optionals > 0
             );
 
             if (argument == null)
@@ -155,10 +149,86 @@ public class SlashFactory {
             return null;
         }
 
-        if (!(node.get("trigger") instanceof SectionNode)) {
+        if (!(node.get("trigger") instanceof SectionNode))
             return null;
+
+        if (!(node.get("options") instanceof SectionNode))
+            return null;
+
+        /*
+        Option manager validation
+         */
+        SectionNode options = (SectionNode) node.get("options");
+
+        final SectionValidator optionListValidator = new SectionValidator();
+        int i = 1;
+        for (SlashArgument arg : currentArguments) {
+            optionListValidator.addSection(String.valueOf(i), true);
+            i++;
         }
 
+        options.convertToEntries(0);
+        if (!optionListValidator.validate(options))
+            return null;
+
+        i = 0;
+        for (SlashArgument arg : currentArguments) {
+            i++;
+
+            Node node2 = options.get(String.valueOf(i));
+            if (node2 == null)
+                continue;
+            final SectionNode optionValueNode = (SectionNode) node2;
+            if (optionValueNode == null)
+                continue;
+            optionValueNode.convertToEntries(0);
+            if (!optionStructure.validate(optionValueNode))
+                continue;
+
+            if (optionValueNode.get("name", "").isEmpty() || optionValueNode.get("description", "").isEmpty()) {
+                Skript.error("The entry 'name' and 'description' is require in the " + StringUtils.fancyOrderNumber(i) + " argument options.");
+                return null;
+            }
+
+            final @NotNull String name = optionValueNode.get("name", null); // Should not be empty
+            final @NotNull String desc = optionValueNode.get("description", null); // Should not be empty
+
+            arg.setName(name);
+            arg.setDesc(desc);
+
+            final SectionNode presetListNode = (SectionNode) optionValueNode.get("default values");
+            if (presetListNode == null) // default values are optional
+                continue;
+
+            final List<SlashArgument.SlashPreset> presets = new ArrayList<>();
+            presetListNode.convertToEntries(0);
+            SlashArgument.SlashPreset preset;
+            for (int in = 1; in <= 25; in++) {
+
+                final Node node1 = presetListNode.get(String.valueOf(in));
+                if (node1 == null)
+                    continue;
+                if (!(node1 instanceof SectionNode))
+                    continue;
+                SectionNode sectionNode = (SectionNode) node1;
+                sectionNode.convertToEntries(0);
+
+                String presetName = sectionNode.get("name", "");
+                String presetValue = sectionNode.get("value", "");
+                preset = new SlashArgument.SlashPreset(presetName, presetValue, arg);
+                if (preset == null) {
+                    Skript.error("Cannot use values " + presetValue + " with argument type " + arg.getType().name().toLowerCase(Locale.ROOT));
+                    return null;
+                }
+                presets.add(preset);
+            }
+
+            arg.setPresets(presets);
+        }
+
+        /*
+        Other entry manager
+         */
         SectionNode trigger = (SectionNode) node.get("trigger");
         List<String> aliases = Arrays.asList(ScriptLoader.replaceOptions(node.get("aliases", "")).split(listPattern));
 

@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public final class SlashUtils {
 
@@ -87,15 +88,22 @@ public final class SlashUtils {
         final String value = desc.getSingle(new SimpleDiSkyEvent<>());
         CommandData command = new CommandData(cmd.getName(), value);
 
-        for (SlashArgument arg : cmd.getArguments())
-        {
+        for (SlashArgument arg : cmd.getArguments()) {
+            OptionData option = new OptionData(
+                    arg.getType(),
+                    arg.getName(),
+                    arg.getDesc(),
+                    !arg.isOptional()
+            );
+            for (SlashArgument.SlashPreset o : arg.getPresets()) {
+                if (arg.getType().equals(OptionType.STRING)) {
+                    option.addChoice(o.getName(), o.getAsText());
+                } else if (arg.getType().equals(OptionType.INTEGER)) {
+                    option.addChoice(o.getName(), o.getAsInt());
+                }
+            }
             command.addOptions(
-                    new OptionData(
-                            arg.getType(),
-                            arg.getName(),
-                            arg.getDesc(),
-                            !arg.isOptional()
-                    )
+                    option
             );
         }
 
