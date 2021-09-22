@@ -103,12 +103,10 @@ public class Types {
 		DiSkyType.fromEnum(Permission.class, "permission", "permissions?").register();
 		DiSkyType.fromEnum(AttachmentOption.class, "attachmentoption", "attachmentoptions?").register();
 		DiSkyType.fromEnum(ButtonStyle.class, "buttonstyle", "buttonstyles?").register();
-		DiSkyType.fromEnum(ButtonStyle.class, "buttonstyle", "buttonstyles?").register();
 		DiSkyType.fromEnum(GatewayIntent.class, "intent", "intents?").register();
 		DiSkyType.fromEnum(OnlineStatus.class, "onlinestatus", "onlinestatus").register();
 		DiSkyType.fromEnum(OptionType.class, "optiontype", "optiontypes?").register();
-		DiSkyType.fromEnum(Guild.VerificationLevel.class, "verificationlevel", "verificationlevels?").register();
-		DiSkyType.fromEnum(Region.class, "region", "regions?").register();
+		DiSkyType.fromEnum(Region.class, "channelregion", "channelregions?").register();
 
 		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
 			final @Nullable Guild guild = LAST_GUILD_COMMAND;
