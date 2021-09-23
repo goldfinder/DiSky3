@@ -50,7 +50,7 @@ public class DiSkyType<T> {
                     }
 
                     @Override
-                    public boolean canParse(ParseContext context) {
+                    public boolean canParse(@NotNull ParseContext context) {
                         if (parser == null) return false;
                         if (isEnum) return true;
                         return context.equals(ParseContext.COMMAND);
