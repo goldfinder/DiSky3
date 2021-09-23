@@ -11,10 +11,7 @@ import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Blitz
@@ -98,6 +95,10 @@ public class UpdatingMessage implements ISnowflake {
         }
 
         return UPDATING_MESSAGES.get(id).get();
+    }
+
+    public static UpdatingMessage[] convert(Collection<Message> msg) {
+        return convert(msg.toArray(new Message[0]));
     }
 
     public boolean isPaused() {
