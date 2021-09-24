@@ -21,4 +21,8 @@ public class GuildTextChannels extends MultipleGuildProperty<TextChannel> {
         return guild.getTextChannels().toArray(new TextChannel[0]);
     }
 
+    @Override
+    public @NotNull Class<? extends TextChannel> getReturnType() {
+        return TextChannel.class;
+    }
 }

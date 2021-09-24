@@ -11,7 +11,7 @@ public class GuildCategories extends MultipleGuildProperty<Category> {
         register(
                 GuildCategories.class,
                 Category.class,
-                "[discord] text( |-)channel[s]",
+                "[discord] categories",
                 "guild"
         );
     }
