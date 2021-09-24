@@ -10,11 +10,16 @@ import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Invite;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EffDelete extends WaiterEffect {
 
@@ -49,6 +54,18 @@ public class EffDelete extends WaiterEffect {
         Bot bot = exprBot.getSingle(e);
         if (bot == null || entities.length == 0) {
             restart();
+            return;
+        }
+
+        if (entities instanceof UpdatingMessage[]) {
+            List<Message> msg = Arrays.stream((UpdatingMessage[]) entities)
+                    .map(UpdatingMessage::getMessage)
+                    .collect(Collectors.toList());
+            if (msg.size() == 1) {
+                msg.get(0).delete().queue(v -> restart());
+            } else {
+                msg.get(0).getTextChannel().deleteMessages(msg).queue(v -> restart());
+            }
             return;
         }
 
