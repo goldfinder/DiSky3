@@ -26,7 +26,6 @@ public final class BotManager {
     }
 
     public static void reset() {
-        LOADED_BOTS.forEach(bot -> bot.getCore().updateCommands().queue());
         LOADED_BOTS.forEach(bot -> bot.getCore().shutdownNow());
         LOADED_BOTS.clear();
     }
@@ -49,6 +48,7 @@ public final class BotManager {
         bot.getCore().addEventListener(new SlashListener());
         bot.getCore().addEventListener((Object[]) EventListener.listeners.toArray(new ListenerAdapter[0]));
         LOADED_BOTS.add(bot);
+        bot.getCore().updateCommands().queue();
         return true;
     }
 

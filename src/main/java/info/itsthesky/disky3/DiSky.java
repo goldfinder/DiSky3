@@ -103,7 +103,13 @@ public final class DiSky extends JavaPlugin {
     public void onDisable() {
         ln();
         log("Disabling DiSky's bot & instance ...");
-        BotManager.reset();
+        // Check https://github.com/DV8FromTheWorld/JDA/issues/1761#issuecomment-892921634
+        try {
+            BotManager.reset();
+        } catch (Exception ex) {
+            if (!(ex instanceof IllegalStateException))
+                ex.printStackTrace();
+        }
         success("Disable success!");
         ln();
         warn("Hope we see you back soon :<");
