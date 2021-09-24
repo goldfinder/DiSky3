@@ -21,7 +21,7 @@ public class ExprRGBColor extends SimpleExpression<Color> {
 
 	static {
 		Skript.registerExpression(ExprRGBColor.class, Color.class, ExpressionType.SIMPLE,
-				"[the] color from [the] (rgb|red green blue) %number% ( |,) %number% ( |,) %number%");
+				"[the] color from [the] (rgb|red green blue) %number%[ ][,][ ]%number%[ ][,][ ]%number%");
 	}
 
 	private Expression<Number> exprRed, exprGreen, exprBlue;
