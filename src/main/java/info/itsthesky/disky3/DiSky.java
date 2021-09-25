@@ -2,12 +2,10 @@ package info.itsthesky.disky3;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.config.Node;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Version;
-import info.itsthesky.disky3.api.DiSkyException;
-import info.itsthesky.disky3.api.Metrics;
-import info.itsthesky.disky3.api.ReflectionUtils;
-import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.*;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
@@ -15,6 +13,7 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
+import info.itsthesky.disky3.core.skript.errorhandler.SectionTry;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
@@ -198,5 +197,8 @@ public final class DiSky extends JavaPlugin {
         }
         bigError("End of the error.");
         lnError();
+
+        throw new DiSkyRuntimeException(ex);
+
     }
 }

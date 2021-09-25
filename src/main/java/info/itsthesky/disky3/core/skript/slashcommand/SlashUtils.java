@@ -2,6 +2,7 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.util.SimpleEvent;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -84,30 +85,35 @@ public final class SlashUtils {
     }
 
     public static CommandData parseCommand(SlashObject cmd) {
-        final Expression<String> desc = cmd.getDescription();
-        final String value = desc.getSingle(new SimpleDiSkyEvent<>());
-        CommandData command = new CommandData(cmd.getName(), value);
+        try {
+            final Expression<String> desc = cmd.getDescription();
+            final String value = desc.getSingle(new SimpleDiSkyEvent<>());
+            CommandData command = new CommandData(cmd.getName(), value);
 
-        for (SlashArgument arg : cmd.getArguments()) {
-            OptionData option = new OptionData(
-                    arg.getType(),
-                    arg.getName(),
-                    arg.getDesc(),
-                    !arg.isOptional()
-            );
-            for (SlashArgument.SlashPreset o : arg.getPresets()) {
-                if (arg.getType().equals(OptionType.STRING)) {
-                    option.addChoice(o.getName(), o.getAsText());
-                } else if (arg.getType().equals(OptionType.INTEGER)) {
-                    option.addChoice(o.getName(), o.getAsInt());
+            for (SlashArgument arg : cmd.getArguments()) {
+                OptionData option = new OptionData(
+                        arg.getType(),
+                        arg.getName(),
+                        arg.getDesc(),
+                        !arg.isOptional()
+                );
+                for (SlashArgument.SlashPreset o : arg.getPresets()) {
+                    if (arg.getType().equals(OptionType.STRING)) {
+                        option.addChoice(o.getName(), o.getAsText());
+                    } else if (arg.getType().equals(OptionType.INTEGER)) {
+                        option.addChoice(o.getName(), o.getAsInt());
+                    }
                 }
+                command.addOptions(
+                        option
+                );
             }
-            command.addOptions(
-                    option
-            );
-        }
 
-        return command;
+            return command;
+        } catch (Exception ex ) {
+            DiSky.exception(ex, null);
+            return null;
+        }
     }
 
     public static List<Guild> parseGuilds(List<String> asList) {

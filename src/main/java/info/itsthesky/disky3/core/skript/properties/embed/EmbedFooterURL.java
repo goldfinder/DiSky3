@@ -13,7 +13,7 @@ import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Utils;
-import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;

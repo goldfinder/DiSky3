@@ -16,7 +16,7 @@ import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.AsyncEffect;
-import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
 import net.dv8tion.jda.api.JDABuilder;

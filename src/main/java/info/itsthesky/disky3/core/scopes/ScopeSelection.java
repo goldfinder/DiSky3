@@ -4,7 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.event.Event;
 

@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.api.skript;
+package info.itsthesky.disky3.api.section;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -28,11 +28,13 @@ public abstract class EffectSection extends Condition {
     private TriggerSection trigger = null;
     private boolean hasIfOrElseIf = false;
     private boolean executeNext = true;
+    private Node node;
 
     public EffectSection() {
         /*if (this instanceof LazyEffectSection) //This one doesn't need to load the section separated.
             return;*/
         Node n = SkriptLogger.getNode(); //Skript sets the node before parsing this 'effect'
+        node = n;
         if (!(n instanceof SectionNode)) //Check in case it wasn't loaded as inline condition
             return;
         //True if it was used as condition
@@ -53,6 +55,17 @@ public abstract class EffectSection extends Condition {
     @SuppressWarnings("unchecked")
     public static boolean isCurrentSection(Class<? extends EffectSection>... classes) {
         return getCurrentSection(classes) != null;
+    }
+
+    public static void register(
+            Class<? extends EffectSection> clazz,
+            String pattern
+    ) {
+        Skript.registerCondition(clazz, pattern);
+    }
+
+    public Node getNode() {
+        return node;
     }
 
     @SuppressWarnings("unchecked")

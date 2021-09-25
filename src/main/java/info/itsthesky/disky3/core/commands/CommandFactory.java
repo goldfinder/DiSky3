@@ -16,7 +16,7 @@ import ch.njol.skript.util.Timespan;
 import ch.njol.skript.util.Utils;
 import ch.njol.util.NonNullPair;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.entities.ChannelType;
 import org.bukkit.event.Event;
 

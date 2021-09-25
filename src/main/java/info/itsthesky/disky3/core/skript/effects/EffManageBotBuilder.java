@@ -9,7 +9,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.skript.AsyncEffect;
-import info.itsthesky.disky3.api.skript.EffectSection;
+import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
