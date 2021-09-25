@@ -14,14 +14,14 @@ Whole remake of the original Vixio project, which allows Skript to interact with
 
 # Basic Usage
 
-DiSky is here to help Bot managment with Skript.
-First of all, you **must** know basics of both __Skript__ and __Discord Bot__ system.
+DiSky is here to help Bot management with Skript.
+First, you **must** know basics of both __Skript__ and __Discord Bot__ system.
 
 No help will be given if you are asking for basic features!
 
 ## Loading
 
-After creating your bot, create a enw script file and enter the default login code:
+After creating your bot, create a new script file and enter the default login code:
 
 ```applescript
 on load:
@@ -34,7 +34,7 @@ on load:
 
 ## Creating Discord Command
 
-Discord command are made via DiSky and are fired when anyone type a specific message.
+Discord command are made via DiSky and are fired when anyone types a specific message.
 DiSky will by itself parse every argument and execute the given code.
 
 ```applescript
