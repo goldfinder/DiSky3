@@ -23,7 +23,7 @@ public class RetrieveMessage extends WaiterEffect<UpdatingMessage> {
     static {
         Skript.registerEffect(
                 RetrieveMessage.class,
-                "retrieve [the] message (from|with) id %string% [in [the] [text]( |-)channel %-textchannel%] [with [the] [bot] %-bot%] and store (it|the user) in %object%"
+                "retrieve [the] message (from|with) id %string% [in [the] [text[( |-)]channel] %-textchannel/channel%] [with [the] [bot] %-bot%] and store (it|the user) in %object%"
         );
     }
 
