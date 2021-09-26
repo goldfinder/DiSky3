@@ -13,6 +13,7 @@ import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.utils.AttachmentOption;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -28,13 +29,14 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
     static {
         Skript.registerEffect(
                 EffUploadFile.class,
-                "upload [the] [file] %string"+ (Utils.skImageInstalled() ? "/image" : "") +"% [(named|with name) %-string%] [with [the] content %-embedbuilder/string/messagebuilder%] (to|in) [the] [channel] %channel/user/member% [(using|with) [bot] %-bot%] [with [attachments] options %-attachmentoptions%] [and store (it|the message) in %-object%]"
+                "upload [the] [file] %string"+ (Utils.skImageInstalled() ? "/image" : "") +"% [(named|with name) %-string%] [with [the] content %-embedbuilder/string/messagebuilder%] [with [the] (row|component)[s] %-buttonrows/selectbuilders%] (to|in) [the] [channel] %channel/user/member% [(using|with) [bot] %-bot%] [with [attachments] options %-attachmentoptions%] [and store (it|the message) in %-object%]"
         );
     }
 
     private Expression<Object> exprFile;
     private Expression<String> exprName;
     private Expression<Object> exprContent;
+    private Expression<Object> exprComponents;
     private Expression<Object> exprTarget;
     private Expression<Bot> exprBot;
     private Expression<AttachmentOption> exprOptions;
@@ -46,11 +48,12 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
         exprFile = (Expression<Object>) exprs[0];
         exprName = (Expression<String>) exprs[1];
         exprContent = (Expression<Object>) exprs[2];
-        exprTarget = (Expression<Object>) exprs[3];
-        exprBot = (Expression<Bot>) exprs[4];
-        exprOptions = (Expression<AttachmentOption>) exprs[5];
+        exprComponents = (Expression<Object>) exprs[3];
+        exprTarget = (Expression<Object>) exprs[4];
+        exprBot = (Expression<Bot>) exprs[5];
+        exprOptions = (Expression<AttachmentOption>) exprs[6];
 
-        setChangedVariable((Variable<UpdatingMessage>) exprs[6]);
+        setChangedVariable((Variable<UpdatingMessage>) exprs[7]);
 
         if (exprBot == null)
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
@@ -68,6 +71,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
         Object target = exprTarget.getSingle(e);
         Object input = exprFile.getSingle(e);
         Bot bot = exprBot.getSingle(e);
+        ActionRow[] rows = Utils.parseComponents(Utils.verifyVars(e, exprComponents, new Object[0]));
         final AttachmentOption[] options = Utils.verifyVars(e, exprOptions, new AttachmentOption[0]);
 
         if (
@@ -125,6 +129,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
                         .getCore()
                         .getTextChannelById(((TextChannel) target).getId())
                         .sendFile(fileStream, fileName, options)
+                        .setActionRows(rows)
                         .queue(msg -> restart(UpdatingMessage.from(msg)), ex -> DiSky.exception(ex, getNode()));
 
             } else {
@@ -134,6 +139,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
                         .getTextChannelById(((TextChannel) target).getId())
                         .sendMessage(builder.build())
                         .addFile(fileStream, fileName, options)
+                        .setActionRows(rows)
                         .queue(msg -> restart(UpdatingMessage.from(msg)), ex -> DiSky.exception(ex, getNode()));
 
             }
@@ -146,6 +152,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
                 bot.getCore().retrieveUserById(Utils.parseUser(target).getId()).queue(user -> {
                     user.openPrivateChannel().queue(txt -> txt
                             .sendFile(fileStream, fileName, options)
+                            .setActionRows(rows)
                             .queue(msg -> restart(UpdatingMessage.from(msg)), ex -> DiSky.exception(ex, getNode())));
                 });
 
@@ -155,6 +162,7 @@ public class EffUploadFile extends WaiterEffect<UpdatingMessage> {
                     user.openPrivateChannel().queue(txt -> txt
                             .sendMessage(builder.build())
                             .addFile(fileStream, fileName, options)
+                            .setActionRows(rows)
                             .queue(msg -> restart(UpdatingMessage.from(msg)), ex -> DiSky.exception(ex, getNode())));
                 });
 
