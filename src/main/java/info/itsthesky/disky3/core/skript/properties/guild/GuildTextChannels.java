@@ -11,7 +11,7 @@ public class GuildTextChannels extends MultipleGuildProperty<TextChannel> {
         register(
                 GuildTextChannels.class,
                 TextChannel.class,
-                "[discord] text( |-)channel[s]",
+                "[discord] text( |-)channels",
                 "guild"
         );
     }

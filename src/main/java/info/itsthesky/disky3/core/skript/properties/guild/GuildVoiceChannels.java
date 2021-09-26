@@ -11,7 +11,7 @@ public class GuildVoiceChannels extends MultipleGuildProperty<VoiceChannel> {
         register(
                 GuildVoiceChannels.class,
                 VoiceChannel.class,
-                "[discord] voice( |-)channel[s]",
+                "[discord] voice( |-)channels",
                 "guild"
         );
     }
