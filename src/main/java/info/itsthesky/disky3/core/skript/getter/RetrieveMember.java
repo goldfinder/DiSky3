@@ -22,7 +22,7 @@ public class RetrieveMember extends WaiterEffect<Member> {
     static {
         Skript.registerEffect(
                 RetrieveMember.class,
-                "retrieve [the] member (from|with) id %string% [in [the] guild %-guild%] [with [the] [bot] %-bot%] and store (it|the user) in %object%"
+                "retrieve [the] member (from|with) id %string% [in [the] [guild] %-guild%] [with [the] [bot] %-bot%] and store (it|the user) in %object%"
         );
     }
 
