@@ -2,12 +2,8 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
-import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
-import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.log.ErrorQuality;
@@ -15,17 +11,13 @@ import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.Utils;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.api.StaticData;
-import info.itsthesky.disky3.core.commands.Argument;
-import info.itsthesky.disky3.core.commands.CommandEvent;
-import info.itsthesky.disky3.core.commands.CommandFactory;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashUtils;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

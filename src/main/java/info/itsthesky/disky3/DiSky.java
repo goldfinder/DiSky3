@@ -7,6 +7,7 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Version;
 import info.itsthesky.disky3.api.*;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
@@ -45,7 +46,7 @@ public final class DiSky extends JavaPlugin {
         warn(" | |  | |_| (___ | | ___   _  __   ____) |");
         warn(" | |  | | |\\___ \\| |/ / | | | \\ \\ / /__ < ");
         warn(" | |__| | |____) |   <| |_| |  \\ V /___) |");
-        warn(" |_____/|_|_____/|_|\\_\\__, |   \\_/|____/ ");
+        warn(" |_____/|_|_____/|_|\\_\\__,  |   \\_/|____/ ");
         warn("                        __/ |             ");
         warn("                       |___/              ");
 
@@ -86,6 +87,10 @@ public final class DiSky extends JavaPlugin {
         }
 
         getCommand("disky").setExecutor(new DiSkyCommand());
+
+        log("Starting audio module ...");
+        AudioUtils.initializeAudio();
+        success("Success!");
 
         ln();
         // ################## INFOS ################## //
@@ -197,8 +202,6 @@ public final class DiSky extends JavaPlugin {
         }
         bigError("End of the error.");
         lnError();
-
-        throw new DiSkyRuntimeException(ex);
 
     }
 }

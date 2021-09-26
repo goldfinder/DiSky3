@@ -16,6 +16,7 @@ import ch.njol.skript.util.Color;
 import ch.njol.skript.util.Date;
 import ch.njol.skript.util.Getter;
 import ch.njol.skript.util.SkriptColor;
+import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
@@ -68,6 +69,18 @@ public final class Utils {
 
     public static boolean containInterface(Class<?> clazz, Class<?> inter) {
         return Arrays.asList(clazz.getInterfaces()).contains(inter);
+    }
+
+    public static <T> void setSkriptList(Variable<T> variable, Event event, List<?> values) {
+        List<Object> list = Collections.singletonList(values);
+        String name = variable.getName().getDefaultVariableName();
+
+        int separatorLength = Variable.SEPARATOR.length() + 1;
+        name = name.substring(0, (name.length() - separatorLength));
+        name = name.toLowerCase() + Variable.SEPARATOR;
+        for (int i = 1; i < list.size()+1; i++){
+            Variables.setVariable(name + i, list.get(i-1), event, variable.isLocal());
+        }
     }
 
     public static <T> T[] verifyVars(@NotNull Event e, @Nullable Expression<T> expression, T[] defaultValue) {

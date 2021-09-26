@@ -13,6 +13,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.music.AudioSite;
 import info.itsthesky.disky3.api.skript.DiSkyComparator;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import info.itsthesky.disky3.core.commands.CommandObject;
@@ -107,6 +108,7 @@ public class Types {
 		DiSkyType.fromEnum(OnlineStatus.class, "onlinestatus", "onlinestatus").register();
 		DiSkyType.fromEnum(OptionType.class, "optiontype", "optiontypes?").register();
 		DiSkyType.fromEnum(Region.class, "channelregion", "channelregions?").register();
+		DiSkyType.fromEnum(AudioSite.class, "audiosite", "audiosites?").register();
 
 		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
 			final @Nullable Guild guild = LAST_GUILD_COMMAND;
