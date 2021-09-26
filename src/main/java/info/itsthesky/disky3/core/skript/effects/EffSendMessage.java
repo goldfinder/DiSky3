@@ -10,6 +10,7 @@ import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterBotEffect;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,11 +19,12 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffSendMessage.class,
-                "send [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [and store (it|the message) in %-object%]"
+                "send [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
         );
     }
 
     private Expression<Object> exprContent;
+    private Expression<Object> exprComponents;
     private Expression<Object> exprTarget;
 
     @Override
@@ -30,7 +32,8 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     public boolean initEffect(Expression[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         this.exprContent = (Expression<Object>) exprs[0];
         this.exprTarget = (Expression<Object>) exprs[1];
-        setChangedVariable((Variable<UpdatingMessage>) exprs[2]);
+        exprComponents = (Expression<Object>) exprs[2];
+        setChangedVariable((Variable<UpdatingMessage>) exprs[3]);
 
         if (getUsedBot() == null)
             setUsedBot(Utils.defaultToEventValue(getUsedBot(), Bot.class));
@@ -42,6 +45,7 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     public void runEffect(Event e) {
         final Object content = exprContent.getSingle(e);
         Object channelObj = exprTarget.getSingle(e);
+        ActionRow[] rows = Utils.parseComponents(Utils.verifyVars(e, exprComponents, new Object[0]));
         if (channelObj == null || content == null) {
             restart();
             return;
@@ -53,7 +57,8 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
 
             if (botDefined(e))
                 getUsedBot().getSingle(e).getCore().openPrivateChannelById(targetUser.getId()).queue(channel -> {
-                    channel.sendMessage(message.build()).queue(msg -> {
+                    channel.sendMessage(message.build())
+                            .setActionRows(rows).queue(msg -> {
                         restart(UpdatingMessage.from(msg));
                     });
             });
@@ -70,7 +75,9 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
             if (botDefined(e))
                 channel = getUsedBot().getSingle(e).getCore().getTextChannelById(channel.getId());
 
-            channel.sendMessage(message.build()).queue(msg -> {
+            channel
+                    .sendMessage(message.build())
+                    .setActionRows(rows).queue(msg -> {
                 restart(UpdatingMessage.from(msg));
             });
         }
