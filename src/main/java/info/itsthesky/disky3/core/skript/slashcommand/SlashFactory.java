@@ -12,7 +12,15 @@ import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
 import ch.njol.util.StringUtils;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.section.EffectSection;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashData;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashManager;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
+import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotRegister;
+import info.itsthesky.disky3.core.skript.slashcommand.api.register.GuildRegister;
+import info.itsthesky.disky3.core.skript.slashcommand.api.register.RegisterTask;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +72,7 @@ public class SlashFactory {
 
     public SlashObject add(SectionNode node) {
 
+        this.currentArguments = new ArrayList<>();
         String command = node.getKey();
         if (command == null) {
             return null;
@@ -147,78 +156,77 @@ public class SlashFactory {
         if (!(node.get("trigger") instanceof SectionNode))
             return null;
 
-        if (!(node.get("options") instanceof SectionNode))
-            return null;
-
         /*
         Option manager validation
          */
-        SectionNode options = (SectionNode) node.get("options");
+        if (currentArguments.size() > 0) {
+            SectionNode options = (SectionNode) node.get("options");
 
-        final SectionValidator optionListValidator = new SectionValidator();
-        int i = 1;
-        for (SlashArgument arg : currentArguments) {
-            optionListValidator.addSection(String.valueOf(i), true);
-            i++;
-        }
-
-        options.convertToEntries(0);
-        if (!optionListValidator.validate(options))
-            return null;
-
-        i = 0;
-        for (SlashArgument arg : currentArguments) {
-            i++;
-
-            Node node2 = options.get(String.valueOf(i));
-            if (node2 == null)
-                continue;
-            final SectionNode optionValueNode = (SectionNode) node2;
-            if (optionValueNode == null)
-                continue;
-            optionValueNode.convertToEntries(0);
-            if (!optionStructure.validate(optionValueNode))
-                continue;
-
-            if (optionValueNode.get("name", "").isEmpty() || optionValueNode.get("description", "").isEmpty()) {
-                Skript.error("The entry 'name' and 'description' is require in the " + StringUtils.fancyOrderNumber(i) + " argument options.");
-                return null;
+            final SectionValidator optionListValidator = new SectionValidator();
+            int i = 1;
+            for (SlashArgument arg : currentArguments) {
+                optionListValidator.addSection(String.valueOf(i), true);
+                i++;
             }
 
-            final @NotNull String name = optionValueNode.get("name", null); // Should not be empty
-            final @NotNull String desc = optionValueNode.get("description", null); // Should not be empty
+            options.convertToEntries(0);
+            if (!optionListValidator.validate(options))
+                return null;
 
-            arg.setName(name);
-            arg.setDesc(desc);
+            i = 0;
+            for (SlashArgument arg : currentArguments) {
+                i++;
 
-            final SectionNode presetListNode = (SectionNode) optionValueNode.get("default values");
-            if (presetListNode == null) // default values are optional
-                continue;
-
-            final List<SlashArgument.SlashPreset> presets = new ArrayList<>();
-            presetListNode.convertToEntries(0);
-            SlashArgument.SlashPreset preset;
-            for (int in = 1; in <= 25; in++) {
-
-                final Node node1 = presetListNode.get(String.valueOf(in));
-                if (node1 == null)
+                Node node2 = options.get(String.valueOf(i));
+                if (node2 == null)
                     continue;
-                if (!(node1 instanceof SectionNode))
+                final SectionNode optionValueNode = (SectionNode) node2;
+                if (optionValueNode == null)
                     continue;
-                SectionNode sectionNode = (SectionNode) node1;
-                sectionNode.convertToEntries(0);
+                optionValueNode.convertToEntries(0);
+                if (!optionStructure.validate(optionValueNode))
+                    continue;
 
-                String presetName = sectionNode.get("name", "");
-                String presetValue = sectionNode.get("value", "");
-                preset = new SlashArgument.SlashPreset(presetName, presetValue, arg);
-                if (preset == null) {
-                    Skript.error("Cannot use values " + presetValue + " with argument type " + arg.getType().name().toLowerCase(Locale.ROOT));
+                if (optionValueNode.get("name", "").isEmpty() || optionValueNode.get("description", "").isEmpty()) {
+                    Skript.error("The entry 'name' and 'description' is require in the " + StringUtils.fancyOrderNumber(i) + " argument options.");
                     return null;
                 }
-                presets.add(preset);
-            }
 
-            arg.setPresets(presets);
+                final @NotNull String name = optionValueNode.get("name", null); // Should not be empty
+                final @NotNull String desc = optionValueNode.get("description", null); // Should not be empty
+
+                arg.setName(name);
+                arg.setDesc(desc);
+
+                final SectionNode presetListNode = (SectionNode) optionValueNode.get("default values");
+                if (presetListNode == null) // default values are optional
+                    continue;
+
+                final List<SlashArgument.SlashPreset> presets = new ArrayList<>();
+                presetListNode.convertToEntries(0);
+                SlashArgument.SlashPreset preset;
+                for (int in = 1; in <= 25; in++) {
+
+                    final Node node1 = presetListNode.get(String.valueOf(in));
+                    if (node1 == null)
+                        continue;
+                    if (!(node1 instanceof SectionNode))
+                        continue;
+                    SectionNode sectionNode = (SectionNode) node1;
+                    sectionNode.convertToEntries(0);
+
+                    String presetName = sectionNode.get("name", "");
+                    String presetValue = sectionNode.get("value", "");
+                    preset = new SlashArgument.SlashPreset(presetName, presetValue, arg);
+                    if (preset == null) {
+                        Skript.error("Cannot use values " + presetValue + " with argument type " + arg.getType().name().toLowerCase(Locale.ROOT));
+                        return null;
+                    }
+                    presets.add(preset);
+                }
+
+                arg.setPresets(presets);
+            }
         }
 
         /*
@@ -281,14 +289,20 @@ public class SlashFactory {
             EffectSection.stopLog(errors);
         }
 
-        if (!guilds.isEmpty()) {
-            SlashManager.registerGuilds(slashObject, guilds);
-        } else if (!bots.isEmpty()) {
-            SlashManager.register(slashObject, bots);
-        } else {
-            Skript.error("Unable to get either bots or guilds to register the slash command on.");
-            return null;
-        }
+        try {
+            if (!guilds.isEmpty()) {
+
+                GuildRegister.registerCommand(guilds, slashObject);
+
+            } else if (!bots.isEmpty()) {
+
+                BotRegister.registerCommand(bots, slashObject);
+
+            } else {
+                Skript.error("Unable to get either bots or guilds to register the slash command on.");
+                return null;
+            }
+        } catch (Exception ex) {}
 
         this.commandMap.put(new SlashData(command, slashObject), slashObject);
         return slashObject;

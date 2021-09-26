@@ -1,16 +1,10 @@
-package info.itsthesky.disky3.core.skript.slashcommand;
+package info.itsthesky.disky3.core.skript.slashcommand.api;
 
-import ch.njol.util.NonNullPair;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.internal.utils.Checks;
-import net.dv8tion.jda.internal.utils.tuple.MutableTriple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SlashArgument {
 

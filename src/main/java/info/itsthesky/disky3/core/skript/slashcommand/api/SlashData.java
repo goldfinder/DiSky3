@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.slashcommand;
+package info.itsthesky.disky3.core.skript.slashcommand.api;
 
 public class SlashData {
     private final String name;

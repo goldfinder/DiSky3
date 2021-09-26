@@ -1,6 +1,7 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
 import info.itsthesky.disky3.api.skript.events.InteractionEvent;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;

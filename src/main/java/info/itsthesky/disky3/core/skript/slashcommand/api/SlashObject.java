@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.slashcommand;
+package info.itsthesky.disky3.core.skript.slashcommand.api;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.Trigger;
@@ -6,9 +6,8 @@ import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.log.ParseLogHandler;
 import ch.njol.skript.log.SkriptLogger;
-import ch.njol.skript.util.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
-import net.dv8tion.jda.api.entities.Guild;
+import info.itsthesky.disky3.core.skript.slashcommand.SlashEvent;
 
 import java.io.File;
 import java.util.List;

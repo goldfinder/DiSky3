@@ -1,7 +1,6 @@
-package info.itsthesky.disky3.core.skript.slashcommand;
+package info.itsthesky.disky3.core.skript.slashcommand.api;
 
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.util.SimpleEvent;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
@@ -20,7 +19,7 @@ import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 public final class SlashUtils {
 
@@ -129,6 +128,31 @@ public final class SlashUtils {
                 guilds.add(found);
         }
         return guilds;
+    }
+
+    public static boolean compareOption(Command.Option loaded, OptionData unLoaded) {
+        return
+                loaded.getName().equalsIgnoreCase(unLoaded.getName()) &&
+                        loaded.getDescription().equalsIgnoreCase(unLoaded.getDescription()) &&
+                        loaded.getType().equals(unLoaded.getType()) &&
+                        loaded.getChoices().containsAll(unLoaded.getChoices());
+    }
+
+    public static OptionData parseOption(Command.Option original) {
+        return new OptionData(original.getType(), original.getName(), original.getDescription())
+                .setRequired(original.isRequired());
+    }
+
+    public static boolean compareCommand(Command loaded, CommandData unLoaded) {
+        return
+                loaded.getName().equalsIgnoreCase(unLoaded.getName()) &&
+                        loaded.getDescription().equalsIgnoreCase(unLoaded.getDescription()) &&
+                        loaded
+                                .getOptions()
+                                .stream()
+                                .map(SlashUtils::parseOption)
+                                .collect(Collectors.toList())
+                                .containsAll(unLoaded.getOptions());
     }
 
     public static List<User> parseUsers(List<String> asList) {
