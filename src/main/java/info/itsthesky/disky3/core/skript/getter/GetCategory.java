@@ -1,7 +1,10 @@
 package info.itsthesky.disky3.core.skript.getter;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
@@ -14,12 +17,13 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GetCategory extends BotExpression<Category> {
+public class GetCategory extends SimpleExpression<Category> {
 
     static {
-        register(
+        Skript.registerExpression(
                 GetCategory.class,
                 Category.class,
+                ExpressionType.SIMPLE,
                 "category (with|from) id %string% [(with|using) [bot] %-bot%]"
         );
     }
@@ -29,7 +33,7 @@ public class GetCategory extends BotExpression<Category> {
     private NodeInformation node;
 
     @Override
-    public boolean initExpr(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         node = new NodeInformation();
         exprId = (Expression<String>) exprs[0];
         exprBot = (Expression<Bot>) exprs[1];
@@ -46,7 +50,7 @@ public class GetCategory extends BotExpression<Category> {
     }
 
     @Override
-    public String toStringExpr(@Nullable Event e, boolean debug) {
+    public String toString(@Nullable Event e, boolean debug) {
         return "category with id " + exprId.toString(e, debug);
     }
 
