@@ -1,7 +1,10 @@
 package info.itsthesky.disky3.core.skript.getter;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
@@ -15,12 +18,13 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GetRole extends BotExpression<Role> {
+public class GetRole extends SimpleExpression<Role> {
 
     static {
-        register(
+        Skript.registerExpression(
                 GetRole.class,
                 Role.class,
+                ExpressionType.SIMPLE,
                 "role (with|from) id %string% [(with|using) [bot] %-bot%]"
         );
     }
@@ -30,7 +34,7 @@ public class GetRole extends BotExpression<Role> {
     private NodeInformation node;
 
     @Override
-    public boolean initExpr(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         node = new NodeInformation();
         exprId = (Expression<String>) exprs[0];
         exprBot = (Expression<Bot>) exprs[1];
@@ -47,12 +51,12 @@ public class GetRole extends BotExpression<Role> {
     }
 
     @Override
-    public String toStringExpr(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "role with id " + exprId.toString(e, debug);
     }
 
     @Override
-    protected Role[] get(@NotNull Event e) {
+    protected Role @NotNull [] get(@NotNull Event e) {
         String id = exprId.getSingle(e);
         Bot bot = exprBot.getSingle(e);
         if (id == null || bot == null) return new Role[0];
