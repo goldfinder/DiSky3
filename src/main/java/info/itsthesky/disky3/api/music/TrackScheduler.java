@@ -91,14 +91,14 @@ public class TrackScheduler extends AudioEventAdapter {
         if (isRepeated)
             player.startTrack(track.makeClone(), false);
         try {
-            Utils.sync(() -> Bukkit.getPluginManager().callEvent(new TrackEvent(TrackEvent.TrackState.END, bot, guild, track)));
+            // Utils.sync(() -> Bukkit.getPluginManager().callEvent(new TrackEvent(TrackEvent.TrackState.END, bot, guild, track)));
         } catch (Exception ex) {}
     }
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
         try {
-            Utils.sync(() -> Bukkit.getPluginManager().callEvent(new TrackEvent(TrackEvent.TrackState.START, bot, guild, track)));
+            // Utils.sync(() -> Bukkit.getPluginManager().callEvent(new TrackEvent(TrackEvent.TrackState.START, bot, guild, track)));
         } catch (Exception ex) {}
     }
 }
