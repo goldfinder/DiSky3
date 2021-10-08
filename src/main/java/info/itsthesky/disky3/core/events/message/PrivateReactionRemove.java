@@ -10,20 +10,20 @@ import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 
 import java.util.function.Predicate;
 
-public class PrivateReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
+public class PrivateReactionRemove extends DiSkyEvent<MessageReactionRemoveEvent> {
 
     @Override
-    protected Predicate<MessageReactionAddEvent> checker() {
+    protected Predicate<MessageReactionRemoveEvent> checker() {
         return e -> !e.isFromGuild();
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", PrivateReactionAdd.class, EvtPrivateReactionAdd.class,
-                "private reaction add")
+        DiSkyEvent.register("Inner Event Name", PrivateReactionRemove.class, EvtPrivateReactionAdd.class,
+                "private reaction remove")
                 .setName("Docs Event Name")
                 .setDesc("Event description")
                 .setExample("Event Example");
@@ -58,8 +58,8 @@ public class PrivateReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
 
     }
 
-    public static class EvtPrivateReactionAdd extends SimpleDiSkyEvent<MessageReactionAddEvent> implements MessageEvent {
-        public EvtPrivateReactionAdd(PrivateReactionAdd event) { }
+    public static class EvtPrivateReactionAdd extends SimpleDiSkyEvent<MessageReactionRemoveEvent> implements MessageEvent {
+        public EvtPrivateReactionAdd(PrivateReactionRemove event) { }
 
         @Override
         public MessageChannel getMessageChannel() {

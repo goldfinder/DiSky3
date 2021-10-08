@@ -3,14 +3,21 @@ package info.itsthesky.disky3.core.events.text;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
+import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 
-public class TextCreate extends DiSkyEvent<TextChannelCreateEvent> {
+import java.util.function.Predicate;
+
+public class TextCreate extends DiSkyEvent<ChannelCreateEvent> {
+
+    @Override
+    protected Predicate<ChannelCreateEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", TextCreate.class, EvtTextCreate.class,
@@ -23,14 +30,14 @@ public class TextCreate extends DiSkyEvent<TextChannelCreateEvent> {
        EventValues.registerEventValue(EvtTextCreate.class, Guild.class, new Getter<Guild, EvtTextCreate>() {
             @Override
             public Guild get(EvtTextCreate event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextCreate.class, TextChannel.class, new Getter<TextChannel, EvtTextCreate>() {
             @Override
             public TextChannel get(EvtTextCreate event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -43,12 +50,12 @@ public class TextCreate extends DiSkyEvent<TextChannelCreateEvent> {
 
     }
 
-    public static class EvtTextCreate extends SimpleDiSkyEvent<TextChannelCreateEvent> implements LogEvent {
+    public static class EvtTextCreate extends SimpleDiSkyEvent<ChannelCreateEvent> implements LogEvent {
         public EvtTextCreate(TextCreate event) { }
 
         @Override
         public User getActionAuthor() {
-            return getJDAEvent().getGuild().retrieveAuditLogs().complete().get(0).getUser();
+            return ((TextChannel) getJDAEvent().getChannel()).getGuild().retrieveAuditLogs().complete().get(0).getUser();
         }
     }
 

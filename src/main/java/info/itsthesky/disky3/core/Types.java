@@ -76,13 +76,15 @@ public class Types {
 
 	static {
 
-		new DiSkyType<>(Category.class, "category", "categor(y|ies)", AbstractChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getCategoryById(input)), false).register();
+		new DiSkyType<>(Category.class, "category", "categor(y|ies)", Category::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getCategoryById(input)), false).register();
+		new DiSkyType<>(VoiceChannel.class, "voicechannel", "voicechannels?", VoiceChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getVoiceChannelById(input)), false).register();
+		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
+		new DiSkyType<>(NewsChannel.class, "newschannel", "newschannels?", NewsChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getNewsChannelById(input)), false).register();
+		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
+
 		new DiSkyType<>(MessageSticker.class, "sticker", "stickers?", MessageSticker::getName, null, false).register();
 		new DiSkyType<>(User.class, "user", "users?", User::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)), false).register();
 		new DiSkyType<>(Role.class, "role", "roles?", Role::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getRoleById(input)), false).register();
-		new DiSkyType<>(VoiceChannel.class, "voicechannel", "voicechannels?", AbstractChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getVoiceChannelById(input)), false).register();
-		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
-		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
 		new DiSkyType<>(ButtonRow.class, "buttonrow", "buttonrows?", ButtonRow::toString, null, false).register();
 		new DiSkyType<>(Button.class, "button", "buttons?").register();
 		new DiSkyType<>(SelectionMenu.Builder.class, "selectbuilder", "selectbuilders?").register();

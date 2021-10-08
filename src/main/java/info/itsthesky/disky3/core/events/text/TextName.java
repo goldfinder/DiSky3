@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateNSFWEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class TextName extends DiSkyEvent<TextChannelUpdateNSFWEvent> {
+import java.util.function.Predicate;
+
+public class TextName extends DiSkyEvent<ChannelUpdateNSFWEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdateNSFWEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", TextName.class, EvtTextName.class,
@@ -23,14 +30,14 @@ public class TextName extends DiSkyEvent<TextChannelUpdateNSFWEvent> {
        EventValues.registerEventValue(EvtTextName.class, TextChannel.class, new Getter<TextChannel, EvtTextName>() {
             @Override
             public TextChannel get(EvtTextName event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextName.class, Guild.class, new Getter<Guild, EvtTextName>() {
             @Override
             public Guild get(EvtTextName event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -43,7 +50,7 @@ public class TextName extends DiSkyEvent<TextChannelUpdateNSFWEvent> {
 
     }
 
-    public static class EvtTextName extends SimpleDiSkyEvent<TextChannelUpdateNSFWEvent> {
+    public static class EvtTextName extends SimpleDiSkyEvent<ChannelUpdateNSFWEvent> {
         public EvtTextName(TextName event) { }
     }
 

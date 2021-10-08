@@ -4,7 +4,7 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import net.dv8tion.jda.api.entities.*;

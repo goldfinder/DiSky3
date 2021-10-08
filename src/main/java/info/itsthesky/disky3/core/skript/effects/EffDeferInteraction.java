@@ -8,7 +8,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.skript.NodeInformation;
-import info.itsthesky.disky3.api.skript.events.InteractionEvent;
+import info.itsthesky.disky3.api.skript.events.specific.InteractionEvent;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;

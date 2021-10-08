@@ -3,7 +3,7 @@ package info.itsthesky.disky3.core.events.voice;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -23,21 +23,21 @@ public class VoiceMove extends DiSkyEvent<GuildVoiceMoveEvent> {
         EventValues.registerEventValue(EvtVoiceMove.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceMove>() {
             @Override
             public VoiceChannel get(EvtVoiceMove event) {
-                return event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtVoiceMove.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceMove>() {
             @Override
             public VoiceChannel get(EvtVoiceMove event) {
-                return event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceMove.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceMove>() {
             @Override
             public VoiceChannel get(EvtVoiceMove event) {
-                return event.getJDAEvent().getChannelLeft();
+                return (VoiceChannel) event.getJDAEvent().getChannelLeft();
             }
         }, -1);
 

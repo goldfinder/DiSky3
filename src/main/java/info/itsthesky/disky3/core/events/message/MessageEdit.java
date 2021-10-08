@@ -2,16 +2,16 @@ package info.itsthesky.disky3.core.events.message;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import info.itsthesky.disky3.api.messages.UpdatingMessage;
-import info.itsthesky.disky3.api.skript.events.MessageEvent;
-import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.MessageEvent;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 
-public class MessageEdit extends DiSkyEvent<GuildMessageUpdateEvent> {
+public class MessageEdit extends DiSkyEvent<MessageUpdateEvent> {
 
     public static String oldContent = "";
     public static String newContent = "";
@@ -67,7 +67,7 @@ public class MessageEdit extends DiSkyEvent<GuildMessageUpdateEvent> {
         EventValues.registerEventValue(EvtMessageEdit.class, TextChannel.class, new Getter<TextChannel, EvtMessageEdit>() {
             @Override
             public TextChannel get(EvtMessageEdit event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -87,7 +87,7 @@ public class MessageEdit extends DiSkyEvent<GuildMessageUpdateEvent> {
 
     }
 
-    public static class EvtMessageEdit extends SimpleDiSkyEvent<GuildMessageUpdateEvent> implements MessageEvent {
+    public static class EvtMessageEdit extends SimpleDiSkyEvent<MessageUpdateEvent> implements MessageEvent {
         public EvtMessageEdit(MessageEdit event) { }
 
         @Override

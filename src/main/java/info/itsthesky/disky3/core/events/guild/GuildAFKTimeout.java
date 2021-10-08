@@ -3,7 +3,7 @@ package info.itsthesky.disky3.core.events.guild;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;

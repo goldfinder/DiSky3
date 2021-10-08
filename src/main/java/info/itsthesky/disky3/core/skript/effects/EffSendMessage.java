@@ -1,9 +1,13 @@
 package info.itsthesky.disky3.core.skript.effects;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.effects.EffMessage;
+import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.Configuration;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
@@ -11,15 +15,21 @@ import info.itsthesky.disky3.api.skript.WaiterBotEffect;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.stream.Collectors;
 
 public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
 
     static {
         register(
                 EffSendMessage.class,
-                "send [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
+                "send "+ (Configuration.PARSING_SEND_EFFECT.get() ? "discord" : "") +" [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
         );
     }
 

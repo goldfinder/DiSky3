@@ -12,15 +12,12 @@ import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashData;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashManager;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
 import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotRegister;
 import info.itsthesky.disky3.core.skript.slashcommand.api.register.GuildRegister;
-import info.itsthesky.disky3.core.skript.slashcommand.api.register.RegisterTask;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 
@@ -169,6 +166,12 @@ public class SlashFactory {
                 i++;
             }
 
+            if (options == null) {
+                SkriptLogger.setNode(node);
+                Skript.error("You have at least one argument but didn't specified anything for it through the options section.");
+                return null;
+            }
+
             options.convertToEntries(0);
             if (!optionListValidator.validate(options))
                 return null;
@@ -292,11 +295,11 @@ public class SlashFactory {
         try {
             if (!guilds.isEmpty()) {
 
-                GuildRegister.registerCommand(guilds, slashObject);
+                GuildRegister.getInstance().registerCommand(guilds, slashObject);
 
             } else if (!bots.isEmpty()) {
 
-                BotRegister.registerCommand(bots, slashObject);
+                BotRegister.getInstance().registerCommand(bots, slashObject);
 
             } else {
                 Skript.error("Unable to get either bots or guilds to register the slash command on.");
@@ -313,7 +316,17 @@ public class SlashFactory {
             SlashObject commandObject = commandData.getCommand();
             if (commandObject.getName().equalsIgnoreCase(name)) {
 
-                SlashManager.unregister(commandObject);
+                if (commandObject.isGlobalRegister()) {
+                    GuildRegister.getInstance().unregister(
+                            commandObject.getGuilds(),
+                            commandObject
+                    );
+                } else {
+                    BotRegister.getInstance().unregister(
+                            commandObject.getBots(),
+                            commandObject
+                    );
+                }
                 commandMap.remove(commandData);
                 return true;
             }

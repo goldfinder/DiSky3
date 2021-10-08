@@ -25,7 +25,7 @@ public class MemberVoiceChannel extends SimplePropertyExpression<Member, VoiceCh
 
     @Override
     public @NotNull VoiceChannel convert(Member member) {
-        return member.getVoiceState().getChannel();
+        return (VoiceChannel) member.getVoiceState().getChannel();
     }
 
     @Override

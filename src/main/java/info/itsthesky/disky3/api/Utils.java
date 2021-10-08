@@ -9,6 +9,7 @@ import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
@@ -316,6 +317,8 @@ public final class Utils {
                 };
             }
         }
+        if (clazz.equals(Bot.class))
+            return (Expression<T>) new SimpleLiteral<>(BotManager.getLoadedBots().get(0), false);
         return null;
     }
 

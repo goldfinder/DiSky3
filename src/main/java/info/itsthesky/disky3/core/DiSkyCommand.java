@@ -55,9 +55,9 @@ public class DiSkyCommand implements CommandExecutor {
                 ln();
                 log("    DiSky version: &3v" + DiSky.getInstance().getDescription().getVersion());
                 log("    Skript version: &3v" + Skript.getVersion());
-                log("    Server Version: &3v" + Bukkit.getVersion() + "");
+                log("    Server Version: &3" + Bukkit.getVersion() + "");
                 log("    Loaded Bots: &3" + BotManager.getLoadedBots().size() + " bot(s)");
-                log("    JDA Version: &3" + JDAInfo.VERSION + " bot(s)");
+                log("    JDA Version: &3" + JDAInfo.VERSION);
                 ln();
                 return true;
             case "info":

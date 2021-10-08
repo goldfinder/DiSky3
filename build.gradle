@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'info.itsthesky'
-version = '3.0-beta5'
+version = '3.0-ARK1'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -38,7 +38,7 @@ dependencies {
     compile 'club.minnced:discord-webhooks:0.5.5-rc'
     // Commits: com.github.dv8fromtheworld:jda
     // Stable: net.dv8tion:JDA
-    compile('net.dv8tion:JDA:4.3.0_324') {
+    compile('com.github.dv8fromtheworld:jda:04925d2') {
         exclude module: "opus-java"
     }
     // compile('com.github.dv8fromtheworld:jda:1b6677e') {

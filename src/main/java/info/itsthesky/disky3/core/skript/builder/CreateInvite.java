@@ -10,10 +10,7 @@ import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,12 +63,12 @@ public class CreateInvite extends WaiterEffect<Invite> {
 
         if (entity == null || bot == null) return;
 
-        final GuildChannel channel;
+        final IInviteContainer channel;
         if (entity instanceof Guild) {
             Guild guild = bot.getCore().getGuildById(((Guild) entity).getId());
             channel = guild.getTextChannels().get(0);
         } else {
-            channel  = bot.getCore().getGuildChannelById(((GuildChannel) entity).getId());
+            channel = (IInviteContainer) bot.getCore().getGuildChannelById(((GuildChannel) entity).getId());
         }
 
         channel

@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdateRegionEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class VoiceRegion extends DiSkyEvent<VoiceChannelUpdateRegionEvent> {
+import java.util.function.Predicate;
+
+public class VoiceRegion extends DiSkyEvent<ChannelUpdateRegionEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdateRegionEvent> checker() {
+        return e -> e.isFromType(ChannelType.VOICE);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", VoiceRegion.class, EvtVoiceRegion.class,
@@ -23,28 +30,28 @@ public class VoiceRegion extends DiSkyEvent<VoiceChannelUpdateRegionEvent> {
        EventValues.registerEventValue(EvtVoiceRegion.class, String.class, new Getter<String, EvtVoiceRegion>() {
             @Override
             public String get(EvtVoiceRegion event) {
-                return event.getJDAEvent().getOldRegion().getName();
+                return event.getJDAEvent().getOldValue().getName();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtVoiceRegion.class, String.class, new Getter<String, EvtVoiceRegion>() {
             @Override
             public String get(EvtVoiceRegion event) {
-                return event.getJDAEvent().getNewRegion().getName();
+                return event.getJDAEvent().getNewValue().getName();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtVoiceRegion.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceRegion>() {
             @Override
             public VoiceChannel get(EvtVoiceRegion event) {
-                return event.getJDAEvent().getChannel();
+                return ((VoiceChannel) event.getJDAEvent().getChannel());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceRegion.class, Guild.class, new Getter<Guild, EvtVoiceRegion>() {
             @Override
             public Guild get(EvtVoiceRegion event) {
-                return event.getJDAEvent().getGuild();
+                return ((VoiceChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -57,7 +64,7 @@ public class VoiceRegion extends DiSkyEvent<VoiceChannelUpdateRegionEvent> {
 
     }
 
-    public static class EvtVoiceRegion extends SimpleDiSkyEvent<VoiceChannelUpdateRegionEvent> {
+    public static class EvtVoiceRegion extends SimpleDiSkyEvent<ChannelUpdateRegionEvent> {
         public EvtVoiceRegion(VoiceRegion event) { }
     }
 

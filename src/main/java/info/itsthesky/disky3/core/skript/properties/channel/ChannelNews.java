@@ -10,6 +10,8 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import net.dv8tion.jda.api.entities.Channel;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.event.Event;
@@ -45,12 +47,12 @@ public class ChannelNews extends ChangeablePropertyExpression<GuildChannel, Bool
 
         channel = bot.getCore().getGuildChannelById(channel.getId());
 
-        channel.getManager().setNews(value).queue(null, ex -> DiSky.exception(ex, info));
+        channel.getManager().setType(value ? ChannelType.NEWS : ChannelType.TEXT).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
     protected Boolean @NotNull [] get(@NotNull Event e, GuildChannel @NotNull [] source) {
-        return new Boolean[] {((TextChannel) source[0]).isNews()};
+        return new Boolean[] {source[0].getType().equals(ChannelType.NEWS)};
     }
 
     @Override

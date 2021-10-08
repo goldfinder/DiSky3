@@ -2,16 +2,16 @@ package info.itsthesky.disky3.core.events.message;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import info.itsthesky.disky3.api.skript.events.MessageEvent;
-import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.MessageEvent;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
-public class ReactionAdd extends DiSkyEvent<GuildMessageReactionAddEvent> {
+public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
 
     static {
         DiSkyEvent.register("Inner Event Name", ReactionAdd.class, EvtReactionAdd.class,
@@ -58,7 +58,7 @@ public class ReactionAdd extends DiSkyEvent<GuildMessageReactionAddEvent> {
        EventValues.registerEventValue(EvtReactionAdd.class, TextChannel.class, new Getter<TextChannel, EvtReactionAdd>() {
             @Override
             public TextChannel get(EvtReactionAdd event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -85,7 +85,7 @@ public class ReactionAdd extends DiSkyEvent<GuildMessageReactionAddEvent> {
 
     }
 
-    public static class EvtReactionAdd extends SimpleDiSkyEvent<GuildMessageReactionAddEvent> implements MessageEvent {
+    public static class EvtReactionAdd extends SimpleDiSkyEvent<MessageReactionAddEvent> implements MessageEvent {
         public EvtReactionAdd(ReactionAdd event) { }
 
         @Override

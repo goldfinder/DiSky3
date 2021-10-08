@@ -1,6 +1,5 @@
 package info.itsthesky.disky3.core.skript.slashcommand.api.register;
 
-import ch.njol.util.Pair;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
@@ -14,7 +13,22 @@ import java.util.List;
 
 public final class BotRegister extends RegisterDB {
 
-    public static void registerCommand(List<String> bots, SlashObject command) {
+    private static final BotRegister instance;
+
+    static {
+        instance = new BotRegister();
+    }
+
+    public BotRegister() {
+        super();
+    }
+
+    public static BotRegister getInstance() {
+        return instance;
+    }
+
+    public void registerCommand(List<String> bots, SlashObject command) {
+        command.setGlobalRegister(false);
         Bukkit.getScheduler().runTaskLater(
                 DiSky.getInstance(),
                 () -> registerCommand(command, SlashUtils.parseBots(bots)),
@@ -22,7 +36,7 @@ public final class BotRegister extends RegisterDB {
         );
     }
 
-    public static void registerCommand(SlashObject command, List<Bot> bots) {
+    public void registerCommand(SlashObject command, List<Bot> bots) {
         CommandData data = SlashUtils.parseCommand(command);
         if (data == null) return;
 
@@ -30,9 +44,9 @@ public final class BotRegister extends RegisterDB {
             bot.getCore().retrieveCommands().queue(cmds -> {
                 for (Command loadedCommand : cmds) {
                     if (!loadedCommand.getName().equalsIgnoreCase(data.getName()))
-                        continue;
+                        return;
                     // Mean they are equal, so we can just edit them
-                    if (!SlashUtils.compareCommand(loadedCommand, data)) {
+                    if (alreadyRegistered(bot, data)) {
 
                         DiSky.debug("Registering command " + command.getName() + " using edit way.");
                         editCommand(data, loadedCommand).queue();
@@ -48,12 +62,23 @@ public final class BotRegister extends RegisterDB {
         }
     }
 
-    public static CommandListUpdateAction createCommand(Bot bot, CommandData data) {
-        addCommand(bot, data);
+    public void unregister(List<String> bots, SlashObject cmd) {
+        for (Bot bot : SlashUtils.parseBots(bots)) {
+            bot.getCore().retrieveCommands().queue(
+                    cmds -> cmds.forEach(cmd2 -> {
+                        if (cmd2.getName().equalsIgnoreCase(cmd.getName()))
+                            cmd2.delete().queue();
+                    })
+            );
+        }
+    }
+
+    public CommandListUpdateAction createCommand(Bot bot, CommandData data) {
+        addCommand(bot, data,true);
         return bot
                 .getCore()
                 .updateCommands()
-                .addCommands(getCommands(bot));
+                .addCommands(getCommands(bot).values());
     }
 
 }

@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdateBitrateEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class VoiceBitrate extends DiSkyEvent<VoiceChannelUpdateBitrateEvent> {
+import java.util.function.Predicate;
+
+public class VoiceBitrate extends DiSkyEvent<ChannelUpdateBitrateEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdateBitrateEvent> checker() {
+        return e -> e.isFromType(ChannelType.VOICE);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", VoiceBitrate.class, EvtVoiceBitrate.class,
@@ -23,14 +30,14 @@ public class VoiceBitrate extends DiSkyEvent<VoiceChannelUpdateBitrateEvent> {
        EventValues.registerEventValue(EvtVoiceBitrate.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceBitrate>() {
             @Override
             public VoiceChannel get(EvtVoiceBitrate event) {
-                return event.getJDAEvent().getChannel();
+                return ((VoiceChannel) event.getJDAEvent().getChannel());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceBitrate.class, Guild.class, new Getter<Guild, EvtVoiceBitrate>() {
             @Override
             public Guild get(EvtVoiceBitrate event) {
-                return event.getJDAEvent().getGuild();
+                return ((VoiceChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -43,7 +50,7 @@ public class VoiceBitrate extends DiSkyEvent<VoiceChannelUpdateBitrateEvent> {
 
     }
 
-    public static class EvtVoiceBitrate extends SimpleDiSkyEvent<VoiceChannelUpdateBitrateEvent> {
+    public static class EvtVoiceBitrate extends SimpleDiSkyEvent<ChannelUpdateBitrateEvent> {
         public EvtVoiceBitrate(VoiceBitrate event) { }
     }
 

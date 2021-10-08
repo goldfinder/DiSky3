@@ -9,12 +9,14 @@ import ch.njol.skript.log.SkriptLogger;
 public class NodeInformation {
 
     private final Node node;
-    private final int line;
-    private final String fileName;
-    private final String lineContent;
+    private int line;
+    private String fileName;
+    private String lineContent;
 
     public NodeInformation() {
         this.node = SkriptLogger.getNode();
+        if (this.node == null)
+            return;
         this.line = this.node.getLine();
         this.fileName = this.node.getConfig().getFileName();
         this.lineContent = this.node.getKey();

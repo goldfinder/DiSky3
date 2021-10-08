@@ -16,6 +16,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * Made by Blitz, minor edit by Sky for DiSky
@@ -63,6 +64,13 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
         return new Registration(clazz, patterns);
     }
 
+    /**
+     * If you wanna check by yourself the event through a predicate.
+     * <br> Return true by default and execute the event given either it complete specifics conditions or not.
+     */
+    protected Predicate<D> checker() {
+        return e -> true;
+    }
 
     @Override
      @SuppressWarnings("unchecked")
@@ -144,7 +152,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
                 });
 
             }
-        });
+        }, checker());
         EventListener.addListener(listener);
     }
 

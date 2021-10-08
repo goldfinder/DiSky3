@@ -2,16 +2,16 @@ package info.itsthesky.disky3.core.events.message;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import info.itsthesky.disky3.api.messages.UpdatingMessage;
-import info.itsthesky.disky3.api.skript.events.MessageEvent;
-import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.MessageEvent;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class MessageReceive extends DiSkyEvent<GuildMessageReceivedEvent> {
+public class MessageReceive extends DiSkyEvent<MessageReceivedEvent> {
 
     static {
         DiSkyEvent.register("MessageReceive", MessageReceive.class, EvtGuildMessage.class,
@@ -45,14 +45,14 @@ public class MessageReceive extends DiSkyEvent<GuildMessageReceivedEvent> {
         EventValues.registerEventValue(EvtGuildMessage.class, TextChannel.class, new Getter<TextChannel, EvtGuildMessage>() {
             @Override
             public TextChannel get(EvtGuildMessage event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtGuildMessage.class, GuildChannel.class, new Getter<GuildChannel, EvtGuildMessage>() {
             @Override
             public GuildChannel get(EvtGuildMessage event) {
-                return event.getJDAEvent().getChannel();
+                return (GuildChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -72,7 +72,7 @@ public class MessageReceive extends DiSkyEvent<GuildMessageReceivedEvent> {
 
     }
 
-    public static class EvtGuildMessage extends SimpleDiSkyEvent<GuildMessageReceivedEvent> implements MessageEvent {
+    public static class EvtGuildMessage extends SimpleDiSkyEvent<MessageReceivedEvent> implements MessageEvent {
         public EvtGuildMessage(MessageReceive event) { }
 
         @Override

@@ -11,6 +11,10 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Used to execute condition through a specific event (init available)
+ * @author Sky (SkirpLang team for the base code)
+ */
 public abstract class EasyPropertyCondition<T> extends Condition {
 
     private Expression<? extends T> expr;

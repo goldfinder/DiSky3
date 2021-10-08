@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Made by Blitz, minor edit by Sky for DiSky
@@ -16,10 +17,12 @@ public class EventListener<T> extends ListenerAdapter {
     public boolean enabled = true;
     private final Class<T> clazz;
     private final Consumer<T> consumer;
+    private final Predicate<T> checker;
 
-    public EventListener(Class<T> paramClass, Consumer<T> consumer) {
+    public EventListener(Class<T> paramClass, Consumer<T> consumer, Predicate<T> checker) {
         this.clazz = paramClass;
         this.consumer = consumer;
+        this.checker = checker;
     }
 
     public static void addListener(EventListener<?> listener) {
@@ -37,6 +40,8 @@ public class EventListener<T> extends ListenerAdapter {
     @Override
     public void onGenericEvent(GenericEvent event) {
         if (enabled && clazz.isInstance(event)) {
+            if (!checker.test((T) event))
+                return;
             consumer.accept((T) event);
         }
     }

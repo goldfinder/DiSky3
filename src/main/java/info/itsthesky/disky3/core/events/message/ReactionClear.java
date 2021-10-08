@@ -2,16 +2,16 @@ package info.itsthesky.disky3.core.events.message;
 
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import info.itsthesky.disky3.api.skript.events.MessageEvent;
+import info.itsthesky.disky3.api.skript.events.specific.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveAllEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveAllEvent;
 
-public class ReactionClear extends DiSkyEvent<GuildMessageReactionRemoveAllEvent> {
+public class ReactionClear extends DiSkyEvent<MessageReactionRemoveAllEvent> {
 
     static {
         DiSkyEvent.register("Inner Event Name", ReactionClear.class, EvtReactionClear.class,
@@ -24,7 +24,7 @@ public class ReactionClear extends DiSkyEvent<GuildMessageReactionRemoveAllEvent
        EventValues.registerEventValue(EvtReactionClear.class, TextChannel.class, new Getter<TextChannel, EvtReactionClear>() {
             @Override
             public TextChannel get(EvtReactionClear event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -51,7 +51,7 @@ public class ReactionClear extends DiSkyEvent<GuildMessageReactionRemoveAllEvent
 
     }
 
-    public static class EvtReactionClear extends SimpleDiSkyEvent<GuildMessageReactionRemoveAllEvent> implements MessageEvent {
+    public static class EvtReactionClear extends SimpleDiSkyEvent<MessageReactionRemoveAllEvent> implements MessageEvent {
         public EvtReactionClear(ReactionClear event) { }
 
         @Override

@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdatePositionEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class TextPosition extends DiSkyEvent<TextChannelUpdatePositionEvent> {
+import java.util.function.Predicate;
+
+public class TextPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdatePositionEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", TextPosition.class, EvtTextPosition.class,
@@ -23,14 +30,14 @@ public class TextPosition extends DiSkyEvent<TextChannelUpdatePositionEvent> {
        EventValues.registerEventValue(EvtTextPosition.class, TextChannel.class, new Getter<TextChannel, EvtTextPosition>() {
             @Override
             public TextChannel get(EvtTextPosition event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextPosition.class, Guild.class, new Getter<Guild, EvtTextPosition>() {
             @Override
             public Guild get(EvtTextPosition event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -43,7 +50,7 @@ public class TextPosition extends DiSkyEvent<TextChannelUpdatePositionEvent> {
 
     }
 
-    public static class EvtTextPosition extends SimpleDiSkyEvent<TextChannelUpdatePositionEvent> {
+    public static class EvtTextPosition extends SimpleDiSkyEvent<ChannelUpdatePositionEvent> {
         public EvtTextPosition(TextPosition event) { }
     }
 

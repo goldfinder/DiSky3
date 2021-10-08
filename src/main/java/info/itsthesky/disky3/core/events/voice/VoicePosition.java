@@ -8,9 +8,17 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdatePositionEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class VoicePosition extends DiSkyEvent<VoiceChannelUpdatePositionEvent> {
+import java.util.function.Predicate;
+
+public class VoicePosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
+
+
+    @Override
+    protected Predicate<ChannelUpdatePositionEvent> checker() {
+        return e -> e.isFromType(ChannelType.VOICE);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", VoicePosition.class, EvtVoicePosition.class,
@@ -23,14 +31,14 @@ public class VoicePosition extends DiSkyEvent<VoiceChannelUpdatePositionEvent> {
        EventValues.registerEventValue(EvtVoicePosition.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoicePosition>() {
             @Override
             public VoiceChannel get(EvtVoicePosition event) {
-                return event.getJDAEvent().getChannel();
+                return ((VoiceChannel) event.getJDAEvent().getChannel());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoicePosition.class, Guild.class, new Getter<Guild, EvtVoicePosition>() {
             @Override
             public Guild get(EvtVoicePosition event) {
-                return event.getJDAEvent().getGuild();
+                return ((VoiceChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -43,7 +51,7 @@ public class VoicePosition extends DiSkyEvent<VoiceChannelUpdatePositionEvent> {
 
     }
 
-    public static class EvtVoicePosition extends SimpleDiSkyEvent<VoiceChannelUpdatePositionEvent> {
+    public static class EvtVoicePosition extends SimpleDiSkyEvent<ChannelUpdatePositionEvent> {
         public EvtVoicePosition(VoicePosition event) { }
     }
 

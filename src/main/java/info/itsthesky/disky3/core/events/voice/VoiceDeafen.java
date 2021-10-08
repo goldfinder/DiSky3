@@ -3,7 +3,7 @@ package info.itsthesky.disky3.core.events.voice;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -30,7 +30,7 @@ public class VoiceDeafen extends DiSkyEvent<GuildVoiceDeafenEvent> {
        EventValues.registerEventValue(EvtVoiceDeafen.class, Guild.class, new Getter<Guild, EvtVoiceDeafen>() {
             @Override
             public Guild get(EvtVoiceDeafen event) {
-                return event.getJDAEvent().getGuild();
+                return ((VoiceChannel) event.getJDAEvent().getVoiceState().getChannel()).getGuild();
             }
         }, 0);
 

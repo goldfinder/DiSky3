@@ -22,21 +22,21 @@ public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
             public VoiceChannel get(EvtVoiceJoin event) {
-                return event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
             public VoiceChannel get(EvtVoiceJoin event) {
-                return event.getJDAEvent().getChannelLeft();
+                return (VoiceChannel) event.getJDAEvent().getChannelLeft();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
             public VoiceChannel get(EvtVoiceJoin event) {
-                return event.getJDAEvent().getChannelLeft();
+                return (VoiceChannel) event.getJDAEvent().getChannelLeft();
             }
         }, 0);
 

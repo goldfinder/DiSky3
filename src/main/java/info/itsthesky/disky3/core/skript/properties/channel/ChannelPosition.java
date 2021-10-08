@@ -11,6 +11,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.IPositionableChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,7 +50,7 @@ public class ChannelPosition extends ChangeablePropertyExpression<GuildChannel, 
 
     @Override
     protected Number @NotNull [] get(@NotNull Event e, GuildChannel @NotNull [] source) {
-        return new Number[] {source[0].getPosition()};
+        return new Number[] {((IPositionableChannel) source[0]).getPosition()};
     }
 
     @Override

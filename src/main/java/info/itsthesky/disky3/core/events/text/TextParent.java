@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateParentEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class TextParent extends DiSkyEvent<TextChannelUpdateParentEvent> {
+import java.util.function.Predicate;
+
+public class TextParent extends DiSkyEvent<ChannelUpdateParentEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdateParentEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", TextParent.class, EvtTextParent.class,
@@ -23,28 +30,28 @@ public class TextParent extends DiSkyEvent<TextChannelUpdateParentEvent> {
        EventValues.registerEventValue(EvtTextParent.class, Category.class, new Getter<Category, EvtTextParent>() {
             @Override
             public Category get(EvtTextParent event) {
-                return event.getJDAEvent().getNewParent();
+                return event.getJDAEvent().getNewValue();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtTextParent.class, Category.class, new Getter<Category, EvtTextParent>() {
             @Override
             public Category get(EvtTextParent event) {
-                return event.getJDAEvent().getOldParent();
+                return event.getJDAEvent().getOldValue();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtTextParent.class, TextChannel.class, new Getter<TextChannel, EvtTextParent>() {
             @Override
             public TextChannel get(EvtTextParent event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextParent.class, Guild.class, new Getter<Guild, EvtTextParent>() {
             @Override
             public Guild get(EvtTextParent event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -57,7 +64,7 @@ public class TextParent extends DiSkyEvent<TextChannelUpdateParentEvent> {
 
     }
 
-    public static class EvtTextParent extends SimpleDiSkyEvent<TextChannelUpdateParentEvent> {
+    public static class EvtTextParent extends SimpleDiSkyEvent<ChannelUpdateParentEvent> {
         public EvtTextParent(TextParent event) { }
     }
 

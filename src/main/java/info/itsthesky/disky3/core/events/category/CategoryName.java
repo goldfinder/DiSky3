@@ -3,14 +3,19 @@ package info.itsthesky.disky3.core.events.category;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.category.update.CategoryUpdateNameEvent;
+import net.dv8tion.jda.api.events.channel.update.ChannelUpdateNameEvent;
 
-public class CategoryName extends DiSkyEvent<CategoryUpdateNameEvent> {
+public class CategoryName extends DiSkyEvent<ChannelUpdateNameEvent> {
+
+    @Override
+    public boolean check(ChannelUpdateNameEvent event) {
+        return event.isFromType(ChannelType.CATEGORY);
+    }
 
     static {
         DiSkyEvent.register("Category Name", CategoryName.class, EvtCategoryName.class,
@@ -20,21 +25,21 @@ public class CategoryName extends DiSkyEvent<CategoryUpdateNameEvent> {
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override
             public Category get(EvtCategoryName event) {
-                return event.getJDAEvent().getEntity();
+                return (Category) event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtCategoryName.class, Guild.class, new Getter<Guild, EvtCategoryName>() {
             @Override
             public Guild get(EvtCategoryName event) {
-                return event.getJDAEvent().getGuild();
+                return ((Category) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override
             public Category get(EvtCategoryName event) {
-                return event.getJDAEvent().getCategory();
+                return (Category) event.getJDAEvent().getChannel();
             }
         }, 0);
 
@@ -47,12 +52,12 @@ public class CategoryName extends DiSkyEvent<CategoryUpdateNameEvent> {
 
     }
 
-    public static class EvtCategoryName extends SimpleDiSkyEvent<CategoryUpdateNameEvent> implements LogEvent {
+    public static class EvtCategoryName extends SimpleDiSkyEvent<ChannelUpdateNameEvent> implements LogEvent {
         public EvtCategoryName(CategoryName event) { }
 
         @Override
         public User getActionAuthor() {
-            return getJDAEvent().getGuild().retrieveAuditLogs().complete().get(0).getUser();
+            return ((Category) getJDAEvent().getChannel()).getGuild().retrieveAuditLogs().complete().get(0).getUser();
         }
     }
 

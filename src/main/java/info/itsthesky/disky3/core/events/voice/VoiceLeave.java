@@ -9,6 +9,8 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 
+import java.util.function.Predicate;
+
 public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
 
     static {
@@ -22,21 +24,21 @@ public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
         EventValues.registerEventValue(EvtVoiceLeave.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceLeave>() {
             @Override
             public VoiceChannel get(EvtVoiceLeave event) {
-                return event.getJDAEvent().getOldValue();
+                return (VoiceChannel) event.getJDAEvent().getOldValue();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtVoiceLeave.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceLeave>() {
             @Override
             public VoiceChannel get(EvtVoiceLeave event) {
-                return event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtVoiceLeave.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceLeave>() {
             @Override
             public VoiceChannel get(EvtVoiceLeave event) {
-                return event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 0);
 
@@ -50,7 +52,7 @@ public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
         EventValues.registerEventValue(EvtVoiceLeave.class, Guild.class, new Getter<Guild, EvtVoiceLeave>() {
             @Override
             public Guild get(EvtVoiceLeave event) {
-                return event.getJDAEvent().getGuild();
+                return event.getJDAEvent().getChannelLeft().getGuild();
             }
         }, 0);
 

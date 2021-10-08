@@ -8,9 +8,16 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateTopicEvent;
+import net.dv8tion.jda.api.events.channel.update.*;
 
-public class TextTopic extends DiSkyEvent<TextChannelUpdateTopicEvent> {
+import java.util.function.Predicate;
+
+public class TextTopic extends DiSkyEvent<ChannelUpdateTopicEvent> {
+
+    @Override
+    protected Predicate<ChannelUpdateTopicEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Inner Event Name", TextTopic.class, EvtTextTopic.class,
@@ -23,28 +30,28 @@ public class TextTopic extends DiSkyEvent<TextChannelUpdateTopicEvent> {
        EventValues.registerEventValue(EvtTextTopic.class, String.class, new Getter<String, EvtTextTopic>() {
             @Override
             public String get(EvtTextTopic event) {
-                return event.getJDAEvent().getOldTopic();
+                return event.getJDAEvent().getOldValue();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtTextTopic.class, String.class, new Getter<String, EvtTextTopic>() {
             @Override
             public String get(EvtTextTopic event) {
-                return event.getJDAEvent().getNewTopic();
+                return event.getJDAEvent().getNewValue();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtTextTopic.class, TextChannel.class, new Getter<TextChannel, EvtTextTopic>() {
             @Override
             public TextChannel get(EvtTextTopic event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextTopic.class, Guild.class, new Getter<Guild, EvtTextTopic>() {
             @Override
             public Guild get(EvtTextTopic event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -57,7 +64,7 @@ public class TextTopic extends DiSkyEvent<TextChannelUpdateTopicEvent> {
 
     }
 
-    public static class EvtTextTopic extends SimpleDiSkyEvent<TextChannelUpdateTopicEvent> {
+    public static class EvtTextTopic extends SimpleDiSkyEvent<ChannelUpdateTopicEvent> {
         public EvtTextTopic(TextTopic event) { }
     }
 

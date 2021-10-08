@@ -3,14 +3,21 @@ package info.itsthesky.disky3.core.events.text;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
-import info.itsthesky.disky3.api.skript.events.LogEvent;
-import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
+import info.itsthesky.disky3.api.skript.events.specific.LogEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.channel.text.TextChannelDeleteEvent;
+import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
 
-public class TextDelete extends DiSkyEvent<TextChannelDeleteEvent> {
+import java.util.function.Predicate;
+
+public class TextDelete extends DiSkyEvent<ChannelDeleteEvent> {
+
+    @Override
+    protected Predicate<ChannelDeleteEvent> checker() {
+        return e -> e.isFromType(ChannelType.TEXT);
+    }
 
     static {
         DiSkyEvent.register("Text Channel Delete", TextDelete.class, EvtTextDelete.class,
@@ -22,14 +29,14 @@ public class TextDelete extends DiSkyEvent<TextChannelDeleteEvent> {
         EventValues.registerEventValue(EvtTextDelete.class, TextChannel.class, new Getter<TextChannel, EvtTextDelete>() {
             @Override
             public TextChannel get(EvtTextDelete event) {
-                return event.getJDAEvent().getChannel();
+                return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtTextDelete.class, Guild.class, new Getter<Guild, EvtTextDelete>() {
             @Override
             public Guild get(EvtTextDelete event) {
-                return event.getJDAEvent().getGuild();
+                return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
@@ -41,12 +48,12 @@ public class TextDelete extends DiSkyEvent<TextChannelDeleteEvent> {
         }, 0);
     }
 
-    public static class EvtTextDelete extends SimpleDiSkyEvent<TextChannelDeleteEvent> implements LogEvent {
+    public static class EvtTextDelete extends SimpleDiSkyEvent<ChannelDeleteEvent> implements LogEvent {
         public EvtTextDelete(TextDelete event) { }
 
         @Override
         public User getActionAuthor() {
-            return getJDAEvent().getGuild().retrieveAuditLogs().complete().get(0).getUser();
+            return ((TextChannel) getJDAEvent().getChannel()).getGuild().retrieveAuditLogs().complete().get(0).getUser();
         }
     }
 

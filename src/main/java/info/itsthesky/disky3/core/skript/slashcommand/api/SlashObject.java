@@ -23,6 +23,7 @@ public class SlashObject {
     private final List<String> disallowedRoles;
     private final List<String> allowedUsers;
     private final List<String> disallowedUsers;
+    private Boolean globalRegister = null;
 
     private final Trigger trigger;
 
@@ -48,7 +49,14 @@ public class SlashObject {
         this.bots = bots;
         this.arguments = arguments;
         trigger = new Trigger(script, "discord command " + name, new SimpleEvent(), items);
+    }
 
+    public void setGlobalRegister(boolean globalRegister) {
+        this.globalRegister = globalRegister;
+    }
+
+    public boolean isGlobalRegister() {
+        return globalRegister;
     }
 
     public boolean execute(SlashEvent event) {

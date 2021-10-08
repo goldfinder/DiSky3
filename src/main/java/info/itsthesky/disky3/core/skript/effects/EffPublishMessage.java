@@ -10,6 +10,7 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +40,7 @@ public class EffPublishMessage extends WaiterEffect {
                 .getTextChannelById(message.getMessage().getTextChannel().getId())
                 .retrieveMessageById(message.getID())
                 .queue(m -> {
-                    if (!m.getTextChannel().isNews()) {
+                    if (!m.getChannel().getType().equals(ChannelType.NEWS)) {
                         DiSky.exception(new DiSkyException("You can only publish a message in news channels!"), getNode());
                         restart();
                         return;
