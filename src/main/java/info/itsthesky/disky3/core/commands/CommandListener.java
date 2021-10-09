@@ -5,10 +5,7 @@ import ch.njol.skript.localization.Language;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.core.events.other.DiSkyCommand;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
@@ -41,7 +38,7 @@ public class CommandListener extends ListenerAdapter {
                     Message message = e.getMessage();
                     TextChannel textChannel = null;
                     Guild guild = null;
-                    if (message.isFromGuild()) {
+                    if (message.isFromGuild() && e.isFromType(ChannelType.TEXT)) {
                         textChannel = e.getTextChannel();
                         guild = e.getGuild();
                     }
