@@ -29,7 +29,7 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffSendMessage.class,
-                "send "+ (Configuration.PARSING_SEND_EFFECT.get() ? "discord" : "") +" [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
+                "send"+ (Configuration.PARSING_SEND_EFFECT.get() ? " discord" : "") +" [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
         );
     }
 
