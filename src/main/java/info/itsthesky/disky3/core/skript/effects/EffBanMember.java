@@ -7,16 +7,18 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.section.RestExceptionSection;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class EffBanMember extends WaiterEffect {
+public class EffBanMember extends RestExceptionSection<Void> {
 
     static {
-        Skript.registerEffect(
+        register(
                 EffBanMember.class,
                 "ban [the] [member] %member% [(due to|because of|with [the] reason) %-string%] [(remov|delet)ing %-number% day[s] of message[s]] [(with|using) [bot] %-bot%]"
         );
@@ -28,32 +30,30 @@ public class EffBanMember extends WaiterEffect {
     private Expression<Bot> exprBot;
 
     @Override
-    public void runEffect(@NotNull Event e) {
-        Member member = exprMember.getSingle(e);
-        final Bot bot = exprBot.getSingle(e);
-        final Number days = Utils.verifyVar(e, exprDaysToRemove, 0);
-        final @Nullable String reason = Utils.verifyVar(e, exprReason);
-
-        if (member == null || bot == null) {
-            restart();
-            return;
-        }
-
-        member.getGuild().retrieveMemberById(member.getId()).queue(m -> {
-            m.ban(days.intValue(), reason).queue(
-                    (v) -> restart(),
-                    ex -> DiSky.exception(ex, getNode())
-            );
-        });
-    }
-
-    @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "ban " + exprMember.toString(e, debug) + (exprReason != null ? " because of " + exprReason.toString(e, debug) : "") + (exprDaysToRemove != null ? " removing " + exprDaysToRemove.toString(e, debug) + " message days" : "") + " using bot " +exprBot.toString(e, debug);
     }
 
     @Override
-    public boolean initEffect(Expression @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
+    public RestAction<Void> runRestAction(Event e) {
+        Member member = exprMember.getSingle(e);
+        final Bot bot = exprBot.getSingle(e);
+        final Number days = Utils.verifyVar(e, exprDaysToRemove, 0);
+        final @Nullable String reason = Utils.verifyVar(e, exprReason);
+
+        if (member == null || bot == null)
+            return null;
+
+        return bot
+                .getCore()
+                .getGuildById(member.getGuild().getId())
+                .getMemberById(member.getId())
+                .ban(days.intValue(), reason);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         exprMember = (Expression<Member>) exprs[0];
         exprReason = (Expression<String>) exprs[1];
         exprDaysToRemove = (Expression<Number>) exprs[2];
@@ -67,6 +67,6 @@ public class EffBanMember extends WaiterEffect {
             return false;
         }
 
-        return true;
+        return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }
 }

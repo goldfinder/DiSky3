@@ -17,12 +17,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class SectionCatch extends EffectSection {
 
-    static {
-        Skript.registerCondition(
-                SectionCatch.class,
-                "catch [the] [exception] as %object%"
-        );
-    }
+    // static {
+    //     Skript.registerCondition(
+    //             SectionCatch.class,
+    //             "catch [the] [exception] as %object%"
+    //     );
+    // }
 
     private Variable<?> exceptionVariable;
 
@@ -63,7 +63,6 @@ public class SectionCatch extends EffectSection {
     private boolean getRelatedTry(SectionNode parent) {
         for (Node node : parent) {
             if (node.getKey().startsWith("try")) {
-                SectionTry.relatedCatches.put(node, this);
                 return true;
             }
         }
