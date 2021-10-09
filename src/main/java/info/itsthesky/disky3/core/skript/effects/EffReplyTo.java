@@ -40,7 +40,7 @@ public class EffReplyTo extends WaiterEffect<UpdatingMessage> {
             Utils.defaultToEventValue(exprBot, Bot.class);
         if (exprBot == null)
             Skript.error("The bot cannot be retrieved in the reply to effect!");
-        return getChangedVariable() != null;
+        return exprs[5] == null || getChangedVariable() != null;
     }
 
     @Override
