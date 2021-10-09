@@ -318,7 +318,7 @@ public final class Utils {
             }
         }
         if (clazz.equals(Bot.class))
-            return (Expression<T>) new SimpleLiteral<>(BotManager.getLoadedBots().get(0), false);
+            return (Expression<T>) new SimpleLiteral<>(new Bot(), true);
         return null;
     }
 

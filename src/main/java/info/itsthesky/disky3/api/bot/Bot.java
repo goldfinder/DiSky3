@@ -6,19 +6,33 @@ import org.jetbrains.annotations.NotNull;
 
 public class Bot implements Comparable<Bot>, ISnowflake {
 
-    private final JDA core;
-    private final String name;
+    private JDA core;
+    private String name;
+
+    public Bot() {
+        this.core = null;
+        this.name = null;
+    }
 
     public Bot(JDA core, String name) {
         this.core = core;
         this.name = name;
     }
 
+    private void load() {
+        core = BotManager.getLoadedBots().get(0).getCore();
+        name = BotManager.getLoadedBots().get(0).getName();
+    }
+
     public JDA getCore() {
+        if (core == null)
+            load();
         return core;
     }
 
     public String getName() {
+        if (name == null)
+            load();
         return name;
     }
 

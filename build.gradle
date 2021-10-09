@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT'
     implementation 'org.jetbrains:annotations:20.1.0'
 
+    compile 'com.github.simplix-softworks:simplixstorage:3.2.3'
+
     compile 'club.minnced:discord-webhooks:0.5.5-rc'
     // Commits: com.github.dv8fromtheworld:jda
     // Stable: net.dv8tion:JDA
