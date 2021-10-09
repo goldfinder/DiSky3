@@ -358,6 +358,8 @@ public final class Utils {
     }
 
     public static <T> @Nullable Variable<T> parseVar(Expression<T> expression, boolean shouldBeList, boolean showError) {
+        if (expression == null)
+            return null;
         if (expression instanceof Variable) {
             if (shouldBeList && !((Variable<T>) expression).isList()) {
                 if (showError)

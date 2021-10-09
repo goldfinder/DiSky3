@@ -41,13 +41,6 @@ public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtReactionAdd.class, Member.class, new Getter<Member, EvtReactionAdd>() {
-            @Override
-            public Member get(EvtReactionAdd event) {
-                return event.getJDAEvent().getMember();
-            }
-        }, 0);
-
        EventValues.registerEventValue(EvtReactionAdd.class, info.itsthesky.disky3.api.emojis.Emote.class, new Getter<info.itsthesky.disky3.api.emojis.Emote, EvtReactionAdd>() {
             @Override
             public info.itsthesky.disky3.api.emojis.Emote get(EvtReactionAdd event) {
@@ -79,7 +72,7 @@ public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
         EventValues.registerEventValue(EvtReactionAdd.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtReactionAdd>() {
             @Override
             public UpdatingMessage get(EvtReactionAdd event) {
-                return UpdatingMessage.from(event.getJDAEvent().getChannel().retrieveMessageById(event.getJDAEvent().getMessageId()).complete());
+                return UpdatingMessage.from(event.getJDAEvent().getMessageId());
             }
         }, 0);
 
