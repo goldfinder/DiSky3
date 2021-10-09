@@ -51,6 +51,10 @@ public abstract class WaiterEffect<T> extends Effect {
         this.changedVariable = changedVariable;
     }
 
+    public Variable<T> getChangedVariable() {
+        return changedVariable;
+    }
+
     public void clearChangedVariable() {
         setChangedVariable(null);
     }

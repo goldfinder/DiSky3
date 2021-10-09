@@ -27,7 +27,7 @@ public final class DiSky extends JavaPlugin {
     private static SkriptAddon SKRIPT_ADDON;
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     @Override
     public void onEnable() {
@@ -39,14 +39,14 @@ public final class DiSky extends JavaPlugin {
         Metrics metrics = new Metrics(this, pluginId);
 
         ln();
-        warn("  _____  _  _____ _                 ____  ");
-        warn(" |  __ \\(_)/ ____| |               |___ \\ ");
-        warn(" | |  | |_| (___ | | ___   _  __   ____) |");
-        warn(" | |  | | |\\___ \\| |/ / | | | \\ \\ / /__ < ");
-        warn(" | |__| | |____) |   <| |_| |  \\ V /___) |");
-        warn(" |_____/|_|_____/|_|\\_\\__,  |   \\_/|____/ ");
-        warn("                        __/ |             ");
-        warn("                       |___/              ");
+        warn("  _____  _  _____ _                     _____  _  __");
+        warn(" |  __ \\(_)/ ____| |              /\\   |  __ \\| |/ /");
+        warn(" | |  | |_| (___ | | ___   _     /  \\  | |__) | ' / ");
+        warn(" | |  | | |\\___ \\| |/ / | | |   / /\\ \\ |  _  /|  <  ");
+        warn(" | |__| | |____) |   <| |_| |  / ____ \\| | \\ \\| . \\ ");
+        warn(" |_____/|_|_____/|_|\\_\\__,  | /_/    \\_\\_|  \\_\\_|\\_\\");
+        warn("                        __/ |                       ");
+        warn("                       |___/                        ");
 
         ln();
         // ################## SKRIPT ################## //

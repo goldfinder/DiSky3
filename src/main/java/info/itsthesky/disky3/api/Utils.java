@@ -357,14 +357,14 @@ public final class Utils {
         return null;
     }
 
-    public static @Nullable Variable<?> parseVar(Expression<?> expression, boolean shouldBeList, boolean showError) {
-        if (expression instanceof Variable<?>) {
-            if (shouldBeList && !((Variable<?>) expression).isList()) {
+    public static <T> @Nullable Variable<T> parseVar(Expression<T> expression, boolean shouldBeList, boolean showError) {
+        if (expression instanceof Variable) {
+            if (shouldBeList && !((Variable<T>) expression).isList()) {
                 if (showError)
                     Skript.error("The specified variable must be a list!");
                 return null;
             }
-            return (Variable<?>) expression;
+            return (Variable<T>) expression;
         }
         if (showError)
             Skript.error("You must specific a valid variable, but got " + expression);
