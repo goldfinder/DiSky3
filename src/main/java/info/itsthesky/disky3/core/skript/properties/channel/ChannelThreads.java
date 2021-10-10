@@ -47,7 +47,7 @@ public class ChannelThreads extends MultiplyPropertyExpression<GuildChannel, Gui
                 .getGuild()
                 .getGuildThreads()
                 .stream()
-                .filter(channel -> channel.getId().equalsIgnoreCase(t.getId()))
+                .filter(channel -> channel.getParentChannel().getId().equalsIgnoreCase(t.getId()))
                 .toArray(GuildThread[]::new);
     }
 }
