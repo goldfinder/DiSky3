@@ -24,7 +24,7 @@ public class BotAvatar extends ChangeablePropertyExpression<Bot, String> {
         register(
                 BotAvatar.class,
                 String.class,
-                "[discord] avatar",
+                "[discord] [bot] avatar",
                 "bot"
         );
     }
