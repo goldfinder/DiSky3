@@ -81,6 +81,7 @@ public class Types {
 		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
 		new DiSkyType<>(NewsChannel.class, "newschannel", "newschannels?", NewsChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getNewsChannelById(input)), false).register();
 		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
+		new DiSkyType<>(GuildThread.class, "thread", "threads?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildThreadById(input)), false).register();
 
 		new DiSkyType<>(MessageSticker.class, "sticker", "stickers?", MessageSticker::getName, null, false).register();
 		new DiSkyType<>(User.class, "user", "users?", User::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)), false).register();
