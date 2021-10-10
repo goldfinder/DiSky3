@@ -22,7 +22,7 @@ public class ThreadOwner extends ChangeablePropertyExpression<GuildThread, Membe
         register(
                 ThreadOwner.class,
                 Member.class,
-                "[discord] owner",
+                "[discord] [thread] owner",
                 "thread"
         );
     }
