@@ -72,6 +72,27 @@ public final class Utils {
         return Arrays.asList(clazz.getInterfaces()).contains(inter);
     }
 
+    public static void addEmoteToMessage(Emote emote, Message message) {
+        if (emote.isAnimated()) {
+            message.addReaction(emote.getEmote()).queue();
+        } else {
+            if (emote.isEmote()) {
+                message.addReaction(emote.getEmote()).queue();
+            } else {
+                message.addReaction(emote.getAsMention()).queue();
+            }
+        }
+    }
+
+    public static boolean areEmojiSimilar(MessageReaction.ReactionEmote first, Emote second) {
+        if (first.isEmote()) {
+            Emote f = new Emote(first.getEmote());
+            return f.getName().equalsIgnoreCase(second.getName());
+        } else {
+            return EmojiParser.parseToUnicode(first.getAsReactionCode()).equals(second.getAsMention());
+        }
+    }
+
     public static <T> void setSkriptList(Variable<T> variable, Event event, List<?> values) {
         List<Object> list = Collections.singletonList(values);
         String name = variable.getName().getDefaultVariableName();
