@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.AttachmentOption;
+import net.steppschuh.markdowngenerator.table.Table;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,6 +77,9 @@ public class Types {
 
 	static {
 
+		/*
+		 * Channels types
+		 */
 		new DiSkyType<>(Category.class, "category", "categor(y|ies)", Category::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getCategoryById(input)), false).register();
 		new DiSkyType<>(VoiceChannel.class, "voicechannel", "voicechannels?", VoiceChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getVoiceChannelById(input)), false).register();
 		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
@@ -83,6 +87,9 @@ public class Types {
 		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
 		new DiSkyType<>(GuildThread.class, "thread", "threads?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildThreadById(input)), false).register();
 
+		/*
+		 * Other JDA / wrapper types
+		 */
 		new DiSkyType<>(MessageSticker.class, "sticker", "stickers?", MessageSticker::getName, null, false).register();
 		new DiSkyType<>(User.class, "user", "users?", User::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)), false).register();
 		new DiSkyType<>(Role.class, "role", "roles?", Role::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getRoleById(input)), false).register();
@@ -104,6 +111,9 @@ public class Types {
 		new DiSkyType<>(Message.Attachment.class, "attachment", "attachments?", Message.Attachment::getFileName, null, false).register();
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
 
+		/*
+		 * Enum types
+		 */
 		DiSkyType.fromEnum(Permission.class, "permission", "permissions?").register();
 		DiSkyType.fromEnum(AttachmentOption.class, "attachmentoption", "attachmentoptions?").register();
 		DiSkyType.fromEnum(ButtonStyle.class, "buttonstyle", "buttonstyles?").register();
@@ -113,6 +123,14 @@ public class Types {
 		DiSkyType.fromEnum(Region.class, "channelregion", "channelregions?").register();
 		DiSkyType.fromEnum(AudioSite.class, "audiosite", "audiosites?").register();
 
+		/* Markdown types
+		 *
+		 */
+		new DiSkyType<>(Table.Builder.class, "table", "tables?", table -> table.build().toString(), null, false).register();
+
+		/*
+		 * The only one who need a specifyc parser lmao
+		 */
 		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
 			final @Nullable Guild guild = LAST_GUILD_COMMAND;
 			if (guild == null) {
