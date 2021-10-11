@@ -11,7 +11,7 @@ public class GuildMembers extends MultipleGuildProperty<Member> {
         register(
                 GuildMembers.class,
                 Member.class,
-                "[discord] member[s]",
+                "[discord] [guild] member[s]",
                 "guild"
         );
     }
@@ -21,4 +21,8 @@ public class GuildMembers extends MultipleGuildProperty<Member> {
         return guild.getMembers().toArray(new Member[0]);
     }
 
+    @Override
+    public @NotNull Class<? extends Member> getReturnType() {
+        return Member.class;
+    }
 }

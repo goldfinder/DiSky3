@@ -22,4 +22,9 @@ public class GuildRoles extends MultipleGuildProperty<Role> {
         return guild.getRoles().toArray(new Role[0]);
     }
 
+
+    @Override
+    public @NotNull Class<? extends Role> getReturnType() {
+        return Role.class;
+    }
 }
