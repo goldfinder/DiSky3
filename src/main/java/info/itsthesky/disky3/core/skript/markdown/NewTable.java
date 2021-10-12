@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.skript.markdown;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -12,6 +14,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("New Markdown Table")
+@Description("Creat a new empty mark down table to manage row and column easily.")
 public class NewTable extends SimpleExpression<Table.Builder> {
 
     static {

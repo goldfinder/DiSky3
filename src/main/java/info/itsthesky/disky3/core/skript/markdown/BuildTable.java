@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.skript.markdown;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -15,6 +17,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Name("Build Table")
+@Description("Convert a markdown table builder into plain text to be able to send it through Discord. Once built, the output cannot be converted back to a table builder.")
 public class BuildTable extends SimpleExpression<String> {
 
     static {

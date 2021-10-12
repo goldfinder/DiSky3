@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.skript.markdown;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -11,6 +13,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Insert Row")
+@Description("Add a row to a specific table builder. If this is the first effect that the table is used in, then the amount of String chosen will define the base columns.")
 public class TableRow extends Effect {
 
     static {
