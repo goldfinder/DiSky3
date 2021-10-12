@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Enable Intent")
 @Description({"Enable specific intent for the current bot in a 'create discord bot' scope. The login effect MUST be in the scope to take the desired configuration.",
@@ -62,7 +63,7 @@ public class EffManageBotBuilder extends AsyncEffect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (!EffectSection.isCurrentSection(ScopeBotBuilder.class)) {
             Skript.error("The 'enable intent' effect can only be used in a create discord bot scope!");
             return false;
@@ -74,7 +75,7 @@ public class EffManageBotBuilder extends AsyncEffect {
     }
 
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         GatewayIntent[] intents = defaultIntents ? defaults : exprIntent.getArray(e);
         if (intents == null) return;
 
@@ -120,7 +121,7 @@ public class EffManageBotBuilder extends AsyncEffect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "enable " + exprIntent + " intent";
     }
 

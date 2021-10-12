@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MessageDelete extends DiSkyEvent<MessageDeleteEvent> {
 
@@ -25,35 +26,35 @@ public class MessageDelete extends DiSkyEvent<MessageDeleteEvent> {
 
         EventValues.registerEventValue(EvtMessageDelete.class, TextChannel.class, new Getter<TextChannel, EvtMessageDelete>() {
             @Override
-            public TextChannel get(EvtMessageDelete event) {
+            public TextChannel get(@NotNull EvtMessageDelete event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMessageDelete.class, Guild.class, new Getter<Guild, EvtMessageDelete>() {
             @Override
-            public Guild get(EvtMessageDelete event) {
+            public Guild get(@NotNull EvtMessageDelete event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMessageDelete.class, Bot.class, new Getter<Bot, EvtMessageDelete>() {
             @Override
-            public Bot get(EvtMessageDelete event) {
+            public Bot get(@NotNull EvtMessageDelete event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMessageDelete.class, String.class, new Getter<String, EvtMessageDelete>() {
             @Override
-            public String get(EvtMessageDelete event) {
+            public String get(@NotNull EvtMessageDelete event) {
                 return content;
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMessageDelete.class, Number.class, new Getter<Number, EvtMessageDelete>() {
             @Override
-            public Number get(EvtMessageDelete event) {
+            public Number get(@NotNull EvtMessageDelete event) {
                 return id;
             }
         }, 0);

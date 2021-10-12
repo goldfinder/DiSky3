@@ -16,6 +16,7 @@ import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.Utils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Skip Guild Track")
 @Description("Skip the track from the specific guild.")
@@ -33,7 +34,7 @@ public class EffSkipGuildTrack extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprGuild = (Expression<Guild>) exprs[0];
         if (exprs.length == 2) exprVar = (Expression<Object>) exprs[1];
         return true;
@@ -41,7 +42,7 @@ public class EffSkipGuildTrack extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         Guild guild = exprGuild.getSingle(e);
         if (guild == null) return;
         AudioTrack track = AudioUtils.skipTrack(guild);
@@ -52,7 +53,7 @@ public class EffSkipGuildTrack extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "skip current track of guild " + exprGuild.toString(e, debug);
     }
 

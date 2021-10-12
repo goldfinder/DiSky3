@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateHoistedEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class RoleHoisted extends DiSkyEvent<RoleUpdateHoistedEvent> {
 
@@ -22,42 +23,42 @@ public class RoleHoisted extends DiSkyEvent<RoleUpdateHoistedEvent> {
 
         EventValues.registerEventValue(EvtRoleHoisted.class, Boolean.class, new Getter<Boolean, EvtRoleHoisted>() {
             @Override
-            public Boolean get(EvtRoleHoisted event) {
+            public Boolean get(@NotNull EvtRoleHoisted event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtRoleHoisted.class, Boolean.class, new Getter<Boolean, EvtRoleHoisted>() {
             @Override
-            public Boolean get(EvtRoleHoisted event) {
+            public Boolean get(@NotNull EvtRoleHoisted event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleHoisted.class, Boolean.class, new Getter<Boolean, EvtRoleHoisted>() {
             @Override
-            public Boolean get(EvtRoleHoisted event) {
+            public Boolean get(@NotNull EvtRoleHoisted event) {
                 return event.getJDAEvent().getOldValue();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtRoleHoisted.class, Guild.class, new Getter<Guild, EvtRoleHoisted>() {
             @Override
-            public Guild get(EvtRoleHoisted event) {
+            public Guild get(@NotNull EvtRoleHoisted event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleHoisted.class, Role.class, new Getter<Role, EvtRoleHoisted>() {
             @Override
-            public Role get(EvtRoleHoisted event) {
+            public Role get(@NotNull EvtRoleHoisted event) {
                 return event.getJDAEvent().getRole();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleHoisted.class, Bot.class, new Getter<Bot, EvtRoleHoisted>() {
             @Override
-            public Bot get(EvtRoleHoisted event) {
+            public Bot get(@NotNull EvtRoleHoisted event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

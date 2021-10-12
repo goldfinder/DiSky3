@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -28,21 +29,21 @@ public class TextDelete extends DiSkyEvent<ChannelDeleteEvent> {
 
         EventValues.registerEventValue(EvtTextDelete.class, TextChannel.class, new Getter<TextChannel, EvtTextDelete>() {
             @Override
-            public TextChannel get(EvtTextDelete event) {
+            public TextChannel get(@NotNull EvtTextDelete event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtTextDelete.class, Guild.class, new Getter<Guild, EvtTextDelete>() {
             @Override
-            public Guild get(EvtTextDelete event) {
+            public Guild get(@NotNull EvtTextDelete event) {
                 return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtTextDelete.class, Bot.class, new Getter<Bot, EvtTextDelete>() {
             @Override
-            public Bot get(EvtTextDelete event) {
+            public Bot get(@NotNull EvtTextDelete event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

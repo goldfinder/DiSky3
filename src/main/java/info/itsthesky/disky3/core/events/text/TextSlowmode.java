@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.update.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -29,21 +30,21 @@ public class TextSlowmode extends DiSkyEvent<ChannelUpdateSlowmodeEvent> {
 
        EventValues.registerEventValue(EvtTextSlowmode.class, TextChannel.class, new Getter<TextChannel, EvtTextSlowmode>() {
             @Override
-            public TextChannel get(EvtTextSlowmode event) {
+            public TextChannel get(@NotNull EvtTextSlowmode event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextSlowmode.class, Guild.class, new Getter<Guild, EvtTextSlowmode>() {
             @Override
-            public Guild get(EvtTextSlowmode event) {
+            public Guild get(@NotNull EvtTextSlowmode event) {
                 return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextSlowmode.class, Bot.class, new Getter<Bot, EvtTextSlowmode>() {
             @Override
-            public Bot get(EvtTextSlowmode event) {
+            public Bot get(@NotNull EvtTextSlowmode event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

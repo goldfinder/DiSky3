@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DiSkyCommand extends SkriptEvent {
@@ -28,66 +29,66 @@ public class DiSkyCommand extends SkriptEvent {
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, CommandObject.class, new Getter<CommandObject, EvtDiSkyCommand>() {
             @Override
-            public CommandObject get(EvtDiSkyCommand event) {
+            public CommandObject get(@NotNull EvtDiSkyCommand event) {
                 return event.command;
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtDiSkyCommand>() {
             @Override
-            public UpdatingMessage get(EvtDiSkyCommand event) {
+            public UpdatingMessage get(@NotNull EvtDiSkyCommand event) {
                 return UpdatingMessage.from(event.jdaEvent.getMessage());
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, User.class, new Getter<User, EvtDiSkyCommand>() {
             @Override
-            public User get(EvtDiSkyCommand event) {
+            public User get(@NotNull EvtDiSkyCommand event) {
                 return event.jdaEvent.getAuthor();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, Member.class, new Getter<Member, EvtDiSkyCommand>() {
             @Override
-            public Member get(EvtDiSkyCommand event) {
+            public Member get(@NotNull EvtDiSkyCommand event) {
                 return event.jdaEvent.getMember();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, TextChannel.class, new Getter<TextChannel, EvtDiSkyCommand>() {
             @Override
-            public TextChannel get(EvtDiSkyCommand event) {
+            public TextChannel get(@NotNull EvtDiSkyCommand event) {
                 return (TextChannel) event.jdaEvent.getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, Guild.class, new Getter<Guild, EvtDiSkyCommand>() {
             @Override
-            public Guild get(EvtDiSkyCommand event) {
+            public Guild get(@NotNull EvtDiSkyCommand event) {
                 return event.jdaEvent.getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, Bot.class, new Getter<Bot, EvtDiSkyCommand>() {
             @Override
-            public Bot get(EvtDiSkyCommand event) {
+            public Bot get(@NotNull EvtDiSkyCommand event) {
                 return BotManager.searchFromJDA(event.jdaEvent.getJDA());
             }
         }, 0);
     }
 
     @Override
-    public boolean init(Literal<?>[] exprs, int i, SkriptParser.ParseResult parseResult) {
+    public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
         return true;
     }
 
     @Override
-    public boolean check(Event event) {
+    public boolean check(@NotNull Event event) {
         return true;
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "on disky command";
     }
 

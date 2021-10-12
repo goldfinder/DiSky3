@@ -58,7 +58,7 @@ public class EmbedTimestamp extends SimplePropertyExpression<EmbedBuilder, Date>
     }
 
     @Override
-    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
             final Date value = (Date) delta[0];
@@ -80,9 +80,8 @@ public class EmbedTimestamp extends SimplePropertyExpression<EmbedBuilder, Date>
         }
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(
                     Date.class

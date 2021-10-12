@@ -59,7 +59,7 @@ public abstract class WaiterBotEffect<T> extends WaiterEffect<T> {
     public abstract String toStringEffect(@Nullable Event e, boolean debug);
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return toStringEffect(e, debug) + (usedBot == null ? "" : " " + usedBot.toString(e, debug));
     }
 }

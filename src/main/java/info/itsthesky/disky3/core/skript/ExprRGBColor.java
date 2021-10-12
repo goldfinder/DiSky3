@@ -16,6 +16,7 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public class ExprRGBColor extends SimpleExpression<Color> {
 
@@ -28,7 +29,7 @@ public class ExprRGBColor extends SimpleExpression<Color> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		exprRed = (Expression<Number>) exprs[0];
 		exprGreen = (Expression<Number>) exprs[1];
 		exprBlue = (Expression<Number>) exprs[2];
@@ -36,7 +37,7 @@ public class ExprRGBColor extends SimpleExpression<Color> {
 	}
 
 	@Override
-	protected Color[] get(Event e) {
+	protected Color @NotNull [] get(@NotNull Event e) {
 		int red = Utils.verifyVar(e, exprRed, 0).intValue();
 		int green = Utils.verifyVar(e, exprGreen, 0).intValue();
 		int blue = Utils.verifyVar(e, exprBlue, 0).intValue();
@@ -49,12 +50,12 @@ public class ExprRGBColor extends SimpleExpression<Color> {
 	}
 
 	@Override
-	public Class<? extends Color> getReturnType() {
+	public @NotNull Class<? extends Color> getReturnType() {
 		return Color.class;
 	}
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public @NotNull String toString(Event e, boolean debug) {
 		return "color from rgb " + exprRed.toString(e, debug) + " " + exprGreen.toString(e, debug) + " " + exprBlue.toString(e, debug);
 	}
 

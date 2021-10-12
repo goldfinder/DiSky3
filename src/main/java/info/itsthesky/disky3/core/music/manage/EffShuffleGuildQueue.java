@@ -14,6 +14,7 @@ import info.itsthesky.disky3.api.music.GuildAudioManager;
 import info.itsthesky.disky3.api.Utils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Shuffle Guild Queue")
 @Description("Shuffle the current queue of a specific guild.")
@@ -30,14 +31,14 @@ public class EffShuffleGuildQueue extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprGuild = (Expression<Guild>) exprs[0];
         return true;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         Guild guild = exprGuild.getSingle(e);
         if (guild == null) return;
         GuildAudioManager manager = AudioUtils.getGuildAudioPlayer(guild);
@@ -45,7 +46,7 @@ public class EffShuffleGuildQueue extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "shuffle current queue of guild " + exprGuild.toString(e, debug);
     }
 

@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
 
@@ -21,49 +22,49 @@ public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
-            public VoiceChannel get(EvtVoiceJoin event) {
+            public VoiceChannel get(@NotNull EvtVoiceJoin event) {
                 return (VoiceChannel) event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
-            public VoiceChannel get(EvtVoiceJoin event) {
+            public VoiceChannel get(@NotNull EvtVoiceJoin event) {
                 return (VoiceChannel) event.getJDAEvent().getChannelLeft();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
-            public VoiceChannel get(EvtVoiceJoin event) {
+            public VoiceChannel get(@NotNull EvtVoiceJoin event) {
                 return (VoiceChannel) event.getJDAEvent().getChannelLeft();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, GuildChannel.class, new Getter<GuildChannel, EvtVoiceJoin>() {
             @Override
-            public GuildChannel get(EvtVoiceJoin event) {
+            public GuildChannel get(@NotNull EvtVoiceJoin event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, Member.class, new Getter<Member, EvtVoiceJoin>() {
             @Override
-            public Member get(EvtVoiceJoin event) {
+            public Member get(@NotNull EvtVoiceJoin event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, Guild.class, new Getter<Guild, EvtVoiceJoin>() {
             @Override
-            public Guild get(EvtVoiceJoin event) {
+            public Guild get(@NotNull EvtVoiceJoin event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtVoiceJoin.class, Bot.class, new Getter<Bot, EvtVoiceJoin>() {
             @Override
-            public Bot get(EvtVoiceJoin event) {
+            public Bot get(@NotNull EvtVoiceJoin event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

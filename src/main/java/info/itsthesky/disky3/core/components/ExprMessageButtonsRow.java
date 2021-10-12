@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.Component;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ExprMessageButtonsRow extends MultiplyPropertyExpression<UpdatingMe
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         UpdatingMessage message = getExpr().getSingle(e);
         if (message == null) return;
         List<ActionRow> rows = new ArrayList<>();
@@ -94,9 +95,8 @@ public class ExprMessageButtonsRow extends MultiplyPropertyExpression<UpdatingMe
                 .queue();
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.ChangeMode mode) {
         switch (mode) {
             case SET:
             case ADD:

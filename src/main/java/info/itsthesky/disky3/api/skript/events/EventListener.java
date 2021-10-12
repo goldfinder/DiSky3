@@ -3,6 +3,7 @@ package info.itsthesky.disky3.api.skript.events;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -38,7 +39,7 @@ public class EventListener<T> extends ListenerAdapter {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onGenericEvent(GenericEvent event) {
+    public void onGenericEvent(@NotNull GenericEvent event) {
         if (enabled && clazz.isInstance(event)) {
             if (!checker.test((T) event))
                 return;

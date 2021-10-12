@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MemberJoin extends DiSkyEvent<GuildMemberJoinEvent> {
 
@@ -23,35 +24,35 @@ public class MemberJoin extends DiSkyEvent<GuildMemberJoinEvent> {
 
         EventValues.registerEventValue(EvtMemberJoin.class, Member.class, new Getter<Member, EvtMemberJoin>() {
             @Override
-            public Member get(EvtMemberJoin event) {
+            public Member get(@NotNull EvtMemberJoin event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberJoin.class, Invite.class, new Getter<Invite, EvtMemberJoin>() {
             @Override
-            public Invite get(EvtMemberJoin event) {
+            public Invite get(@NotNull EvtMemberJoin event) {
                 return lastUsedInvite;
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberJoin.class, User.class, new Getter<User, EvtMemberJoin>() {
             @Override
-            public User get(EvtMemberJoin event) {
+            public User get(@NotNull EvtMemberJoin event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberJoin.class, Guild.class, new Getter<Guild, EvtMemberJoin>() {
             @Override
-            public Guild get(EvtMemberJoin event) {
+            public Guild get(@NotNull EvtMemberJoin event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberJoin.class, Bot.class, new Getter<Bot, EvtMemberJoin>() {
             @Override
-            public Bot get(EvtMemberJoin event) {
+            public Bot get(@NotNull EvtMemberJoin event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

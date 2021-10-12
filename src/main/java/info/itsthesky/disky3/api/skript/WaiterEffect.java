@@ -31,7 +31,7 @@ public abstract class WaiterEffect<T> extends Effect {
 
     public abstract boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult);
 
-    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] expressions, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
         SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
         node = new NodeInformation();
         return initEffect(expressions, i, kleenean, parseResult);
@@ -51,7 +51,7 @@ public abstract class WaiterEffect<T> extends Effect {
         this.changedVariable = changedVariable;
     }
 
-    public Variable<T> getChangedVariable() {
+    public @Nullable Variable<T> getChangedVariable() {
         return changedVariable;
     }
 
@@ -63,11 +63,11 @@ public abstract class WaiterEffect<T> extends Effect {
     Working on walk method so :>
      */
     @Override
-    protected void execute(Event event) { }
+    protected void execute(@NotNull Event event) { }
 
     @Nullable
     @Override
-    protected TriggerItem walk(Event e) {
+    protected TriggerItem walk(@NotNull Event e) {
         isStopped = true;
         debug(e, true);
         event = e;

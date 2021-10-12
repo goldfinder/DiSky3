@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.update.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -29,35 +30,35 @@ public class TextParent extends DiSkyEvent<ChannelUpdateParentEvent> {
 
        EventValues.registerEventValue(EvtTextParent.class, Category.class, new Getter<Category, EvtTextParent>() {
             @Override
-            public Category get(EvtTextParent event) {
+            public Category get(@NotNull EvtTextParent event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtTextParent.class, Category.class, new Getter<Category, EvtTextParent>() {
             @Override
-            public Category get(EvtTextParent event) {
+            public Category get(@NotNull EvtTextParent event) {
                 return event.getJDAEvent().getOldValue();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtTextParent.class, TextChannel.class, new Getter<TextChannel, EvtTextParent>() {
             @Override
-            public TextChannel get(EvtTextParent event) {
+            public TextChannel get(@NotNull EvtTextParent event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextParent.class, Guild.class, new Getter<Guild, EvtTextParent>() {
             @Override
-            public Guild get(EvtTextParent event) {
+            public Guild get(@NotNull EvtTextParent event) {
                 return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextParent.class, Bot.class, new Getter<Bot, EvtTextParent>() {
             @Override
-            public Bot get(EvtTextParent event) {
+            public Bot get(@NotNull EvtTextParent event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

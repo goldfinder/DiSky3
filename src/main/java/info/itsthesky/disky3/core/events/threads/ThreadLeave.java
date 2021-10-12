@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.GuildThread;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.thread.member.ThreadMemberJoinEvent;
 import net.dv8tion.jda.api.events.thread.member.ThreadMemberLeaveEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ThreadLeave extends DiSkyEvent<ThreadMemberLeaveEvent> {
 
@@ -24,28 +25,28 @@ public class ThreadLeave extends DiSkyEvent<ThreadMemberLeaveEvent> {
 
        EventValues.registerEventValue(EvtThreadLeave.class, Guild.class, new Getter<Guild, EvtThreadLeave>() {
             @Override
-            public Guild get(EvtThreadLeave event) {
+            public Guild get(@NotNull EvtThreadLeave event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtThreadLeave.class, GuildThread.class, new Getter<GuildThread, EvtThreadLeave>() {
             @Override
-            public GuildThread get(EvtThreadLeave event) {
+            public GuildThread get(@NotNull EvtThreadLeave event) {
                 return event.getJDAEvent().getThread();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtThreadLeave.class, Member.class, new Getter<Member, EvtThreadLeave>() {
             @Override
-            public Member get(EvtThreadLeave event) {
+            public Member get(@NotNull EvtThreadLeave event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtThreadLeave.class, Bot.class, new Getter<Bot, EvtThreadLeave>() {
             @Override
-            public Bot get(EvtThreadLeave event) {
+            public Bot get(@NotNull EvtThreadLeave event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

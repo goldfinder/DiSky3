@@ -26,7 +26,7 @@ public class ScopeBotBuilder extends EffectSection {
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (checkIfCondition()) return false;
         if (!hasSection()) return false;
 

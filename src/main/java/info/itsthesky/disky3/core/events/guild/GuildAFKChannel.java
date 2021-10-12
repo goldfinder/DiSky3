@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateAfkChannelEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildAFKChannel extends DiSkyEvent<GuildUpdateAfkChannelEvent> {
 
@@ -20,35 +21,35 @@ public class GuildAFKChannel extends DiSkyEvent<GuildUpdateAfkChannelEvent> {
 
        EventValues.registerEventValue(EvtGuildAFKChannel.class, VoiceChannel.class, new Getter<VoiceChannel, EvtGuildAFKChannel>() {
             @Override
-            public VoiceChannel get(EvtGuildAFKChannel event) {
+            public VoiceChannel get(@NotNull EvtGuildAFKChannel event) {
                 return event.getJDAEvent().getOldAfkChannel();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtGuildAFKChannel.class, VoiceChannel.class, new Getter<VoiceChannel, EvtGuildAFKChannel>() {
             @Override
-            public VoiceChannel get(EvtGuildAFKChannel event) {
+            public VoiceChannel get(@NotNull EvtGuildAFKChannel event) {
                 return event.getJDAEvent().getNewAfkChannel();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtGuildAFKChannel.class, VoiceChannel.class, new Getter<VoiceChannel, EvtGuildAFKChannel>() {
             @Override
-            public VoiceChannel get(EvtGuildAFKChannel event) {
+            public VoiceChannel get(@NotNull EvtGuildAFKChannel event) {
                 return event.getJDAEvent().getNewAfkChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildAFKChannel.class, Guild.class, new Getter<Guild, EvtGuildAFKChannel>() {
             @Override
-            public Guild get(EvtGuildAFKChannel event) {
+            public Guild get(@NotNull EvtGuildAFKChannel event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildAFKChannel.class, Bot.class, new Getter<Bot, EvtGuildAFKChannel>() {
             @Override
-            public Bot get(EvtGuildAFKChannel event) {
+            public Bot get(@NotNull EvtGuildAFKChannel event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

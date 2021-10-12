@@ -16,6 +16,7 @@ import info.itsthesky.disky3.api.Utils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Play Audio")
 @Description("Play a specific audio track (can be get from search or load locale effects) to a voice channel")
@@ -84,7 +85,7 @@ public class EffPlayAudio extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprTracks = (Expression<AudioTrack>) exprs[0];
         exprGuild = (Expression<Guild>) exprs[1];
         exprBot = (Expression<Bot>) exprs[2];
@@ -93,7 +94,7 @@ public class EffPlayAudio extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         AudioTrack[] tracks = exprTracks.getAll(e);
         Guild guild = exprGuild.getSingle(e);
         Bot bot = Utils.verifyVar(e, exprBot);
@@ -106,7 +107,7 @@ public class EffPlayAudio extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "play tracks " + exprTracks.toString(e, debug) + " in guild " + exprGuild.toString(e, debug) + (exprBot == null ? "" : " with bot" + exprBot.toString(e, debug));
     }
 

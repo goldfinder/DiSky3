@@ -8,6 +8,7 @@ import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.skript.events.BukkitEvent;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DiSkyError extends SkriptEvent {
@@ -21,7 +22,7 @@ public class DiSkyError extends SkriptEvent {
 
         EventValues.registerEventValue(EvtDiSkyError.class, String.class, new Getter<String, EvtDiSkyError>() {
             @Override
-            public String get(EvtDiSkyError event) {
+            public String get(@NotNull EvtDiSkyError event) {
                 return event.msg;
             }
         }, 0);
@@ -29,17 +30,17 @@ public class DiSkyError extends SkriptEvent {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Literal<?>[] exprs, int i, SkriptParser.ParseResult parseResult) {
+    public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
         return true;
     }
 
     @Override
-    public boolean check(Event event) {
+    public boolean check(@NotNull Event event) {
         return true;
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "on disky error";
     }
 

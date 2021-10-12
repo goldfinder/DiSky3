@@ -49,7 +49,7 @@ public abstract class EasyPropertyCondition<T> extends Condition {
     }
 
     @Override
-    public boolean check(Event e) {
+    public boolean check(@NotNull Event e) {
         return check(e, expr.getSingle(e));
     }
 
@@ -62,7 +62,7 @@ public abstract class EasyPropertyCondition<T> extends Condition {
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         expr = (Expression<? extends T>) exprs[0];
         this.setNegated(matchedPattern == 1);
         return true;

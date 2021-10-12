@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class BotLeave extends DiSkyEvent<GuildLeaveEvent> {
 
@@ -19,14 +20,14 @@ public class BotLeave extends DiSkyEvent<GuildLeaveEvent> {
 
        EventValues.registerEventValue(EvtBotLeave.class, Guild.class, new Getter<Guild, EvtBotLeave>() {
             @Override
-            public Guild get(EvtBotLeave event) {
+            public Guild get(@NotNull EvtBotLeave event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtBotLeave.class, Bot.class, new Getter<Bot, EvtBotLeave>() {
             @Override
-            public Bot get(EvtBotLeave event) {
+            public Bot get(@NotNull EvtBotLeave event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateSystemChannelEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildSystemChannel extends DiSkyEvent<GuildUpdateSystemChannelEvent> {
 
@@ -20,42 +21,42 @@ public class GuildSystemChannel extends DiSkyEvent<GuildUpdateSystemChannelEvent
 
         EventValues.registerEventValue(EvtGuildSystemChannel.class, TextChannel.class, new Getter<TextChannel, EvtGuildSystemChannel>() {
             @Override
-            public TextChannel get(EvtGuildSystemChannel event) {
+            public TextChannel get(@NotNull EvtGuildSystemChannel event) {
                 return event.getJDAEvent().getNewSystemChannel();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtGuildSystemChannel.class, TextChannel.class, new Getter<TextChannel, EvtGuildSystemChannel>() {
             @Override
-            public TextChannel get(EvtGuildSystemChannel event) {
+            public TextChannel get(@NotNull EvtGuildSystemChannel event) {
                 return event.getJDAEvent().getNewSystemChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildSystemChannel.class, TextChannel.class, new Getter<TextChannel, EvtGuildSystemChannel>() {
             @Override
-            public TextChannel get(EvtGuildSystemChannel event) {
+            public TextChannel get(@NotNull EvtGuildSystemChannel event) {
                 return event.getJDAEvent().getOldSystemChannel();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtGuildSystemChannel.class, Guild.class, new Getter<Guild, EvtGuildSystemChannel>() {
             @Override
-            public Guild get(EvtGuildSystemChannel event) {
+            public Guild get(@NotNull EvtGuildSystemChannel event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildSystemChannel.class, Guild.class, new Getter<Guild, EvtGuildSystemChannel>() {
             @Override
-            public Guild get(EvtGuildSystemChannel event) {
+            public Guild get(@NotNull EvtGuildSystemChannel event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildSystemChannel.class, Bot.class, new Getter<Bot, EvtGuildSystemChannel>() {
             @Override
-            public Bot get(EvtGuildSystemChannel event) {
+            public Bot get(@NotNull EvtGuildSystemChannel event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

@@ -24,6 +24,7 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,7 +45,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, CommandObject.class, new Getter<CommandObject, CommandEvent>() {
                     @Override
-                    public CommandObject get(CommandEvent event) {
+                    public CommandObject get(@NotNull CommandEvent event) {
                         return event.getCommand();
                     }
                 }
@@ -52,7 +53,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, User.class, new Getter<User, CommandEvent>() {
                     @Override
-                    public User get(CommandEvent event) {
+                    public User get(@NotNull CommandEvent event) {
                         return event.getUser();
                     }
                 }
@@ -61,7 +62,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, Member.class, new Getter<Member, CommandEvent>() {
                     @Override
-                    public Member get(CommandEvent event) {
+                    public Member get(@NotNull CommandEvent event) {
                         return event.getMember();
                     }
                 }
@@ -69,7 +70,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, GuildChannel.class, new Getter<GuildChannel, CommandEvent>() {
                     @Override
-                    public GuildChannel get(CommandEvent event) {
+                    public GuildChannel get(@NotNull CommandEvent event) {
                         return event.getTxtChannel();
                     }
                 }
@@ -78,7 +79,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, MessageChannel.class, new Getter<MessageChannel, CommandEvent>() {
                     @Override
-                    public MessageChannel get(CommandEvent event) {
+                    public MessageChannel get(@NotNull CommandEvent event) {
                         return event.getMessageChannel();
                     }
                 }
@@ -86,7 +87,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, UpdatingMessage.class, new Getter<UpdatingMessage, CommandEvent>() {
                     @Override
-                    public UpdatingMessage get(CommandEvent event) {
+                    public UpdatingMessage get(@NotNull CommandEvent event) {
                         return UpdatingMessage.from(event.getMessage());
                     }
                 }
@@ -94,7 +95,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, Guild.class, new Getter<Guild, CommandEvent>() {
                     @Override
-                    public Guild get(CommandEvent event) {
+                    public Guild get(@NotNull CommandEvent event) {
                         return event.getGuild();
                     }
                 }
@@ -102,7 +103,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
         EventValues.registerEventValue(CommandEvent.class, Bot.class, new Getter<Bot, CommandEvent>() {
             @Override
-            public Bot get(CommandEvent event) {
+            public Bot get(@NotNull CommandEvent event) {
                 return BotManager.searchFromJDA(event.getBot());
             }
         }, 0);
@@ -112,7 +113,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
     private String command;
 
     @Override
-    public boolean init(final Literal<?>[] args, final int matchedPattern, final ParseResult parser) {
+    public boolean init(final Literal<?> @NotNull [] args, final int matchedPattern, final ParseResult parser) {
         command = parser.regexes.get(0).group(1);
         arguments = parser.regexes.get(0).group(2);
         SectionNode sectionNode = (SectionNode) SkriptLogger.getNode();
@@ -133,11 +134,11 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
     }
 
     @Override
-    public void register(Trigger t) {
+    public void register(@NotNull Trigger t) {
     }
 
     @Override
-    public void unregister(Trigger t) {
+    public void unregister(@NotNull Trigger t) {
         CommandFactory.getInstance().remove(command);
     }
 
@@ -148,7 +149,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
 
     @Override
-    public String toString(final Event e, final boolean debug) {
+    public @NotNull String toString(final Event e, final boolean debug) {
         return "discord command " + command + (arguments == null ? "" : arguments);
     }
 

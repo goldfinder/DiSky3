@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.update.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -29,21 +30,21 @@ public class TextPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
 
        EventValues.registerEventValue(EvtTextPosition.class, TextChannel.class, new Getter<TextChannel, EvtTextPosition>() {
             @Override
-            public TextChannel get(EvtTextPosition event) {
+            public TextChannel get(@NotNull EvtTextPosition event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextPosition.class, Guild.class, new Getter<Guild, EvtTextPosition>() {
             @Override
-            public Guild get(EvtTextPosition event) {
+            public Guild get(@NotNull EvtTextPosition event) {
                 return ((TextChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtTextPosition.class, Bot.class, new Getter<Bot, EvtTextPosition>() {
             @Override
-            public Bot get(EvtTextPosition event) {
+            public Bot get(@NotNull EvtTextPosition event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

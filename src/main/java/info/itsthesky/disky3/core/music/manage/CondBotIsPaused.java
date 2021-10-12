@@ -12,6 +12,7 @@ import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.Utils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Bot is Paused in Guild")
 @Description("Return if the bot is currently paused in a specific guild.")
@@ -29,14 +30,14 @@ public class CondBotIsPaused extends Condition {
 	private boolean isNegate;
 
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		exprGuild = (Expression<Guild>) exprs[0];
 		isNegate = matchedPattern != 0;
 		return true;
 	}
 
 	@Override
-	public boolean check(final Event e) {
+	public boolean check(final @NotNull Event e) {
 		Guild guild = exprGuild.getSingle(e);
 		if (guild == null) return false;
 		if (isNegate) {
@@ -47,7 +48,7 @@ public class CondBotIsPaused extends Condition {
 	}
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public @NotNull String toString(Event e, boolean debug) {
 		return "track the bot is paused in guild " + exprGuild.toString(e, debug);
 	}
 

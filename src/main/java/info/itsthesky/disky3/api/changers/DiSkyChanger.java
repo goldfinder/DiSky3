@@ -3,11 +3,12 @@ package info.itsthesky.disky3.api.changers;
 import ch.njol.skript.classes.Changer;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.core.EffChange;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class DiSkyChanger<T> implements Changer<T> {
 
     @Override
-    public final Class<?>[] acceptChange(ChangeMode mode) {
+    public final Class<?> @NotNull [] acceptChange(@NotNull ChangeMode mode) {
         if (!EffChange.isParsing(null, true)) {
             return null;
         }
@@ -15,7 +16,7 @@ public abstract class DiSkyChanger<T> implements Changer<T> {
     }
 
     @Override
-    public final void change(T[] what, Object[] delta, ChangeMode mode) {
+    public final void change(T @NotNull [] what, Object @NotNull [] delta, @NotNull ChangeMode mode) {
         if (EffChange.currentBot != null) {
             change(what, delta, EffChange.currentBot, mode);
         }

@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildUnbanEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class UserUnban extends DiSkyEvent<GuildUnbanEvent> {
 
@@ -22,21 +23,21 @@ public class UserUnban extends DiSkyEvent<GuildUnbanEvent> {
 
        EventValues.registerEventValue(EvtUserUnban.class, User.class, new Getter<User, EvtUserUnban>() {
             @Override
-            public User get(EvtUserUnban event) {
+            public User get(@NotNull EvtUserUnban event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtUserUnban.class, Guild.class, new Getter<Guild, EvtUserUnban>() {
             @Override
-            public Guild get(EvtUserUnban event) {
+            public Guild get(@NotNull EvtUserUnban event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtUserUnban.class, Bot.class, new Getter<Bot, EvtUserUnban>() {
             @Override
-            public Bot get(EvtUserUnban event) {
+            public Bot get(@NotNull EvtUserUnban event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

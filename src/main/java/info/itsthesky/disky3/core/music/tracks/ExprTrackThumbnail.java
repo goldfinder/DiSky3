@@ -9,6 +9,7 @@ import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -32,23 +33,23 @@ public class ExprTrackThumbnail extends SimplePropertyExpression<AudioTrack, Str
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 
     @Override
-    protected String getPropertyName() {
+    protected @NotNull String getPropertyName() {
         return "track thumbnail";
     }
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
         return CollectionUtils.array();
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
 
     }
 }

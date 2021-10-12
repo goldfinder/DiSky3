@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MemberRoleAdd extends DiSkyEvent<GuildMemberRoleAddEvent> {
 
@@ -22,35 +23,35 @@ public class MemberRoleAdd extends DiSkyEvent<GuildMemberRoleAddEvent> {
 
        EventValues.registerEventValue(EvtMemberRoleAdd.class, Role[].class, new Getter<Role[], EvtMemberRoleAdd>() {
             @Override
-            public Role[] get(EvtMemberRoleAdd event) {
+            public Role[] get(@NotNull EvtMemberRoleAdd event) {
                 return event.getJDAEvent().getRoles().toArray(new Role[0]);
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleAdd.class, Member.class, new Getter<Member, EvtMemberRoleAdd>() {
             @Override
-            public Member get(EvtMemberRoleAdd event) {
+            public Member get(@NotNull EvtMemberRoleAdd event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleAdd.class, User.class, new Getter<User, EvtMemberRoleAdd>() {
             @Override
-            public User get(EvtMemberRoleAdd event) {
+            public User get(@NotNull EvtMemberRoleAdd event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleAdd.class, Guild.class, new Getter<Guild, EvtMemberRoleAdd>() {
             @Override
-            public Guild get(EvtMemberRoleAdd event) {
+            public Guild get(@NotNull EvtMemberRoleAdd event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleAdd.class, Bot.class, new Getter<Bot, EvtMemberRoleAdd>() {
             @Override
-            public Bot get(EvtMemberRoleAdd event) {
+            public Bot get(@NotNull EvtMemberRoleAdd event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.update.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -29,21 +30,21 @@ public class VoiceUserLimit extends DiSkyEvent<ChannelUpdateUserLimitEvent> {
 
        EventValues.registerEventValue(EvtVoiceUserLimit.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceUserLimit>() {
             @Override
-            public VoiceChannel get(EvtVoiceUserLimit event) {
+            public VoiceChannel get(@NotNull EvtVoiceUserLimit event) {
                 return ((VoiceChannel) event.getJDAEvent().getChannel());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceUserLimit.class, Guild.class, new Getter<Guild, EvtVoiceUserLimit>() {
             @Override
-            public Guild get(EvtVoiceUserLimit event) {
+            public Guild get(@NotNull EvtVoiceUserLimit event) {
                 return ((VoiceChannel) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceUserLimit.class, Bot.class, new Getter<Bot, EvtVoiceUserLimit>() {
             @Override
-            public Bot get(EvtVoiceUserLimit event) {
+            public Bot get(@NotNull EvtVoiceUserLimit event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildName extends DiSkyEvent<GuildUpdateNameEvent> {
 
@@ -20,49 +21,49 @@ public class GuildName extends DiSkyEvent<GuildUpdateNameEvent> {
 
         EventValues.registerEventValue(EvtGuildName.class, String.class, new Getter<String, EvtGuildName>() {
             @Override
-            public String get(EvtGuildName event) {
+            public String get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtGuildName.class, String.class, new Getter<String, EvtGuildName>() {
             @Override
-            public String get(EvtGuildName event) {
+            public String get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getNewValue();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtGuildName.class, String.class, new Getter<String, EvtGuildName>() {
             @Override
-            public String get(EvtGuildName event) {
+            public String get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getOldName();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtGuildName.class, String.class, new Getter<String, EvtGuildName>() {
             @Override
-            public String get(EvtGuildName event) {
+            public String get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getOldName();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildName.class, Guild.class, new Getter<Guild, EvtGuildName>() {
             @Override
-            public Guild get(EvtGuildName event) {
+            public Guild get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildName.class, Guild.class, new Getter<Guild, EvtGuildName>() {
             @Override
-            public Guild get(EvtGuildName event) {
+            public Guild get(@NotNull EvtGuildName event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildName.class, Bot.class, new Getter<Bot, EvtGuildName>() {
             @Override
-            public Bot get(EvtGuildName event) {
+            public Bot get(@NotNull EvtGuildName event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

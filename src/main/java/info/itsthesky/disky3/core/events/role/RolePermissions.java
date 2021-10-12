@@ -10,6 +10,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
 
@@ -22,42 +23,42 @@ public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
 
        EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
             @Override
-            public Permission[] get(EvtRolePermissions event) {
+            public Permission[] get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getOldPermissions().toArray(new Permission[0]);
             }
         }, -1);
 
         EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
             @Override
-            public Permission[] get(EvtRolePermissions event) {
+            public Permission[] get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getNewPermissions().toArray(new Permission[0]);
             }
         }, 1);
 
         EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
             @Override
-            public Permission[] get(EvtRolePermissions event) {
+            public Permission[] get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getNewPermissions().toArray(new Permission[0]);
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRolePermissions.class, Guild.class, new Getter<Guild, EvtRolePermissions>() {
             @Override
-            public Guild get(EvtRolePermissions event) {
+            public Guild get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRolePermissions.class, Role.class, new Getter<Role, EvtRolePermissions>() {
             @Override
-            public Role get(EvtRolePermissions event) {
+            public Role get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getRole();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRolePermissions.class, Bot.class, new Getter<Bot, EvtRolePermissions>() {
             @Override
-            public Bot get(EvtRolePermissions event) {
+            public Bot get(@NotNull EvtRolePermissions event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

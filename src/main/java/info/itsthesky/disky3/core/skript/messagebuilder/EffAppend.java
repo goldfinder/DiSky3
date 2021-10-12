@@ -8,6 +8,7 @@ import ch.njol.util.Kleenean;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public class EffAppend extends Effect {
 
@@ -21,14 +22,14 @@ public class EffAppend extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprEntity = (Expression<Object>) exprs[0];
         exprBuilder = (Expression<MessageBuilder>) exprs[1];
         return true;
     }
 
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         Object entity = exprEntity.getSingle(e);
         MessageBuilder builder = exprBuilder.getSingle(e);
         if (entity == null || builder == null) return;
@@ -42,7 +43,7 @@ public class EffAppend extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "append " + exprEntity.toString(e, debug) + " to message builder " + exprBuilder.toString(e, debug);
     }
 

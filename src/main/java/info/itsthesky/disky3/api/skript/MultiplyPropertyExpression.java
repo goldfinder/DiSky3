@@ -8,6 +8,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -26,7 +27,7 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
         );
     }
 
-    public abstract Class<? extends T> getReturnType();
+    public abstract @NotNull Class<? extends T> getReturnType();
 
     protected abstract String getPropertyName();
 
@@ -34,14 +35,14 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(final Expression<?>[] expr, final int matchedPattern, final Kleenean isDelayed, final SkriptParser.ParseResult parseResult) {
+    public boolean init(final Expression<?> @NotNull [] expr, final int matchedPattern, final @NotNull Kleenean isDelayed, final SkriptParser.@NotNull ParseResult parseResult) {
         SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
         this.expr = (Expression<? extends F>) expr[0];
         return true;
     }
 
     @Override
-    protected T[] get(Event e) {
+    protected T @NotNull [] get(@NotNull Event e) {
         return convert(expr.getSingle(e));
     }
 
@@ -51,7 +52,7 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
     }
 
     @Override
-    public String toString(final @Nullable Event e, final boolean debug) {
+    public @NotNull String toString(final @Nullable Event e, final boolean debug) {
         return "the " + getPropertyName() + " of " + expr.toString(e, debug);
     }
 

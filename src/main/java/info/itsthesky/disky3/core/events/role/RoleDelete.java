@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class RoleDelete extends DiSkyEvent<RoleDeleteEvent> {
 
@@ -22,21 +23,21 @@ public class RoleDelete extends DiSkyEvent<RoleDeleteEvent> {
 
        EventValues.registerEventValue(EvtRoleDelete.class, Role.class, new Getter<Role, EvtRoleDelete>() {
             @Override
-            public Role get(EvtRoleDelete event) {
+            public Role get(@NotNull EvtRoleDelete event) {
                 return event.getJDAEvent().getRole();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleDelete.class, Guild.class, new Getter<Guild, EvtRoleDelete>() {
             @Override
-            public Guild get(EvtRoleDelete event) {
+            public Guild get(@NotNull EvtRoleDelete event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleDelete.class, Bot.class, new Getter<Bot, EvtRoleDelete>() {
             @Override
-            public Bot get(EvtRoleDelete event) {
+            public Bot get(@NotNull EvtRoleDelete event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

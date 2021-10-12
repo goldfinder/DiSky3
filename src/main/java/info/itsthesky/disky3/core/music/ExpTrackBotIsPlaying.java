@@ -14,6 +14,7 @@ import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.Utils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Track the Bot is Playing")
 @Description("Return the track (if set) which the bot is currently playing.")
@@ -28,13 +29,13 @@ public class ExpTrackBotIsPlaying extends SimpleExpression<AudioTrack> {
 	Expression<Guild> exprGuild;
 
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		exprGuild = (Expression<Guild>) exprs[0];
 		return true;
 	}
 
 	@Override
-	protected AudioTrack[] get(final Event e) {
+	protected AudioTrack @NotNull [] get(final @NotNull Event e) {
 		Guild guild = exprGuild.getSingle(e);
 		if (guild == null) return new AudioTrack[0];
 		return !AudioUtils.MUSIC_MANAGERS.containsKey(guild.getIdLong()) ? new AudioTrack[0] : new AudioTrack[] {AudioUtils.MUSIC_MANAGERS.get(guild.getIdLong()).getPlayer().getPlayingTrack()};
@@ -46,12 +47,12 @@ public class ExpTrackBotIsPlaying extends SimpleExpression<AudioTrack> {
 	}
 
 	@Override
-	public Class<? extends AudioTrack> getReturnType() {
+	public @NotNull Class<? extends AudioTrack> getReturnType() {
 		return AudioTrack.class;
 	}
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public @NotNull String toString(Event e, boolean debug) {
 		return "track the bot is playing in guild " + exprGuild.toString(e, debug);
 	}
 

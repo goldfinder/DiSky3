@@ -18,6 +18,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.api.StaticData;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ExprArgument extends SimpleExpression<Object> {
     private Argument<?> arg;
 
     @Override
-    public boolean init(final Expression<?>[] exprs, final int matchedPattern, final Kleenean isDelayed, final ParseResult parser) {
+    public boolean init(final Expression<?> @NotNull [] exprs, final int matchedPattern, final @NotNull Kleenean isDelayed, final @NotNull ParseResult parser) {
         if (!ScriptLoader.isCurrentEvent(CommandEvent.class))
             return false;
 
@@ -127,18 +128,17 @@ public class ExprArgument extends SimpleExpression<Object> {
     }
 
     @Override
-    @Nullable
-    protected Object[] get(final Event e) {
+    protected Object @NotNull [] get(final @NotNull Event e) {
         return arg.getCurrent(e);
     }
 
     @Override
-    public Class<? extends Object> getReturnType() {
+    public @NotNull Class<? extends Object> getReturnType() {
         return arg.getType();
     }
 
     @Override
-    public String toString(final @Nullable Event e, final boolean debug) {
+    public @NotNull String toString(final @Nullable Event e, final boolean debug) {
         if (e == null)
             return "the " + StringUtils.fancyOrderNumber(arg.getIndex() + 1) + " argument";
         return Classes.getDebugMessage(getArray(e));

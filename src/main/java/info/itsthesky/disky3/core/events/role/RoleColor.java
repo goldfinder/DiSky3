@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -24,42 +25,42 @@ public class RoleColor extends DiSkyEvent<RoleUpdateColorEvent> {
 
        EventValues.registerEventValue(EvtRoleColor.class, Color.class, new Getter<Color, EvtRoleColor>() {
             @Override
-            public Color get(EvtRoleColor event) {
+            public Color get(@NotNull EvtRoleColor event) {
                 return event.getJDAEvent().getNewColor();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtRoleColor.class, Color.class, new Getter<Color, EvtRoleColor>() {
             @Override
-            public Color get(EvtRoleColor event) {
+            public Color get(@NotNull EvtRoleColor event) {
                 return event.getJDAEvent().getOldColor();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtRoleColor.class, Color.class, new Getter<Color, EvtRoleColor>() {
             @Override
-            public Color get(EvtRoleColor event) {
+            public Color get(@NotNull EvtRoleColor event) {
                 return event.getJDAEvent().getOldColor();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleColor.class, Guild.class, new Getter<Guild, EvtRoleColor>() {
             @Override
-            public Guild get(EvtRoleColor event) {
+            public Guild get(@NotNull EvtRoleColor event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleColor.class, Role.class, new Getter<Role, EvtRoleColor>() {
             @Override
-            public Role get(EvtRoleColor event) {
+            public Role get(@NotNull EvtRoleColor event) {
                 return event.getJDAEvent().getRole();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtRoleColor.class, Bot.class, new Getter<Bot, EvtRoleColor>() {
             @Override
-            public Bot get(EvtRoleColor event) {
+            public Bot get(@NotNull EvtRoleColor event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

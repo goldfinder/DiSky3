@@ -11,6 +11,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.effects.Delay;
 import ch.njol.skript.timings.SkriptTimings;
 import ch.njol.skript.variables.Variables;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,7 +26,7 @@ public abstract class AsyncEffect extends Effect {
 
 	@Override
 	@Nullable
-	protected TriggerItem walk(Event e) {
+	protected TriggerItem walk(@NotNull Event e) {
 		debug(e, true);
 		
 		Delay.addDelayedEvent(e); // Mark this event as delayed

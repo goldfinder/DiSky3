@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.channel.update.ChannelUpdatePositionEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class CategoryPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
 
@@ -27,28 +28,28 @@ public class CategoryPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
 
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override
-            public Category get(EvtCategoryName event) {
+            public Category get(@NotNull EvtCategoryName event) {
                 return (Category) event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtCategoryName.class, Guild.class, new Getter<Guild, EvtCategoryName>() {
             @Override
-            public Guild get(EvtCategoryName event) {
+            public Guild get(@NotNull EvtCategoryName event) {
                 return ((Category) event.getJDAEvent().getChannel()).getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override
-            public Category get(EvtCategoryName event) {
+            public Category get(@NotNull EvtCategoryName event) {
                 return (Category) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtCategoryName.class, Bot.class, new Getter<Bot, EvtCategoryName>() {
             @Override
-            public Bot get(EvtCategoryName event) {
+            public Bot get(@NotNull EvtCategoryName event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

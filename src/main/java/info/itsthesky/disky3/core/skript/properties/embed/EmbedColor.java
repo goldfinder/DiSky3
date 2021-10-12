@@ -56,7 +56,7 @@ public class EmbedColor extends SimplePropertyExpression<EmbedBuilder, Color> {
     }
 
     @Override
-    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
             final Color value = (Color) delta[0];
@@ -78,9 +78,8 @@ public class EmbedColor extends SimplePropertyExpression<EmbedBuilder, Color> {
         }
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(
                     Color.class

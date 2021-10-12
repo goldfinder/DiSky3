@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateBannerEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildBanner extends DiSkyEvent<GuildUpdateBannerEvent> {
 
@@ -19,35 +20,35 @@ public class GuildBanner extends DiSkyEvent<GuildUpdateBannerEvent> {
 
         EventValues.registerEventValue(EvtGuildBanner.class, String.class, new Getter<String, EvtGuildBanner>() {
             @Override
-            public String get(EvtGuildBanner event) {
+            public String get(@NotNull EvtGuildBanner event) {
                 return event.getJDAEvent().getNewBannerUrl();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtGuildBanner.class, String.class, new Getter<String, EvtGuildBanner>() {
             @Override
-            public String get(EvtGuildBanner event) {
+            public String get(@NotNull EvtGuildBanner event) {
                 return event.getJDAEvent().getOldBannerUrl();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtGuildBanner.class, String.class, new Getter<String, EvtGuildBanner>() {
             @Override
-            public String get(EvtGuildBanner event) {
+            public String get(@NotNull EvtGuildBanner event) {
                 return event.getJDAEvent().getOldBannerUrl();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildBanner.class, Guild.class, new Getter<Guild, EvtGuildBanner>() {
             @Override
-            public Guild get(EvtGuildBanner event) {
+            public Guild get(@NotNull EvtGuildBanner event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildBanner.class, Bot.class, new Getter<Bot, EvtGuildBanner>() {
             @Override
-            public Bot get(EvtGuildBanner event) {
+            public Bot get(@NotNull EvtGuildBanner event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

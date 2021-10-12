@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.EmbedManager;
 import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -47,7 +48,7 @@ public class ScopeEmbed extends EffectSection {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprID = (Expression<String>) exprs[0];
         if (checkIfCondition()) return false;
         if (!hasSection()) return false;
@@ -68,7 +69,7 @@ public class ScopeEmbed extends EffectSection {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         if (exprID != null) {
             return "make new discord embed using template " + exprID.toString(e, debug);
         } else {

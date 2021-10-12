@@ -12,6 +12,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import net.dv8tion.jda.api.MessageBuilder;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public class ExprMessageBuilder extends SimpleExpression<MessageBuilder> {
 
@@ -23,12 +24,12 @@ public class ExprMessageBuilder extends SimpleExpression<MessageBuilder> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		return true;
 	}
 
 	@Override
-	protected MessageBuilder[] get(Event e) {
+	protected MessageBuilder @NotNull [] get(@NotNull Event e) {
 		return new MessageBuilder[] {
 				new MessageBuilder()
 		};
@@ -40,12 +41,12 @@ public class ExprMessageBuilder extends SimpleExpression<MessageBuilder> {
 	}
 
 	@Override
-	public Class<? extends MessageBuilder> getReturnType() {
+	public @NotNull Class<? extends MessageBuilder> getReturnType() {
 		return MessageBuilder.class;
 	}
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public @NotNull String toString(Event e, boolean debug) {
 		return "new message builder";
 	}
 

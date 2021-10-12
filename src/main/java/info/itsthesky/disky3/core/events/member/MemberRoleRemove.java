@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MemberRoleRemove extends DiSkyEvent<GuildMemberRoleRemoveEvent> {
 
@@ -22,35 +23,35 @@ public class MemberRoleRemove extends DiSkyEvent<GuildMemberRoleRemoveEvent> {
 
        EventValues.registerEventValue(EvtMemberRoleRemove.class, Role[].class, new Getter<Role[], EvtMemberRoleRemove>() {
             @Override
-            public Role[] get(EvtMemberRoleRemove event) {
+            public Role[] get(@NotNull EvtMemberRoleRemove event) {
                 return event.getJDAEvent().getRoles().toArray(new Role[0]);
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleRemove.class, Member.class, new Getter<Member, EvtMemberRoleRemove>() {
             @Override
-            public Member get(EvtMemberRoleRemove event) {
+            public Member get(@NotNull EvtMemberRoleRemove event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleRemove.class, User.class, new Getter<User, EvtMemberRoleRemove>() {
             @Override
-            public User get(EvtMemberRoleRemove event) {
+            public User get(@NotNull EvtMemberRoleRemove event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleRemove.class, Guild.class, new Getter<Guild, EvtMemberRoleRemove>() {
             @Override
-            public Guild get(EvtMemberRoleRemove event) {
+            public Guild get(@NotNull EvtMemberRoleRemove event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberRoleRemove.class, Bot.class, new Getter<Bot, EvtMemberRoleRemove>() {
             @Override
-            public Bot get(EvtMemberRoleRemove event) {
+            public Bot get(@NotNull EvtMemberRoleRemove event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

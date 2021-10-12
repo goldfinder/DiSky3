@@ -35,7 +35,7 @@ public class GetVoiceChannel extends SimpleExpression<VoiceChannel> {
     private NodeInformation node;
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         node = new NodeInformation();
         exprId = (Expression<String>) exprs[0];
         exprBot = (Expression<Bot>) exprs[1];
@@ -52,12 +52,12 @@ public class GetVoiceChannel extends SimpleExpression<VoiceChannel> {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "text channel with id " + exprId.toString(e, debug);
     }
 
     @Override
-    protected VoiceChannel[] get(@NotNull Event e) {
+    protected VoiceChannel @NotNull [] get(@NotNull Event e) {
         String id = exprId.getSingle(e);
         Bot bot = exprBot.getSingle(e);
         if (id == null || bot == null) return new VoiceChannel[0];

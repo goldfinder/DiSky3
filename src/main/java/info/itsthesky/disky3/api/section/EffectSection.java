@@ -11,6 +11,7 @@ import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public abstract class EffectSection extends Condition {
     protected abstract void execute(Event e);
 
     @Override
-    public boolean check(Event e) {
+    public boolean check(@NotNull Event e) {
         execute(e);
         if (executeNext && trigger != null)
             setNext(trigger.getNext());
@@ -139,12 +140,12 @@ public abstract class EffectSection extends Condition {
                 trigger = new TriggerSection(section) {
 
                     @Override
-                    public String toString(Event event, boolean b) {
+                    public @NotNull String toString(Event event, boolean b) {
                         return EffectSection.this.toString(event, b);
                     }
 
                     @Override
-                    public TriggerItem walk(Event event) {
+                    public TriggerItem walk(@NotNull Event event) {
                         return walk(event, true);
                     }
                 };

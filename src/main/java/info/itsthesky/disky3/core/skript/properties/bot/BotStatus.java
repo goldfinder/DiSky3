@@ -29,14 +29,14 @@ public class BotStatus extends PropertyExpression<Bot, OnlineStatus> {
     private NodeInformation info;
 
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(OnlineStatus.class);
         return CollectionUtils.array();
     }
 
     @Override
-    public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
         Bot bot = Utils.verifyVar(e, getExpr(), null);
         final OnlineStatus status = (OnlineStatus) delta[0];

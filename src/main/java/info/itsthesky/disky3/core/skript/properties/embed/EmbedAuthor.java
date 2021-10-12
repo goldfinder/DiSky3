@@ -55,7 +55,7 @@ public class EmbedAuthor extends SimplePropertyExpression<EmbedBuilder, String> 
     }
 
     @Override
-    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
             final String value = (String) delta[0];
@@ -89,9 +89,8 @@ public class EmbedAuthor extends SimplePropertyExpression<EmbedBuilder, String> 
         }
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(
                     String.class

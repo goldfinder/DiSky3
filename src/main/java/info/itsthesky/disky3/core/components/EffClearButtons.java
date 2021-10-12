@@ -13,6 +13,7 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.AsyncEffect;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
@@ -29,13 +30,13 @@ public class EffClearButtons extends AsyncEffect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         this.exprMessage = (Expression<UpdatingMessage>) exprs[0];
         return true;
     }
 
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         UpdatingMessage message = exprMessage.getSingle(e);
         if (message == null) return;
         message.getMessage().editMessage(message.getMessage())
@@ -48,7 +49,7 @@ public class EffClearButtons extends AsyncEffect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "clear all buttons from message " + exprMessage.toString(e, debug);
     }
 

@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Connect Bot")
 @Description("Connect a bot to a specific voice channel. Then, you can use the play effect to play something. Using the force part, it will simply disconnect the bot if it already connected.")
@@ -89,7 +90,7 @@ public class EffConnect extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         exprBot = (Expression<Bot>) exprs[0];
         exprChannel = (Expression<GuildChannel>) exprs[1];
         force = parseResult.expr.contains("force");
@@ -98,7 +99,7 @@ public class EffConnect extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         GuildChannel channel = exprChannel.getSingle(e);
         Bot bot = exprBot.getSingle(e);
         if (channel == null || bot == null) return;
@@ -112,7 +113,7 @@ public class EffConnect extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return (force ? "force " : "") + "connect the bot " + exprBot.toString(e, debug) + " to channel " + exprChannel.toString(e, debug);
     }
 

@@ -9,6 +9,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -24,18 +25,18 @@ public class ExprLastEmbed extends SimpleExpression<EmbedBuilder> {
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         return true;
     }
 
     @Nullable
     @Override
-    protected EmbedBuilder[] get(Event e) {
+    protected EmbedBuilder[] get(@NotNull Event e) {
         return new EmbedBuilder[]{ScopeEmbed.lastEmbed};
     }
 
     @Override
-    public Class<? extends EmbedBuilder> getReturnType() {
+    public @NotNull Class<? extends EmbedBuilder> getReturnType() {
         return EmbedBuilder.class;
     }
 
@@ -45,7 +46,7 @@ public class ExprLastEmbed extends SimpleExpression<EmbedBuilder> {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "the last generated embed";
     }
 }

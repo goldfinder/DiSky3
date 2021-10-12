@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMuteEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class VoiceMute extends DiSkyEvent<GuildVoiceMuteEvent> {
 
@@ -22,21 +23,21 @@ public class VoiceMute extends DiSkyEvent<GuildVoiceMuteEvent> {
 
        EventValues.registerEventValue(EvtVoiceMute.class, Member.class, new Getter<Member, EvtVoiceMute>() {
             @Override
-            public Member get(EvtVoiceMute event) {
+            public Member get(@NotNull EvtVoiceMute event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceMute.class, Guild.class, new Getter<Guild, EvtVoiceMute>() {
             @Override
-            public Guild get(EvtVoiceMute event) {
+            public Guild get(@NotNull EvtVoiceMute event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtVoiceMute.class, Bot.class, new Getter<Bot, EvtVoiceMute>() {
             @Override
-            public Bot get(EvtVoiceMute event) {
+            public Bot get(@NotNull EvtVoiceMute event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

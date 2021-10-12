@@ -7,6 +7,7 @@ import ch.njol.skript.lang.SkriptParser;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.bot.Bot;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TrackEnd extends SkriptEvent {
@@ -22,18 +23,18 @@ public class TrackEnd extends SkriptEvent {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Literal<?>[] exprs, int i, SkriptParser.ParseResult parseResult) {
+    public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
         bot = (Expression<Bot>) exprs[0];
         return true;
     }
 
     @Override
-    public boolean check(Event event) {
+    public boolean check(@NotNull Event event) {
         return ((TrackEvent) event).getState() == TrackEvent.TrackState.END;
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "on track end" + (bot == null ? "" : " seen by" + bot.toString(e, debug));
     }
 

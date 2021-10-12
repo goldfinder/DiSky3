@@ -42,7 +42,7 @@ public class EffRegisterBot extends AsyncEffect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (ScriptLoader.isCurrentEvent(SkriptStartEvent.class)) {
             Skript.error("We don't recommend using the login effect in a " + ScriptLoader.getCurrentEventName() + " event. Use 'on load:' instead!", ErrorQuality.SEMANTIC_ERROR);
             return false;
@@ -58,7 +58,7 @@ public class EffRegisterBot extends AsyncEffect {
     }
 
     @Override
-    protected void execute(Event e) {
+    protected void execute(@NotNull Event e) {
         String name = exprName.getSingle(e);
         String token = exprToken.getSingle(e);
         if (name == null || token == null) return;

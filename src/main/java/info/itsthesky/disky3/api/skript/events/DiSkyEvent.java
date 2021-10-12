@@ -74,7 +74,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
 
     @Override
      @SuppressWarnings("unchecked")
-    public boolean init(Literal<?>[] exprs, int matchedPattern, SkriptParser.ParseResult parser) {
+    public boolean init(Literal<?> @NotNull [] exprs, int matchedPattern, SkriptParser.@NotNull ParseResult parser) {
         bot = (String) (exprs[0] == null ? null : exprs[0].getSingle());
 
         bukkitClass = (Class<? extends Event>) Arrays.stream(this.getClass().getDeclaredClasses())
@@ -116,13 +116,13 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
     }
 
     @Override
-    public void afterParse(Config config) {
+    public void afterParse(@NotNull Config config) {
         ScriptLoader.setCurrentEvent(originalName, originalEvents);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void register(Trigger t) {
+    public void register(@NotNull Trigger t) {
         trigger = t;
         listener = new EventListener<>(jdaClass, JDAEvent -> {
             if (check(JDAEvent)) {
@@ -157,7 +157,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
     }
 
     @Override
-    public void unregister(final Trigger t) {
+    public void unregister(final @NotNull Trigger t) {
         listener.enabled = false;
         EventListener.removeListener(listener);
         listener = null;

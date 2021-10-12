@@ -7,6 +7,7 @@ import ch.njol.skript.classes.Parser;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -49,12 +50,12 @@ public abstract class SimpleType<T> extends ClassInfo<T> implements Changer<T> {
     }
 
     @Override
-    public Class<?>[] acceptChange(ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(@NotNull ChangeMode mode) {
         return null;
     }
 
     @Override
-    public void change(T[] source, Object[] set, ChangeMode mode) {
+    public void change(T @NotNull [] source, Object @NotNull [] set, @NotNull ChangeMode mode) {
 
     }
 
@@ -64,28 +65,28 @@ public abstract class SimpleType<T> extends ClassInfo<T> implements Changer<T> {
                     .defaultExpression(new EventValueExpression<>(clz))
                     .parser(new Parser<T>() {
                         @Override
-                        public String getVariableNamePattern() {
+                        public @NotNull String getVariableNamePattern() {
                             return variableName;
                         }
 
                         @Override
-                        public boolean canParse(ParseContext context) {
+                        public boolean canParse(@NotNull ParseContext context) {
                             return SimpleType.this.canParse(context);
                         }
 
                         @Override
                         @Nullable
-                        public T parse(String arg0, ParseContext arg1) {
+                        public T parse(@NotNull String arg0, @NotNull ParseContext arg1) {
                             return SimpleType.this.parse(arg0, arg1);
                         }
 
                         @Override
-                        public String toString(T arg0, int arg1) {
+                        public @NotNull String toString(@NotNull T arg0, int arg1) {
                             return SimpleType.this.toString(arg0, arg1);
                         }
 
                         @Override
-                        public String toVariableNameString(T arg0) {
+                        public @NotNull String toVariableNameString(@NotNull T arg0) {
                             return SimpleType.this.toVariableNameString(arg0);
                         }
                     }));

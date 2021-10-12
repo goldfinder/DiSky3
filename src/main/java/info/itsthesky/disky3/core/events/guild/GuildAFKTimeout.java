@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateAfkTimeoutEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildAFKTimeout extends DiSkyEvent<GuildUpdateAfkTimeoutEvent> {
 
@@ -20,35 +21,35 @@ public class GuildAFKTimeout extends DiSkyEvent<GuildUpdateAfkTimeoutEvent> {
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Number.class, new Getter<Number, EvtGuildAFKTimeout>() {
             @Override
-            public Number get(EvtGuildAFKTimeout event) {
+            public Number get(@NotNull EvtGuildAFKTimeout event) {
                 return event.getJDAEvent().getNewValue().getSeconds();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Number.class, new Getter<Number, EvtGuildAFKTimeout>() {
             @Override
-            public Number get(EvtGuildAFKTimeout event) {
+            public Number get(@NotNull EvtGuildAFKTimeout event) {
                 return event.getJDAEvent().getOldValue().getSeconds();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Guild.class, new Getter<Guild, EvtGuildAFKTimeout>() {
             @Override
-            public Guild get(EvtGuildAFKTimeout event) {
+            public Guild get(@NotNull EvtGuildAFKTimeout event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Guild.class, new Getter<Guild, EvtGuildAFKTimeout>() {
             @Override
-            public Guild get(EvtGuildAFKTimeout event) {
+            public Guild get(@NotNull EvtGuildAFKTimeout event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Bot.class, new Getter<Bot, EvtGuildAFKTimeout>() {
             @Override
-            public Bot get(EvtGuildAFKTimeout event) {
+            public Bot get(@NotNull EvtGuildAFKTimeout event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

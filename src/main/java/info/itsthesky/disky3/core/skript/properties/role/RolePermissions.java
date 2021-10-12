@@ -65,7 +65,7 @@ public class RolePermissions extends ChangeablePropertyExpression<Role, Permissi
     }
 
     @Override
-    protected Permission[] get(Event e, Role[] source) {
+    protected Permission @NotNull [] get(@NotNull Event e, Role @NotNull [] source) {
         return source[0].getPermissions().toArray(new Permission[0]);
     }
 }

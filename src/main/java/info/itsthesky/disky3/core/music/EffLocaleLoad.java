@@ -13,6 +13,7 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.Utils;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -39,7 +40,7 @@ public class EffLocaleLoad extends Effect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprPath = (Expression<String>) exprs[0];
         if (exprs.length != 1) {
             Expression<?> tempVar = exprs[1];
@@ -57,7 +58,7 @@ public class EffLocaleLoad extends Effect {
     }
 
     @Override
-    public void execute(Event e) {
+    public void execute(@NotNull Event e) {
         String path = exprPath.getSingle(e);
         if (path == null) return;
         File file = new File(path);
@@ -71,7 +72,7 @@ public class EffLocaleLoad extends Effect {
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "load locale file from " + exprPath.toString(e, debug) + " and store it in " + exprVar.toString(e, debug);
     }
 

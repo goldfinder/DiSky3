@@ -46,13 +46,13 @@ public abstract class PropertyCondition<T> extends Condition implements Checker<
     }
 
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
         this.expr = (Expression<? extends T>) exprs[0];
         this.setNegated(matchedPattern == 1);
         return true;
     }
 
-    public boolean check(Event e) {
+    public boolean check(@NotNull Event e) {
         return this.expr.check(e, this, this.isNegated());
     }
 
@@ -68,7 +68,7 @@ public abstract class PropertyCondition<T> extends Condition implements Checker<
         this.expr = expr;
     }
 
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return toString(this, this.getPropertyType(), e, debug, this.expr, this.getPropertyName());
     }
 

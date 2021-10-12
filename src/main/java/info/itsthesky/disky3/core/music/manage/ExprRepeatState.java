@@ -10,6 +10,7 @@ import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -39,23 +40,23 @@ public class ExprRepeatState extends SimplePropertyExpression<Guild, Boolean> {
 
     @Nullable
     @Override
-    public Boolean convert(Guild guild) {
+    public Boolean convert(@NotNull Guild guild) {
         return AudioUtils.getGuildAudioPlayer(guild).getScheduler().isRepeated();
     }
 
     @Override
-    public Class<? extends Boolean> getReturnType() {
+    public @NotNull Class<? extends Boolean> getReturnType() {
         return Boolean.class;
     }
 
     @Override
-    protected String getPropertyName() {
+    protected @NotNull String getPropertyName() {
         return "repeating state";
     }
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
             return CollectionUtils.array(Boolean.class);
         }
@@ -63,7 +64,7 @@ public class ExprRepeatState extends SimplePropertyExpression<Guild, Boolean> {
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
         if (delta == null || delta.length == 0) return;
         Boolean state = Boolean.parseBoolean(delta[0].toString());
         if (mode == Changer.ChangeMode.SET) {

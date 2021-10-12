@@ -32,7 +32,7 @@ public class ExprPresence extends SimpleExpression<Activity> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		pattern = matchedPattern;
 		exprInput = (Expression<String>) exprs[0];
 		node = new NodeInformation();
@@ -41,7 +41,7 @@ public class ExprPresence extends SimpleExpression<Activity> {
 	}
 
 	@Override
-	protected Activity[] get(Event e) {
+	protected Activity @NotNull [] get(@NotNull Event e) {
 		String input = exprInput.getSingle(e);
 		String url = exprURL == null ? null : exprURL.getSingle(e);
 		if (input == null) return new Activity[0];

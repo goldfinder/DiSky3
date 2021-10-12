@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ButtonClick extends DiSkyEvent<ButtonClickEvent> {
 
@@ -21,42 +22,42 @@ public class ButtonClick extends DiSkyEvent<ButtonClickEvent> {
 
        EventValues.registerEventValue(EvtButtonClick.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtButtonClick>() {
             @Override
-            public UpdatingMessage get(EvtButtonClick event) {
+            public UpdatingMessage get(@NotNull EvtButtonClick event) {
                 return UpdatingMessage.from(event.getJDAEvent().getMessage());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtButtonClick.class, GuildChannel.class, new Getter<GuildChannel, EvtButtonClick>() {
             @Override
-            public GuildChannel get(EvtButtonClick event) {
+            public GuildChannel get(@NotNull EvtButtonClick event) {
                 return (GuildChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtButtonClick.class, Guild.class, new Getter<Guild, EvtButtonClick>() {
             @Override
-            public Guild get(EvtButtonClick event) {
+            public Guild get(@NotNull EvtButtonClick event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtButtonClick.class, User.class, new Getter<User, EvtButtonClick>() {
             @Override
-            public User get(EvtButtonClick event) {
+            public User get(@NotNull EvtButtonClick event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtButtonClick.class, Member.class, new Getter<Member, EvtButtonClick>() {
             @Override
-            public Member get(EvtButtonClick event) {
+            public Member get(@NotNull EvtButtonClick event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtButtonClick.class, JDA.class, new Getter<JDA, EvtButtonClick>() {
             @Override
-            public JDA get(EvtButtonClick event) {
+            public JDA get(@NotNull EvtButtonClick event) {
                 return event.getJDAEvent().getJDA();
             }
         }, 0);

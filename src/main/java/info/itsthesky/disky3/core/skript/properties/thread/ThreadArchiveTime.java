@@ -50,7 +50,7 @@ public class ThreadArchiveTime extends ChangeablePropertyExpression<GuildThread,
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         setExpr((Expression<? extends GuildThread>) exprs[0]);
         return true;
     }

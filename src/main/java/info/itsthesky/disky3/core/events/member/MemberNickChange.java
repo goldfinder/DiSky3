@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MemberNickChange extends DiSkyEvent<GuildMemberUpdateNicknameEvent> {
 
@@ -22,49 +23,49 @@ public class MemberNickChange extends DiSkyEvent<GuildMemberUpdateNicknameEvent>
 
        EventValues.registerEventValue(EvtMemberNickChange.class, Member.class, new Getter<Member, EvtMemberNickChange>() {
             @Override
-            public Member get(EvtMemberNickChange event) {
+            public Member get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberNickChange.class, User.class, new Getter<User, EvtMemberNickChange>() {
             @Override
-            public User get(EvtMemberNickChange event) {
+            public User get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberNickChange.class, Guild.class, new Getter<Guild, EvtMemberNickChange>() {
             @Override
-            public Guild get(EvtMemberNickChange event) {
+            public Guild get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberNickChange.class, Bot.class, new Getter<Bot, EvtMemberNickChange>() {
             @Override
-            public Bot get(EvtMemberNickChange event) {
+            public Bot get(@NotNull EvtMemberNickChange event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberNickChange.class, String.class, new Getter<String, EvtMemberNickChange>() {
             @Override
-            public String get(EvtMemberNickChange event) {
+            public String get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getNewNickname();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtMemberNickChange.class, String.class, new Getter<String, EvtMemberNickChange>() {
             @Override
-            public String get(EvtMemberNickChange event) {
+            public String get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getNewNickname();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtMemberNickChange.class, String.class, new Getter<String, EvtMemberNickChange>() {
             @Override
-            public String get(EvtMemberNickChange event) {
+            public String get(@NotNull EvtMemberNickChange event) {
                 return event.getJDAEvent().getOldNickname();
             }
         }, -1);

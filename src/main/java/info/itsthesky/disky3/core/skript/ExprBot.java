@@ -14,6 +14,7 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("Bot Named")
 @Description("Get a bot object from its name.")
@@ -30,13 +31,13 @@ public class ExprBot extends SimpleExpression<Bot> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 		exprInput = (Expression<String>) exprs[0];
 		return true;
 	}
 
 	@Override
-	protected Bot[] get(Event e) {
+	protected Bot @NotNull [] get(@NotNull Event e) {
 		String input = Utils.verifyVar(e, exprInput);
 		if (input == null)
 			return new Bot[0];
@@ -49,12 +50,12 @@ public class ExprBot extends SimpleExpression<Bot> {
 	}
 
 	@Override
-	public Class<? extends Bot> getReturnType() {
+	public @NotNull Class<? extends Bot> getReturnType() {
 		return Bot.class;
 	}
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public @NotNull String toString(Event e, boolean debug) {
 		return "bot with name " + exprInput.toString(e, debug);
 	}
 

@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.user.update.UserUpdateAvatarEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class UserAvatar extends DiSkyEvent<UserUpdateAvatarEvent> {
 
@@ -21,35 +22,35 @@ public class UserAvatar extends DiSkyEvent<UserUpdateAvatarEvent> {
 
         EventValues.registerEventValue(EvtUserAvatar.class, String.class, new Getter<String, EvtUserAvatar>() {
             @Override
-            public String get(EvtUserAvatar event) {
+            public String get(@NotNull EvtUserAvatar event) {
                 return event.getJDAEvent().getOldAvatarUrl();
             }
         }, -1);
 
         EventValues.registerEventValue(EvtUserAvatar.class, String.class, new Getter<String, EvtUserAvatar>() {
             @Override
-            public String get(EvtUserAvatar event) {
+            public String get(@NotNull EvtUserAvatar event) {
                 return event.getJDAEvent().getOldAvatarUrl();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtUserAvatar.class, String.class, new Getter<String, EvtUserAvatar>() {
             @Override
-            public String get(EvtUserAvatar event) {
+            public String get(@NotNull EvtUserAvatar event) {
                 return event.getJDAEvent().getNewAvatarUrl();
             }
         }, 1);
 
        EventValues.registerEventValue(EvtUserAvatar.class, User.class, new Getter<User, EvtUserAvatar>() {
             @Override
-            public User get(EvtUserAvatar event) {
+            public User get(@NotNull EvtUserAvatar event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtUserAvatar.class, Bot.class, new Getter<Bot, EvtUserAvatar>() {
             @Override
-            public Bot get(EvtUserAvatar event) {
+            public Bot get(@NotNull EvtUserAvatar event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

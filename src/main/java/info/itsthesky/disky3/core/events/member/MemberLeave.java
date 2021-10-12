@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class MemberLeave extends DiSkyEvent<GuildMemberRemoveEvent> {
 
@@ -23,28 +24,28 @@ public class MemberLeave extends DiSkyEvent<GuildMemberRemoveEvent> {
 
        EventValues.registerEventValue(EvtMemberLeave.class, Member.class, new Getter<Member, EvtMemberLeave>() {
             @Override
-            public Member get(EvtMemberLeave event) {
+            public Member get(@NotNull EvtMemberLeave event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberLeave.class, User.class, new Getter<User, EvtMemberLeave>() {
             @Override
-            public User get(EvtMemberLeave event) {
+            public User get(@NotNull EvtMemberLeave event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberLeave.class, Guild.class, new Getter<Guild, EvtMemberLeave>() {
             @Override
-            public Guild get(EvtMemberLeave event) {
+            public Guild get(@NotNull EvtMemberLeave event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtMemberLeave.class, Bot.class, new Getter<Bot, EvtMemberLeave>() {
             @Override
-            public Bot get(EvtMemberLeave event) {
+            public Bot get(@NotNull EvtMemberLeave event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

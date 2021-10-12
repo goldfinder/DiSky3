@@ -11,6 +11,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -37,17 +38,17 @@ public class ExprGuildVolume extends SimplePropertyExpression<Guild, Number> {
 
     @Nullable
     @Override
-    public Number convert(Guild guild) {
+    public Number convert(@NotNull Guild guild) {
         return AudioUtils.getGuildAudioPlayer(guild).getPlayer().getVolume();
     }
 
     @Override
-    public Class<? extends Number> getReturnType() {
+    public @NotNull Class<? extends Number> getReturnType() {
         return Number.class;
     }
 
     @Override
-    protected String getPropertyName() {
+    protected @NotNull String getPropertyName() {
         return "guild volume";
     }
 
@@ -65,7 +66,7 @@ public class ExprGuildVolume extends SimplePropertyExpression<Guild, Number> {
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
         if (delta == null || delta[0] == null || !(delta[0] instanceof Number)) return;
         Number value = (Number) delta[0];
         switch (mode) {

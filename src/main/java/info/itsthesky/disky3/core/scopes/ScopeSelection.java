@@ -7,6 +7,7 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -21,7 +22,7 @@ public class ScopeSelection extends EffectSection {
     private Expression<String> exprInput;
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (checkIfCondition()) return false;
         if (!hasSection()) return false;
         loadSection(true);
@@ -38,7 +39,7 @@ public class ScopeSelection extends EffectSection {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "make new select with id " + exprInput.toString(e, debug);
     }
 

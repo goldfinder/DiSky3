@@ -13,6 +13,7 @@ import info.itsthesky.disky3.api.emojis.Emote;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 @Name("New Button")
 @Description("Create a new button with an ID and some oehter options. It can be either enabled or disabled, and either link or action. If the button is a link-type, then the ID will be the URL that the user will be redirect to.")
@@ -32,7 +33,7 @@ public class ExprNewButton extends SimpleExpression<Button> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         exprIdOrURL = (Expression<String>) exprs[0];
         exprStyle = (Expression<ButtonStyle>) exprs[1];
         exprContent = (Expression<String>) exprs[2];
@@ -45,7 +46,7 @@ public class ExprNewButton extends SimpleExpression<Button> {
     }
 
     @Override
-    protected Button[] get(Event e) {
+    protected Button @NotNull [] get(@NotNull Event e) {
         String idOrURL = exprIdOrURL.getSingle(e);
         ButtonStyle style = exprStyle.getSingle(e);
 
@@ -75,12 +76,12 @@ public class ExprNewButton extends SimpleExpression<Button> {
     }
 
     @Override
-    public Class<? extends Button> getReturnType() {
+    public @NotNull Class<? extends Button> getReturnType() {
         return Button.class;
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "new button with id or url " + exprIdOrURL.toString(e, debug);
     }
 }

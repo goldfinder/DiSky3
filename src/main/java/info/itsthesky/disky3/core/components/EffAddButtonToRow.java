@@ -8,6 +8,7 @@ import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Name("Buttons of Row")
@@ -22,7 +23,7 @@ public class EffAddButtonToRow extends MultiplyPropertyExpression<ButtonRow, But
         );
     }
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.ChangeMode mode) {
         Button button = (Button) delta[0];
         switch (mode) {
             case ADD:
@@ -44,9 +45,8 @@ public class EffAddButtonToRow extends MultiplyPropertyExpression<ButtonRow, But
         return "rows";
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.ChangeMode mode) {
         if (mode.equals(Changer.ChangeMode.ADD) || mode.equals(Changer.ChangeMode.SET))
             return CollectionUtils.array(Button.class);
         return new Class[0];

@@ -49,7 +49,7 @@ public abstract class BotExpression<T> extends SimpleExpression<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (!initExpr(exprs, matchedPattern, isDelayed, parseResult))
             return false;
         this.nodes = new NodeInformation();

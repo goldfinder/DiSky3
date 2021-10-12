@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateIconEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildIcon extends DiSkyEvent<GuildUpdateIconEvent> {
 
@@ -20,35 +21,35 @@ public class GuildIcon extends DiSkyEvent<GuildUpdateIconEvent> {
 
         EventValues.registerEventValue(EvtGuildIcon.class, Guild.class, new Getter<Guild, EvtGuildIcon>() {
             @Override
-            public Guild get(EvtGuildIcon event) {
+            public Guild get(@NotNull EvtGuildIcon event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtGuildIcon.class, String.class, new Getter<String, EvtGuildIcon>() {
             @Override
-            public String get(EvtGuildIcon event) {
+            public String get(@NotNull EvtGuildIcon event) {
                 return event.getJDAEvent().getNewIconUrl();
             }
         }, 1);
 
         EventValues.registerEventValue(EvtGuildIcon.class, String.class, new Getter<String, EvtGuildIcon>() {
             @Override
-            public String get(EvtGuildIcon event) {
+            public String get(@NotNull EvtGuildIcon event) {
                 return event.getJDAEvent().getNewIconUrl();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtGuildIcon.class, String.class, new Getter<String, EvtGuildIcon>() {
             @Override
-            public String get(EvtGuildIcon event) {
+            public String get(@NotNull EvtGuildIcon event) {
                 return event.getJDAEvent().getOldIconUrl();
             }
         }, -1);
 
        EventValues.registerEventValue(EvtGuildIcon.class, Bot.class, new Getter<Bot, EvtGuildIcon>() {
             @Override
-            public Bot get(EvtGuildIcon event) {
+            public Bot get(@NotNull EvtGuildIcon event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

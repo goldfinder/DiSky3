@@ -8,26 +8,27 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import org.jetbrains.annotations.NotNull;
 
 public class TrackEvent extends BukkitEvent {
     static {
         EventValues.registerEventValue(TrackEvent.class, Bot.class, new Getter<Bot, TrackEvent>() {
             @Override
-            public Bot get(TrackEvent event) {
+            public Bot get(@NotNull TrackEvent event) {
                 return BotManager.searchFromJDA(event.getJDA());
             }
         }, 0);
 
         EventValues.registerEventValue(TrackEvent.class, Guild.class, new Getter<Guild, TrackEvent>() {
             @Override
-            public Guild get(TrackEvent event) {
+            public Guild get(@NotNull TrackEvent event) {
                 return event.getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(TrackEvent.class, AudioTrack.class, new Getter<AudioTrack, TrackEvent>() {
             @Override
-            public AudioTrack get(TrackEvent event) {
+            public AudioTrack get(@NotNull TrackEvent event) {
                 return event.getTrack();
             }
         }, 0);

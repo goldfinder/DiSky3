@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -31,35 +32,35 @@ public class PrivateReceive extends DiSkyEvent<MessageReceivedEvent> {
 
        EventValues.registerEventValue(EvtPrivateReceive.class, User.class, new Getter<User, EvtPrivateReceive>() {
             @Override
-            public User get(EvtPrivateReceive event) {
+            public User get(@NotNull EvtPrivateReceive event) {
                 return event.getJDAEvent().getAuthor();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtPrivateReceive.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtPrivateReceive>() {
             @Override
-            public UpdatingMessage get(EvtPrivateReceive event) {
+            public UpdatingMessage get(@NotNull EvtPrivateReceive event) {
                 return UpdatingMessage.from(event.getJDAEvent().getChannel().retrieveMessageById(event.getJDAEvent().getMessageId()).complete());
             }
         }, 0);
 
        EventValues.registerEventValue(EvtPrivateReceive.class, String.class, new Getter<String, EvtPrivateReceive>() {
             @Override
-            public String get(EvtPrivateReceive event) {
+            public String get(@NotNull EvtPrivateReceive event) {
                 return event.getJDAEvent().getMessageId();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtPrivateReceive.class, PrivateChannel.class, new Getter<PrivateChannel, EvtPrivateReceive>() {
             @Override
-            public PrivateChannel get(EvtPrivateReceive event) {
+            public PrivateChannel get(@NotNull EvtPrivateReceive event) {
                 return (PrivateChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
        EventValues.registerEventValue(EvtPrivateReceive.class, Bot.class, new Getter<Bot, EvtPrivateReceive>() {
             @Override
-            public Bot get(EvtPrivateReceive event) {
+            public Bot get(@NotNull EvtPrivateReceive event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());
             }
         }, 0);

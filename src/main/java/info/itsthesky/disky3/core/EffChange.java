@@ -43,6 +43,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.*;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -106,7 +107,7 @@ public class EffChange extends Effect {
 
     @SuppressWarnings({"unchecked", "null"})
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parser) {
         parsing = true;
         node = new NodeInformation();
         mode = patterns.getInfo(matchedPattern);
@@ -288,7 +289,7 @@ public class EffChange extends Effect {
     }
 
     @Override
-    public void execute(final Event e) {
+    public void execute(final @NotNull Event e) {
         final Expression<?> changer = this.changer;
         final Object[] delta = changer == null ? null : changer.getArray(e);
         final Bot bot = info.itsthesky.disky3.api.Utils.verifyVar(e, this.bot, null);
@@ -321,7 +322,7 @@ public class EffChange extends Effect {
     }
 
     @Override
-    public String toString(final @Nullable Event e, final boolean debug) {
+    public @NotNull String toString(final @Nullable Event e, final boolean debug) {
         final Expression<?> changer = this.changer;
         switch (mode) {
             case ADD:

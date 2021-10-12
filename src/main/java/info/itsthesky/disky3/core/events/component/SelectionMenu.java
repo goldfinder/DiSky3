@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
+import org.jetbrains.annotations.NotNull;
 
 public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
 
@@ -22,63 +23,63 @@ public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
 
         EventValues.registerEventValue(EvtSelectionMenu.class, SelectOption[].class, new Getter<SelectOption[], EvtSelectionMenu>() {
             @Override
-            public SelectOption[] get(EvtSelectionMenu event) {
+            public SelectOption[] get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getSelectedOptions().toArray(new SelectOption[0]);
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, GuildChannel.class, new Getter<GuildChannel, EvtSelectionMenu>() {
             @Override
-            public GuildChannel get(EvtSelectionMenu event) {
+            public GuildChannel get(@NotNull EvtSelectionMenu event) {
                 return (GuildChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, TextChannel.class, new Getter<TextChannel, EvtSelectionMenu>() {
             @Override
-            public TextChannel get(EvtSelectionMenu event) {
+            public TextChannel get(@NotNull EvtSelectionMenu event) {
                 return (TextChannel) event.getJDAEvent().getChannel();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, Guild.class, new Getter<Guild, EvtSelectionMenu>() {
             @Override
-            public Guild get(EvtSelectionMenu event) {
+            public Guild get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, Member.class, new Getter<Member, EvtSelectionMenu>() {
             @Override
-            public Member get(EvtSelectionMenu event) {
+            public Member get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getMember();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, String.class, new Getter<String, EvtSelectionMenu>() {
             @Override
-            public String get(EvtSelectionMenu event) {
+            public String get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getComponent().getId();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtSelectionMenu>() {
             @Override
-            public UpdatingMessage get(EvtSelectionMenu event) {
+            public UpdatingMessage get(@NotNull EvtSelectionMenu event) {
                 return UpdatingMessage.from(event.getJDAEvent().getMessage());
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, User.class, new Getter<User, EvtSelectionMenu>() {
             @Override
-            public User get(EvtSelectionMenu event) {
+            public User get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getUser();
             }
         }, 0);
 
         EventValues.registerEventValue(EvtSelectionMenu.class, JDA.class, new Getter<JDA, EvtSelectionMenu>() {
             @Override
-            public JDA get(EvtSelectionMenu event) {
+            public JDA get(@NotNull EvtSelectionMenu event) {
                 return event.getJDAEvent().getJDA();
             }
         }, 0);

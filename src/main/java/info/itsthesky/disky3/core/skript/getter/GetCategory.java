@@ -33,7 +33,7 @@ public class GetCategory extends SimpleExpression<Category> {
     private NodeInformation node;
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         node = new NodeInformation();
         exprId = (Expression<String>) exprs[0];
         exprBot = (Expression<Bot>) exprs[1];
@@ -50,12 +50,12 @@ public class GetCategory extends SimpleExpression<Category> {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "category with id " + exprId.toString(e, debug);
     }
 
     @Override
-    protected Category[] get(@NotNull Event e) {
+    protected Category @NotNull [] get(@NotNull Event e) {
         String id = exprId.getSingle(e);
         Bot bot = exprBot.getSingle(e);
         if (id == null || bot == null) return new Category[0];

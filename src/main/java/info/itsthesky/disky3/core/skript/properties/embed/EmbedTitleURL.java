@@ -16,6 +16,7 @@ import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Name("Embed Title URL")
@@ -37,12 +38,12 @@ public class EmbedTitleURL extends SimplePropertyExpression<EmbedBuilder, String
     private NodeInformation info;
 
     @Override
-    protected String getPropertyName() {
+    protected @NotNull String getPropertyName() {
         return "embed title url";
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         useScope = EffectSection.isCurrentSection(ScopeEmbed.class);
         info = new NodeInformation();
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
@@ -55,7 +56,7 @@ public class EmbedTitleURL extends SimplePropertyExpression<EmbedBuilder, String
     }
 
     @Override
-    public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET && delta.length != 0 && delta[0] != null) {
 
             final String value = delta[0].toString();
@@ -81,16 +82,15 @@ public class EmbedTitleURL extends SimplePropertyExpression<EmbedBuilder, String
         }
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET)
             return CollectionUtils.array(String.class);
         return CollectionUtils.array();
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 }

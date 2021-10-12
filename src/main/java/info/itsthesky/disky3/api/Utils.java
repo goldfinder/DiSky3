@@ -302,7 +302,7 @@ public final class Utils {
             if (getter != null) {
                 return new SimpleExpression<T>() {
                     @Override
-                    protected T[] get(Event e) {
+                    protected T @NotNull [] get(@NotNull Event e) {
                         T value = (T) getter.get(e);
                         if (value == null)
                             return null;
@@ -317,7 +317,7 @@ public final class Utils {
                     }
 
                     @Override
-                    public Class<? extends T> getReturnType() {
+                    public @NotNull Class<? extends T> getReturnType() {
                         return clazz;
                     }
 
@@ -327,12 +327,12 @@ public final class Utils {
                     }
 
                     @Override
-                    public String toString(Event e, boolean debug) {
+                    public @NotNull String toString(Event e, boolean debug) {
                         return "defaulted event value expression";
                     }
 
                     @Override
-                    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+                    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
                         return true;
                     }
                 };
