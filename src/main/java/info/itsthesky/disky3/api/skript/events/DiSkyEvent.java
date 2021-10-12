@@ -84,14 +84,14 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
 
         if (bukkitClass == null) {
             throw new RuntimeException(this.getClass().getCanonicalName() + " doesn't have an inner SimpleDiSkyEvent " +
-                    "class to be instantiated. Report this at https://github.com/SkyCraft78/DiSky/issues!");
+                    "class to be instantiated. Report this at https://github.com/SkyCraft78/DiSky3/issues!");
         }
 
         try {
             jdaClass = (Class<D>) ((ParameterizedType) bukkitClass.getGenericSuperclass()).getActualTypeArguments()[0];
         } catch (ClassCastException e) {
             throw new RuntimeException(this.getClass().getCanonicalName() + "'s inner class doesn't use the same JDA" +
-                    " event as it's parent class in it's SimpleDiSkyEvent. Report this at https://github.com/SkyCraft78/DiSky/issues!");
+                    " event as it's parent class in it's SimpleDiSkyEvent. Report this at https://github.com/SkyCraft78/DiSky3/issues!");
         }
 
         try {

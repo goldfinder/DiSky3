@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 
 public class MemberJoin extends DiSkyEvent<GuildMemberJoinEvent> {
 
+    public static Invite lastUsedInvite = null;
+
     static {
         DiSkyEvent.register("Member Join", MemberJoin.class, EvtMemberJoin.class,
                 "member join [guild]")
@@ -23,6 +25,13 @@ public class MemberJoin extends DiSkyEvent<GuildMemberJoinEvent> {
             @Override
             public Member get(EvtMemberJoin event) {
                 return event.getJDAEvent().getMember();
+            }
+        }, 0);
+
+        EventValues.registerEventValue(EvtMemberJoin.class, Invite.class, new Getter<Invite, EvtMemberJoin>() {
+            @Override
+            public Invite get(EvtMemberJoin event) {
+                return lastUsedInvite;
             }
         }, 0);
 
