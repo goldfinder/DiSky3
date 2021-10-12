@@ -38,7 +38,7 @@ public class SelfMember extends SimpleExpression<Member> {
 
     @Override
     public boolean isSingle() {
-        return false;
+        return true;
     }
 
     @Override
