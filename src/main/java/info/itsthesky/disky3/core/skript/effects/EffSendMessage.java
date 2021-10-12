@@ -29,7 +29,7 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffSendMessage.class,
-                "send"+ (Configuration.PARSING_SEND_EFFECT.get() ? " discord" : "") +" [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channel/user/member% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
+                "send"+ (Configuration.PARSING_SEND_EFFECT.get() ? " discord" : "") +" [the] [message] %embedbuilder/string/messagebuilder% (in|to) [the] [channel] %channels/users/members% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
         );
     }
 
@@ -54,42 +54,44 @@ public class EffSendMessage extends WaiterBotEffect<UpdatingMessage> {
     @Override
     public void runEffect(Event e) {
         final Object content = exprContent.getSingle(e);
-        Object channelObj = exprTarget.getSingle(e);
+        Object[] channelObjs = Utils.verifyVars(e, exprTarget, new Object[0]);
         ActionRow[] rows = Utils.parseComponents(Utils.verifyVars(e, exprComponents, new Object[0]));
-        if (channelObj == null || content == null) {
+        if (channelObjs.length == 0 || content == null) {
             restart();
             return;
         }
         final MessageBuilder message = Utils.parseMessageContent(content);
 
-        if (channelObj instanceof User || channelObj instanceof Member) {
-            final User targetUser = Utils.parseUser(channelObj);
+        for (Object channelObj : channelObjs) {
+            if (channelObj instanceof User || channelObj instanceof Member) {
+                final User targetUser = Utils.parseUser(channelObj);
 
-            if (botDefined(e))
-                getUsedBot().getSingle(e).getCore().openPrivateChannelById(targetUser.getId()).queue(channel -> {
-                    channel.sendMessage(message.build())
-                            .setActionRows(rows).queue(msg -> {
-                        restart(UpdatingMessage.from(msg));
+                if (botDefined(e))
+                    getUsedBot().getSingle(e).getCore().openPrivateChannelById(targetUser.getId()).queue(channel -> {
+                        channel.sendMessage(message.build())
+                                .setActionRows(rows).queue(msg -> {
+                            restart(UpdatingMessage.from(msg));
+                        });
                     });
-            });
 
-        } else {
+            } else {
 
-            if (!((GuildChannel) channelObj).getType().equals(ChannelType.TEXT)) {
-                restart();
-                return;
+                if (!((GuildChannel) channelObj).getType().equals(ChannelType.TEXT)) {
+                    restart();
+                    return;
+                }
+
+                TextChannel channel = (TextChannel) channelObj;
+
+                if (botDefined(e))
+                    channel = getUsedBot().getSingle(e).getCore().getTextChannelById(channel.getId());
+
+                channel
+                        .sendMessage(message.build())
+                        .setActionRows(rows).queue(msg -> {
+                    restart(UpdatingMessage.from(msg));
+                });
             }
-
-            TextChannel channel = (TextChannel) channelObj;
-
-            if (botDefined(e))
-                channel = getUsedBot().getSingle(e).getCore().getTextChannelById(channel.getId());
-
-            channel
-                    .sendMessage(message.build())
-                    .setActionRows(rows).queue(msg -> {
-                restart(UpdatingMessage.from(msg));
-            });
         }
     }
 
