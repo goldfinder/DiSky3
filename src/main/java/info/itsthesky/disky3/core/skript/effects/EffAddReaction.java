@@ -45,7 +45,7 @@ public class EffAddReaction extends Effect {
         if (message == null || emotes.length == 0) return;
         Message message1 = message.getMessage();
         if (bot != null)
-            message1 = bot.getCore().getTextChannelById(message.getMessage().getId()).getHistory().getMessageById(message1.getId());
+            message1 = bot.getCore().getTextChannelById(message.getMessage().getTextChannel().getId()).getHistory().getMessageById(message1.getId());
 
         for (Emote emote : emotes) {
             Utils.addEmoteToMessage(emote, message1);
