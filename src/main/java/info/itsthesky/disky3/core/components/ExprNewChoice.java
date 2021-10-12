@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -15,6 +17,8 @@ import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
+@Name("New Choice")
+@Description("Create a new choice for dropdown with specifics options. It could be either default or not.")
 public class ExprNewChoice extends SimpleExpression<SelectOption> {
     
     static {

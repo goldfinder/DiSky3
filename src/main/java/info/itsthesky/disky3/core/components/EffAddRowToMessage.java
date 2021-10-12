@@ -1,12 +1,14 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
+import jdk.jfr.Name;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.Component;
@@ -16,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Name("Add / Set Message's Components")
+@Description("Add or set the components of a message sent by the bot only. Components can be either a button row or a dropdown builder.")
 public class EffAddRowToMessage extends Effect {
 
     static {

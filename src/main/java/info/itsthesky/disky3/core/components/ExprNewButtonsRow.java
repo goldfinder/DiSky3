@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -10,6 +12,8 @@ import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
+@Name("New Buttons Row")
+@Description("Create a new (empty) buttons row to add buttons on it later.")
 public class ExprNewButtonsRow extends SimpleExpression<ButtonRow> {
     
     static {

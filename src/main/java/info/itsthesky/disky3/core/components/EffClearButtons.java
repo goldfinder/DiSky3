@@ -18,8 +18,6 @@ import java.util.Collections;
 
 @Name("Clear Message Buttons")
 @Description("Clear every buttons of a specific message.")
-@Examples("clear buttons from event-message")
-@Since("1.12")
 public class EffClearButtons extends AsyncEffect {
 
     static {

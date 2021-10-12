@@ -1,6 +1,7 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -10,10 +11,13 @@ import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.core.events.component.ButtonClick;
 import info.itsthesky.disky3.core.events.component.SelectionMenu;
+import jdk.jfr.Name;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Event Component ID")
+@Description("Represent the ID (String) of the updated / clicked component in a dropdown update or button click event. You cannot use that expression outside a components interaction event!")
 public class EventComponent extends SimpleExpression<String> {
 
     static {

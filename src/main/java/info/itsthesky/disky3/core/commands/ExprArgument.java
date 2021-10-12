@@ -28,8 +28,8 @@ import java.util.List;
  * @author Peter Güttinger
  * edited minorly for Vixio by Blitz, and then edited by ItstheSky for DiSky implementation
  */
-@Name("Last Argument")
-@Description("Get an argument in a discord command builder.")
+@Name("Discord Command Argument")
+@Description("Works same as Skript's command rgument. You can specify the argument number or the argument type (in case there's only one user or member for example) to get the selected value.")
 
 public class ExprArgument extends SimpleExpression<Object> {
 

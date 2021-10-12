@@ -16,7 +16,8 @@ public class ButtonClick extends DiSkyEvent<ButtonClickEvent> {
     static {
         DiSkyEvent.register("Button Click", ButtonClick.class, EvtButtonClick.class,
                 "button click")
-                .setName("Button Click");
+                .setName("Button Click")
+                .setDesc("Fired when any button is clicked, and the button's message belong to the specified bot.\b<Use event-button to get back the button ID.");
 
        EventValues.registerEventValue(EvtButtonClick.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtButtonClick>() {
             @Override

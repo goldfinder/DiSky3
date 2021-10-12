@@ -19,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Name("Selection Menu Choices")
-@Description("Manage every choice present in a selection menu.")
-@Since("2.0")
+@Description("Manage every choice present in a selection menu, like by adding new choices, clearing them, or setting them.")
 public class ExprSelectChoices extends MultiplyPropertyExpression<SelectionMenu.Builder, SelectOption> {
 
     private NodeInformation information;

@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -18,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Name("Message Rows")
+@Description("Represent the components present on a message sent by the bot only. Can be either bunch of dropdowns or button rows.")
 public class ExprMessageButtonsRow extends MultiplyPropertyExpression<UpdatingMessage, Object> {
     static {
         register(

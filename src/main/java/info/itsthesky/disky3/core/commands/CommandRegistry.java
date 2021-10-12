@@ -36,7 +36,7 @@ import java.util.List;
         "\ttrigger:\n" +
         "\t\treply with mention tag of arg-2\n" +
         "\t\tmove arg-1 to arg-2")
-@Since("1.5.2")
+@Since("3.0")
 public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
     static {

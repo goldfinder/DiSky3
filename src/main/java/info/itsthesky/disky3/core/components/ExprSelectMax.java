@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
@@ -8,6 +10,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Max Option")
+@Description("Represent the amount of maximum options the user must selected before updating the dropdown.")
 public class ExprSelectMax extends SimplePropertyExpression<SelectionMenu.Builder, Number> {
     static {
         register(
