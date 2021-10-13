@@ -4,6 +4,7 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
+import info.itsthesky.disky3.api.Configuration;
 import info.itsthesky.disky3.api.skript.properties.UserMemberProperty;
 import net.dv8tion.jda.api.entities.User;
 
@@ -17,7 +18,7 @@ public class UserMemberTag extends UserMemberProperty<String> {
         register(
                 UserMemberTag.class,
                 Object.class,
-                "[discord] [user] (tag|discriminator)"
+                "[discord] [user] " + (Configuration.PARSING_TAG_PROPERTY.get() ? "discriminator" : "(tag|discriminator)")
         );
     }
 
