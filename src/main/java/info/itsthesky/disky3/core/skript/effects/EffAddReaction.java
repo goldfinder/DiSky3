@@ -40,14 +40,16 @@ public class EffAddReaction extends Effect {
     @Override
     protected void execute(@NotNull Event e) {
         UpdatingMessage message = exprMessage.getSingle(e);
-        Emote[] emotes = exprEmote.getAll(e);
+        Emote[] emotes = Utils.verifyVars(e, exprEmote, new Emote[0]);
         Bot bot = Utils.verifyVar(e, exprBot, BotManager.getLoadedBots().get(0));
         if (message == null || emotes.length == 0) return;
         Message message1 = message.getMessage();
-        if (bot != null)
+        if (bot != null && !bot.getCore().equals(message.getMessage().getJDA()))
             message1 = bot.getCore().getTextChannelById(message.getMessage().getTextChannel().getId()).getHistory().getMessageById(message1.getId());
 
         for (Emote emote : emotes) {
+            if (emote == null)
+                continue;
             Utils.addEmoteToMessage(emote, message1);
         }
     }

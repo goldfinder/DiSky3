@@ -8,6 +8,8 @@ import ch.njol.skript.log.SkriptLogger;
  */
 public class NodeInformation {
 
+    public static NodeInformation last;
+
     private final Node node;
     private int line;
     private String fileName;
@@ -20,6 +22,7 @@ public class NodeInformation {
         this.line = this.node.getLine();
         this.fileName = this.node.getConfig().getFileName();
         this.lineContent = this.node.getKey();
+        last = this;
     }
 
     public String getDebugLabel() {
