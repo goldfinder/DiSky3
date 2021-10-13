@@ -3,6 +3,7 @@ package info.itsthesky.disky3;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.util.Version;
+import de.leonhard.storage.Json;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
@@ -15,10 +16,13 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 
 public final class DiSky extends JavaPlugin {
@@ -27,6 +31,7 @@ public final class DiSky extends JavaPlugin {
     private static SkriptAddon SKRIPT_ADDON;
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
+    private static Json DATA_CONTAINER;
     private static final boolean DEBUG = false;
 
     @Override
@@ -90,6 +95,10 @@ public final class DiSky extends JavaPlugin {
         AudioUtils.initializeAudio();
         success("Success!");
 
+        log("Starting Data Container ...");
+        DATA_CONTAINER = new Json(new File(getDataFolder(), "DATABASE.json"));
+        success("Success!");
+
         ln();
         // ################## INFOS ################## //
         log("This is the first v3 of DiSky, including an awesome rework of DiSky!");
@@ -134,6 +143,10 @@ public final class DiSky extends JavaPlugin {
         return SKRIPT_ADDON;
     }
 
+    public static Json getDataContainer() {
+        return DATA_CONTAINER;
+    }
+
     public static void debug(String message) {
         if (DEBUG)
             log(message);
@@ -169,6 +182,10 @@ public final class DiSky extends JavaPlugin {
 
     public static void lnError() {
         bigError("&1");
+    }
+
+    public static void exception(Throwable ex) {
+        exception(ex, NodeInformation.last);
     }
 
     public static void exception(

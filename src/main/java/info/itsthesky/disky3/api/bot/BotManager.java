@@ -1,6 +1,7 @@
 package info.itsthesky.disky3.api.bot;
 
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.messages.MessageUpdater;
 import info.itsthesky.disky3.api.skript.events.EventListener;
 import info.itsthesky.disky3.api.wrapper.InviteTracking;
@@ -10,10 +11,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,7 +21,12 @@ public final class BotManager {
     private static final List<Bot> LOADED_BOTS = new ArrayList<>();
 
     public static List<Bot> getLoadedBots() {
-        return LOADED_BOTS;
+        if (LOADED_BOTS.isEmpty()) {
+            DiSky.exception(new DiSkyException("You are trying to get a bot, but none of them are loaded!"));
+            return Collections.singletonList(new Bot());
+        } else {
+            return LOADED_BOTS;
+        }
     }
 
     public static void reset() {
