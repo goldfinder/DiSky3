@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.events.bot;
 
+/*
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import info.itsthesky.disky3.api.bot.Bot;
@@ -30,4 +31,4 @@ public class BotLoad extends DiSkyEvent<ReadyEvent> {
         public EvtBotLoad(BotLoad event) { }
     }
 
-}
+} */

@@ -73,7 +73,7 @@ public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
         EventValues.registerEventValue(EvtReactionAdd.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtReactionAdd>() {
             @Override
             public UpdatingMessage get(@NotNull EvtReactionAdd event) {
-                return UpdatingMessage.from(event.getJDAEvent().getMessageId());
+                return UpdatingMessage.from(event.getMessageChannel().retrieveMessageById(event.getJDAEvent().getMessageId()).complete());
             }
         }, 0);
 
