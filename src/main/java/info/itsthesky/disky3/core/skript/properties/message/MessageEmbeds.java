@@ -27,10 +27,12 @@ public class MessageEmbeds extends MultipleMessageProperty<EmbedBuilder> {
 
     @Override
     public EmbedBuilder[] converting(UpdatingMessage original) {
-        return Utils.convertArray(
-                EmbedBuilder::new,
-                original.getMessage().getEmbeds().toArray(new MessageEmbed[0])
-        );
+        return original
+                .getMessage()
+                .getEmbeds()
+                .stream()
+                .map(EmbedBuilder::new)
+                .toArray(EmbedBuilder[]::new);
     }
 
 }
