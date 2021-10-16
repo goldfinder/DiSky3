@@ -126,6 +126,13 @@ public final class Utils {
         return rows;
     }
 
+    public static <T> List<T> convert(Iterator<T> iterator) {
+        final List<T> list = new ArrayList<>();
+        while (iterator.hasNext())
+            list.add(iterator.next());
+        return list;
+    }
+
     public static Date convert(OffsetDateTime time) {
         return new Date(time.toInstant().toEpochMilli(), TimeZone.getTimeZone("GMT"));
     }

@@ -60,7 +60,7 @@ public abstract class EffectSection extends Condition {
 
     public static void register(
             Class<? extends EffectSection> clazz,
-            String pattern
+            String... pattern
     ) {
         Skript.registerCondition(clazz, pattern);
     }
@@ -201,7 +201,7 @@ public abstract class EffectSection extends Condition {
      *
      * @param e - The event
      */
-    protected void runSection(Event e) {
+    public void runSection(Event e) {
         executeNext = false;
         TriggerItem.walk(trigger, e);
     }
