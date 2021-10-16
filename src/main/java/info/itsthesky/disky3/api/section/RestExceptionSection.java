@@ -27,9 +27,9 @@ public abstract class RestExceptionSection<T> extends EffectSection {
     public abstract RestAction<T> runRestAction(Event e);
 
     /**
-     * The (nullable) consumer to run when the code is ran successfully
+     * An optional code to run if everything has been running correctly.
      */
-    protected @Nullable Consumer<T> successConsumer() {
+    public Consumer<T> successConsumer() {
         return null;
     }
 
@@ -42,7 +42,8 @@ public abstract class RestExceptionSection<T> extends EffectSection {
         try {
             final RestAction<T> action = runRestAction(e);
             action.queue(successConsumer(), ex -> handle(e, ex));
-        } catch (Exception ex) {
+            handle(e, null);
+        } catch (Throwable ex) {
             handle(e, ex);
         }
     }
@@ -51,7 +52,6 @@ public abstract class RestExceptionSection<T> extends EffectSection {
         Variables.setLocalVariables(e, lastMap);
         ExprException.lastException = exception;
         runSection(e);
-        Variables.removeLocals(e);
     }
 
     @Override

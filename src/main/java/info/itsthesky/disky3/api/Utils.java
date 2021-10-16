@@ -72,6 +72,11 @@ public final class Utils {
         return Arrays.asList(clazz.getInterfaces()).contains(inter);
     }
 
+    public static Integer round(Double number) {
+        String t = number.toString().split("\\.")[0];
+        return Integer.valueOf(t);
+    }
+
     public static void addEmoteToMessage(Emote emote, Message message) {
         if (emote.isAnimated()) {
             message.addReaction(emote.getEmote()).queue();

@@ -19,7 +19,7 @@ public class ExprException extends SimpleExpression<String> {
                 ExprException.class,
                 String.class,
                 ExpressionType.SIMPLE,
-                "[the] [last] [discord] (error|exception)"
+                "[the] [last] [(discord|disky)] (error|exception)"
         );
     }
 
@@ -27,7 +27,7 @@ public class ExprException extends SimpleExpression<String> {
 
     @Override
     protected String @NotNull [] get(@NotNull Event e) {
-        return new String[] {lastException.getMessage()};
+        return lastException == null ? new String[0] : new String[] {lastException.getMessage()};
     }
 
     @Override
