@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.requests.restaction.RoleAction;
 import net.dv8tion.jda.api.utils.AttachmentOption;
 import net.steppschuh.markdowngenerator.table.Table;
 import org.jetbrains.annotations.NotNull;
@@ -110,6 +111,11 @@ public class Types {
 		new DiSkyType<>(MessageBuilder.class, "messagebuilder", "messagebuilders?", msg -> msg.getStringBuilder().toString(), null, false).register();
 		new DiSkyType<>(Message.Attachment.class, "attachment", "attachments?", Message.Attachment::getFileName, null, false).register();
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
+
+		/*
+		 * Action / Manager types
+		 */
+		new DiSkyType<>(RoleAction.class, "roleaction", "roleactions?", action -> "role action", null, false).register();
 
 		/*
 		 * Enum types

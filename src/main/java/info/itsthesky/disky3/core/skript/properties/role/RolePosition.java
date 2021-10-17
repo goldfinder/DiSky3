@@ -1,32 +1,26 @@
 package info.itsthesky.disky3.core.skript.properties.role;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.Utils;
-import info.itsthesky.disky3.api.bot.Bot;
-import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
-import info.itsthesky.disky3.api.skript.NodeInformation;
+import info.itsthesky.disky3.api.DiSkyException;
+import info.itsthesky.disky3.api.skript.action.ActionProperty;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.requests.restaction.RoleAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RolePosition extends ChangeablePropertyExpression<Role, Number> {
+public class RolePosition extends ActionProperty<Role, RoleAction, Number> {
 
     static {
         register(
                 RolePosition.class,
                 Number.class,
                 "[discord] [role] position",
-                "role"
+                "role/roleaction"
         );
     }
-
-    private NodeInformation info;
 
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
@@ -35,21 +29,6 @@ public class RolePosition extends ChangeablePropertyExpression<Role, Number> {
         return CollectionUtils.array();
     }
 
-    @Override
-    public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
-        if (delta == null || delta.length == 0 || delta[0] == null) return;
-        Role Role = Utils.verifyVar(e, getExpr(), null);
-        final int value = ((Number) delta[0]).intValue();
-
-        Role = bot.getCore().getGuildById(Role.getGuild().getId()).getRoleById(Role.getId());
-
-        Role.getGuild().modifyRolePositions().selectPosition(Role).moveTo(value).queue(null, ex -> DiSky.exception(ex, info));
-    }
-
-    @Override
-    protected Number @NotNull [] get(@NotNull Event e, Role @NotNull [] source) {
-        return new Number[] {source[0].getPosition()};
-    }
 
     @Override
     public @NotNull Class<? extends Number> getReturnType() {
@@ -62,9 +41,18 @@ public class RolePosition extends ChangeablePropertyExpression<Role, Number> {
     }
 
     @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends Role>) exprs[0]);
-        info = new NodeInformation();
-        return true;
+    public void change(Role role, Number value) {
+        role.getGuild().modifyRolePositions().selectPosition(role).moveTo(value.intValue()).queue();
+    }
+
+    @Override
+    public RoleAction change(RoleAction action, Number value) {
+        DiSky.exception(new DiSkyException("You must create the role before changing its position"), getNode());
+        return null;
+    }
+
+    @Override
+    public Number get(Role role) {
+        return null;
     }
 }

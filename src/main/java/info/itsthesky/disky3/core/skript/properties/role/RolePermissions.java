@@ -1,29 +1,24 @@
 package info.itsthesky.disky3.core.skript.properties.role;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.Utils;
-import info.itsthesky.disky3.api.bot.Bot;
-import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import info.itsthesky.disky3.api.skript.action.MultipleActionProperty;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.requests.restaction.RoleAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RolePermissions extends ChangeablePropertyExpression<Role, Permission> {
+public class RolePermissions extends MultipleActionProperty<Role, RoleAction, Permission> {
 
     static {
         register(
                 RolePermissions.class,
                 Permission.class,
                 "[discord] [role] permission[s]",
-                "role"
+                "role/roleaction"
         );
     }
 
@@ -32,19 +27,8 @@ public class RolePermissions extends ChangeablePropertyExpression<Role, Permissi
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger) {
         if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(Permission.class, Permission.class);
+            return CollectionUtils.array(Permission[].class);
         return CollectionUtils.array();
-    }
-
-    @Override
-    public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
-        if (delta == null || delta.length == 0 || delta[0] == null) return;
-        Role Role = Utils.verifyVar(e, getExpr(), null);
-        final Permission perms = ((Permission) delta[0]);
-
-        Role = bot.getCore().getGuildById(Role.getGuild().getId()).getRoleById(Role.getId());
-
-        Role.getManager().setPermissions(perms).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
@@ -57,15 +41,19 @@ public class RolePermissions extends ChangeablePropertyExpression<Role, Permissi
         return "role permissions of " + getExpr().toString(e, debug);
     }
 
+
     @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends Role>) exprs[0]);
-        info = new NodeInformation();
-        return true;
+    public void change(Role role, Permission[] value) {
+        role.getManager().setPermissions(value).queue();
     }
 
     @Override
-    protected Permission @NotNull [] get(@NotNull Event e, Role @NotNull [] source) {
-        return source[0].getPermissions().toArray(new Permission[0]);
+    public RoleAction change(RoleAction action, Permission[] value) {
+        return action.setPermissions(value);
+    }
+
+    @Override
+    public Permission[] get(Role role) {
+        return role.getPermissions().toArray(new Permission[0]);
     }
 }
