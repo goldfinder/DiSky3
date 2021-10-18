@@ -60,8 +60,8 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
         for (int i = 0; i < patterns.length; i++) {
             patterns[i] += " " + ending;
         }
-        Skript.registerEvent(name, type, clazz, patterns);
-        return new Registration(clazz, patterns);
+        SkriptEventInfo<?> holder = Skript.registerEvent(name, type, clazz, patterns);
+        return new Registration(clazz, holder, patterns);
     }
 
     /**

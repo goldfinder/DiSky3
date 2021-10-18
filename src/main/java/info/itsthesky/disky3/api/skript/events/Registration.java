@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.events;
 
+import ch.njol.skript.lang.SkriptEventInfo;
 import ch.njol.util.StringUtils;
 
 /**
@@ -16,10 +17,22 @@ public class Registration {
     private String[] syntaxes;
     private String userFacing;
     private Class event;
+    private SkriptEventInfo<?> holder;
 
-    public Registration(Class<?> cls, String... syntaxes) {
+    public Registration(Class<?> cls, SkriptEventInfo<?> holder, String... syntaxes) {
         clazz = cls;
         this.syntaxes = syntaxes;
+        this.holder = holder;
+    }
+
+    public Registration apply() {
+        if (holder == null)
+            return this;
+        if (desc != null)
+            holder.description(desc);
+        if (example != null)
+            holder.examples(example);
+        return this;
     }
 
     public Registration(String... syntaxes) {
@@ -31,7 +44,7 @@ public class Registration {
                 .replaceAll("\t", "\\\\t")
                 .replaceAll("\"", "\\\\\"");
         this.example = example;
-        return this;
+        return apply();
     }
 
     public String getName() {
@@ -40,7 +53,7 @@ public class Registration {
 
     public Registration setName(String s) {
         this.name = s;
-        return this;
+        return apply();
     }
 
     public String getDesc() {
@@ -49,7 +62,7 @@ public class Registration {
 
     public Registration setDesc(String s) {
         this.desc = s;
-        return this;
+        return apply();
     }
 
     public Class<?> getClazz() {
@@ -82,17 +95,17 @@ public class Registration {
 
     public Registration setUserFacing(String s) {
         this.userFacing = s;
-        return this;
+        return apply();
     }
 
     public Registration setUserFacing(String... patterns) {
         this.syntaxes = patterns;
-        return this;
+        return apply();
     }
 
     public Registration setEvent(Class clazz) {
         this.event = clazz;
-        return this;
+        return apply();
     }
 
     public Class getEvent() {

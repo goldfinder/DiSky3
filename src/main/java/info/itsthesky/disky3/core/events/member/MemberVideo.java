@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class MemberVideo extends DiSkyEvent<GuildVoiceVideoEvent> {
 
     static {
-        DiSkyEvent.register("Member Ban", MemberVideo.class, EvtMemberVideo.class,
+        DiSkyEvent.register("Member Video", MemberVideo.class, EvtMemberVideo.class,
                 "[discord] [guild] (member|user) send[ing] [a] video")
                 .setName("Member Ban")
                 .setDesc("Fired when any member send a video (enabled camera).")

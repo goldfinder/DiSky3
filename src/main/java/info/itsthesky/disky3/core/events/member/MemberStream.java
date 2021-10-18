@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class MemberStream extends DiSkyEvent<GuildVoiceStreamEvent> {
 
     static {
-        DiSkyEvent.register("Member Video", MemberStream.class, EvtMemberStream.class,
+        register("Member Stream", MemberStream.class, EvtMemberStream.class,
                 "[discord] [guild] (member|user) stream")
                 .setName("Member Stream")
                 .setDesc("Fired when any member start streaming in a specific voice channel.")
