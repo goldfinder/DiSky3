@@ -15,10 +15,10 @@ public class MemberNickChange extends DiSkyEvent<GuildMemberUpdateNicknameEvent>
 
     static {
         DiSkyEvent.register("Nickname Change", MemberNickChange.class, EvtMemberNickChange.class,
-                "member nick[name] (change|update)")
+                "[discord] [guild] member nick[name] (change|update)")
                 .setName("Nickname Change")
-                .setDesc("Fired when a member or a bot change its nickname to another one, or reset it")
-                .setExample("on member nick update");
+                .setDesc("Fired when someone changes its nickname to another one or reset it.")
+                .setExample("on member nick update:");
 
 
        EventValues.registerEventValue(EvtMemberNickChange.class, Member.class, new Getter<Member, EvtMemberNickChange>() {

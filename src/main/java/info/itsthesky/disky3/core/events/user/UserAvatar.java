@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserAvatar extends DiSkyEvent<UserUpdateAvatarEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", UserAvatar.class, EvtUserAvatar.class,
+        DiSkyEvent.register("User Avatar Change", UserAvatar.class, EvtUserAvatar.class,
                 "[discord] user avatar (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("User Avatar Change")
+                .setDesc("Fired when a user change its avatar.")
+                .setExample("on user avatar change:");
 
         EventValues.registerEventValue(EvtUserAvatar.class, String.class, new Getter<String, EvtUserAvatar>() {
             @Override

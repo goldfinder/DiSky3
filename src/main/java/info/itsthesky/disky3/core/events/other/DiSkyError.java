@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 public class DiSkyError extends SkriptEvent {
 
     static {
-        DiSkyEvent.register("Inner Event Name", DiSkyError.class, EvtDiSkyError.class,
+        DiSkyEvent.register("Disky Error", DiSkyError.class, EvtDiSkyError.class,
                 "disky error")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Disky Error")
+                .setDesc("Fired when disky catch a error, i.e missing permissions.")
+                .setExample("on disky error:");
 
         EventValues.registerEventValue(EvtDiSkyError.class, String.class, new Getter<String, EvtDiSkyError>() {
             @Override

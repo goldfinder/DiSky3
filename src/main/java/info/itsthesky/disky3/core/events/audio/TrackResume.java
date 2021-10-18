@@ -16,7 +16,9 @@ public class TrackResume extends SkriptEvent {
     static {
         DiSkyEvent.register("Track Resume", TrackResume.class, TrackEvent.class,
                 "track (play|resume)")
-                .setName("Track Resume");
+                .setName("Track Resume")
+                .setDesc("Fired when a track is resumed.")
+                .setExample("on track resume:");
 
     }
 

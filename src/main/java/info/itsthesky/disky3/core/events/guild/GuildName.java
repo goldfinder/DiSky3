@@ -14,10 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class GuildName extends DiSkyEvent<GuildUpdateNameEvent> {
 
     static {
-        DiSkyEvent.register("Guild Name Update", GuildName.class, EvtGuildName.class,
-                "guild name (change|update)")
-                .setName("Guild Name Update");
-
+        DiSkyEvent.register("Guild Name Change", GuildName.class, EvtGuildName.class,
+                "[discord] guild name (change|update)")
+                .setName("Guild Name Change")
+                .setDesc("Fired when the name of a guild changes.")
+                .setExample("on guild name change:");
 
         EventValues.registerEventValue(EvtGuildName.class, String.class, new Getter<String, EvtGuildName>() {
             @Override

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class InviteCreate extends DiSkyEvent<GuildInviteCreateEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", InviteCreate.class, EvtInviteCreate.class,
-                "invite create")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Guild Invite Create", InviteCreate.class, EvtInviteCreate.class,
+                "[discord] [guild] invite create")
+                .setName("Guild Invite Create")
+                .setDesc("Fired when a invite is created in a guild.")
+                .setExample("on guild invite create:");
 
 
        EventValues.registerEventValue(EvtInviteCreate.class, Invite.class, new Getter<Invite, EvtInviteCreate>() {

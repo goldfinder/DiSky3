@@ -22,9 +22,11 @@ public class CategoryPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
     }
 
     static {
-        DiSkyEvent.register("Category Position", CategoryPosition.class, EvtCategoryName.class,
-                "category position (change|update)")
-                .setName("Category Name");
+        DiSkyEvent.register("Guild Category Position", CategoryPosition.class, EvtCategoryName.class,
+                "[discord] [guild] category position (change|update)")
+                .setName("Guild Category Name")
+                .setDesc("Fired when the position of a category changes.")
+                .setExample("on category position change:");
 
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override

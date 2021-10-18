@@ -16,10 +16,10 @@ public class MemberJoin extends DiSkyEvent<GuildMemberJoinEvent> {
 
     static {
         DiSkyEvent.register("Member Join", MemberJoin.class, EvtMemberJoin.class,
-                "member join [guild]")
+                "[discord] member join [guild]")
                 .setName("Member Join")
-                .setDesc("Fired when a member join a guild. This is not fired if it's the bot itself that joined a new guild.")
-                .setExample("on member join");
+                .setDesc("Fired when a member joins a guild. This is not fired if it's the bot itself that joined a new guild.")
+                .setExample("on member join:");
 
 
         EventValues.registerEventValue(EvtMemberJoin.class, Member.class, new Getter<Member, EvtMemberJoin>() {

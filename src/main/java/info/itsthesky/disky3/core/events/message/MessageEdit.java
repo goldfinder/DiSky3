@@ -18,11 +18,11 @@ public class MessageEdit extends DiSkyEvent<MessageUpdateEvent> {
     public static String newContent = "";
 
     static {
-        DiSkyEvent.register("Inner Event Name", MessageEdit.class, EvtMessageEdit.class,
+        DiSkyEvent.register("Message Edit", MessageEdit.class, EvtMessageEdit.class,
                 "message edit[ed]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Message Edit")
+                .setDesc("Fired when a message is edited.")
+                .setExample("on message edit:");
 
         EventValues.registerEventValue(EvtMessageEdit.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtMessageEdit>() {
             @Override

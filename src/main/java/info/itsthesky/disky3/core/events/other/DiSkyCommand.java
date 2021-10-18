@@ -21,11 +21,11 @@ import org.jetbrains.annotations.Nullable;
 public class DiSkyCommand extends SkriptEvent {
 
     static {
-        DiSkyEvent.register("Inner Event Name", DiSkyCommand.class, EvtDiSkyCommand.class,
+        DiSkyEvent.register("Disky Command", DiSkyCommand.class, EvtDiSkyCommand.class,
                 "disky command")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Disky Command")
+                .setDesc("Fired when a disky/discord command is executed.")
+                .setExample("on disky command:");
 
         EventValues.registerEventValue(EvtDiSkyCommand.class, CommandObject.class, new Getter<CommandObject, EvtDiSkyCommand>() {
             @Override

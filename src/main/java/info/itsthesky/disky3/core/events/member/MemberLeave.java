@@ -16,10 +16,10 @@ public class MemberLeave extends DiSkyEvent<GuildMemberRemoveEvent> {
 
     static {
         DiSkyEvent.register("Member Leave", MemberLeave.class, EvtMemberLeave.class,
-                "member leave [guild]")
+                "[discord] member leave [guild]")
                 .setName("Member Leave")
-                .setDesc("Fired when any member or bot leave the server, by itself or by being kicked. A banned member will however not fire this event.")
-                .setExample("Event Example");
+                .setDesc("Fired when someone leaves the server, by leaving itself or by being kicked. A banned member won't fire this event.")
+                .setExample("on member leave:");
 
 
        EventValues.registerEventValue(EvtMemberLeave.class, Member.class, new Getter<Member, EvtMemberLeave>() {

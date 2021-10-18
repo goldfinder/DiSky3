@@ -17,11 +17,11 @@ public class MessageDelete extends DiSkyEvent<MessageDeleteEvent> {
     public static Long id;
 
     static {
-        DiSkyEvent.register("Inner Event Name", MessageDelete.class, EvtMessageDelete.class,
-                "message delete")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Message Delete", MessageDelete.class, EvtMessageDelete.class,
+                "message delete[d]")
+                .setName("Message Delete")
+                .setDesc("Fired when a message is deleted, use event-string to get the message content.")
+                .setExample("on message delete:");
 
 
         EventValues.registerEventValue(EvtMessageDelete.class, TextChannel.class, new Getter<TextChannel, EvtMessageDelete>() {

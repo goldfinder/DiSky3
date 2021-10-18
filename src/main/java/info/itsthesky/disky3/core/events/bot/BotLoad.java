@@ -15,7 +15,9 @@ public class BotLoad extends DiSkyEvent<ReadyEvent> {
     static {
         DiSkyEvent.register("Bot Load", ReadyEvent.class, BotLoad.class,
                 "[discord] bot (load|start)")
-                .setName("Bot Load");
+                .setName("Bot Load")
+                .setDesc("Fired when a bot gets loaded in the server")
+                .setExample("on bot load");
 
 
         EventValues.registerEventValue(EvtBotLoad.class, Bot.class, new Getter<Bot, EvtBotLoad>() {

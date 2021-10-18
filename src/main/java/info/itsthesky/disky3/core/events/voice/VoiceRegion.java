@@ -21,11 +21,11 @@ public class VoiceRegion extends DiSkyEvent<ChannelUpdateRegionEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceRegion.class, EvtVoiceRegion.class,
+        DiSkyEvent.register("Voice Region Update", VoiceRegion.class, EvtVoiceRegion.class,
                 "[discord] voice [channel] region (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Region Update")
+                .setDesc("Fired when the region of a voice channel changes.")
+                .setExample("on voice region change:");
 
 
        EventValues.registerEventValue(EvtVoiceRegion.class, String.class, new Getter<String, EvtVoiceRegion>() {

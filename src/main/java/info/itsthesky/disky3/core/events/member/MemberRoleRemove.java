@@ -15,9 +15,9 @@ public class MemberRoleRemove extends DiSkyEvent<GuildMemberRoleRemoveEvent> {
 
     static {
         DiSkyEvent.register("Role Remove", MemberRoleRemove.class, EvtMemberRoleRemove.class,
-                "member role remove[d]")
+                "[discord] [guild] member role remove[d]")
                 .setName("Role Remove")
-                .setDesc("Fired when someone remove a role from another member. It's a log event, so use event-author to see who made the action.")
+                .setDesc("Fired when someone removes a role from another member. It's a log event, so use event-author to see who made the action.")
                 .setExample("on member role remove:");
 
 

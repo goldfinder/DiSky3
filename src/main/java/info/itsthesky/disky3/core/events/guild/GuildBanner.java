@@ -13,9 +13,11 @@ import org.jetbrains.annotations.NotNull;
 public class GuildBanner extends DiSkyEvent<GuildUpdateBannerEvent> {
 
     static {
-        DiSkyEvent.register("Guild Banner Update", GuildBanner.class, EvtGuildBanner.class,
-                "[guild] banner (update|change)]")
-                .setName("Guild Banner Update");
+        DiSkyEvent.register("Guild Banner Change", GuildBanner.class, EvtGuildBanner.class,
+                "[discord] [guild] banner (update|change)]")
+                .setName("Guild Banner Change")
+                .setDesc("Fired when the banner of a guild changes.")
+                .setExample("on guild banner change:");
 
 
         EventValues.registerEventValue(EvtGuildBanner.class, String.class, new Getter<String, EvtGuildBanner>() {

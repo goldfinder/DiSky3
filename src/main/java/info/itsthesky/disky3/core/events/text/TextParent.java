@@ -21,11 +21,11 @@ public class TextParent extends DiSkyEvent<ChannelUpdateParentEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextParent.class, EvtTextParent.class,
+        DiSkyEvent.register("Text Parent Change", TextParent.class, EvtTextParent.class,
                 "[discord] text [channel] parent (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel gtParent Change")
+                .setDesc("Fired when the parent of a text channel changes.")
+                .setExample("on text parent change:");
 
 
        EventValues.registerEventValue(EvtTextParent.class, Category.class, new Getter<Category, EvtTextParent>() {

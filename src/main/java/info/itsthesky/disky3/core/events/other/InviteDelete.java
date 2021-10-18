@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class InviteDelete extends DiSkyEvent<GuildInviteDeleteEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", InviteDelete.class, EvtInviteDelete.class,
-                "invite delete")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Guild Invite Delete", InviteDelete.class, EvtInviteDelete.class,
+                "[discord] [guild] invite delete")
+                .setName("Guild Invite Delete")
+                .setDesc("Fired when a invite is deleted from a guild.")
+                .setExample("on guild invite delete:");
 
 
        EventValues.registerEventValue(EvtInviteDelete.class, GuildChannel.class, new Getter<GuildChannel, EvtInviteDelete>() {

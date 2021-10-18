@@ -15,11 +15,11 @@ import java.util.function.Predicate;
 public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceLeave.class, EvtVoiceLeave.class,
+        DiSkyEvent.register("Voice Channel Leave", VoiceLeave.class, EvtVoiceLeave.class,
                 "[(user|member)] voice [channel] leave")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Channel Leave")
+                .setDesc("Fired when someone leaves a voice channel.")
+                .setExample("on voice leave:");
 
 
         EventValues.registerEventValue(EvtVoiceLeave.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceLeave>() {

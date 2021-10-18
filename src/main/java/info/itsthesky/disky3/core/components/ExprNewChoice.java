@@ -18,7 +18,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 @Name("New Choice")
-@Description("Create a new choice for dropdown with specifics options. It could be either default or not.")
+@Description("Create a new choice for dropdown with specified options. It can be either default options or not.")
 public class ExprNewChoice extends SimpleExpression<SelectOption> {
     
     static {
@@ -51,8 +51,8 @@ public class ExprNewChoice extends SimpleExpression<SelectOption> {
         Emote emote = Utils.verifyVar(e, exprEmote);
         if (value == null || name == null) return new SelectOption[0];
 
-        if (desc != null && desc.length() > 50) {
-            DiSky.exception(new DiSkyException("The choice description cannot be bigger than 50 characters!"), information);
+        if (desc != null && desc.length() > 100) {
+            DiSky.exception(new DiSkyException("The choice description cannot be bigger than 100 characters!"), information);
             return new SelectOption[0];
         }
 

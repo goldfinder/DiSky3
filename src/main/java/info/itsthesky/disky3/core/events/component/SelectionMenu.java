@@ -19,7 +19,8 @@ public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
         DiSkyEvent.register("Selection Menu Interact", SelectionMenu.class, EvtSelectionMenu.class,
                 "(selection menu|drop[ ]down) (interact|change|select|update)")
                 .setName("Selection Menu Interact")
-        .setDesc("Fired when any dropdown is clicked, and the button's message belong to the specified bot.\nUse event-dropdown to get back the dropdown ID.");
+        .setDesc("Fired when any dropdown is clicked, and the button's message belong to the specified bot.\nUse event-dropdown to get back the dropdown ID.")
+                .setExample("on dropdown interact:");
 
         EventValues.registerEventValue(EvtSelectionMenu.class, SelectOption[].class, new Getter<SelectOption[], EvtSelectionMenu>() {
             @Override

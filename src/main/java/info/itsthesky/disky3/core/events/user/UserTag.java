@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserTag extends DiSkyEvent<UserUpdateDiscriminatorEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", UserTag.class, EvtUserTag.class,
+        DiSkyEvent.register("User Discriminator Change", UserTag.class, EvtUserTag.class,
                 "[discord] user (tag|discriminator) (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("User Discriminator Change")
+                .setDesc("Fired when a user changes its discriminator, usually nitro boosters.")
+                .setExample("on user discriminator change:");
 
 
         EventValues.registerEventValue(EvtUserTag.class, String.class, new Getter<String, EvtUserTag>() {

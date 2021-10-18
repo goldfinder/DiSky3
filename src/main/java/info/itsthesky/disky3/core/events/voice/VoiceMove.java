@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class VoiceMove extends DiSkyEvent<GuildVoiceMoveEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceMove.class, EvtVoiceMove.class,
+        DiSkyEvent.register("Voice Member Move", VoiceMove.class, EvtVoiceMove.class,
                 "[voice] member move")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Channel Move")
+                .setDesc("Fired when a member moves to another voice channel.")
+                .setExample("on member move:");
 
 
         EventValues.registerEventValue(EvtVoiceMove.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceMove>() {

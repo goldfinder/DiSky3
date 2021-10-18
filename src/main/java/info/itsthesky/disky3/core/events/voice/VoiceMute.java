@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class VoiceMute extends DiSkyEvent<GuildVoiceMuteEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceMute.class, EvtVoiceMute.class,
+        DiSkyEvent.register("Voice Member Mute", VoiceMute.class, EvtVoiceMute.class,
                 "[voice] member mute")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Member Mute")
+                .setDesc("Fired when a member gets muted from a voice channel.")
+                .setExample("on member mute:");
 
 
        EventValues.registerEventValue(EvtVoiceMute.class, Member.class, new Getter<Member, EvtVoiceMute>() {

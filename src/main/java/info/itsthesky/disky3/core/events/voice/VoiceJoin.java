@@ -13,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceJoin.class, EvtVoiceJoin.class,
+        DiSkyEvent.register("Voice Channel Leave", VoiceJoin.class, EvtVoiceJoin.class,
                 "[(user|member)] voice [channel] join")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Channel Join")
+                .setDesc("Fired when someone joins in a voice channel.")
+                .setExample("on voice channel join:");
 
 
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {

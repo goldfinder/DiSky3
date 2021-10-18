@@ -22,11 +22,11 @@ public class VoicePosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoicePosition.class, EvtVoicePosition.class,
+        DiSkyEvent.register("Voice Position Change", VoicePosition.class, EvtVoicePosition.class,
                 "[discord] voice [channel] position (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Position Change")
+                .setDesc("Fired when a voice channel gets moved to a new position.")
+                .setExample("on voice position change:");
 
 
        EventValues.registerEventValue(EvtVoicePosition.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoicePosition>() {

@@ -21,11 +21,11 @@ public class TextSlowmode extends DiSkyEvent<ChannelUpdateSlowmodeEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextSlowmode.class, EvtTextSlowmode.class,
+        DiSkyEvent.register("Text Slowmode Change", TextSlowmode.class, EvtTextSlowmode.class,
                 "[discord] text [channel] slowmode (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel Slowmode Change")
+                .setDesc("Fired when the slowmode of a text channel changes.")
+                .setExample("on text slowmode change:");
 
 
        EventValues.registerEventValue(EvtTextSlowmode.class, TextChannel.class, new Getter<TextChannel, EvtTextSlowmode>() {

@@ -23,11 +23,11 @@ public class PrivateReactionRemove extends DiSkyEvent<MessageReactionRemoveEvent
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", PrivateReactionRemove.class, EvtPrivateReactionAdd.class,
-                "private reaction remove")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Private Reaction Remove", PrivateReactionRemove.class, EvtPrivateReactionAdd.class,
+                "private reaction remove[d]")
+                .setName("Private Reaction Remove")
+                .setDesc("FIred when a reaction is removed from a private message.")
+                .setExample("on private reaction remove.");
 
        EventValues.registerEventValue(EvtPrivateReactionAdd.class, MessageReaction.class, new Getter<MessageReaction, EvtPrivateReactionAdd>() {
             @Override

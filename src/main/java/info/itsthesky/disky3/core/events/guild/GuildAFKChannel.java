@@ -15,8 +15,10 @@ public class GuildAFKChannel extends DiSkyEvent<GuildUpdateAfkChannelEvent> {
 
     static {
         DiSkyEvent.register("AFK Channel Update", GuildAFKChannel.class, EvtGuildAFKChannel.class,
-                "[guild] afk channel (update|change)")
-                .setName("AFK Channel Update");
+                "[discord] [guild] afk channel (update|change)")
+                .setName("AFK Channel Update")
+                .setDesc("Fired when the AFK Channel of a guild changes.")
+                .setExample("on guild afk channel change:");
 
 
        EventValues.registerEventValue(EvtGuildAFKChannel.class, VoiceChannel.class, new Getter<VoiceChannel, EvtGuildAFKChannel>() {

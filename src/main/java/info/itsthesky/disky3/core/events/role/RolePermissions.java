@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RolePermissions.class, EvtRolePermissions.class,
-                "[discord] role (perms|permissions) (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Permissions Change", RolePermissions.class, EvtRolePermissions.class,
+                "[discord] [guild] role (perms|permissions) (update|change)")
+                .setName("Role Permissions Change")
+                .setDesc("Fired when the permission of a role changes.")
+                .setExample("on role permissions change:");
 
        EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
             @Override

@@ -16,11 +16,11 @@ import org.jetbrains.annotations.NotNull;
 public class ThreadLeave extends DiSkyEvent<ThreadMemberLeaveEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", ThreadLeave.class, EvtThreadLeave.class,
+        DiSkyEvent.register("Thread Leave", ThreadLeave.class, EvtThreadLeave.class,
                 "thread [member] (leave|quit)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Thread Leave")
+                .setDesc("Fired when a someone leaves a thread.")
+                .setExample("on thread leave:");
 
 
        EventValues.registerEventValue(EvtThreadLeave.class, Guild.class, new Getter<Guild, EvtThreadLeave>() {

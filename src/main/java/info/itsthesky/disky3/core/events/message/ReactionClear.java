@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class ReactionClear extends DiSkyEvent<MessageReactionRemoveAllEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", ReactionClear.class, EvtReactionClear.class,
+        DiSkyEvent.register("Reaction Clear", ReactionClear.class, EvtReactionClear.class,
                 "reaction (remove all|clear)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Reaction Clear")
+                .setDesc("Fired when all reactions of a message was cleared.")
+                .setExample("on reaction clear:");
 
 
        EventValues.registerEventValue(EvtReactionClear.class, TextChannel.class, new Getter<TextChannel, EvtReactionClear>() {

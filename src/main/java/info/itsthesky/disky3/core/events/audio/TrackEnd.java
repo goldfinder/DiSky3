@@ -15,7 +15,9 @@ public class TrackEnd extends SkriptEvent {
     static {
         DiSkyEvent.register("Track End", TrackEnd.class, TrackEvent.class,
                 "track end")
-                .setName("Track End");
+                .setName("Track End")
+                .setDesc("Fired when a track ends.")
+                .setExample("on track end:");
 
     }
 

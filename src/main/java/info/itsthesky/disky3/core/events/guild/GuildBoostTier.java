@@ -15,9 +15,11 @@ import java.util.Locale;
 public class GuildBoostTier extends DiSkyEvent<GuildUpdateBoostTierEvent> {
 
     static {
-        DiSkyEvent.register("Guild Boost Tier Update", GuildBoostTier.class, EvtGuildBoostTier.class,
-                "[guild] boost tier (update|change)")
-                .setName("Guild Boost Tier Update");
+        DiSkyEvent.register("Guild Boost Tier Change", GuildBoostTier.class, EvtGuildBoostTier.class,
+                "[discord] [guild] boost tier (update|change)")
+                .setName("Guild Boost Tier Change")
+                .setDesc("Fired when the booster tier of a guild changes.")
+                .setExample("on guild booster tier change:");
 
        EventValues.registerEventValue(EvtGuildBoostTier.class, String.class, new Getter<String, EvtGuildBoostTier>() {
             @Override

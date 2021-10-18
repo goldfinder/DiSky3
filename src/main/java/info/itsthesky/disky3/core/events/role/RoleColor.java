@@ -16,11 +16,11 @@ import java.awt.*;
 public class RoleColor extends DiSkyEvent<RoleUpdateColorEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RoleColor.class, EvtRoleColor.class,
-                "[discord] role color (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Color Change", RoleColor.class, EvtRoleColor.class,
+                "[discord] [guild] role color (update|change)")
+                .setName("Role Color Change")
+                .setDesc("Fired when the color of a role changes.")
+                .setExample("on role color change:");
 
 
        EventValues.registerEventValue(EvtRoleColor.class, Color.class, new Getter<Color, EvtRoleColor>() {

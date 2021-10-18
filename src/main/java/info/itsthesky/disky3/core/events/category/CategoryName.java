@@ -19,9 +19,11 @@ public class CategoryName extends DiSkyEvent<ChannelUpdateNameEvent> {
     }
 
     static {
-        DiSkyEvent.register("Category Name", CategoryName.class, EvtCategoryName.class,
-                "category name (change|update)")
-                .setName("Category Name");
+        DiSkyEvent.register("Guild Category Name", CategoryName.class, EvtCategoryName.class,
+                "[discord] [guild] category name (change|update)")
+                .setName("Guild Category Name")
+                .setDesc("Fired when the name of a category changes.")
+                .setExample("on guild category name change:");
 
        EventValues.registerEventValue(EvtCategoryName.class, Category.class, new Getter<Category, EvtCategoryName>() {
             @Override

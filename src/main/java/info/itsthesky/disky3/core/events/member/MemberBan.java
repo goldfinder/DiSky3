@@ -17,8 +17,8 @@ public class MemberBan extends DiSkyEvent<GuildBanEvent> {
         DiSkyEvent.register("Member Ban", MemberBan.class, EvtMemberBan.class,
                 "[discord] [guild] (member|user) ban")
                 .setName("Member Ban")
-                .setDesc("Fired when any member or bot is banned from a guild. You can only get the event user, the event member is not available since the user is not in the guild anymore!")
-                .setExample("on guild member ban");
+                .setDesc("Fired when someone is banned from a guild. You can only get the event user, the event member is not available since the user is not in the guild anymore!")
+                .setExample("on guild member ban:");
 
 
        EventValues.registerEventValue(EvtMemberBan.class, User.class, new Getter<User, EvtMemberBan>() {

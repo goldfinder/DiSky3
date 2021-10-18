@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class ThreadJoin extends DiSkyEvent<ThreadMemberJoinEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", ThreadJoin.class, EvtThreadJoin.class,
+        DiSkyEvent.register("Thread Join", ThreadJoin.class, EvtThreadJoin.class,
                 "thread [member] join")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Thread Join")
+                .setDesc("Fired when someone joins a thread.")
+                .setExample("on thread join:");
 
 
        EventValues.registerEventValue(EvtThreadJoin.class, Guild.class, new Getter<Guild, EvtThreadJoin>() {

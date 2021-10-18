@@ -19,11 +19,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserTyping extends DiSkyEvent<UserTypingEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", UserTyping.class, EvtUserAvatar.class,
+        DiSkyEvent.register("User Typing", UserTyping.class, EvtUserAvatar.class,
                 "[discord] user typing [in channel]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("User Typing")
+                .setDesc("Fired when a user start typing in a channel.")
+                .setExample("on user typing:");
 
         EventValues.registerEventValue(EvtUserAvatar.class, User.class, new Getter<User, EvtUserAvatar>() {
             @Override

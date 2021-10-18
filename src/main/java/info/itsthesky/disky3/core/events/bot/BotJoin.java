@@ -17,7 +17,9 @@ public class BotJoin extends DiSkyEvent<GuildJoinEvent> {
     static {
         DiSkyEvent.register("Bot Join Guild", BotJoin.class, EvtBotJoin.class,
                 "bot join [guild]")
-                .setName("Bot Join Guild");
+                .setName("Bot Join Guild")
+                .setDesc("Fired when the bot joins into a guild.")
+                .setExample("on bot join guild:");
 
        EventValues.registerEventValue(EvtBotJoin.class, Guild.class, new Getter<Guild, EvtBotJoin>() {
             @Override

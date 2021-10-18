@@ -20,8 +20,8 @@ public class MemberStream extends DiSkyEvent<GuildVoiceStreamEvent> {
         register("Member Stream", MemberStream.class, EvtMemberStream.class,
                 "[discord] [guild] (member|user) stream")
                 .setName("Member Stream")
-                .setDesc("Fired when any member start streaming in a specific voice channel.")
-                .setExample("on member stream");
+                .setDesc("Fired when any member starts streaming in a specific voice channel.")
+                .setExample("on member stream:");
 
 
         EventValues.registerEventValue(EvtMemberStream.class, User.class, new Getter<User, EvtMemberStream>() {

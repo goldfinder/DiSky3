@@ -15,8 +15,10 @@ public class GuildSystemChannel extends DiSkyEvent<GuildUpdateSystemChannelEvent
 
     static {
         DiSkyEvent.register("Guild System Channel Update", GuildSystemChannel.class, EvtGuildSystemChannel.class,
-                "[guild] system channel (change|update)")
-                .setName("Guild System Channel Update");
+                "[discord] [guild] system channel (change|update)")
+                .setName("Guild System Channel Change:")
+                .setDesc("Fired when the system channel of a guild changes.")
+                .setExample("on guild system channel change:");
 
 
         EventValues.registerEventValue(EvtGuildSystemChannel.class, TextChannel.class, new Getter<TextChannel, EvtGuildSystemChannel>() {

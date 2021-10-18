@@ -16,7 +16,9 @@ public class TrackStart extends SkriptEvent {
     static {
         DiSkyEvent.register("Track Start", TrackStart.class, TrackEvent.class,
                 "track start")
-                .setName("Track Start");
+                .setName("Track Start")
+                .setDesc("Fired when a track starts playing.")
+                .setExample("on track start:");
     }
 
     private Expression<Bot> bot;

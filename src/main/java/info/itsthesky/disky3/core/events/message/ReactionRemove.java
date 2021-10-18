@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class ReactionRemove extends DiSkyEvent<MessageReactionRemoveEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", ReactionRemove.class, EvtReactionRemove.class,
+        DiSkyEvent.register("Reaction Remove", ReactionRemove.class, EvtReactionRemove.class,
                 "reaction remove[d]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Reaction Remove")
+                .setDesc("Fired when a reaction is removed from a message.")
+                .setExample("on reaction remove:");
 
 
         EventValues.registerEventValue(EvtReactionRemove.class, User.class, new Getter<User, EvtReactionRemove>() {

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class RoleHoisted extends DiSkyEvent<RoleUpdateHoistedEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RoleHoisted.class, EvtRoleHoisted.class,
-                "[discord] role hoist[ed] (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Hoist Change", RoleHoisted.class, EvtRoleHoisted.class,
+                "[discord] [guild] role hoist[ed] (update|change)")
+                .setName("Role Hoist Change")
+                .setDesc("Fired when the hoist state of a role changes.")
+                .setExample("on role hoist change:");
 
 
         EventValues.registerEventValue(EvtRoleHoisted.class, Boolean.class, new Getter<Boolean, EvtRoleHoisted>() {

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class RoleName extends DiSkyEvent<RoleUpdateNameEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RoleName.class, EvtRoleName.class,
-                "[discord] role name (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Name Change", RoleName.class, EvtRoleName.class,
+                "[discord] [guild] role name (update|change)")
+                .setName("Role Name Change")
+                .setDesc("Fired when the name of a role changes.")
+                .setExample("on role name change:");
 
        EventValues.registerEventValue(EvtRoleName.class, String.class, new Getter<String, EvtRoleName>() {
             @Override

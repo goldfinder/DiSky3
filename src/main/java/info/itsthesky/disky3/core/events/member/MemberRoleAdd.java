@@ -15,7 +15,7 @@ public class MemberRoleAdd extends DiSkyEvent<GuildMemberRoleAddEvent> {
 
     static {
         DiSkyEvent.register("Role Add", MemberRoleAdd.class, EvtMemberRoleAdd.class,
-                "member role add[ed]")
+                "[discord] [guild] member role add[ed]")
                 .setName("Role Add")
                 .setDesc("Fired when someone add a role to another member. It's a log event, so use event-author to see who made the action.")
                 .setExample("on member role add:");

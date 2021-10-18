@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", ReactionAdd.class, EvtReactionAdd.class,
+        DiSkyEvent.register("Reaction Add", ReactionAdd.class, EvtReactionAdd.class,
                 "reaction add[ed]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Reaction Add")
+                .setDesc("Fired when a reaction is added to a message.")
+                .setExample("on reaction add:");
 
        EventValues.registerEventValue(EvtReactionAdd.class, User.class, new Getter<User, EvtReactionAdd>() {
             @Override

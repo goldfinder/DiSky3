@@ -21,11 +21,11 @@ public class TextNSFW extends DiSkyEvent<ChannelUpdateNSFWEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextNSFW.class, EvtTextNSFW.class,
+        DiSkyEvent.register("Text NSFW Change", TextNSFW.class, EvtTextNSFW.class,
                 "[discord] text [channel] nsfw (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel NSFW Change")
+                .setDesc("Fired when the nsfw state of a text channel changes.")
+                .setExample("on text nsfw change:");
 
        EventValues.registerEventValue(EvtTextNSFW.class, TextChannel.class, new Getter<TextChannel, EvtTextNSFW>() {
             @Override

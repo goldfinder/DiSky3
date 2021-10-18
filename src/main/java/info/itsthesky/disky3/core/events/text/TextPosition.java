@@ -21,11 +21,11 @@ public class TextPosition extends DiSkyEvent<ChannelUpdatePositionEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextPosition.class, EvtTextPosition.class,
+        DiSkyEvent.register("Text Position Change", TextPosition.class, EvtTextPosition.class,
                 "[discord] text [channel] position (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel Position Change")
+                .setDesc("Fired when the position of a text channel changes.")
+                .setExample("on text channel position change:");
 
 
        EventValues.registerEventValue(EvtTextPosition.class, TextChannel.class, new Getter<TextChannel, EvtTextPosition>() {

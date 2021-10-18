@@ -15,7 +15,9 @@ public class BotLeave extends DiSkyEvent<GuildLeaveEvent> {
     static {
         DiSkyEvent.register("Bot Leave Guild", BotLeave.class, EvtBotLeave.class,
                 "bot leave [guild]")
-                .setName("Bot Leave Guild");
+                .setName("Bot Leave Guild")
+                .setDesc("Fired when the bot leaves a guild.")
+                .setExample("on bot leave guild:");
 
 
        EventValues.registerEventValue(EvtBotLeave.class, Guild.class, new Getter<Guild, EvtBotLeave>() {

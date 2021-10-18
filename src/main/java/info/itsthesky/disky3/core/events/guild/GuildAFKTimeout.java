@@ -14,9 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class GuildAFKTimeout extends DiSkyEvent<GuildUpdateAfkTimeoutEvent> {
 
     static {
-        DiSkyEvent.register("AFK Timeout Update", GuildAFKTimeout.class, EvtGuildAFKTimeout.class,
-                "[guild] afk timeout (update|change)")
-                .setName("AFK Timeout Update");
+        DiSkyEvent.register("Guild AFK Timeout Change", GuildAFKTimeout.class, EvtGuildAFKTimeout.class,
+                "[discord] [guild] afk timeout (update|change)")
+                .setName("Guild AFK Timeout Change")
+                .setDesc("Fired when the AFK Timeout time of a guild changes.")
+                .setExample("on guild afk timeout update:");
 
 
        EventValues.registerEventValue(EvtGuildAFKTimeout.class, Number.class, new Getter<Number, EvtGuildAFKTimeout>() {

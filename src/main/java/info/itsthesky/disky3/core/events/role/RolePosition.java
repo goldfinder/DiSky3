@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class RolePosition extends DiSkyEvent<RoleUpdatePositionEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RolePosition.class, EvtRolePosition.class,
-                "[discord] role position (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Position Change", RolePosition.class, EvtRolePosition.class,
+                "[discord] [guild] role position (update|change)")
+                .setName("Role Position Change")
+                .setDesc("Fired when the position of a role changes.")
+                .setExample("on role position change:");
 
 
        EventValues.registerEventValue(EvtRolePosition.class, Integer.class, new Getter<Integer, EvtRolePosition>() {

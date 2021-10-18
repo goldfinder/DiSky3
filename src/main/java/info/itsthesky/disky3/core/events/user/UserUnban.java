@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserUnban extends DiSkyEvent<GuildUnbanEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", UserUnban.class, EvtUserUnban.class,
+        DiSkyEvent.register("Guild User Unban", UserUnban.class, EvtUserUnban.class,
                 "guild [(user|member)] unban")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Guild User Unban")
+                .setDesc("Fired when a user gets unbanned from a guild.")
+                .setExample("on guild user unban:");
 
 
        EventValues.registerEventValue(EvtUserUnban.class, User.class, new Getter<User, EvtUserUnban>() {

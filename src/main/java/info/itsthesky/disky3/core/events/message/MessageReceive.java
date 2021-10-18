@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class MessageReceive extends DiSkyEvent<MessageReceivedEvent> {
 
     static {
-        DiSkyEvent.register("MessageReceive", MessageReceive.class, EvtGuildMessage.class,
-                "[guild] message receive")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Message Receive", MessageReceive.class, EvtGuildMessage.class,
+                "[guild] message receive[d]")
+                .setName("Message Receive")
+                .setDesc("Fired when a message is received.")
+                .setExample("on message receive:");
 
 
         EventValues.registerEventValue(EvtGuildMessage.class, UpdatingMessage.class, new Getter<UpdatingMessage, EvtGuildMessage>() {

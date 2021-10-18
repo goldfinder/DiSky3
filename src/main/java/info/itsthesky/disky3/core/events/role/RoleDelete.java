@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class RoleDelete extends DiSkyEvent<RoleDeleteEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RoleDelete.class, EvtRoleDelete.class,
-                "[guild] role delete")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Delete", RoleDelete.class, EvtRoleDelete.class,
+                "[discord] [guild] role delete")
+                .setName("Role Delete")
+                .setDesc("Fired when a role is deleted from a guild.")
+                .setExample("on role delete:");
 
 
        EventValues.registerEventValue(EvtRoleDelete.class, Role.class, new Getter<Role, EvtRoleDelete>() {

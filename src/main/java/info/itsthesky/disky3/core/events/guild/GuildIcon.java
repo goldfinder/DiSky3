@@ -14,9 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class GuildIcon extends DiSkyEvent<GuildUpdateIconEvent> {
 
     static {
-        DiSkyEvent.register("Guild Icon Update", GuildIcon.class, EvtGuildIcon.class,
-                "[guild] icon (update|change)]")
-                .setName("Guild Icon Update");
+        DiSkyEvent.register("Guild Icon Change", GuildIcon.class, EvtGuildIcon.class,
+                "[discord] [guild] icon (update|change)]")
+                .setName("on guild icon change:")
+                .setDesc("Fired when the icon of a guild changes.")
+                .setExample("on guild icon change:");
 
 
         EventValues.registerEventValue(EvtGuildIcon.class, Guild.class, new Getter<Guild, EvtGuildIcon>() {

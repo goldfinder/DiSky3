@@ -24,11 +24,11 @@ public class PrivateReceive extends DiSkyEvent<MessageReceivedEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", PrivateReceive.class, EvtPrivateReceive.class,
+        DiSkyEvent.register("Private Message Receive", PrivateReceive.class, EvtPrivateReceive.class,
                 "(direct|private) message [receive]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Private Message Receive")
+                .setDesc("Fired when a private message is received.")
+                .setExample("on private message receive:");
 
        EventValues.registerEventValue(EvtPrivateReceive.class, User.class, new Getter<User, EvtPrivateReceive>() {
             @Override

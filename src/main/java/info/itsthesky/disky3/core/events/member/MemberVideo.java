@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 public class MemberVideo extends DiSkyEvent<GuildVoiceVideoEvent> {
 
     static {
-        DiSkyEvent.register("Member Video", MemberVideo.class, EvtMemberVideo.class,
+        DiSkyEvent.register("Member Sending Video", MemberVideo.class, EvtMemberVideo.class,
                 "[discord] [guild] (member|user) send[ing] [a] video")
-                .setName("Member Ban")
-                .setDesc("Fired when any member send a video (enabled camera).")
-                .setExample("on guild member send video");
+                .setName("Member Sending Video")
+                .setDesc("Fired when any member starts sending video (enabled camera).")
+                .setExample("on guild member send video:");
 
 
         EventValues.registerEventValue(EvtMemberVideo.class, User.class, new Getter<User, EvtMemberVideo>() {

@@ -24,7 +24,7 @@ public class PrivateReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
 
     static {
         DiSkyEvent.register("Inner Event Name", PrivateReactionAdd.class, EvtPrivateReactionAdd.class,
-                "private reaction add")
+                "private reaction add[ed]")
                 .setName("Docs Event Name")
                 .setDesc("Event description")
                 .setExample("Event Example");

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class VoiceDeafen extends DiSkyEvent<GuildVoiceDeafenEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceDeafen.class, EvtVoiceDeafen.class,
+        DiSkyEvent.register("Voice Member Deafen", VoiceDeafen.class, EvtVoiceDeafen.class,
                 "[voice] member deafen")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Member Deafen")
+                .setDesc("Fired when someone gets defeaned in a voice channel.")
+                .setExample("on member deafen:");
 
 
        EventValues.registerEventValue(EvtVoiceDeafen.class, Member.class, new Getter<Member, EvtVoiceDeafen>() {

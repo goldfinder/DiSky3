@@ -21,11 +21,11 @@ public class VoiceBitrate extends DiSkyEvent<ChannelUpdateBitrateEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceBitrate.class, EvtVoiceBitrate.class,
+        DiSkyEvent.register("Voice Bitrate Change", VoiceBitrate.class, EvtVoiceBitrate.class,
                 "[discord] voice [channel] bitrate (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Bitrate Change")
+                .setDesc("Fired when the bitrate of a voice channel changes.")
+                .setExample("on voice bitrate:");
 
 
        EventValues.registerEventValue(EvtVoiceBitrate.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceBitrate>() {

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class RoleMentionable extends DiSkyEvent<RoleUpdateMentionableEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", RoleMentionable.class, EvtRoleMentionable.class,
-                "[discord] role mentionable (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Role Mentionable Change", RoleMentionable.class, EvtRoleMentionable.class,
+                "[discord] [guild] role mentionable (update|change)")
+                .setName("Role Mentionable Change")
+                .setDesc("Fired when the mentionable stats of a role changes.")
+                .setExample("on role mentionable change:");
 
 
         EventValues.registerEventValue(EvtRoleMentionable.class, Boolean.class, new Getter<Boolean, EvtRoleMentionable>() {

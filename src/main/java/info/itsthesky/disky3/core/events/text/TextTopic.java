@@ -21,11 +21,11 @@ public class TextTopic extends DiSkyEvent<ChannelUpdateTopicEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextTopic.class, EvtTextTopic.class,
+        DiSkyEvent.register("Text Topic Change", TextTopic.class, EvtTextTopic.class,
                 "[discord] text [channel] topic (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel Topic Change")
+                .setDesc("Fired when the topic of a text channel changes.")
+                .setExample("on text topic change:");
 
 
        EventValues.registerEventValue(EvtTextTopic.class, String.class, new Getter<String, EvtTextTopic>() {

@@ -15,11 +15,12 @@ public class GuildOwner extends DiSkyEvent<GuildUpdateOwnerEvent> {
 
     static {
         DiSkyEvent.register("Guild Owner Update", GuildOwner.class, EvtGuildOwner.class,
-                "[guild] owner (change|update)")
-                .setName("Guild Owner Update");
+                "[discord] [guild] owner (change|update)")
+                .setName("Guild Owner Update")
+                .setDesc("Fired when the owner of a guild changes.")
+                .setExample("on guild owner change:");
 
-
-       EventValues.registerEventValue(EvtGuildOwner.class, Member.class, new Getter<Member, EvtGuildOwner>() {
+        EventValues.registerEventValue(EvtGuildOwner.class, Member.class, new Getter<Member, EvtGuildOwner>() {
             @Override
             public Member get(@NotNull EvtGuildOwner event) {
                 return event.getJDAEvent().getOldOwner();
@@ -40,14 +41,14 @@ public class GuildOwner extends DiSkyEvent<GuildUpdateOwnerEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtGuildOwner.class, Guild.class, new Getter<Guild, EvtGuildOwner>() {
+        EventValues.registerEventValue(EvtGuildOwner.class, Guild.class, new Getter<Guild, EvtGuildOwner>() {
             @Override
             public Guild get(@NotNull EvtGuildOwner event) {
                 return event.getJDAEvent().getEntity();
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtGuildOwner.class, Bot.class, new Getter<Bot, EvtGuildOwner>() {
+        EventValues.registerEventValue(EvtGuildOwner.class, Bot.class, new Getter<Bot, EvtGuildOwner>() {
             @Override
             public Bot get(@NotNull EvtGuildOwner event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());

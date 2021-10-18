@@ -21,11 +21,11 @@ public class VoiceName extends DiSkyEvent<ChannelUpdateNameEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceName.class, EvtVoiceName.class,
+        DiSkyEvent.register("Voice Name Change", VoiceName.class, EvtVoiceName.class,
                 "[discord] voice [channel] name (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Name Change")
+                .setDesc("Fired the name of a voice channel changes.")
+                .setExample("on voice name change:");
 
 
         EventValues.registerEventValue(EvtVoiceName.class, String.class, new Getter<String, EvtVoiceName>() {

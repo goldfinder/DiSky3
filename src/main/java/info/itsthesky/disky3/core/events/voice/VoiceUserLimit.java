@@ -21,11 +21,11 @@ public class VoiceUserLimit extends DiSkyEvent<ChannelUpdateUserLimitEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceUserLimit.class, EvtVoiceUserLimit.class,
+        DiSkyEvent.register("Voice Max User Change", VoiceUserLimit.class, EvtVoiceUserLimit.class,
                 "[discord] voice [channel] (max user|user limit) (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice User Limit Change")
+                .setDesc("Fired when the max user limit of a voice channel changes.")
+                .setExample("on voice max user change:");
 
 
        EventValues.registerEventValue(EvtVoiceUserLimit.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceUserLimit>() {

@@ -16,7 +16,9 @@ public class TrackPause extends SkriptEvent {
     static {
         DiSkyEvent.register("Track Pause", TrackPause.class, TrackEvent.class,
                 "track pause")
-                .setName("Track Pause");
+                .setName("Track Pause")
+                .setDesc("Fired when a track is paused.")
+                .setExample("on track pause:");
 
     }
 

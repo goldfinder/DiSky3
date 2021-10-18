@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserStatus extends DiSkyEvent<UserUpdateOnlineStatusEvent> {
 
     static {
-        DiSkyEvent.register("Inner Event Name", UserStatus.class, EvtUserStatus.class,
+        DiSkyEvent.register("User Status CHange", UserStatus.class, EvtUserStatus.class,
                 "[discord] user [online] status (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("User Status Change")
+                .setDesc("Fired when a user update its online status.")
+                .setExample("on user status change:");
 
 
        EventValues.registerEventValue(EvtUserStatus.class, Guild.class, new Getter<Guild, EvtUserStatus>() {

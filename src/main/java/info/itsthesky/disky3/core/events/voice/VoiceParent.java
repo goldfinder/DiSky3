@@ -21,11 +21,11 @@ public class VoiceParent extends DiSkyEvent<ChannelUpdateParentEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", VoiceParent.class, EvtVoiceParent.class,
+        DiSkyEvent.register("Voice Parent Change", VoiceParent.class, EvtVoiceParent.class,
                 "[discord] voice [channel] parent (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Voice Parent Change")
+                .setDesc("Fired when the category of a voice channel changes.")
+                .setExample("on voice parent change:");
 
 
        EventValues.registerEventValue(EvtVoiceParent.class, Category.class, new Getter<Category, EvtVoiceParent>() {
