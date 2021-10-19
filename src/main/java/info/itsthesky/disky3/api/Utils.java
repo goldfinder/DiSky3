@@ -32,6 +32,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -430,17 +431,22 @@ public final class Utils {
 
     public static ActionRow[] parseComponents(Object[] vars) {
         final List<ActionRow> rows = new ArrayList<>();
+        List<Button> lastBtnRow = new ArrayList<>();
         for (Object o : vars) {
             if (o instanceof ButtonRow) {
                 rows.add(
                         ActionRow.of(((ButtonRow) o).getButtons())
                 );
-            } else {
+            } else if (o instanceof SelectionMenu.Builder) {
                 rows.add(
                         ActionRow.of(((SelectionMenu.Builder) o).build())
                 );
+            } else {
+                lastBtnRow.add((Button) o);
             }
         }
+        if (!lastBtnRow.isEmpty())
+            rows.add(ActionRow.of(lastBtnRow));
         return rows.toArray(new ActionRow[0]);
     }
 }

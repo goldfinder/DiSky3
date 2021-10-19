@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
 public class ButtonClick extends DiSkyEvent<ButtonClickEvent> {
@@ -65,12 +66,24 @@ public class ButtonClick extends DiSkyEvent<ButtonClickEvent> {
 
     }
 
-    public static class EvtButtonClick extends SimpleDiSkyEvent<ButtonClickEvent> implements InteractionEvent {
+    public static class EvtButtonClick extends SimpleDiSkyEvent<ButtonClickEvent> implements InteractionEvent, Cancellable {
         public EvtButtonClick(ButtonClick event) { }
 
         @Override
         public GenericInteractionCreateEvent getInteractionEvent() {
             return getJDAEvent();
+        }
+
+        private boolean cancelled = false;
+
+        @Override
+        public boolean isCancelled() {
+            return cancelled;
+        }
+
+        @Override
+        public void setCancelled(boolean cancel) {
+            cancelled = cancel;
         }
     }
 

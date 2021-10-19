@@ -96,7 +96,7 @@ public abstract class WaiterEffect<T> extends Effect {
     }
 
     protected void restart(T object) {
-        runItems(object);
+        runItems(object instanceof Void ? null : object);
     }
 
     protected void changeVariable(Event e, Object object) {

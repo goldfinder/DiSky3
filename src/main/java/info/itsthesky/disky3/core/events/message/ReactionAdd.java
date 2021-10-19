@@ -10,6 +10,7 @@ import info.itsthesky.disky3.api.skript.events.specific.MessageEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
 public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
@@ -79,12 +80,23 @@ public class ReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
 
     }
 
-    public static class EvtReactionAdd extends SimpleDiSkyEvent<MessageReactionAddEvent> implements MessageEvent {
+    public static class EvtReactionAdd extends SimpleDiSkyEvent<MessageReactionAddEvent> implements MessageEvent, Cancellable {
         public EvtReactionAdd(ReactionAdd event) { }
 
         @Override
         public MessageChannel getMessageChannel() {
             return getJDAEvent().getChannel();
+        }
+
+        private boolean cancelled = false;
+        @Override
+        public boolean isCancelled() {
+            return cancelled;
+        }
+
+        @Override
+        public void setCancelled(boolean cancel) {
+            cancelled = cancel;
         }
     }
 

@@ -22,6 +22,7 @@ public class EffAddButtonToRow extends MultiplyPropertyExpression<ButtonRow, But
                 "buttonrow"
         );
     }
+
     @Override
     public void change(@NotNull Event e, Object @NotNull [] delta, Changer.ChangeMode mode) {
         Button button = (Button) delta[0];

@@ -29,6 +29,14 @@ public final class BotManager {
         }
     }
 
+    public static void registerEvent(ListenerAdapter event) {
+        globalExecute(bot -> bot.getCore().addEventListener(event));
+    }
+
+    public static void removeEvent(ListenerAdapter event) {
+        globalExecute(bot -> bot.getCore().removeEventListener(event));
+    }
+
     public static void reset() {
         LOADED_BOTS.forEach(bot -> bot.getCore().shutdownNow());
         LOADED_BOTS.clear();

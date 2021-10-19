@@ -13,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public class TextName extends DiSkyEvent<ChannelUpdateNameEvent> {
+public class TextName extends DiSkyEvent<ChannelUpdateNSFWEvent> {
 
     @Override
-    protected Predicate<ChannelUpdateNameEvent> checker() {
+    protected Predicate<ChannelUpdateNSFWEvent> checker() {
         return e -> e.isFromType(ChannelType.TEXT);
     }
 
     static {
-        DiSkyEvent.register("Text Name Change", TextName.class, EvtTextName.class,
+        DiSkyEvent.register("Inner Event Name", TextName.class, EvtTextName.class,
                 "[discord] text [channel] name (update|change)")
-                .setName("Text Channel Name Change")
-                .setDesc("Fired when the name of a text channel changes.")
-                .setExample("on text name change:");
+                .setName("Docs Event Name")
+                .setDesc("Event description")
+                .setExample("Event Example");
 
 
        EventValues.registerEventValue(EvtTextName.class, TextChannel.class, new Getter<TextChannel, EvtTextName>() {
@@ -51,7 +51,7 @@ public class TextName extends DiSkyEvent<ChannelUpdateNameEvent> {
 
     }
 
-    public static class EvtTextName extends SimpleDiSkyEvent<ChannelUpdateNameEvent> {
+    public static class EvtTextName extends SimpleDiSkyEvent<ChannelUpdateNSFWEvent> {
         public EvtTextName(TextName event) { }
     }
 

@@ -57,6 +57,7 @@ public class EffPermissions extends WaiterEffect {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void runEffect(Event e) {
         final List<Permission> perms = Arrays.asList(Utils.verifyVars(e, exprPerms, new Permission[0]));
         final Object entity = exprTarget.getSingle(e);
@@ -71,13 +72,13 @@ public class EffPermissions extends WaiterEffect {
                         ((Role) entity).getIdLong(),
                         null,
                         perms
-                ).queue();
+                ).queue(this::restart);
             } else {
                 channel.getManager().putRolePermissionOverride(
                         ((Role) entity).getIdLong(),
                         perms,
                         null
-                ).queue();
+                ).queue(this::restart);
             }
 
         } else if (entity instanceof Role && channel == null) {
@@ -85,9 +86,9 @@ public class EffPermissions extends WaiterEffect {
             Role role = (Role) entity;
 
             if (isRevoke) {
-                role.getManager().revokePermissions(perms).queue();
+                role.getManager().revokePermissions(perms).queue(this::restart);
             } else {
-                role.getManager().givePermissions(perms).queue();
+                role.getManager().givePermissions(perms).queue(this::restart);
             }
 
         } else if (entity instanceof Member && channel == null) {
@@ -101,13 +102,13 @@ public class EffPermissions extends WaiterEffect {
                         member.getIdLong(),
                         null,
                         perms
-                ).queue();
+                ).queue(this::restart);
             } else {
                 channel.getManager().putMemberPermissionOverride(
                         member.getIdLong(),
                         perms,
                         null
-                ).queue();
+                ).queue(this::restart);
             }
 
         }

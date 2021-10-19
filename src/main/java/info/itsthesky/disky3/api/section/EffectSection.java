@@ -26,9 +26,9 @@ import java.util.List;
 public abstract class EffectSection extends Condition {
     protected static HashMap<Class<? extends EffectSection>, EffectSection> map = new HashMap<>();
     protected SectionNode section = null;
-    private TriggerSection trigger = null;
-    private boolean hasIfOrElseIf = false;
-    private boolean executeNext = true;
+    public TriggerSection trigger = null;
+    public boolean hasIfOrElseIf = false;
+    public boolean executeNext = true;
     private Node node;
 
     public EffectSection() {

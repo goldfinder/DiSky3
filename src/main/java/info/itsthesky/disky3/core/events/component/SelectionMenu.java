@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
+import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
 public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
@@ -87,13 +88,24 @@ public class SelectionMenu extends DiSkyEvent<SelectionMenuEvent> {
 
     }
 
-    public static class EvtSelectionMenu extends SimpleDiSkyEvent<SelectionMenuEvent> implements InteractionEvent {
+    public static class EvtSelectionMenu extends SimpleDiSkyEvent<SelectionMenuEvent> implements InteractionEvent, Cancellable {
 
         public EvtSelectionMenu(SelectionMenu event) { }
 
         @Override
         public GenericInteractionCreateEvent getInteractionEvent() {
             return getJDAEvent();
+        }
+
+        private boolean cancelled = false;
+        @Override
+        public boolean isCancelled() {
+            return cancelled;
+        }
+
+        @Override
+        public void setCancelled(boolean cancel) {
+            cancelled = cancel;
         }
     }
 

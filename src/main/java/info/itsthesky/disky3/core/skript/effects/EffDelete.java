@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.Configuration;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
@@ -24,9 +25,10 @@ import java.util.stream.Collectors;
 public class EffDelete extends WaiterEffect {
 
     static {
+        final String pattern = Configuration.PARSING_DELETE_EFFECT.get() ? "discord" : "[discord]";
         Skript.registerEffect(
                 EffDelete.class,
-                "delete [the] [discord] [entity] %messages/channels/roles/categories/invites% [(with|using) [bot] %-bot%]"
+                "delete [the] "+pattern+" [entity] %messages/channels/roles/categories/invites% [(with|using) [bot] %-bot%]"
         );
     }
 

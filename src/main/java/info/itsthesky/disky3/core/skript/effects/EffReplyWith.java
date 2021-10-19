@@ -28,7 +28,7 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     static {
         register(
                 EffReplyWith.class,
-                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [with [the] (row|component)[s] %-buttonrows/selectbuilders%] [and store (it|the message) in %-object%]"
+                "reply with [(personal|hidden)] [the] [message] %embedbuilder/string/messagebuilder% [with [the] (row|component)[s] %-buttonrows/selectbuilders/buttons%] [and store (it|the message) in %-object%]"
         );
     }
 
