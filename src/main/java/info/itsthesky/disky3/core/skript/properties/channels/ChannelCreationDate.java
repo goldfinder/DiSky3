@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.properties.channel;
+package info.itsthesky.disky3.core.skript.properties.channels;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;

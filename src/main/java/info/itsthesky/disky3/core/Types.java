@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.interactions.components.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
 import net.dv8tion.jda.api.utils.AttachmentOption;
 import net.steppschuh.markdowngenerator.table.Table;
@@ -87,6 +88,7 @@ public class Types {
 		new DiSkyType<>(NewsChannel.class, "newschannel", "newschannels?", NewsChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getNewsChannelById(input)), false).register();
 		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
 		new DiSkyType<>(GuildThread.class, "thread", "threads?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildThreadById(input)), false).register();
+		new DiSkyType<>(StageChannel.class, "stagechannel", "stagechannels?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getStageChannelById(input)), false).register();
 
 		/*
 		 * Other JDA / wrapper types
@@ -116,6 +118,7 @@ public class Types {
 		 * Action / Manager types
 		 */
 		new DiSkyType<>(RoleAction.class, "roleaction", "roleactions?", action -> "role action", null, false).register();
+		new DiSkyType<>(ChannelAction.class, "channelaction", "channelactions?", action -> "channel action", null, false).register();
 
 		/*
 		 * Enum types
@@ -129,13 +132,13 @@ public class Types {
 		DiSkyType.fromEnum(Region.class, "channelregion", "channelregions?").register();
 		DiSkyType.fromEnum(AudioSite.class, "audiosite", "audiosites?").register();
 
-		/* Markdown types
-		 *
+		/*
+		 * Markdown types
 		 */
 		new DiSkyType<>(Table.Builder.class, "table", "tables?", table -> table.build().toString(), null, false).register();
 
 		/*
-		 * The only one who need a specifyc parser lmao
+		 * The only one who need a specific parser lmao
 		 */
 		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
 			final @Nullable Guild guild = LAST_GUILD_COMMAND;

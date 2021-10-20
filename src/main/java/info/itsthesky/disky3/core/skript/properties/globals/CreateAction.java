@@ -1,7 +1,6 @@
-package info.itsthesky.disky3.api.skript.action;
+package info.itsthesky.disky3.core.skript.properties.globals;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
@@ -14,35 +13,32 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
-public abstract class CreateAction<E, T extends AuditableRestAction<E>> extends WaiterEffect<E> {
+public class CreateAction extends WaiterEffect<Object> {
 
-    protected static void register(
-            Class<? extends Effect> clazz,
-            String actionType
-    ) {
+    static {
         Skript.registerEffect(
-                clazz,
-                "create [the] [(action|manager)] %"+actionType+"% and store (it|the "+ (actionType.replaceAll("action", "")) +") in %object%"
+                CreateAction.class,
+                "create [the] [(action|manager)] %roleaction/channelaction% and store (it|the (role|channel)) in %object%"
         );
     }
 
-    private Expression<T> exprAction;
+    private Expression<Object> exprAction;
 
     @Override
     public boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        exprAction = (Expression<T>) expressions[0];
-        setChangedVariable((Variable<E>) expressions[1]);
+        exprAction = (Expression<Object>) expressions[0];
+        setChangedVariable((Variable) expressions[1]);
         return true;
     }
 
     @Override
     public void runEffect(Event e) {
-        final T action = Utils.verifyVar(e, exprAction, null);
+        final AuditableRestAction<Object> action = (AuditableRestAction<Object>) Utils.verifyVar(e, exprAction, null);
         if (action == null) {
             restart();
             return;
         }
-        action.queue(en -> restart((E) en));
+        action.queue(this::restart);
     }
 
     @Override

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public abstract class ActionProperty<E, T extends AuditableRestAction<E>, O> extends ChangeablePropertyExpression<Object, O> {
+public abstract class ActionProperty<E, T extends AuditableRestAction, O> extends ChangeablePropertyExpression<Object, O> {
 
     public void updateEntity(T newAction, Event event) {
         getExpr().change(event, newAction == null ? new Object[0] : new Object[] {newAction}, Changer.ChangeMode.SET);

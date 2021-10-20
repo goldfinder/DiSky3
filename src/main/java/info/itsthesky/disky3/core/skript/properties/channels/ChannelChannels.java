@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.properties.channel;
+package info.itsthesky.disky3.core.skript.properties.channels;
 
 import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
 import net.dv8tion.jda.api.entities.Category;
