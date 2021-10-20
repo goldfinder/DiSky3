@@ -12,6 +12,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -21,8 +22,10 @@ import org.jetbrains.annotations.NotNull;
 public class ExprRGBColor extends SimpleExpression<Color> {
 
 	static {
-		Skript.registerExpression(ExprRGBColor.class, Color.class, ExpressionType.SIMPLE,
-				"[the] color from [the] (rgb|red green blue) %number%[ ][,][ ]%number%[ ][,][ ]%number%");
+		if (!ReflectionUtils.classExist("info.itsthesky.SkImage.SkImage")) {
+			Skript.registerExpression(ExprRGBColor.class, Color.class, ExpressionType.SIMPLE,
+					"[the] color from [the] (rgb|red green blue) %number%[ ][,][ ]%number%[ ][,][ ]%number%");
+		}
 	}
 
 	private Expression<Number> exprRed, exprGreen, exprBlue;
