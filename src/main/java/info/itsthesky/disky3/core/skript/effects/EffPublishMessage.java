@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -16,6 +19,11 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Publish Message")
+@Description({"Publish a message which come from an announcement channel.",
+        "\nEvery server that follow that channel will receive the specified message.",
+        "\nHowever, if you are trying to publish a message from a non-news channel, an exception will happen."})
+@Examples("publish event-message")
 public class EffPublishMessage extends WaiterEffect {
 
     static {

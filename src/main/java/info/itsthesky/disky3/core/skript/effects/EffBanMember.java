@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -15,6 +17,10 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Ban Member")
+@Description({"Ban a specific member from a guild. You can set a reason and / or deleting a specific amount of message's days of the member." +
+        "\nThe code provided in the section will be ran everytime.",
+"\nHowever, the 'last disky exception' will be null if no error happened, else it will be set to the error message."})
 public class EffBanMember extends RestExceptionSection<Void> {
 
     static {

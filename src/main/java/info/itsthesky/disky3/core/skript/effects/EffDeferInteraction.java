@@ -2,6 +2,9 @@ package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -18,6 +21,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
+@Name("Defer Interaction")
+@Description({"Only usable in interaction event, currently button click & dropdown update event!",
+"\nThis will force the interaction to be acknowledge, sending a success message to Discord.",
+"\nKeep in mind replying in an interaction event will automatically deferring the interaction, and therefore you won't be abel to defr it another time.",
+"\nAn interaction can only be deferring once!"})
+@Examples("defer the interaction")
 public class EffDeferInteraction extends Effect {
 
     static {
