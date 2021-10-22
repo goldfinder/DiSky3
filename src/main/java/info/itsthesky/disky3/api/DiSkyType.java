@@ -7,6 +7,8 @@ import ch.njol.skript.registrations.Classes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -14,6 +16,8 @@ import java.util.function.Function;
  * @author ItsTheSky
  */
 public class DiSkyType<T> {
+
+    public static final List<ClassInfo<?>> DISKY_CLASSES = new ArrayList<>();
 
     private final Class<T> clazz;
     private final String codeName;
@@ -132,11 +136,12 @@ public class DiSkyType<T> {
 
     // Should never be used outside of the class btw
     public void register(ClassInfo<T> classInfo) {
+        DISKY_CLASSES.add(classInfo);
         Classes.registerClass(classInfo);
     }
 
     public void register() {
-        Classes.registerClass(classInfo);
+        register(this.classInfo);
     }
 
     public boolean isEnum() {

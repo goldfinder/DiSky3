@@ -1,6 +1,7 @@
 
 package info.itsthesky.disky3.core;
 
+import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.registrations.Comparators;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
@@ -32,11 +33,15 @@ import net.steppschuh.markdowngenerator.table.Table;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 
 public class Types {
+
+	public static final List<ClassInfo<?>> DISKY_TYPES;
 
 	public static class DiSkyComparators {
 
@@ -149,5 +154,7 @@ public class Types {
 				return guild.getMemberById(Utils.parseLong(input, false, true));
 			}
 		}, false).register();
+
+		DISKY_TYPES = DiSkyType.DISKY_CLASSES;;
 	}
 }
