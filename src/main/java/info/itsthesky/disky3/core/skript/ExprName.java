@@ -8,10 +8,8 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
-import net.dv8tion.jda.api.entities.Channel;
-import net.dv8tion.jda.api.entities.IMentionable;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.internal.entities.TextChannelImpl;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +32,8 @@ public class ExprName extends SimpleExpression<String> {
     protected String @NotNull [] get(@NotNull Event e) {
         Object name = Utils.verifyVar(e, exprEntity, null);
         try {
+            if (name instanceof Member)
+                name = ((Member) name).getUser();
             String n = ReflectionUtils.invokeMethodEx(
                     name.getClass(),
                     "getName",
