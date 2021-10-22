@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -12,7 +15,6 @@ import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -22,13 +24,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EffDelete extends WaiterEffect {
+@Name("Destroy / Delete")
+@Description({"Destroy a specific Discord entity. This will delete the object itself (delete the text channel or message for example), but will NOT clear the variable! Use the global delete effect of Skript for that.",
+"\nThis effect is running through delay, means the following code will be ran once the entity has been completely destroyed on Discord."})
+@Examples({"destroy event-message",
+"destroy text channel with id \"XXX\""})
+public class EffDestroy extends WaiterEffect {
 
     static {
-        final String pattern = Configuration.PARSING_DELETE_EFFECT.get() ? "discord" : "[discord]";
         Skript.registerEffect(
-                EffDelete.class,
-                "delete [the] "+pattern+" [entity] %messages/channels/roles/categories/invites% [(with|using) [bot] %-bot%]"
+                EffDestroy.class,
+                "destroy [the] [discord] [entity] %messages/channels/roles/categories/invites% [(with|using) [bot] %-bot%]"
         );
     }
 
