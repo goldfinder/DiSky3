@@ -1,29 +1,28 @@
-package info.itsthesky.disky3.core.skript.properties.member;
+package info.itsthesky.disky3.core.skript.properties.globals;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
-import info.itsthesky.disky3.api.skript.NodeInformation;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MemberRoles extends ChangeablePropertyExpression<Member, Role> {
+public class MemberRoles extends ChangeablePropertyExpression<Object, Role> {
 
     static {
         register(
                 MemberRoles.class,
                 Role.class,
                 "[discord] roles",
-                "member"
+                "member/guild"
         );
     }
 
@@ -37,7 +36,14 @@ public class MemberRoles extends ChangeablePropertyExpression<Member, Role> {
     @Override
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
-        Member member = Utils.verifyVar(e, getExpr(), null);
+        Member member;
+
+        try {
+            member = (Member) Utils.verifyVar(e, getExpr(), null);
+        } catch (ClassCastException ex) {
+            return;
+        }
+
         final Role value = Utils.tryOrDie(
                 i -> (Role) i,
                 delta[0],
@@ -57,8 +63,11 @@ public class MemberRoles extends ChangeablePropertyExpression<Member, Role> {
     }
 
     @Override
-    protected Role @NotNull [] get(@NotNull Event e, Member @NotNull [] source) {
-        return source[0].getRoles().toArray(new Role[0]);
+    protected Role @NotNull [] get(@NotNull Event e, Object @NotNull [] source) {
+        final Object entity = source[0];
+        if (entity instanceof Guild)
+            return ((Guild) entity).getRoles().toArray(new Role[0]);
+        return ((Member) entity).getRoles().toArray(new Role[0]);
     }
 
     @Override
@@ -73,7 +82,7 @@ public class MemberRoles extends ChangeablePropertyExpression<Member, Role> {
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends Member>) exprs[0]);
+        setExpr(exprs[0]);
         return true;
     }
 }

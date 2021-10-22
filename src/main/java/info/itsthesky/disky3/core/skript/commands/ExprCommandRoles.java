@@ -19,7 +19,7 @@ public class ExprCommandRoles extends MultiplyPropertyExpression<CommandObject, 
 
     static {
         register(ExprCommandRoles.class, String.class,
-                "[discord] [command] roles",
+                "[discord] command roles",
                 "discordcommand"
         );
     }
