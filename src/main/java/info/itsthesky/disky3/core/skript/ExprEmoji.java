@@ -8,6 +8,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.emojis.Emote;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +38,13 @@ public class ExprEmoji extends SimpleExpression<Emote> {
         List<Emote> emojis = new ArrayList<>();
         List<Emote> finalEmotes = new ArrayList<>();
         for (String input : emotes) {
-            emojis.add(Utils.unicodeFrom(input, guild));
+            Emote emote = Utils.unicodeFrom(input, guild);
+            if (emote == null)
+            {
+                Skript.warning("Cannot found the emote named " + input);
+                continue;
+            }
+            emojis.add(emote);
         }
         for (Emote emote1 : emojis) {
             if (!emote1.getAsMention().contains(":")) {
@@ -70,6 +77,7 @@ public class ExprEmoji extends SimpleExpression<Emote> {
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         name = (Expression<String>) exprs[0];
         guild = (Expression<Guild>) exprs[1];
+        new NodeInformation();
         return true;
     }
 }
