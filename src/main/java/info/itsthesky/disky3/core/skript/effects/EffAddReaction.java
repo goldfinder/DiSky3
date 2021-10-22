@@ -1,6 +1,8 @@
 package info.itsthesky.disky3.core.skript.effects;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -15,6 +17,9 @@ import net.dv8tion.jda.api.entities.Message;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
+@Name("Add Reaction")
+@Description({"Add a specific reaction emote to a message.",
+"\nhis effect is marked as DEPRECATED, use the 'react' section instead."})
 public class EffAddReaction extends Effect {
 
     static {

@@ -2,16 +2,10 @@ package info.itsthesky.disky3.api;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.command.Argument;
-import ch.njol.skript.config.Config;
-import ch.njol.skript.config.Node;
-import ch.njol.skript.config.SectionNode;
+import ch.njol.skript.aliases.Aliases;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.lang.util.SimpleLiteral;
-import ch.njol.skript.log.RetainingLogHandler;
-import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Color;
 import ch.njol.skript.util.Date;
@@ -22,9 +16,8 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
-import info.itsthesky.disky3.api.emojis.EmojiManager;
-import info.itsthesky.disky3.api.emojis.EmojiParser;
 import info.itsthesky.disky3.api.emojis.Emote;
+import info.itsthesky.disky3.api.emojis.NewEmoji;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -40,8 +33,6 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -49,7 +40,6 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * All these code were made & are owned by ItsTheSky!
@@ -92,10 +82,10 @@ public final class Utils {
 
     public static boolean areEmojiSimilar(MessageReaction.ReactionEmote first, Emote second) {
         if (first.isEmote()) {
-            Emote f = new Emote(first.getEmote());
+            Emote f = Emote.fromJDA(first.getEmote());
             return f.getName().equalsIgnoreCase(second.getName());
         } else {
-            return EmojiParser.parseToUnicode(first.getAsReactionCode()).equals(second.getAsMention());
+            return first.getEmoji().equalsIgnoreCase(NewEmoji.getByName(second.getName()).getUtf8());
         }
     }
 
@@ -210,7 +200,7 @@ public final class Utils {
                     for (JDA jda : jdaInstances) {
                         Collection<net.dv8tion.jda.api.entities.Emote> emoteCollection = jda.getEmotesByName(input, false);
                         if (!emoteCollection.isEmpty()) {
-                            return new Emote(emoteCollection.iterator().next());
+                            return Emote.fromJDA(emoteCollection.iterator().next());
                         }
                     }
                     return unicodeFrom(input);
@@ -220,8 +210,9 @@ public final class Utils {
                     return unicodeFrom(input);
                 }
 
-                return new Emote(emotes.iterator().next());
+                return Emote.fromJDA(emotes.iterator().next());
             } catch (UnsupportedOperationException | NoSuchElementException x) {
+                DiSky.exception(x);
                 return null;
             }
         } else {
@@ -230,7 +221,7 @@ public final class Utils {
                 for (JDA jda : jdaInstances) {
                     net.dv8tion.jda.api.entities.Emote emote = jda.getEmoteById(id);
                     if (emote != null) {
-                        return new Emote(emote);
+                        return Emote.fromJDA(emote);
                     }
                 }
                 return unicodeFrom(input);
@@ -240,25 +231,29 @@ public final class Utils {
                 if (emote == null) {
                     net.dv8tion.jda.api.entities.Emote emote1 = guild.getJDA().getEmoteById(id);
                     if (!(emote1 == null)) {
-                        return new Emote(emote1);
+                        return Emote.fromJDA(emote1);
                     }
                     return null;
                 }
 
-                return new Emote(emote);
+                return Emote.fromJDA(emote);
             } catch (UnsupportedOperationException | NoSuchElementException x) {
+                DiSky.exception(x);
                 return null;
             }
         }
     }
 
     public static Emote unicodeFrom(String input) {
-        if (EmojiManager.isEmoji(input)) {
-            return new Emote(input, EmojiParser.parseToUnicode(input));
+        final Emote emote;
+        NewEmoji emoji = NewEmoji.getByName(input);
+        if (emoji == null) {
+            String value = input.contains(":") ? input : ":" + input + ":";
+            emote = new Emote(input.replaceAll(":", ""), NewEmoji.getByName(value).getUtf8());
         } else {
-            String emote = input.contains(":") ? input : ":" + input + ":";
-            return new Emote(input.replaceAll(":", ""), EmojiParser.parseToUnicode(emote));
+            emote = new Emote(input, NewEmoji.getByName(input).getUtf8());
         }
+        return emote;
     }
 
     public static <F, T> T[] convertArray(
