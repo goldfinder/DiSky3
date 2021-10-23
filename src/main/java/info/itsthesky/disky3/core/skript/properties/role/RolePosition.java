@@ -53,6 +53,6 @@ public class RolePosition extends ActionProperty<Role, RoleAction, Number> {
 
     @Override
     public Number get(Role role) {
-        return null;
+        return role.getPosition();
     }
 }
