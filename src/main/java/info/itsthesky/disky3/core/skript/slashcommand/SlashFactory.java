@@ -16,6 +16,7 @@ import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashData;
 import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
+import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotGuildRegister;
 import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotRegister;
 import info.itsthesky.disky3.core.skript.slashcommand.api.register.GuildRegister;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -293,9 +294,13 @@ public class SlashFactory {
         }
 
         try {
-            if (!guilds.isEmpty()) {
+            if (!guilds.isEmpty() && bots.isEmpty()) {
 
                 GuildRegister.getInstance().registerCommand(guilds, slashObject);
+
+            } else if (!guilds.isEmpty() && !bots.isEmpty()) {
+
+                BotGuildRegister.getInstance().registerCommand(guilds, bots, slashObject);
 
             } else if (!bots.isEmpty()) {
 

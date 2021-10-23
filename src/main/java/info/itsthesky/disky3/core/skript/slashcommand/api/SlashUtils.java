@@ -115,6 +115,16 @@ public final class SlashUtils {
         }
     }
 
+    public static List<Guild> parseGuilds(List<String> asList, List<Bot> bots) {
+        final List<Guild> guilds = new ArrayList<>();
+        for (String s : asList) {
+            for (Bot bot : bots) {
+                guilds.add(bot.getCore().getGuildById(s));
+            }
+        }
+        return guilds;
+    }
+
     public static List<Guild> parseGuilds(List<String> asList) {
         final List<Guild> guilds = new ArrayList<>();
         for (String s : asList) {
