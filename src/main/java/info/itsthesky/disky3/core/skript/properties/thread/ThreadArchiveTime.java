@@ -8,7 +8,6 @@ import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import net.dv8tion.jda.api.entities.GuildThread;
-import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

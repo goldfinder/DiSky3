@@ -1,6 +1,5 @@
 package info.itsthesky.disky3.core.skript.properties.thread;
 
-import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.PropertyCondition;
 import net.dv8tion.jda.api.entities.GuildThread;
 import org.jetbrains.annotations.NotNull;

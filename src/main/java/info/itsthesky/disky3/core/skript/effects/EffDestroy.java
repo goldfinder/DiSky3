@@ -12,9 +12,7 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +32,7 @@ public class EffDestroy extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffDestroy.class,
-                "destroy [the] [discord] [entity] %messages/channels/roles/categories/invites% [(with|using) [bot] %-bot%]"
+                "destroy [the] [discord] [entity] %messages/channels/roles/categories/threads/invites% [(with|using) [bot] %-bot%]"
         );
     }
 
@@ -86,6 +84,8 @@ public class EffDestroy extends WaiterEffect {
                 deleteQueue = ((GuildChannel) entity).delete();
             } else if (entity instanceof Invite) {
                 deleteQueue = ((Invite) entity).delete();
+            } else if (entity instanceof GuildThread) {
+                deleteQueue = ((GuildThread) entity).delete();
             } else {
                 continue;
             }
