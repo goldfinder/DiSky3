@@ -71,6 +71,7 @@ public enum NewEmoji {
     SCREAM(new int[]{128561}, "\uD83D\uDE31", Category.PEOPLE, "https://discordapp.com/assets/9bd8b85559466379744360f8c9841f39.svg"),
     FEARFUL(new int[]{128552}, "\uD83D\uDE28", Category.PEOPLE, "https://discordapp.com/assets/5f730d3f468c0b45ad924ebf061b0ad2.svg"),
     COLD_SWEAT(new int[]{128560}, "\uD83D\uDE30", Category.PEOPLE, "https://discordapp.com/assets/296af87a9a3b362dd6cce3b4afaaa1de.svg"),
+    COLD_FACE(new int[]{158560}, "\uD83E\uDD76", Category.PEOPLE, "https://discordapp.com/assets/10ba107674fdf2d100be5592e7c85c74.svg"),
     HUSHED(new int[]{128559}, "\uD83D\uDE2F", Category.PEOPLE, "https://discordapp.com/assets/cad1882ca3eeb04e786bc5d63e44477d.svg"),
     FROWNING(new int[]{128550}, "\uD83D\uDE26", Category.PEOPLE, "https://discordapp.com/assets/f71a48ebe4ebb6c0fb771721248d7523.svg"),
     ANGUISHED(new int[]{128551}, "\uD83D\uDE27", Category.PEOPLE, "https://discordapp.com/assets/f90a4ddd5d612bd89c0abe44c39fa4df.svg"),
