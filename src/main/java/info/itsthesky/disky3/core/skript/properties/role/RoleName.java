@@ -14,7 +14,7 @@ public class RoleName extends ActionProperty<Role, RoleAction, String> {
         register(
                 RoleName.class,
                 String.class,
-                "[role] name",
+                "role name",
                 "role/roleaction"
         );
     }

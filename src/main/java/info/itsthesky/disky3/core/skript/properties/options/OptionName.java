@@ -10,7 +10,7 @@ public class OptionName extends ChoiceProperty<String> {
         register(
                 OptionName.class,
                 String.class,
-                "[discord] [option] name"
+                "[discord] option name"
         );
     }
 

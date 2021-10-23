@@ -25,7 +25,7 @@ public class GuildName extends ChangeablePropertyExpression<Guild, String> {
         register(
                 GuildName.class,
                 String.class,
-                "[discord] name",
+                "[discord] guild name",
                 "guild"
         );
     }

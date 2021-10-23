@@ -24,7 +24,7 @@ public class BotName extends ChangeablePropertyExpression<Bot, String> {
         register(
                 BotName.class,
                 String.class,
-                "[discord] name",
+                "[discord] bot name",
                 "bot"
         );
     }

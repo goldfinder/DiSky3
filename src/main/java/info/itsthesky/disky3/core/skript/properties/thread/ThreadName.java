@@ -22,7 +22,7 @@ public class ThreadName extends ChangeablePropertyExpression<GuildThread, String
         register(
                 ThreadName.class,
                 String.class,
-                "[discord] name",
+                "[discord] thread name",
                 "thread"
         );
     }

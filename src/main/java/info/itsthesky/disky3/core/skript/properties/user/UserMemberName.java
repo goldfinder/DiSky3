@@ -17,7 +17,7 @@ public class UserMemberName extends UserMemberProperty<String> {
         register(
                 UserMemberName.class,
                 Object.class,
-                "discord [user] name"
+                "[discord] user name"
         );
     }
 
