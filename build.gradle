@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'info.itsthesky'
-version = '3.5.0-ARK'
+version = '3.5.1-ARK'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
