@@ -16,13 +16,13 @@ public interface SkriptAdapter {
         return DiSky.getSkriptAdapter();
     }
 
-    Version getMinimalVersion();
-
     void setHasDelayedBefore(Kleenean value);
 
     Kleenean getHasDelayedBefore();
 
     HandlerList getHandlers();
+
+    Class<? extends Event>[] getCurrentEvents();
 
     boolean isCurrentEvents(Class<? extends Event>... events);
 

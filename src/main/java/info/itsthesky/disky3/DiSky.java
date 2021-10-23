@@ -75,18 +75,15 @@ public final class DiSky extends JavaPlugin {
         }
         success("Loaded Skript's syntaxes successfully!");
 
-        INSTALLED_SKRIPT_VERSION = new Version("" + Skript.getInstance().getDescription().getVersion()); // Skript version;
-        for (SkriptAdapter adapter : new SkriptAdapter[] {new SkriptV2_3(), new SkriptV2_6()}) {
-            if (INSTALLED_SKRIPT_VERSION.isSmallerThan(adapter.getMinimalVersion()))
-                continue;
-            SKRIPT_ADAPTER = adapter;
-        }
+        // This class is from 2.6-alpha1 and +
+        final boolean use26 = ReflectionUtils.classExist("ch.njol.skript.conditions.CondIsPluginEnabled");
+        SKRIPT_ADAPTER = use26 ? new SkriptV2_6() : new SkriptV2_3();
 
         if (SKRIPT_ADAPTER == null) {
             error("Unable to find a Skript adapter for your current Skript version ("+INSTALLED_SKRIPT_VERSION+")");
             error("DiSky could not work correctly, please install at least a 2.3.X Skript version!");
         } else {
-            success("Successfully loaded Skript adapter for minimal " + SKRIPT_ADAPTER.getMinimalVersion() + " version!");
+            success("Successfully loaded Skript adapter for " + (use26 ? "2.6+" : "2.5-") + " version!");
         }
 
         getCommand("disky").setExecutor(new DiSkyCommand());

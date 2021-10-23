@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.events;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -38,7 +39,7 @@ public class ExprEventValues extends SimpleExpression<Object> {
 
         String cInfo = parser.expr.replaceAll("event-", "");
 
-        List<EventValue<?>> eValues = eventValues.get(ScriptLoader.getCurrentEvents()[0]);
+        List<EventValue<?>> eValues = eventValues.get(SkriptAdapter.getInstance().getCurrentEvents()[0]);
         if (eValues == null || eValues.isEmpty()) return false;
         EventValue<?> value = null;
         for (EventValue<?> vs : eValues) if (vs.getcInfo().equals(cInfo)) value = vs;

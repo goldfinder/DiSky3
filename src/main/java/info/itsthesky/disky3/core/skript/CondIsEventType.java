@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
@@ -47,7 +48,7 @@ public class CondIsEventType extends Condition {
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         toCheckFromGuild = matchedPattern == 1;
-        //Class<? extends Event> currentEvent = ScriptLoader.getCurrentEvents()[0];
+        //Class<? extends Event> currentEvent = SkriptAdapter.getInstance().getCurrentEvents()[0];
         return true;
     }
 }

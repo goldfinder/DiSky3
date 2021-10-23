@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.effects;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -65,7 +66,7 @@ public class EffDeferInteraction extends Effect {
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
 
-        if (!(Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(InteractionEvent.class))) {
+        if (!(Arrays.asList(SkriptAdapter.getInstance().getCurrentEvents()[0].getInterfaces()).contains(InteractionEvent.class))) {
             Skript.error("The defer interaction effect can only be used in interaction events!");
             return false;
         }

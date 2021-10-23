@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.adapter;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.log.HandlerList;
@@ -10,11 +11,6 @@ import info.itsthesky.disky3.api.ReflectionUtils;
 import org.bukkit.event.Event;
 
 public class SkriptV2_3 implements SkriptAdapter {
-
-    @Override
-    public Version getMinimalVersion() {
-        return new Version(2, 3);
-    }
 
     @Override
     public void setHasDelayedBefore(Kleenean value) {
@@ -39,6 +35,11 @@ public class SkriptV2_3 implements SkriptAdapter {
     @Override
     public HandlerList getHandlers() {
         return ReflectionUtils.getFieldValue(SkriptLogger.class, "handlers");
+    }
+
+    @Override
+    public Class<? extends Event>[] getCurrentEvents() {
+        return ScriptLoader.getCurrentEvents();
     }
 
     @SafeVarargs

@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.advanced;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -65,7 +66,7 @@ public class Switch extends EffectSection {
             Skript.warning("This switch doesn't have any code inside, so you can remove it.");
         if (checkIfCondition())
             return false;
-        loadSection("switch", true, ScriptLoader.getCurrentEvents());
+        loadSection("switch", true, SkriptAdapter.getInstance().getCurrentEvents());
         exprValue = (Expression<String>) exprs[0];
         return true;
     }

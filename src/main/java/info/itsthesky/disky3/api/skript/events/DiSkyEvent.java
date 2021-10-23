@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.events;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Config;
@@ -102,7 +103,7 @@ public abstract class DiSkyEvent<D extends net.dv8tion.jda.api.events.Event> ext
 
         stringRepresentation = ScriptLoader.replaceOptions(SkriptLogger.getNode().getKey()) + ":";
         originalName = ScriptLoader.getCurrentEventName();
-        originalEvents = ScriptLoader.getCurrentEvents();
+        originalEvents = SkriptAdapter.getInstance().getCurrentEvents();
 
         String name = null;
         for (SkriptEventInfo<?> event : Skript.getEvents()) {

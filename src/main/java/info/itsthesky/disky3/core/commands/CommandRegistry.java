@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.commands;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Config;
@@ -119,7 +120,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
         SectionNode sectionNode = (SectionNode) SkriptLogger.getNode();
 
         String originalName = ScriptLoader.getCurrentEventName();
-        Class<? extends Event>[] originalEvents = ScriptLoader.getCurrentEvents();
+        Class<? extends Event>[] originalEvents = SkriptAdapter.getInstance().getCurrentEvents();
         Kleenean originalDelay = SkriptAdapter.getInstance().getHasDelayedBefore();
         ScriptLoader.setCurrentEvent("discord command", CommandEvent.class);
 

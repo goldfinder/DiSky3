@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.section;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
@@ -176,7 +177,7 @@ public abstract class EffectSection extends Condition {
     public final void loadSection(String name, boolean setNext, Class<? extends Event>... events) {
         if (section != null && name != null && events != null && events.length > 0) {
             String previousName = ScriptLoader.getCurrentEventName();
-            Class<? extends Event>[] previousEvents = ScriptLoader.getCurrentEvents();
+            Class<? extends Event>[] previousEvents = SkriptAdapter.getInstance().getCurrentEvents();
             Kleenean previousDelay = SkriptAdapter.getInstance().getHasDelayedBefore();
             ScriptLoader.setCurrentEvent(name, events);
             loadSection(setNext);

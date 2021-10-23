@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.effects;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -41,8 +42,8 @@ public class EffReplyWith extends WaiterBotEffect<UpdatingMessage> {
     public boolean initEffect(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
 
         if (
-                !Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(MessageEvent.class) &&
-                        !(Arrays.asList(ScriptLoader.getCurrentEvents()[0].getInterfaces()).contains(InteractionEvent.class))
+                !Arrays.asList(SkriptAdapter.getInstance().getCurrentEvents()[0].getInterfaces()).contains(MessageEvent.class) &&
+                        !(Arrays.asList(SkriptAdapter.getInstance().getCurrentEvents()[0].getInterfaces()).contains(InteractionEvent.class))
         ) {
             Skript.error("The reply effect can only be used in message / interaction event!");
             return false;

@@ -11,11 +11,6 @@ import org.bukkit.event.Event;
 public class SkriptV2_6 implements SkriptAdapter {
 
     @Override
-    public Version getMinimalVersion() {
-        return new Version(2, 6);
-    }
-
-    @Override
     public void setHasDelayedBefore(Kleenean value) {
         ParserInstance.get().setHasDelayBefore(value);
     }
@@ -28,6 +23,11 @@ public class SkriptV2_6 implements SkriptAdapter {
     @Override
     public HandlerList getHandlers() {
         return ParserInstance.get().getHandlers();
+    }
+
+    @Override
+    public Class<? extends Event>[] getCurrentEvents() {
+        return ParserInstance.get().getCurrentEvents();
     }
 
     @SafeVarargs

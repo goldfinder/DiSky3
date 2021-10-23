@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.advanced;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.effects.EffReturn;
@@ -60,7 +61,7 @@ public class Case extends EffectSection {
         System.out.println("Has return effect: " + hasReturn);
 
         isDefault = matchedPattern == 1;
-        loadSection((isDefault ? "default" : "case"), true, ScriptLoader.getCurrentEvents());
+        loadSection((isDefault ? "default" : "case"), true, SkriptAdapter.getInstance().getCurrentEvents());
         if (!isDefault)
             caseExpression = (Expression<String>) exprs[0];
         return true;

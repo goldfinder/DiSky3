@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.aliases.Aliases;
@@ -18,6 +19,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
 import info.itsthesky.disky3.api.emojis.NewEmoji;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -304,7 +306,7 @@ public final class Utils {
     public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz) {
         if (expr != null)
             return expr;
-        Class<? extends Event>[] events = ScriptLoader.getCurrentEvents();
+        Class<? extends Event>[] events = SkriptAdapter.getInstance().getCurrentEvents();
         for (Class<? extends Event> e : events == null ? new Class[0] : events) {
             Getter getter = EventValues.getEventValueGetter(e, clazz, 0);
             if (getter != null) {

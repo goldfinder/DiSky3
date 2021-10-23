@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.*;
 import ch.njol.util.Kleenean;

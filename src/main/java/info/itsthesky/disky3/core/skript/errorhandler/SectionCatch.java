@@ -1,6 +1,7 @@
 package info.itsthesky.disky3.core.skript.errorhandler;
 
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
@@ -39,7 +40,7 @@ public class SectionCatch extends EffectSection {
             return false;
         }
 
-        loadSection("catch", false, ScriptLoader.getCurrentEvents());
+        loadSection("catch", false, SkriptAdapter.getInstance().getCurrentEvents());
 
         if (Utils.parseVar(exprs[0], false, true) == null)
             return false;

@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.section;
 
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -58,7 +59,7 @@ public abstract class RestExceptionSection<T> extends EffectSection {
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (checkIfCondition())
             return false;
-        loadSection("error handler", true, ScriptLoader.getCurrentEvents());
+        loadSection("error handler", true, SkriptAdapter.getInstance().getCurrentEvents());
         return true;
     }
 }
