@@ -12,8 +12,9 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.api.DiSkyType;
 import info.itsthesky.disky3.core.Types;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,17 +44,21 @@ public class ParsedString extends SimpleExpression<Object> {
 
                 ))
                 .map(ClassInfo::getCodeName)
+                .filter(codeName -> !codeName.equalsIgnoreCase("member"))
                 .collect(Collectors.toList());
         Skript.registerExpression(
                 ParsedString.class,
                 Object.class,
                 ExpressionType.SIMPLE,
-                "%strings% parsed as ("+ StringUtils.join(infos.toArray(new String[0]), "|") +")"
+                "%strings% parsed as ("+ StringUtils.join(infos.toArray(new String[0]), "|") +")",
+                "%strings% parsed as member in [the] [guild] %guild%"
         );
     }
 
     private Expression<String> input;
     private ClassInfo<?> classInfo;
+    private Expression<Guild> exprGuild;
+    private boolean isMember = false;
 
     @Override
     protected Object @NotNull [] get(@NotNull Event e) {
@@ -64,20 +69,25 @@ public class ParsedString extends SimpleExpression<Object> {
 
         for (String s : input.getArray(e))
         {
-            Object entity;
-            entity = classInfo.getParser().parse(s, ParseContext.DEFAULT);
-            if (entity != null) {
-                entities.add(entity);
-                continue;
-            }
-            entity = classInfo.getParser().parse(s, ParseContext.SCRIPT);
-            if (entity != null) {
-                entities.add(entity);
-                continue;
-            }
-            entity = classInfo.getParser().parse(s, ParseContext.COMMAND);
-            if (entity != null) {
-                entities.add(entity);
+            if (isMember) {
+                Object entity;
+                entity = classInfo.getParser().parse(s, ParseContext.DEFAULT);
+                if (entity != null) {
+                    entities.add(entity);
+                    continue;
+                }
+                entity = classInfo.getParser().parse(s, ParseContext.SCRIPT);
+                if (entity != null) {
+                    entities.add(entity);
+                    continue;
+                }
+                entity = classInfo.getParser().parse(s, ParseContext.COMMAND);
+                if (entity != null) {
+                    entities.add(entity);
+                }
+            } else {
+                final Member member = Types.parseMember(s, exprGuild.getSingle(e));
+                entities.add(member);
             }
         }
 
@@ -102,8 +112,12 @@ public class ParsedString extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         input = (Expression<String>) exprs[0];
+        isMember = matchedPattern == 1;
+        if (isMember)
+            exprGuild = (Expression<Guild>) exprs[1];
 
-        String classInfoInput = parseResult.regexes.get(0).group(1);
+        String classInfoInput = parseResult.expr.split("parsed as ")[1].split(" ")[0];
+        System.out.println(classInfoInput);
         classInfo = Classes.getClassInfoFromUserInput(classInfoInput);
 
         if (classInfo == null) {
@@ -111,7 +125,7 @@ public class ParsedString extends SimpleExpression<Object> {
             return false;
         }
 
-        if (classInfo.getParser() == null || classInfo.getParser().canParse(ParseContext.SCRIPT)) {
+        if (classInfo.getParser() == null || !classInfo.getParser().canParse(ParseContext.SCRIPT)) {
             Skript.error("Cannot parse class info type: " + classInfoInput);
             return false;
         }
