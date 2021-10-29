@@ -43,6 +43,8 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
 
     @Override
     protected T @NotNull [] get(@NotNull Event e) {
+        if (expr.getSingle(e) == null)
+            return (T[]) new Object[0];
         return convert(expr.getSingle(e));
     }
 

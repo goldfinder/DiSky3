@@ -47,6 +47,8 @@ public class BotStatus extends PropertyExpression<Bot, OnlineStatus> {
 
     @Override
     protected OnlineStatus @NotNull [] get(@NotNull Event e, Bot @NotNull [] source) {
+        if (source.length == 0)
+            return new OnlineStatus[0];
         return new OnlineStatus[] {source[0].getCore().getPresence().getStatus()};
     }
 

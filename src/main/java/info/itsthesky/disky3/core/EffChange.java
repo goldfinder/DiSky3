@@ -302,7 +302,6 @@ public class EffChange extends Effect {
 
         try {
             currentBot = bot;
-            System.out.println(changed.getClass());
             try {
                 ((DiSkyChangerElement) changed).change(e, delta, bot, mode);
             } catch (ClassCastException ex) {
