@@ -3,7 +3,9 @@ package info.itsthesky.disky3.core;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Comparator;
+import ch.njol.skript.classes.Converter;
 import ch.njol.skript.registrations.Comparators;
+import ch.njol.skript.registrations.Converters;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import info.itsthesky.disky3.DiSky;
@@ -42,6 +44,17 @@ import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 public class Types {
 
 	public static final List<ClassInfo<?>> DISKY_TYPES;
+
+	public static class DiSkyConverts {
+
+		static {
+
+			Converters.registerConverter(UpdatingMessage.class, String.class, message -> message.getMessage().getContentRaw());
+			Converters.registerConverter(Member.class, User.class, Member::getUser);
+
+		}
+
+	}
 
 	public static class DiSkyComparators {
 
