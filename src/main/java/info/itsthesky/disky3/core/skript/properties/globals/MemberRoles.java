@@ -8,6 +8,7 @@ import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
+import info.itsthesky.disky3.api.changers.MultipleChangeablePropertyExpression;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -15,7 +16,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MemberRoles extends ChangeablePropertyExpression<Object, Role> {
+public class MemberRoles extends MultipleChangeablePropertyExpression<Object, Role> {
 
     static {
         register(
