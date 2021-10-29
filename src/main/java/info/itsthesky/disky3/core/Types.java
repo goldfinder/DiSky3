@@ -51,6 +51,7 @@ public class Types {
 
 			Converters.registerConverter(UpdatingMessage.class, String.class, message -> message.getMessage().getContentRaw());
 			Converters.registerConverter(Member.class, User.class, Member::getUser);
+			Converters.registerConverter(Bot.class, User.class, bot -> bot.getCore().getSelfUser());
 
 		}
 

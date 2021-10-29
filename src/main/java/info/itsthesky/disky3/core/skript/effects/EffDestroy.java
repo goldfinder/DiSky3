@@ -32,7 +32,7 @@ public class EffDestroy extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffDestroy.class,
-                "destroy [the] [discord] [entity] %messages/channels/roles/categories/threads/invites% [(with|using) [bot] %-bot%]"
+                "destroy [the] [discord] [entity] %messages/channels/roles/categories/threads/guild/invites% [(with|using) [bot] %-bot%]"
         );
     }
 
