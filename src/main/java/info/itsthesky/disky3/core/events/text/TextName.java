@@ -13,10 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public class TextName extends DiSkyEvent<ChannelUpdateNSFWEvent> {
+public class TextName extends DiSkyEvent<ChannelUpdateNameEvent> {
 
     @Override
-    protected Predicate<ChannelUpdateNSFWEvent> checker() {
+    protected Predicate<ChannelUpdateNameEvent> checker() {
         return e -> e.isFromType(ChannelType.TEXT);
     }
 
@@ -51,7 +51,7 @@ public class TextName extends DiSkyEvent<ChannelUpdateNSFWEvent> {
 
     }
 
-    public static class EvtTextName extends SimpleDiSkyEvent<ChannelUpdateNSFWEvent> {
+    public static class EvtTextName extends SimpleDiSkyEvent<ChannelUpdateNameEvent> {
         public EvtTextName(TextName event) { }
     }
 
