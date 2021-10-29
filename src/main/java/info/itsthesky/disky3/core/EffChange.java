@@ -159,6 +159,7 @@ public class EffChange extends Effect {
         if (!(changed instanceof ChangeablePropertyExpression ||
                 changed instanceof ChangeableSimpleExpression ||
                 changed instanceof ChangeableSimplePropertyExpression ||
+                changed instanceof MultipleChangeablePropertyExpression ||
                 Classes.getSuperClassInfo(changed.getReturnType()).getChanger() instanceof DiSkyChanger)) {
             if (!bot.isDefault()) {
                 Skript.error(changed.toString(null, false) + " can't be changed with DiSky's changer effects");
@@ -311,6 +312,8 @@ public class EffChange extends Effect {
                 ((ChangeablePropertyExpression) changed).change(e, delta, bot, mode);
             } else if (changed instanceof ChangeableExpression) {
                 ((ChangeableExpression) changed).change(e, delta, bot, mode);
+            } else if (changed instanceof MultipleChangeablePropertyExpression) {
+                ((MultipleChangeablePropertyExpression) changed).change(e, delta, bot, mode);
             } else {
                 changed.change(e, delta, mode);
             }

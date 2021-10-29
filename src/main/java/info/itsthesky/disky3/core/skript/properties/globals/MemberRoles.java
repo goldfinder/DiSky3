@@ -64,8 +64,7 @@ public class MemberRoles extends MultipleChangeablePropertyExpression<Object, Ro
     }
 
     @Override
-    protected Role @NotNull [] get(@NotNull Event e, Object @NotNull [] source) {
-        final Object entity = source[0];
+    protected Role[] convert(final Object entity) {
         if (entity instanceof Guild)
             return ((Guild) entity).getRoles().toArray(new Role[0]);
         return ((Member) entity).getRoles().toArray(new Role[0]);
@@ -77,13 +76,12 @@ public class MemberRoles extends MultipleChangeablePropertyExpression<Object, Ro
     }
 
     @Override
-    public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "roles of " + getExpr().toString(e, debug);
+    protected String getPropertyName() {
+        return "roles";
     }
 
     @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr(exprs[0]);
-        return true;
+    public @NotNull String toString(@Nullable Event e, boolean debug) {
+        return "roles of " + getExpr().toString(e, debug);
     }
 }

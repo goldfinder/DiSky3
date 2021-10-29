@@ -5,11 +5,12 @@ import ch.njol.skript.expressions.base.PropertyExpression;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
 import info.itsthesky.disky3.core.EffChange;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MultipleChangeablePropertyExpression<F, T> extends PropertyExpression<F, T> {
+public abstract class MultipleChangeablePropertyExpression<F, T> extends MultiplyPropertyExpression<F, T> {
 
     @Override
     public final void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
