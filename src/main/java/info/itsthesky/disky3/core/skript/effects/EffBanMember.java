@@ -26,7 +26,7 @@ public class EffBanMember extends RestExceptionSection<Void> {
     static {
         register(
                 EffBanMember.class,
-                "ban [the] [member] %member% [(due to|because of|with [the] reason) %-string%] [(remov|delet)ing %-number% day[s] of message[s]] [(with|using) [bot] %-bot%]"
+                "ban [the] discord [member] %member% [(due to|because of|with [the] reason) %-string%] [(remov|delet)ing %-number% day[s] of message[s]] [(with|using) [bot] %-bot%]"
         );
     }
 

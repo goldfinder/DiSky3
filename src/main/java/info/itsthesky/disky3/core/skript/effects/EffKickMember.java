@@ -18,7 +18,7 @@ public class EffKickMember extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffKickMember.class,
-                "kick [the] [member] %member% [(due to|because of|with [the] reason) %-string%] [(with|using) [bot] %-bot%]"
+                "kick [the] discord [member] %member% [(due to|because of|with [the] reason) %-string%] [(with|using) [bot] %-bot%]"
         );
     }
 
