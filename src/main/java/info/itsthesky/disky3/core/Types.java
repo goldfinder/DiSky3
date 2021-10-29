@@ -145,16 +145,17 @@ public class Types {
 		/*
 		 * The only one who need a specific parser lmao
 		 */
-		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> {
-			final @Nullable Guild guild = LAST_GUILD_COMMAND;
-			if (guild == null) {
-				DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
-				return null;
-			} else {
-				return guild.getMemberById(Utils.parseLong(input, false, true));
-			}
-		}, false).register();
+		new DiSkyType<>(Member.class, "member", "members?", Member::getEffectiveName, input -> parseMember(input, LAST_GUILD_COMMAND), false).register();
 
 		DISKY_TYPES = DiSkyType.DISKY_CLASSES;;
+	}
+
+	public static @Nullable Member parseMember(String input, Guild guild) {
+		if (guild == null) {
+			DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
+			return null;
+		} else {
+			return guild.getMemberById(Utils.parseLong(input, false, true));
+		}
 	}
 }
