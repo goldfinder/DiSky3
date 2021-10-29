@@ -42,7 +42,7 @@ public abstract class ActionProperty<E, T extends AuditableRestAction, O> extend
 
     @Override
     protected O @NotNull [] get(@NotNull Event e, Object @NotNull [] source) {
-        return (O[]) Arrays.stream(source).map(object -> object instanceof Role ? get((E) object) : null).toArray(Object[]::new);
+        return (O[]) Arrays.stream(source).map(object -> get((E) object)).toArray(Object[]::new);
     }
 
     NodeInformation information;
