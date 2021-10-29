@@ -40,7 +40,7 @@ public class CondBotIsPlaying extends Condition {
 	public boolean check(final @NotNull Event e) {
 		Guild guild = exprGuild.getSingle(e);
 		if (guild == null) return false;
-		if (isNegate) {
+		if (!isNegate) {
 			return AudioUtils.getGuildAudioPlayer(guild).getPlayer().getPlayingTrack() != null;
 		} else {
 			return AudioUtils.getGuildAudioPlayer(guild).getPlayer().getPlayingTrack() == null;
