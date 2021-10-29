@@ -9,7 +9,7 @@ import info.itsthesky.disky3.core.EffChange;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ChangeableExpression implements Expression {
+public abstract class ChangeableExpression implements Expression, DiSkyChangerElement {
 
     @Override
     public final void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
@@ -27,9 +27,5 @@ public abstract class ChangeableExpression implements Expression {
     public boolean shouldError() {
         return true;
     }
-
-    public abstract Class<?>[] acceptChange(Changer.ChangeMode mode, boolean diskyChanger);
-
-    public abstract void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode);
 
 }

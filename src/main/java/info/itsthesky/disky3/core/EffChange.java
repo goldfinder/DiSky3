@@ -156,11 +156,9 @@ public class EffChange extends Effect {
             return false;
         }
 
-        if (!(changed instanceof ChangeablePropertyExpression ||
-                changed instanceof ChangeableSimpleExpression ||
-                changed instanceof ChangeableSimplePropertyExpression ||
-                changed instanceof MultipleChangeablePropertyExpression ||
-                Classes.getSuperClassInfo(changed.getReturnType()).getChanger() instanceof DiSkyChanger)) {
+        try {
+            DiSkyChangerElement e = ((DiSkyChangerElement) changed);
+        } catch (ClassCastException ex) {
             if (!bot.isDefault()) {
                 Skript.error(changed.toString(null, false) + " can't be changed with DiSky's changer effects");
             }
@@ -304,17 +302,10 @@ public class EffChange extends Effect {
 
         try {
             currentBot = bot;
-            if (changed instanceof ChangeableSimplePropertyExpression) {
-                ((ChangeableSimplePropertyExpression) changed).change(e, delta, bot, mode);
-            } else if (changed instanceof ChangeableSimpleExpression) {
-                ((ChangeableSimpleExpression) changed).change(e, delta, bot, mode);
-            } else if (changed instanceof ChangeablePropertyExpression) {
-                ((ChangeablePropertyExpression) changed).change(e, delta, bot, mode);
-            } else if (changed instanceof ChangeableExpression) {
-                ((ChangeableExpression) changed).change(e, delta, bot, mode);
-            } else if (changed instanceof MultipleChangeablePropertyExpression) {
-                ((MultipleChangeablePropertyExpression) changed).change(e, delta, bot, mode);
-            } else {
+            System.out.println(changed.getClass());
+            try {
+                ((DiSkyChangerElement) changed).change(e, delta, bot, mode);
+            } catch (ClassCastException ex) {
                 changed.change(e, delta, mode);
             }
         } catch (Exception ex) {
