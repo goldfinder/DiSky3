@@ -30,6 +30,15 @@ public class ReflectionUtils {
         return Enum.valueOf((Class<Enum>) enumClass, enumValue);
     }
 
+    public static <T> Constructor<T> getConstructor(Class<T> clz, Class<?>...parameters){
+        try {
+            return clz.getConstructor(parameters);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Class<?> getClass(String name) {
         try {
             return Class.forName(name);

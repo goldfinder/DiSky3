@@ -26,4 +26,6 @@ public interface SkriptAdapter {
 
     boolean isCurrentEvents(Class<? extends Event>... events);
 
+    void setCurrentEvent(String name, Class<? extends Event>... events);
+
 }

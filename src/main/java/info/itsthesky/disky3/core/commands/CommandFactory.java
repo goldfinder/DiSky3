@@ -52,7 +52,7 @@ public class CommandFactory {
             .addSection("trigger", false);
 
     public HashMap<CommandData, CommandObject> commandMap = new HashMap<>();
-    public List<Argument<?>> currentArguments;
+    public static List<Argument<?>> currentArguments;
 
     private CommandFactory() {
 

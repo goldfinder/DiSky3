@@ -35,4 +35,9 @@ public class SkriptV2_6 implements SkriptAdapter {
     public final boolean isCurrentEvents(Class<? extends Event>... events) {
         return ParserInstance.get().isCurrentEvent(events);
     }
+
+    @Override
+    public void setCurrentEvent(String name, Class<? extends Event>... events) {
+        ParserInstance.get().setCurrentEvent(name, events);
+    }
 }

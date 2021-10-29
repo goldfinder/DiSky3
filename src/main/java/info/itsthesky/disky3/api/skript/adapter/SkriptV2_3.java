@@ -48,4 +48,9 @@ public class SkriptV2_3 implements SkriptAdapter {
         return ScriptLoader.isCurrentEvent(events);
     }
 
+    @Override
+    public void setCurrentEvent(String name, Class<? extends Event>... events) {
+        ScriptLoader.setCurrentEvent(name, events);
+    }
+
 }
