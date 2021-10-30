@@ -308,6 +308,11 @@ public final class Utils {
 
     @SuppressWarnings("unchecked")
     public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz) {
+        return defaultToEventValue(expr, clazz, false);
+    }
+
+        @SuppressWarnings("unchecked")
+    public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz, boolean nullIfEmpty) {
         if (expr != null)
             return expr;
         Class<? extends Event>[] events = SkriptAdapter.getInstance().getCurrentEvents();
@@ -352,7 +357,7 @@ public final class Utils {
                 };
             }
         }
-        if (clazz.equals(Bot.class))
+        if (clazz.equals(Bot.class) && !nullIfEmpty)
             return (Expression<T>) new SimpleLiteral<>(new Bot(), true);
         return null;
     }
