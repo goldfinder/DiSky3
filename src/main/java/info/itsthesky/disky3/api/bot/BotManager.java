@@ -38,12 +38,12 @@ public final class BotManager {
     }
 
     public static void reset() {
-        LOADED_BOTS.forEach(bot -> bot.getCore().shutdownNow());
-        LOADED_BOTS.clear();
+        getLoadedBots().forEach(bot -> bot.getCore().shutdownNow());
+        getLoadedBots().clear();
     }
 
     public static boolean isLoaded(String name) {
-        return LOADED_BOTS
+        return getLoadedBots()
                 .stream()
                 .anyMatch(loop -> name.equalsIgnoreCase(loop.getName()));
     }
@@ -67,7 +67,7 @@ public final class BotManager {
 
     @Nullable
     public static Bot searchFromName(String name) {
-        final Optional<Bot> op = LOADED_BOTS
+        final Optional<Bot> op = getLoadedBots()
                 .stream()
                 .filter(bot -> bot.getName().equalsIgnoreCase(name))
                 .findAny();
@@ -76,7 +76,7 @@ public final class BotManager {
 
     @Nullable
     public static Bot searchFromJDA(JDA core) {
-        final Optional<Bot> op = LOADED_BOTS
+        final Optional<Bot> op = getLoadedBots()
                 .stream()
                 .filter(bot -> bot.getCore().equals(core))
                 .findAny();
@@ -90,7 +90,7 @@ public final class BotManager {
     @Nullable
     public static <T> T globalSearch(Function<Bot, T> function) {
         T value = null;
-        for (Bot bot : LOADED_BOTS) {
+        for (Bot bot : getLoadedBots()) {
             if (function.apply(bot) != null)
                 value = function.apply(bot);
         }
@@ -105,7 +105,7 @@ public final class BotManager {
     public static boolean remove(Bot bot) {
         if (!isLoaded(bot.getName()))
             return false;
-        LOADED_BOTS.remove(bot);
+        getLoadedBots().remove(bot);
         DiSky.warn("Shutdown of bot " + bot.getName() + " ...");
         bot.getCore().shutdownNow();
         DiSky.success("Shutdown complete!");
