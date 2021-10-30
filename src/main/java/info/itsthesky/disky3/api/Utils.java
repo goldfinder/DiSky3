@@ -193,6 +193,10 @@ public final class Utils {
         return SkriptColor.fromBukkitColor(org.bukkit.Color.fromRGB(original.getRGB()));
     }
 
+    public static <T> List<T> convert(Collection<T> original) {
+        return (List<T>) Arrays.asList(original.toArray(new Object[0]));
+    }
+
     public static Emote unicodeFrom(String input, Guild guild) {
         String id = input.replaceAll("[^0-9]", "");
         if (id.isEmpty()) {

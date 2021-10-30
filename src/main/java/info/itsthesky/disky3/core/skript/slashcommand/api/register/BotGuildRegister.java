@@ -26,7 +26,7 @@ public final class BotGuildRegister extends RegisterDB {
     }
 
     public BotGuildRegister() {
-        super();
+        super("bot guilds");
     }
 
     public static BotGuildRegister getInstance() {

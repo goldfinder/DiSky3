@@ -20,7 +20,7 @@ public final class BotRegister extends RegisterDB {
     }
 
     public BotRegister() {
-        super();
+        super("bots");
     }
 
     public static BotRegister getInstance() {

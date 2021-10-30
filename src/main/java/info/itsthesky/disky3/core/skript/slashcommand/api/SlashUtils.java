@@ -61,6 +61,13 @@ public final class SlashUtils {
         }
     }
 
+    public static List<OptionData> parseOptions(List<Command.Option> options) {
+        return options
+                .stream()
+                .map(SlashUtils::parseOption)
+                .collect(Collectors.toList());
+    }
+
     public static List<Bot> parseBots(List<String> s) {
         List<Bot> formattedBots = new ArrayList<>();
         for (String botName : s) {
@@ -72,8 +79,8 @@ public final class SlashUtils {
 
     public static List<CommandPrivilege> parsePrivileges(SlashObject cmd) {
         final List<CommandPrivilege> privileges = new ArrayList<>();
-        for (Role a : parseRoles(cmd.getAllowedRoles()))
-            privileges.add(CommandPrivilege.enable(a));
+        for (Role d : parseRoles(cmd.getAllowedRoles()))
+            privileges.add(CommandPrivilege.enable(d));
         for (Role d : parseRoles(cmd.getDisallowedRoles()))
             privileges.add(CommandPrivilege.disable(d));
         for (User d : parseUsers(cmd.getAllowedUsers()))

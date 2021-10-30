@@ -2,21 +2,26 @@ package info.itsthesky.disky3.core.skript.slashcommand.api.register;
 
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.core.commands.Argument;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
+import info.itsthesky.disky3.core.skript.slashcommand.api.SlashUtils;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.BaseCommand;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandEditAction;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class RegisterDB {
 
-    protected HashMap<String, HashMap<String, CommandData>> DATA_BASE;
+    public HashMap<String, HashMap<String, CommandData>> DATA_BASE;
 
-    public RegisterDB() {
+    public RegisterDB(String name) {
         DATA_BASE = new HashMap<>();
-        DiSky.debug("Loaded register DB through a specific way.");
+        DiSky.log("Registering a new slash command storing way: " + name);
     }
 
     protected boolean addCommand(Bot bot, CommandData o, boolean force) {
@@ -34,6 +39,28 @@ public abstract class RegisterDB {
         DiSky.debug("Now having: " +
                         getCommands(bot).values().stream().map(BaseCommand::getName).collect(Collectors.toList())
                 );
+        return true;
+    }
+
+    protected boolean isSimilar(SlashObject cmd, Command second) {
+        final CommandData first = SlashUtils.parseCommand(cmd);
+        if (!first.getName().equalsIgnoreCase(second.getName()))
+            return false;
+        if (!first.getDescription().equalsIgnoreCase(second.getDescription()))
+            return false;
+        if (!first.getOptions().containsAll(SlashUtils.parseOptions(second.getOptions())))
+            return false;
+        return true;
+    }
+
+    protected boolean isSimilar(SlashObject cmd, CommandData second) {
+        final CommandData first = SlashUtils.parseCommand(cmd);
+        if (!first.getName().equalsIgnoreCase(second.getName()))
+            return false;
+        if (!first.getDescription().equalsIgnoreCase(second.getDescription()))
+            return false;
+        if (!first.getOptions().containsAll(second.getOptions()))
+            return false;
         return true;
     }
 
@@ -64,5 +91,4 @@ public abstract class RegisterDB {
     protected HashMap<String, CommandData> getCommands(Bot bot) {
         return DATA_BASE.get(bot.getName()) == null ? new HashMap<>() : DATA_BASE.get(bot.getName());
     }
-
 }

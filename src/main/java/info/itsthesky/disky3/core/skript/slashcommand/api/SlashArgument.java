@@ -1,10 +1,13 @@
 package info.itsthesky.disky3.core.skript.slashcommand.api;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class SlashArgument {
 
@@ -33,6 +36,36 @@ public class SlashArgument {
         this.desc = desc;
         this.name = name;
         this.presets = presets;
+    }
+
+    public static SlashPreset parsePreset(Command.Choice choice, boolean shouldUseInt) {
+        return new SlashPreset(
+                choice.getName(),
+                choice.getAsString(),
+                shouldUseInt
+        );
+    }
+
+    public static List<SlashArgument> parseArguments(List<OptionData> datas) {
+        return datas
+                .stream()
+                .map(SlashArgument::parseArgument)
+                .collect(Collectors.toList());
+    }
+
+    public static SlashArgument parseArgument(OptionData data) {
+        final List<SlashPreset> presets = data
+                .getChoices()
+                .stream()
+                .map(c -> parsePreset(c, data.getType().equals(OptionType.INTEGER)))
+                .collect(Collectors.toList());
+        return new SlashArgument(
+                data.getType(),
+                !data.isRequired(),
+                data.getDescription(),
+                data.getName(),
+                presets
+        );
     }
 
     public void setDesc(String desc) {
@@ -70,7 +103,7 @@ public class SlashArgument {
     public static class SlashPreset {
 
         private String name;
-        private Object value;
+        private final Object value;
         private final boolean shouldUseInt;
 
         public SlashPreset(
@@ -78,11 +111,15 @@ public class SlashArgument {
                 Object value,
                 SlashArgument instance
         ) {
-            shouldUseInt = instance.getType().equals(OptionType.INTEGER);
-            if (
-                    !instance.getType().equals(OptionType.STRING) &&
-                            !instance.getType().equals(OptionType.INTEGER)
-            ) return;
+            this(name, value, instance.getType().equals(OptionType.INTEGER));
+        }
+
+        public SlashPreset(
+                String name,
+                Object value,
+                boolean shouldUseInt
+        ) {
+            this.shouldUseInt = shouldUseInt;
             this.name = name;
             this.value = shouldUseInt ? Integer.parseInt(value.toString()) : value;
         }

@@ -32,7 +32,7 @@ public final class DiSky extends JavaPlugin {
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
     private static Json DATA_CONTAINER;
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     @Override
     public void onEnable() {
