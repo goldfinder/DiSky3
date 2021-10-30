@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,16 @@ public class MemberPresenceType extends SimplePropertyExpression<Member, String>
 
     @Override
     public @NotNull String convert(Member member) {
-        return member.getActivities().get(0).getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
+        Activity activity = member
+                .getActivities()
+                .stream()
+                .findAny()
+                .orElse(null);
+        return activity == null ? null : activity
+                .getType()
+                .name()
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("_", " ");
     }
 
     @Override
