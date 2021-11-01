@@ -4,6 +4,7 @@ import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
+import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.core.commands.CommandObject;
 import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
@@ -22,6 +23,11 @@ public class ExprCommandAliases extends MultiplyPropertyExpression<CommandObject
                 "[discord] [command] aliases",
                 "discordcommand"
         );
+    }
+
+    @Override
+    protected Kleenean isDelayed() {
+        return Kleenean.FALSE;
     }
 
     @Nullable

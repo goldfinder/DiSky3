@@ -12,10 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-/**
- * Way to make SimplePropertyExpression return multiple objects
- * <br>Copyright (C) 2021 @Olyno and edited by ItsTheSky for DiSky's utilities
- */
 public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<T> {
 
     public Expression<? extends F> expr;
@@ -33,10 +29,14 @@ public abstract class MultiplyPropertyExpression<F, T> extends SimpleExpression<
 
     protected abstract T[] convert(F t);
 
+    protected Kleenean isDelayed() {
+        return Kleenean.FALSE;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(final Expression<?> @NotNull [] expr, final int matchedPattern, final @NotNull Kleenean isDelayed, final SkriptParser.@NotNull ParseResult parseResult) {
-        SkriptAdapter.getInstance().setHasDelayedBefore(Kleenean.TRUE);
+        SkriptAdapter.getInstance().setHasDelayedBefore(isDelayed());
         this.expr = (Expression<? extends F>) expr[0];
         return true;
     }
