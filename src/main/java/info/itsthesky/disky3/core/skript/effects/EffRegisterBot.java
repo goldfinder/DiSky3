@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.effects;
 
+import info.itsthesky.disky3.api.skript.WaiterEffect;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -29,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
         "\nYou need to follow Discord's developer instruction in order to generate a new bot with a token")
 @Examples("login to \"TOKEN\" with name \"MyBot\"")
 @Since("1.0")
-public class EffRegisterBot extends AsyncEffect {
+public class EffRegisterBot extends WaiterEffect {
 
     static {
         Skript.registerEffect(EffRegisterBot.class,
@@ -43,7 +44,7 @@ public class EffRegisterBot extends AsyncEffect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
+    public boolean initEffect(Expression@NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (ScriptLoader.isCurrentEvent(SkriptStartEvent.class)) {
             Skript.error("We don't recommend using the login effect in a " + ScriptLoader.getCurrentEventName() + " event. Use 'on load:' instead!", ErrorQuality.SEMANTIC_ERROR);
             return false;
@@ -59,10 +60,13 @@ public class EffRegisterBot extends AsyncEffect {
     }
 
     @Override
-    protected void execute(@NotNull Event e) {
+    public void runEffect(@NotNull Event e) {
         String name = exprName.getSingle(e);
         String token = exprToken.getSingle(e);
-        if (name == null || token == null) return;
+        if (name == null || token == null) {
+            restart();
+            return;
+        }
         final Bot bot;
         if (!BotManager.isLoaded(name)) {
             try {
@@ -72,12 +76,15 @@ public class EffRegisterBot extends AsyncEffect {
                 );
             } catch (Exception ex) {
                 DiSky.exception(ex, info);
+                restart();
                 return;
             }
             BotManager.add(bot);
             DiSky.success("The bot named " + name + " has been loaded! ("+bot.getCore().getGatewayIntents().size()+" intents enabled)");
+            restart();
         } else {
             DiSky.exception(new DiSkyException("The bot called " + name + " is already loaded!"), info);
+            restart();
         }
     }
 

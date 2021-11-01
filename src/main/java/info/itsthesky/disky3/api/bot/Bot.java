@@ -25,12 +25,16 @@ public class Bot implements Comparable<Bot>, ISnowflake {
     }
 
     public JDA getCore() {
+        if (!BotManager.anyBotLoaded() && core == null)
+            return null;
         if (core == null)
             load();
         return core;
     }
 
     public String getName() {
+        if (!BotManager.anyBotLoaded() && name == null)
+            return null;
         if (name == null)
             load();
         return name;

@@ -22,11 +22,14 @@ public final class BotManager {
 
     public static List<Bot> getLoadedBots() {
         if (LOADED_BOTS.isEmpty()) {
-            DiSky.exception(new DiSkyException("You are trying to get a bot, but none of them are loaded!"));
             return Collections.singletonList(new Bot());
         } else {
             return LOADED_BOTS;
         }
+    }
+
+    public static boolean anyBotLoaded() {
+        return !LOADED_BOTS.isEmpty();
     }
 
     public static void registerEvent(ListenerAdapter event) {
@@ -45,7 +48,7 @@ public final class BotManager {
     public static boolean isLoaded(String name) {
         return getLoadedBots()
                 .stream()
-                .anyMatch(loop -> name.equalsIgnoreCase(loop.getName()));
+                .anyMatch(loop -> loop != null && name != null && name.equalsIgnoreCase(loop.getName()));
     }
 
     public static Set<JDA> getBotsJDA() {
