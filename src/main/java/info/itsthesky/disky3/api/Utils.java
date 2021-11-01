@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api;
 
+import info.itsthesky.disky3.api.emojis.updated.Emojis;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -18,8 +19,6 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
-import info.itsthesky.disky3.api.emojis.NewEmoji;
-import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -61,6 +60,10 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static String repeat(String str, int amount) {
+        return new String(new char[amount]).replace("\0", str);
+    }
+
     public static boolean containInterface(Class<?> clazz, Class<?> inter) {
         return Arrays.asList(clazz.getInterfaces()).contains(inter);
     }
@@ -87,7 +90,7 @@ public final class Utils {
             Emote f = Emote.fromJDA(first.getEmote());
             return f.getName().equalsIgnoreCase(second.getName());
         } else {
-            return first.getEmoji().equalsIgnoreCase(NewEmoji.getByName(second.getName()).getUtf8());
+            return first.getEmoji().equalsIgnoreCase(Emojis.ofShortcode(second.getName()).unicode());
         }
     }
 
@@ -252,12 +255,12 @@ public final class Utils {
 
     public static Emote unicodeFrom(String input) {
         final Emote emote;
-        NewEmoji emoji = NewEmoji.getByName(input);
+        info.itsthesky.disky3.api.emojis.updated.Emoji emoji = Emojis.ofShortcode(input);
         if (emoji == null) {
             String value = input.contains(":") ? input : ":" + input + ":";
-            emote = new Emote(input.replaceAll(":", ""), NewEmoji.getByName(value).getUtf8());
+            emote = new Emote(input.replaceAll(":", ""), Emojis.ofShortcode(value).unicode());
         } else {
-            emote = new Emote(input, NewEmoji.getByName(input).getUtf8());
+            emote = new Emote(input, emoji.unicode());
         }
         return emote;
     }
@@ -306,13 +309,9 @@ public final class Utils {
         return null;
     }
 
+
     @SuppressWarnings("unchecked")
     public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz) {
-        return defaultToEventValue(expr, clazz, false);
-    }
-
-        @SuppressWarnings("unchecked")
-    public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz, boolean nullIfEmpty) {
         if (expr != null)
             return expr;
         Class<? extends Event>[] events = SkriptAdapter.getInstance().getCurrentEvents();
@@ -357,7 +356,7 @@ public final class Utils {
                 };
             }
         }
-        if (clazz.equals(Bot.class) && !nullIfEmpty)
+        if (clazz.equals(Bot.class))
             return (Expression<T>) new SimpleLiteral<>(new Bot(), true);
         return null;
     }

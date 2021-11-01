@@ -1,6 +1,7 @@
 package info.itsthesky.disky3.api.emojis;
 
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.emojis.updated.Emojis;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.Emoji;
@@ -27,7 +28,7 @@ public class Emote implements IMentionable {
         if (emote.isEmote()) {
             return new Emote(emote.getEmote());
         } else {
-            return new Emote(NewEmoji.getFromUnicode(emote.getEmoji()).getFormattedName(), emote.getEmoji());
+            return new Emote(Emojis.ofUnicode(emote.getEmoji()).shortcodes().get(0), emote.getEmoji());
         }
     }
 

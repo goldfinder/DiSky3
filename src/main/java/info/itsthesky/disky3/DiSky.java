@@ -9,6 +9,7 @@ import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
+import info.itsthesky.disky3.api.emojis.updated.EmojiStore;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
@@ -18,12 +19,14 @@ import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public final class DiSky extends JavaPlugin {
 
@@ -87,6 +90,27 @@ public final class DiSky extends JavaPlugin {
         }
 
         getCommand("disky").setExecutor(new DiSkyCommand());
+
+        final File emojisFile = new File(getDataFolder(), "emojis.json");
+        if (!emojisFile.exists()) {
+            log("Saving emoji's file ...");
+            try {
+                InputStream stream = getResource("emojis.json");
+                FileUtils.copyInputStreamToFile(stream, new File(getDataFolder(), "emojis.json"));
+            } catch (IOException e) {
+                e.printStackTrace();
+                error("An error occurred while saving emojis file! Emojis will not be available.");
+            }
+            success("Success!");
+        }
+        log("Loading emoji library ...");
+        try {
+            EmojiStore.loadLocal();
+        } catch (IOException e) {
+            e.printStackTrace();
+            error("An error occurred while loading emojis! They will not be available.");
+        }
+        success("Success!");
 
         log("Starting audio module ...");
         AudioUtils.initializeAudio();
