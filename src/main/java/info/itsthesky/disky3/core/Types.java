@@ -50,6 +50,7 @@ public class Types {
 		static {
 
 			Converters.registerConverter(UpdatingMessage.class, String.class, message -> message.getMessage().getContentRaw());
+			Converters.registerConverter(Emote.class, String.class, Emote::getName);
 			Converters.registerConverter(Member.class, User.class, Member::getUser);
 			Converters.registerConverter(Bot.class, User.class, bot -> bot.getCore().getSelfUser());
 
