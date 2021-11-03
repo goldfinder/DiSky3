@@ -15,6 +15,7 @@ import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_3;
 import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
+import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
 import net.dv8tion.jda.api.entities.Member;
@@ -87,6 +88,23 @@ public final class DiSky extends JavaPlugin {
             error("DiSky could not work correctly, please install at least a 2.3.X Skript version!");
         } else {
             success("Successfully loaded Skript adapter for " + (use26 ? "2.6+" : "2.5-") + " version!");
+        }
+
+        log("Checking for updates ...");
+        final PluginUpdater updater = PluginUpdater.create(this, "SkyCraft78", "DiSky3");
+        final PluginUpdater.UpdateState state = updater.check();
+        switch (state) {
+            case LOWER:
+                warn("You are using an outdated DiSky version!");
+                warn("Latest is " + updater.getLatest() + ", but are are on " + getDescription().getVersion() + "!");
+                warn("Update it now: https://github.com/SkyCraft78/DiSky3/releases/tag/" + updater.getLatest());
+                break;
+            case EQUAL:
+                success("You are on the latest DiSky version! Well done!");
+                break;
+            case GREATER:
+                warn("Detected a custom, tester or nighty DiSky version. Please report every bugs on DiSky's website!");
+                break;
         }
 
         getCommand("disky").setExecutor(new DiSkyCommand());
