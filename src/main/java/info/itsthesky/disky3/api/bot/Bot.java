@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.bot;
 
+import ch.njol.skript.util.Timespan;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import org.jetbrains.annotations.NotNull;
@@ -8,15 +9,22 @@ public class Bot implements Comparable<Bot>, ISnowflake {
 
     private JDA core;
     private String name;
+    private final long uptime;
 
     public Bot() {
+        this.uptime = System.currentTimeMillis();
         this.core = null;
         this.name = null;
     }
 
     public Bot(JDA core, String name) {
+        this.uptime = System.currentTimeMillis();
         this.core = core;
         this.name = name;
+    }
+
+    public Timespan getUptime() {
+        return new Timespan(System.currentTimeMillis() - uptime);
     }
 
     private void load() {
