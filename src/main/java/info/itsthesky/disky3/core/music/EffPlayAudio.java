@@ -13,10 +13,18 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.section.RestExceptionSection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.RateLimitedException;
+import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 @Name("Play Audio")
 @Description("Play a specific audio track (can be get from search or load locale effects) to a voice channel")
@@ -72,16 +80,31 @@ import org.jetbrains.annotations.NotNull;
         "\t\t\t\tset description of embed to join {_l::*} with nl\n" +
         "\t\t\treply with last embed")
 @Since("1.6, 1.9 (rework using search), 2.0 (rework using connect effect)")
-public class EffPlayAudio extends Effect {
+public class EffPlayAudio extends RestExceptionSection<Void> {
 
     static {
-        Skript.registerEffect(EffPlayAudio.class, // [the] [bot] [(named|with name)] %string%
+
+        register(EffPlayAudio.class, // [the] [bot] [(named|with name)] %string%
                 "play [tracks] %tracks% in [the] [guild] %guild% [with %-bot%]");
     }
 
     private Expression<AudioTrack> exprTracks;
     private Expression<Guild> exprGuild;
     private Expression<Bot> exprBot;
+
+    @Override
+    public RestAction<Void> runRestAction(Event e) {
+        AudioTrack[] tracks = exprTracks.getAll(e);
+        Guild guild = exprGuild.getSingle(e);
+        Bot bot = Utils.verifyVar(e, exprBot);
+        if (guild == null || tracks.length == 0) return null;
+
+        if (bot != null)
+            guild = bot.getCore().getGuildById(guild.getId());
+
+        AudioUtils.play(guild, tracks);
+        return null;
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -90,20 +113,6 @@ public class EffPlayAudio extends Effect {
         exprGuild = (Expression<Guild>) exprs[1];
         exprBot = (Expression<Bot>) exprs[2];
         return true;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void execute(@NotNull Event e) {
-        AudioTrack[] tracks = exprTracks.getAll(e);
-        Guild guild = exprGuild.getSingle(e);
-        Bot bot = Utils.verifyVar(e, exprBot);
-        if (guild == null || tracks.length == 0) return;
-
-        if (bot != null)
-            guild = bot.getCore().getGuildById(guild.getId());
-
-        AudioUtils.play(guild, tracks);
     }
 
     @Override

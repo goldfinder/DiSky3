@@ -42,7 +42,8 @@ public abstract class RestExceptionSection<T> extends EffectSection {
         Variables.setLocalVariables(e, lastMap);
         try {
             final RestAction<T> action = runRestAction(e);
-            action.queue(successConsumer(), ex -> handle(e, ex));
+            if (action != null)
+                action.queue(successConsumer(), ex -> handle(e, ex));
             handle(e, null);
         } catch (Throwable ex) {
             handle(e, ex);
