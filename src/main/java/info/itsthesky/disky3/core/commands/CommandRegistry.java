@@ -117,6 +117,7 @@ public class CommandRegistry extends SelfRegisteringSkriptEvent {
     public boolean init(final Literal<?> @NotNull [] args, final int matchedPattern, final ParseResult parser) {
         command = parser.regexes.get(0).group(1);
         arguments = parser.regexes.get(0).group(2);
+        // discord command test:
         SectionNode sectionNode = (SectionNode) SkriptLogger.getNode();
 
         String originalName = ScriptLoader.getCurrentEventName();

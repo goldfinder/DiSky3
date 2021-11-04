@@ -1,0 +1,6 @@
+author: Sky
+addon_name: DiSky
+steps:
+    3.6.0:
+        - find: test
+          result: Final test!

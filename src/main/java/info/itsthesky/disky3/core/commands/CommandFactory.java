@@ -279,7 +279,7 @@ public class CommandFactory {
 
         RetainingLogHandler errors = SkriptLogger.startRetainingLog();
         CommandObject commandObject;
-        this.currentArguments = currentArguments;
+        CommandFactory.currentArguments = currentArguments;
         try {
             commandObject = new CommandObject(
                     node.getConfig().getFile(), command, pattern.toString(), currentArguments,
