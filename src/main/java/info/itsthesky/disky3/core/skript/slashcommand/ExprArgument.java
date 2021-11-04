@@ -1,5 +1,7 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -25,6 +27,11 @@ import java.util.List;
  * @author Peter Güttinger
  * edited minorly for DiSky by sky for slash command
  */
+@Name("Argument")
+@Description({"Represent an argument inside a discord command section.",
+"The argument will always parse according to the given type, so no argument can be interpreted as object.",
+"As same as the skript command's argument, when you have multiple present you need to count the such as:",
+"arg-1, argument 2, etc..."})
 public class ExprArgument extends SimpleExpression<Object> {
 
     static {

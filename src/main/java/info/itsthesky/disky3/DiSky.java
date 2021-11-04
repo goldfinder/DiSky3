@@ -130,6 +130,14 @@ public final class DiSky extends JavaPlugin {
         }
         success("Success!");
 
+        try {
+            InputStream stream = getResource("migrations/disky2to3.yml");
+            FileUtils.copyInputStreamToFile(stream, new File(getDataFolder(), "migrations/disky2to3.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            error("An error occurred while saving migration files.");
+        }
+
         log("Starting audio module ...");
         AudioUtils.initializeAudio();
         success("Success!");

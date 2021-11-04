@@ -1,26 +1,27 @@
 package info.itsthesky.disky3.core;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.command.Commands;
-import ch.njol.skript.config.Config;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
-import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.api.skript.parser.Evaluate;
 import info.itsthesky.disky3.api.skript.parser.ParserUtils;
-import info.itsthesky.disky3.core.commands.Argument;
-import info.itsthesky.disky3.core.commands.CommandFactory;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@Name("Eval")
+@Description({"Evaluate through Skript a specific amount of code line.",
+"This effect will parse, then possibly execute the given code.",
+"The variable will store the potential error that occurred while parsing.",
+"You can only execute STATEMENT, so effects and conditions;",
+"Events, commands, functions, etc... cannot be evaluated!"})
 public class EffEval extends Effect {
 
     static {
