@@ -53,6 +53,8 @@ public class Types {
 			Converters.registerConverter(Emote.class, String.class, Emote::getName);
 			Converters.registerConverter(Member.class, User.class, Member::getUser);
 			Converters.registerConverter(Bot.class, User.class, bot -> bot.getCore().getSelfUser());
+			Converters.registerConverter(Guild.Ban.class, User.class, Guild.Ban::getUser);
+			Converters.registerConverter(Guild.Ban.class, String.class, Guild.Ban::getReason);
 
 		}
 
@@ -133,6 +135,7 @@ public class Types {
 		new DiSkyType<>(MessageBuilder.class, "messagebuilder", "messagebuilders?", msg -> msg.getStringBuilder().toString(), null, false).register();
 		new DiSkyType<>(Message.Attachment.class, "attachment", "attachments?", Message.Attachment::getFileName, null, false).register();
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
+		new DiSkyType<>(Guild.Ban.class, "ban", "bans?", Guild.Ban::getReason, null, false).register();
 
 		/*
 		 * Action / Manager types
