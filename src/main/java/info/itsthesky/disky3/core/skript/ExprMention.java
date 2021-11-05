@@ -12,6 +12,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+
 public class ExprMention extends SimpleExpression<String> {
 
     static {
@@ -19,7 +21,7 @@ public class ExprMention extends SimpleExpression<String> {
                 ExprMention.class,
                 String.class,
                 ExpressionType.SIMPLE,
-               "[the] [discord] mention [tag] of [entity] %object%"
+               "[the] [discord] mention [tag] of [entity] %objects%"
         );
     }
 
@@ -27,11 +29,13 @@ public class ExprMention extends SimpleExpression<String> {
 
     @Override
     protected String @NotNull [] get(@NotNull Event e) {
+        final Object[] entities = exprEntity.isSingle() ? new Object[] {exprEntity.getSingle(e)} : exprEntity.getArray(e);
         try {
-            IMentionable mention = Utils.verifyVar(e, exprEntity, null);
-            if (mention == null)
-                return new String[0];
-            return new String[]{mention.getAsMention()};
+            return Arrays
+                    .stream(entities)
+                    .map(entity -> (IMentionable) entity)
+                    .map(IMentionable::getAsMention)
+                    .toArray(String[]::new);
         } catch (ClassCastException ex) {
             return new String[0];
         }
@@ -39,7 +43,7 @@ public class ExprMention extends SimpleExpression<String> {
 
     @Override
     public boolean isSingle() {
-        return true;
+        return exprEntity.isSingle();
     }
 
     @Override
