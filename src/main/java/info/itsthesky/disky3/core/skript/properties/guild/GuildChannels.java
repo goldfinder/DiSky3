@@ -22,6 +22,13 @@ public class GuildChannels extends MultipleGuildProperty<GuildChannel> {
 
     @Override
     public @NotNull GuildChannel[] converting(Guild guild) {
+        final List<GuildChannel> channels = new ArrayList<>();
+        channels.addAll(guild.getTextChannels());
+        channels.addAll(guild.getVoiceChannels());
+        channels.addAll(guild.getStageChannels());
+        channels.addAll(guild.getGuildThreads());
+        channels.addAll(guild.getNewsChannels());
+        channels.addAll(guild.getStoreChannels());
         return guild.getChannels().toArray(new GuildChannel[0]);
     }
 
