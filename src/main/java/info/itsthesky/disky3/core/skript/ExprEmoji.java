@@ -7,8 +7,10 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
 import info.itsthesky.disky3.api.skript.NodeInformation;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -20,11 +22,12 @@ import java.util.List;
 public class ExprEmoji extends SimpleExpression<Emote> {
     static {
         Skript.registerExpression(ExprEmoji.class, Emote.class, ExpressionType.SIMPLE,
-                "(emoji|emote|reaction)[s] %strings% [(from|in) %-guild%]");
+                "[animated] (emoji|emote|reaction)[s] %strings% [(from|in) %-guild%]");
     }
 
     private Expression<String> name;
     private Expression<Guild> guild;
+    private boolean animated = false;
 
     @Override
     protected Emote @NotNull [] get(@NotNull Event e) {
@@ -34,25 +37,58 @@ public class ExprEmoji extends SimpleExpression<Emote> {
         return convert(guild, emotes).toArray(new Emote[0]);
     }
 
-    public static List<Emote> convert(@Nullable Guild guild, String... emotes) {
+    public List<Emote> convert(@Nullable Guild guild, String... emotes) {
         List<Emote> emojis = new ArrayList<>();
         List<Emote> finalEmotes = new ArrayList<>();
-        for (String input : emotes) {
-            Emote emote = Utils.unicodeFrom(input, guild);
-            if (emote == null)
-            {
-                Skript.warning("Cannot found the emote named " + input);
-                continue;
+        if (animated) {
+            for (String input : emotes) {
+                Emote emote;
+                if (guild != null) {
+                    emote = Emote.fromJDA(guild
+                            .getEmotes()
+                            .stream()
+                            .filter(e -> e.getName().equalsIgnoreCase(input))
+                            .findAny()
+                            .orElse(null));
+                } else {
+                    // Should maybe remake that without stream, it could be unreadable sometimes xD
+                    emote = BotManager
+                            .getBotsJDA()
+                            .stream()
+                            .map(JDA::getGuilds)
+                            .map(guilds -> {
+                                for (Guild guild1 : guilds) {
+                                    return Emote.fromJDA(guild1
+                                            .getEmotes()
+                                            .stream()
+                                            .filter(e -> e.getName().equalsIgnoreCase(input))
+                                            .findAny()
+                                            .orElse(null));
+                                }
+                                return null;
+                            }).findAny().orElse(null);
+                }
+                emojis.add(emote);
             }
-            emojis.add(emote);
-        }
-        for (Emote emote1 : emojis) {
-            if (!emote1.getAsMention().contains(":")) {
-                finalEmotes.add(emote1);
-                continue;
+            finalEmotes.addAll(emojis);
+        } else {
+            for (String input : emotes) {
+                Emote emote = Utils.unicodeFrom(input, guild);
+                if (emote == null)
+                {
+                    Skript.warning("Cannot found the emote named " + input);
+                    continue;
+                }
+                emojis.add(emote);
             }
-            if (emote1.getAsMention().startsWith("<:") && emote1.getAsMention().endsWith(">"))
-                finalEmotes.add(emote1);
+            for (Emote emote1 : emojis) {
+                if (!emote1.getAsMention().contains(":")) {
+                    finalEmotes.add(emote1);
+                    continue;
+                }
+                if (emote1.getAsMention().startsWith("<:") && emote1.getAsMention().endsWith(">"))
+                    finalEmotes.add(emote1);
+            }
         }
         return finalEmotes;
     }
@@ -78,6 +114,7 @@ public class ExprEmoji extends SimpleExpression<Emote> {
         name = (Expression<String>) exprs[0];
         guild = (Expression<Guild>) exprs[1];
         new NodeInformation();
+        animated = parseResult.expr.startsWith("animated");
         return true;
     }
 }
