@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.section.EffectSection;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -16,16 +17,18 @@ public class ScopeSelection extends EffectSection {
     public static SelectionMenu.Builder lastBuilder;
 
     static {
-        Skript.registerCondition(ScopeSelection.class, "make [new] [discord] (select[s]|dropdown|selection menu) with [the] id %string%");
+        Skript.registerCondition(ScopeSelection.class, "make [new] [discord] [(1|disabled)] (select[s]|dropdown|selection menu) with [the] id %string%");
     }
 
     private Expression<String> exprInput;
+    private boolean disabled = false;
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (checkIfCondition()) return false;
         if (!hasSection()) return false;
         loadSection(true);
+        disabled = parseResult.mark == 1;
         exprInput = (Expression<String>) exprs[0];
         return true;
     }
@@ -34,7 +37,7 @@ public class ScopeSelection extends EffectSection {
     protected void execute(Event e) {
         String input = exprInput.getSingle(e);
         if (input == null) return;
-        lastBuilder = SelectionMenu.create(input);
+        lastBuilder = SelectionMenu.create(input).setDisabled(disabled);
         runSection(e);
     }
 
