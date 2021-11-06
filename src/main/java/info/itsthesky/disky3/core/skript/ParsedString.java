@@ -12,6 +12,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
+import info.itsthesky.disky3.api.DiSkyType;
 import info.itsthesky.disky3.core.Types;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -34,6 +35,7 @@ public class ParsedString extends SimpleExpression<Object> {
     static {
         final List<String> infos = Types.DISKY_TYPES
                 .stream()
+                .map(DiSkyType::getClassInfo)
                 .filter(info -> info.getParser() != null && (
                         info.getParser().canParse(ParseContext.COMMAND) ||
                                 info.getParser().canParse(ParseContext.COMMAND) ||

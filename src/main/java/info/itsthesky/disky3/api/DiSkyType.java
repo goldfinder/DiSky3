@@ -4,10 +4,12 @@ import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -17,7 +19,7 @@ import java.util.function.Function;
  */
 public class DiSkyType<T> {
 
-    public static final List<ClassInfo<?>> DISKY_CLASSES = new ArrayList<>();
+    public static final List<DiSkyType<?>> DISKY_CLASSES = new ArrayList<>();
 
     private final Class<T> clazz;
     private final String codeName;
@@ -25,7 +27,7 @@ public class DiSkyType<T> {
     private final Function<T, String> toString;
     private final Function<String, T> parser;
     private final boolean isEnum;
-    private final ClassInfo<T> classInfo;
+    private ClassInfo<T> classInfo;
 
     public DiSkyType(Class<T> clazz, String codeName, String user, Function<T, String> toString, @Nullable Function<String, T> parser, boolean isEnum) {
         this.clazz = clazz;
@@ -114,7 +116,7 @@ public class DiSkyType<T> {
     }
 
     public static <T extends Enum<?>> DiSkyType<T> fromEnum(Class<T> enumClass, String typeName, String user) {
-        return new DiSkyType<>(
+        final DiSkyType<T> type = new DiSkyType<>(
                 enumClass,
                 typeName,
                 user,
@@ -127,7 +129,13 @@ public class DiSkyType<T> {
                     }
                 },
                 true
-                );
+        );
+        final String[] formatted = Arrays
+                .stream(enumClass.getEnumConstants())
+                .map(value -> value.name().replaceAll("_", " ").toLowerCase(Locale.ROOT))
+                .toArray(String[]::new);
+        type.classInfo.examples(Utils.join(formatted, ", "));
+        return type;
     }
 
     private String parse(String input) {
@@ -136,7 +144,7 @@ public class DiSkyType<T> {
 
     // Should never be used outside of the class btw
     public void register(ClassInfo<T> classInfo) {
-        DISKY_CLASSES.add(classInfo);
+        DISKY_CLASSES.add(this);
         Classes.registerClass(classInfo);
     }
 
@@ -154,6 +162,10 @@ public class DiSkyType<T> {
 
     public Class<T> getClazz() {
         return clazz;
+    }
+
+    public Class<? extends Enum> getEnumClass() {
+        return (Class<? extends Enum>) clazz;
     }
 
     public String getCodeName() {

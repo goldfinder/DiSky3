@@ -60,6 +60,26 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static String join(final @Nullable Object[] strings, final String delimiter) {
+        if (strings == null)
+            return "";
+        return join(strings, delimiter, 0, strings.length);
+    }
+
+    public static String join(final @Nullable Object[] strings, final String delimiter, final int start, final int end) {
+        if (strings == null)
+            return "";
+        assert start >= 0 && start <= end && end <= strings.length : start + ", " + end + ", " + strings.length;
+        if (start < 0 || start >= strings.length || start == end)
+            return "";
+        final StringBuilder b = new StringBuilder("" + strings[start]);
+        for (int i = start + 1; i < end; i++) {
+            b.append(delimiter);
+            b.append(strings[i]);
+        }
+        return "" + b;
+    }
+
     public static String repeat(String str, int amount) {
         return new String(new char[amount]).replace("\0", str);
     }
