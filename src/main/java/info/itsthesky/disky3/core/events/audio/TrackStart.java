@@ -11,11 +11,11 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TrackStart extends SkriptEvent {
+public class TrackStart extends BotTrackEvent {
 
     static {
         DiSkyEvent.register("Track Start", TrackStart.class, TrackEvent.class,
-                "track start")
+                "track start [seen by %-string%]")
                 .setName("Track Start")
                 .setDesc("Fired when a track starts playing.")
                 .setExample("on track start:");
@@ -27,7 +27,7 @@ public class TrackStart extends SkriptEvent {
     @SuppressWarnings("unchecked")
     public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
         bot = (Expression<Bot>) exprs[0];
-        return true;
+        return super.init(exprs, i, parseResult);
     }
 
     @Override

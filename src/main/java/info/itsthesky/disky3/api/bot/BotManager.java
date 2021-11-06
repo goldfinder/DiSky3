@@ -1,7 +1,7 @@
 package info.itsthesky.disky3.api.bot;
 
 import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.DiSkyException;
+import info.itsthesky.disky3.api.cache.MessagesManager;
 import info.itsthesky.disky3.api.messages.MessageUpdater;
 import info.itsthesky.disky3.api.skript.events.EventListener;
 import info.itsthesky.disky3.api.wrapper.InviteTracking;
@@ -62,6 +62,7 @@ public final class BotManager {
         bot.getCore().addEventListener(new MessageUpdater());
         bot.getCore().addEventListener(new SlashListener());
         bot.getCore().addEventListener(new InviteTracking());
+        bot.getCore().addEventListener(new MessagesManager());
         bot.getCore().addEventListener((Object[]) EventListener.listeners.toArray(new ListenerAdapter[0]));
         LOADED_BOTS.add(bot);
         bot.getCore().updateCommands().queue();
