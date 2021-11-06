@@ -43,7 +43,7 @@ import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 
 public class Types {
 
-	public static final List<ClassInfo<?>> DISKY_TYPES;
+	public static final List<DiSkyType<?>> DISKY_TYPES;
 
 	public static class DiSkyConverts {
 
@@ -152,8 +152,8 @@ public class Types {
 		DiSkyType.fromEnum(GatewayIntent.class, "intent", "intents?").register();
 		DiSkyType.fromEnum(OnlineStatus.class, "onlinestatus", "onlinestatus").register();
 		DiSkyType.fromEnum(OptionType.class, "optiontype", "optiontypes?").register();
-		DiSkyType.fromEnum(Region.class, "channelregion", "channelregions?").register();
 		DiSkyType.fromEnum(AudioSite.class, "audiosite", "audiosites?").register();
+		DiSkyType.fromEnum(Region.class, "voiceregion", "voiceregions?").register();
 
 		/*
 		 * Markdown types
