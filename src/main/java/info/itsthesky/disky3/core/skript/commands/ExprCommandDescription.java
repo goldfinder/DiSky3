@@ -6,6 +6,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
+import info.itsthesky.disky3.core.commands.CommandEvent;
 import info.itsthesky.disky3.core.commands.CommandObject;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public class ExprCommandDescription extends SimplePropertyExpression<CommandObje
     @Nullable
     @Override
     public String convert(CommandObject entity) {
-        return entity.getDescription();
+        return entity.getDescription().getSingle(CommandEvent.lastEvent);
     }
 
     @Override

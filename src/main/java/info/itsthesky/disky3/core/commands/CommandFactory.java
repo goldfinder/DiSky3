@@ -222,9 +222,9 @@ public class CommandFactory {
 
         SectionNode trigger = (SectionNode) node.get("trigger");
 
-        String description = ScriptLoader.replaceOptions(node.get("description", ""));
+        Expression<String> description = parseExpression(ScriptLoader.replaceOptions(node.get("description", "")));
         String permMessage = ScriptLoader.replaceOptions(node.get("permission message", ""));
-        String usage = ScriptLoader.replaceOptions(node.get("usage", ""));
+        Expression<String> usage = parseExpression(ScriptLoader.replaceOptions(node.get("usage", "")));
         String category = ScriptLoader.replaceOptions(node.get("category", ""));
 
         Timespan cooldownGuild = Timespan.parse(ScriptLoader.replaceOptions(node.get("guild cooldown", "0 second")));
@@ -294,6 +294,19 @@ public class CommandFactory {
         this.commandMap.put(new CommandData(command, commandObject), commandObject);
         return commandObject;
 
+    }
+
+    private Expression<String> parseExpression(String text) {
+        if (text.startsWith("\"") && text.endsWith("\"")) {
+            text = text.substring(1, text.length() - 1);
+        }
+        Expression<String> expr = VariableString.newInstance(text, StringMode.MESSAGE);
+        try {
+            if (((VariableString) expr).isSimple()) {
+                expr = new SimpleLiteral<>(text, false);
+            }
+        } catch (NullPointerException ignored) { }
+        return expr;
     }
 
     public boolean remove(String name) {

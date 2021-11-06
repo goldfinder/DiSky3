@@ -24,8 +24,8 @@ public class CommandObject {
     private final List<String> perms;
     private final List<ChannelType> executableIn;
     private final List<Expression<String>> prefixes;
-    private final String description;
-    private final String usage;
+    private final Expression<String> description;
+    private final Expression<String> usage;
     private final String category;
     private final String pattern;
     private final String permMessage;
@@ -38,7 +38,7 @@ public class CommandObject {
     private final List<Argument<?>> arguments;
 
     public CommandObject(File script, String name, String pattern, List<Argument<?>> arguments, List<Expression<String>> prefixes,
-                         List<String> aliases, String description, String usage, List<String> roles,
+                         List<String> aliases, Expression<String> description, Expression<String> usage, List<String> roles,
                          List<ChannelType> executableIn, List<String> bots, List<TriggerItem> items,
                          List<String> perms, String permMessage, String category,
                          Timespan cooldownGuild, String cooldownMessage) {
@@ -51,8 +51,8 @@ public class CommandObject {
         this.aliases = aliases;
         this.roles = roles;
         this.executableIn = executableIn;
-        this.description = Utils.replaceEnglishChatStyles(description);
-        this.usage = Utils.replaceEnglishChatStyles(usage);
+        this.description = description;
+        this.usage = usage;
         this.pattern = pattern;
         this.prefixes = prefixes;
         this.bots = bots;
@@ -128,7 +128,7 @@ public class CommandObject {
         return prefixes;
     }
 
-    public String getDescription() {
+    public Expression<String> getDescription() {
         return description;
     }
 
@@ -140,7 +140,7 @@ public class CommandObject {
         return permMessage;
     }
 
-    public String getUsage() {
+    public Expression<String> getUsage() {
         return usage;
     }
 
