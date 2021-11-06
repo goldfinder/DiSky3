@@ -26,7 +26,7 @@ public class EffMoveMember extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffMoveMember.class,
-                "move [the] [member] %member% in [the] [(audio|stage|voice)] [channel] %audiochannel% [(with|using) [bot] %-bot%]"
+                "move [the] [member] %member% in [the] [(audio|stage|voice)] [channel] %voicechannel% [(with|using) [bot] %-bot%]"
         );
     }
 
