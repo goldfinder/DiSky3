@@ -117,7 +117,6 @@ public class ParsedString extends SimpleExpression<Object> {
             exprGuild = (Expression<Guild>) exprs[1];
 
         String classInfoInput = parseResult.expr.split("parsed as ")[1].split(" ")[0];
-        System.out.println(classInfoInput);
         classInfo = Classes.getClassInfoFromUserInput(classInfoInput);
 
         if (classInfo == null) {
