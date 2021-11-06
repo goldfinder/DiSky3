@@ -22,23 +22,13 @@ public class TrackPause extends BotTrackEvent {
 
     }
 
-    private Expression<Bot> bot;
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
-        bot = (Expression<Bot>) exprs[0];
-        return super.init(exprs, i, parseResult);
-    }
-
-    @Override
-    public boolean check(@NotNull Event event) {
-        return ((TrackEvent) event).getState() == TrackEvent.TrackState.PAUSE;
-    }
-
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "on track pause" + (bot == null ? "" : " seen by" + bot.toString(e, debug));
+        return "on track pause";
     }
 
+    @Override
+    protected TrackEvent.TrackState validState() {
+        return TrackEvent.TrackState.PAUSE;
+    }
 }

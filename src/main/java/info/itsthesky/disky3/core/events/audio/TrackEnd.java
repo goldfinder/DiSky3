@@ -21,13 +21,9 @@ public class TrackEnd extends BotTrackEvent {
 
     }
 
-    private Expression<Bot> bot;
-
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean init(Literal<?> @NotNull [] exprs, int i, SkriptParser.@NotNull ParseResult parseResult) {
-        bot = (Expression<Bot>) exprs[0];
-        return super.init(exprs, i, parseResult);
+    protected TrackEvent.TrackState validState() {
+        return TrackEvent.TrackState.END;
     }
 
     @Override
@@ -37,7 +33,7 @@ public class TrackEnd extends BotTrackEvent {
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "on track end" + (bot == null ? "" : " seen by" + bot.toString(e, debug));
+        return "on track end";
     }
 
 }

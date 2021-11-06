@@ -17,9 +17,11 @@ public abstract class BotTrackEvent extends SkriptEvent {
         return true;
     }
 
+    protected abstract TrackEvent.TrackState validState();
+
     @Override
     public boolean check(@NotNull Event e) {
-        return bot.equalsIgnoreCase(BotManager.searchFromJDA(((TrackEvent) e).getJDA()).getName());
+        return ((TrackEvent) e).getState().equals(validState()) && bot.equalsIgnoreCase(BotManager.searchFromJDA(((TrackEvent) e).getJDA()).getName());
     }
 
 }
