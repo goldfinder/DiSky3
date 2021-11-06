@@ -47,6 +47,8 @@ public class Emote implements IMentionable {
     }
 
     public static Emote fromJDA(net.dv8tion.jda.api.entities.Emote emote) {
+        if (emote == null)
+            return null;
         return new Emote(emote);
     }
 
