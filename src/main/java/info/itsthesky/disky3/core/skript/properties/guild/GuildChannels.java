@@ -29,7 +29,7 @@ public class GuildChannels extends MultipleGuildProperty<GuildChannel> {
         channels.addAll(guild.getGuildThreads());
         channels.addAll(guild.getNewsChannels());
         channels.addAll(guild.getStoreChannels());
-        return guild.getChannels().toArray(new GuildChannel[0]);
+        return channels.toArray(new GuildChannel[0]);
     }
 
     @Override
