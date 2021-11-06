@@ -5,7 +5,6 @@ import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.util.Version;
 import de.leonhard.storage.Json;
 import info.itsthesky.disky3.api.DiSkyException;
-import info.itsthesky.disky3.api.Metrics;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -18,8 +17,6 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,16 +33,12 @@ public final class DiSky extends JavaPlugin {
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
     private static Json DATA_CONTAINER;
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     @Override
     public void onEnable() {
 
         INSTANCE = this;
-
-        // ################## METRICS ################## //
-        int pluginId = 10911;
-        Metrics metrics = new Metrics(this, pluginId);
 
         ln();
         warn("  _____  _  _____ _                     _____  _  __");
