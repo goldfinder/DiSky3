@@ -106,11 +106,15 @@ public final class Utils {
     }
 
     public static boolean areEmojiSimilar(MessageReaction.ReactionEmote first, Emote second) {
-        if (first.isEmote()) {
-            Emote f = Emote.fromJDA(first.getEmote());
-            return f.getName().equalsIgnoreCase(second.getName());
-        } else {
-            return first.getEmoji().equalsIgnoreCase(Emojis.ofShortcode(second.getName()).unicode());
+        try {
+            if (first.isEmote()) {
+                Emote f = Emote.fromJDA(first.getEmote());
+                return f.getName().equalsIgnoreCase(second.getName());
+            } else {
+                return first.getEmoji().equalsIgnoreCase(Emojis.ofShortcode(second.getName()).unicode());
+            }
+        } catch (Exception ex) {
+            return false;
         }
     }
 

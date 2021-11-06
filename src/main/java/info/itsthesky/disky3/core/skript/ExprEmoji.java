@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ExprEmoji extends SimpleExpression<Emote> {
     static {
@@ -55,24 +56,19 @@ public class ExprEmoji extends SimpleExpression<Emote> {
                             .map(JDA::getGuilds)
                             .map(guilds -> {
                                 for (Guild guild1 : guilds) {
-                                    return Emote.fromJDA(guild1
-                                            .getEmotes()
-                                            .stream()
-                                            .filter(e -> useID ? e.getId().equalsIgnoreCase(input) : e.getName().equalsIgnoreCase(input))
-                                            .findAny()
-                                            .orElse(null));
+                                    if (getFromGuild(input, guild1, useID) == null)
+                                        continue;
+                                    return getFromGuild(input, guild1, useID);
                                 }
                                 return null;
-                            }).findAny().orElse(null);
+                            })
+                            .filter(Objects::nonNull)
+                            .findFirst()
+                            .orElse(null);
 
                 } else {
 
-                    emote = Emote.fromJDA(guild
-                            .getEmotes()
-                            .stream()
-                            .filter(e -> useID ? e.getId().equalsIgnoreCase(input) : e.getName().equalsIgnoreCase(input))
-                            .findAny()
-                            .orElse(null));
+                    emote = getFromGuild(input, guild, useID);
 
                 }
             }
@@ -85,6 +81,15 @@ public class ExprEmoji extends SimpleExpression<Emote> {
             emojis.add(emote);
         }
         return emojis;
+    }
+
+    public Emote getFromGuild(String input, Guild guild, boolean useID) {
+        return Emote.fromJDA(guild
+                .getEmotes()
+                .stream()
+                .filter(e -> useID ? e.getId().equalsIgnoreCase(input) : e.getName().equalsIgnoreCase(input))
+                .findAny()
+                .orElse(null));
     }
 
     @Override
@@ -107,8 +112,6 @@ public class ExprEmoji extends SimpleExpression<Emote> {
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         name = (Expression<String>) exprs[0];
         guild = (Expression<Guild>) exprs[1];
-        if (guild == null)
-            guild = Utils.defaultToEventValue(guild, Guild.class);
         new NodeInformation();
         return true;
     }
