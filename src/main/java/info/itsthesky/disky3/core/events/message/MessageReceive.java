@@ -14,6 +14,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class MessageReceive extends DiSkyEvent<MessageReceivedEvent> {
 
+    @Override
+    public boolean check(MessageReceivedEvent event) {
+        return event.isFromGuild();
+    }
+
     static {
         DiSkyEvent.register("Message Receive", MessageReceive.class, EvtGuildMessage.class,
                 "[guild] message receive[d]")
