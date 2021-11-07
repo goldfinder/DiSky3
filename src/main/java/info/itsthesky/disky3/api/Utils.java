@@ -1,5 +1,7 @@
 package info.itsthesky.disky3.api;
 
+import ch.njol.skript.util.*;
+import ch.njol.skript.util.Date;
 import info.itsthesky.disky3.api.emojis.updated.Emojis;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
@@ -9,10 +11,6 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Color;
-import ch.njol.skript.util.Date;
-import ch.njol.skript.util.Getter;
-import ch.njol.skript.util.SkriptColor;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.DiSky;
@@ -212,12 +210,8 @@ public final class Utils {
         return Arrays.asList(potentialMatches).contains(toMatch);
     }
 
-    public static Color convert(org.bukkit.Color original) {
-        return SkriptColor.fromBukkitColor(original);
-    }
-
-    public static SkriptColor convert(java.awt.Color original) {
-        return SkriptColor.fromBukkitColor(org.bukkit.Color.fromRGB(original.getRGB()));
+    public static Color convert(java.awt.Color original) {
+        return new ColorRGB(original.getRed(), original.getGreen(), original.getBlue());
     }
 
     public static <T> List<T> convert(Collection<T> original) {

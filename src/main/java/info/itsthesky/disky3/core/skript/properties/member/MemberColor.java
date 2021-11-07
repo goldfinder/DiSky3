@@ -4,6 +4,8 @@ import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.Color;
+import ch.njol.skript.util.ColorRGB;
+import ch.njol.skript.util.SkriptColor;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.skript.NodeInformation;
@@ -17,14 +19,14 @@ public class MemberColor extends SimplePropertyExpression<Member, Color> {
         register(
                 MemberColor.class,
                 Color.class,
-                "[discord] [member] color",
+                "[discord] member color",
                 "member"
         );
     }
 
     @Override
     public @NotNull Color convert(Member member) {
-        return Utils.convert(member.getColor());
+        return member.getRoles().isEmpty() ? SkriptColor.DARK_GREY : Utils.convert(member.getRoles().get(0).getColor());
     }
 
     @Override
