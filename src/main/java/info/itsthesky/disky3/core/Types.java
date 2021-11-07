@@ -123,7 +123,7 @@ public class Types {
 		new DiSkyType<>(SelectionMenu.Builder.class, "selectbuilder", "selectbuilders?").register();
 		new DiSkyType<>(SelectOption.class, "selectchoice", "selectchoices?").register();
 		new DiSkyType<>(Guild.class, "guild", "guilds?", Guild::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(input)), false).register();
-		new DiSkyType<>(Activity.class, "presence", "presences?", a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(), input -> null, false).register();
+		new DiSkyType<>(Activity.class, "activity", "activities", a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(), input -> null, false).register();
 		new DiSkyType<>(Bot.class, "bot", "bots?", Bot::getName, null, false).register();
 		new DiSkyType<>(Emote.class, "emote", "emotes?", Emote::getName, null, false).register();
 		new DiSkyType<>(WebhookMessageBuilder.class, "webhookmessagebuilder", "webhookmessagebuilders?", null).register();

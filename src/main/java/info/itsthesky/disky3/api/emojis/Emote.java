@@ -46,6 +46,16 @@ public class Emote implements IMentionable {
         this.isEmote = false;
     }
 
+    public static Emote fromActivityEmoji(net.dv8tion.jda.api.entities.Activity.Emoji emoji) {
+        final Emoji temp;
+        if (emoji.isEmote()) {
+            temp = Emoji.fromEmote(emoji.getName(), emoji.getIdLong(), emoji.isAnimated());
+        } else {
+            temp = Emoji.fromUnicode(emoji.getAsCodepoints());
+        }
+        return new Emote(temp);
+    }
+
     public static Emote fromJDA(net.dv8tion.jda.api.entities.Emote emote) {
         if (emote == null)
             return null;
