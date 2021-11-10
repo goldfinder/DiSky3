@@ -2,6 +2,7 @@ package info.itsthesky.disky3;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.config.Node;
 import ch.njol.skript.util.Version;
 import de.leonhard.storage.Json;
 import info.itsthesky.disky3.api.DiSkyException;
@@ -17,6 +18,7 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
+import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +35,7 @@ public final class DiSky extends JavaPlugin {
     private static Version INSTALLED_SKRIPT_VERSION;
     private static SkriptAdapter SKRIPT_ADAPTER;
     private static Json DATA_CONTAINER;
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     @Override
     public void onEnable() {
@@ -153,6 +155,7 @@ public final class DiSky extends JavaPlugin {
     @Override
     public void onDisable() {
         ln();
+        SlashObject.clear();
         log("Disabling DiSky's bot & instance ...");
         // Check https://github.com/DV8FromTheWorld/JDA/issues/1761#issuecomment-892921634
         try {
@@ -226,6 +229,10 @@ public final class DiSky extends JavaPlugin {
 
     public static void exception(Throwable ex) {
         exception(ex, NodeInformation.last);
+    }
+
+    public static void exception(Throwable ex, Node node) {
+        exception(ex, new NodeInformation(node));
     }
 
     public static void exception(

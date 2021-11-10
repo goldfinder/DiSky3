@@ -84,8 +84,8 @@ public class EffDestroy extends WaiterEffect {
                 deleteQueue = ((GuildChannel) entity).delete();
             } else if (entity instanceof Invite) {
                 deleteQueue = ((Invite) entity).delete();
-            } else if (entity instanceof GuildThread) {
-                deleteQueue = ((GuildThread) entity).delete();
+            } else if (entity instanceof ThreadChannel) {
+                deleteQueue = ((ThreadChannel) entity).delete();
             } else {
                 continue;
             }

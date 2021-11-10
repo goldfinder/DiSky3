@@ -28,9 +28,9 @@ public class ThreadJoin extends DiSkyEvent<ThreadMemberJoinEvent> {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtThreadJoin.class, GuildThread.class, new Getter<GuildThread, EvtThreadJoin>() {
+        EventValues.registerEventValue(EvtThreadJoin.class, ThreadChannel.class, new Getter<ThreadChannel, EvtThreadJoin>() {
             @Override
-            public GuildThread get(@NotNull EvtThreadJoin event) {
+            public ThreadChannel get(@NotNull EvtThreadJoin event) {
                 return event.getJDAEvent().getThread();
             }
         }, 0);

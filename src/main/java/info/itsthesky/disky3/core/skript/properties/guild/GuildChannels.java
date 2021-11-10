@@ -26,7 +26,7 @@ public class GuildChannels extends MultipleGuildProperty<GuildChannel> {
         channels.addAll(guild.getTextChannels());
         channels.addAll(guild.getVoiceChannels());
         channels.addAll(guild.getStageChannels());
-        channels.addAll(guild.getGuildThreads());
+        channels.addAll(guild.getThreadChannels());
         channels.addAll(guild.getNewsChannels());
         channels.addAll(guild.getStoreChannels());
         return channels.toArray(new GuildChannel[0]);

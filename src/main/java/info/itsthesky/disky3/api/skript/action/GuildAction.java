@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
-public abstract class NewAction<T> extends SimpleExpression<T> {
+public abstract class GuildAction<T> extends AbstractNewAction<T, Guild> {
 
     protected static void register(
             Class clazz,
@@ -29,34 +29,13 @@ public abstract class NewAction<T> extends SimpleExpression<T> {
         );
     }
 
-    private Expression<Guild> exprGuild;
-
-    protected abstract T create(@NotNull Guild guild);
-
-    @Override
-    protected T @NotNull [] get(@NotNull Event e) {
-        final Guild guild = Utils.verifyVar(e, exprGuild);
-        if (guild == null)
-            return (T[]) new Object[0];
-        return (T[]) new Object[] {create(guild)};
-    }
-
     @Override
     public boolean isSingle() {
         return true;
     }
 
-    public abstract String getNewType();
-
     @Override
-    public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "a new "+ getNewType() +" action in guild " + exprGuild.toString(e, debug);
+    public String entityToString(Expression<Guild> entity, Event e, boolean debug) {
+        return "in guild " + entity.toString(e, debug);
     }
-
-    @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        exprGuild = (Expression<Guild>) exprs[0];
-        return true;
-    }
-
 }

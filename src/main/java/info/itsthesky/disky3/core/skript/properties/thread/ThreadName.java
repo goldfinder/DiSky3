@@ -10,12 +10,12 @@ import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ThreadName extends ChangeablePropertyExpression<GuildThread, String> {
+public class ThreadName extends ChangeablePropertyExpression<ThreadChannel, String> {
 
     static {
         register(
@@ -38,17 +38,17 @@ public class ThreadName extends ChangeablePropertyExpression<GuildThread, String
     @Override
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) {
         if (delta == null || delta.length == 0 || delta[0] == null) return;
-        GuildThread thread = Utils.verifyVar(e, getExpr(), null);
+        ThreadChannel thread = Utils.verifyVar(e, getExpr(), null);
         final String value = delta[0].toString();
         if (value == null || thread == null) return;
 
-        thread = bot.getCore().getGuildThreadById(thread.getId());
+        thread = bot.getCore().getThreadChannelById(thread.getId());
 
         thread.getManager().setName(value).queue(null, ex -> DiSky.exception(ex, info));
     }
 
     @Override
-    protected String @NotNull [] get(@NotNull Event e, GuildThread @NotNull [] source) {
+    protected String @NotNull [] get(@NotNull Event e, ThreadChannel @NotNull [] source) {
         return new String[] {source[0].getName()};
     }
 
@@ -64,7 +64,7 @@ public class ThreadName extends ChangeablePropertyExpression<GuildThread, String
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends GuildThread>) exprs[0]);
+        setExpr((Expression<? extends ThreadChannel>) exprs[0]);
         info = new NodeInformation();
         return true;
     }

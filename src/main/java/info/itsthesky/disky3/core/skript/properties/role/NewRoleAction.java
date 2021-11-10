@@ -1,11 +1,11 @@
 package info.itsthesky.disky3.core.skript.properties.role;
 
-import info.itsthesky.disky3.api.skript.action.NewAction;
+import info.itsthesky.disky3.api.skript.action.GuildAction;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.restaction.RoleAction;
 import org.jetbrains.annotations.NotNull;
 
-public class NewRoleAction extends NewAction<RoleAction> {
+public class NewRoleAction extends GuildAction<RoleAction> {
 
     static {
         register(

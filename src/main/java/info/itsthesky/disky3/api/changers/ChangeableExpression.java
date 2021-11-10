@@ -13,7 +13,7 @@ public abstract class ChangeableExpression implements Expression, DiSkyChangerEl
 
     @Override
     public final void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
-        DiSky.exception(new DiSkyException("This entity can only be changed using the Disky's changer!\nReport this to the DiSky's GitHub."), null);
+        DiSky.exception(new DiSkyException("This entity can only be changed using the Disky's changer!\nReport this to the DiSky's GitHub."));
     }
 
     @Override

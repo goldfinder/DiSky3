@@ -8,13 +8,13 @@ import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
 import info.itsthesky.disky3.api.skript.NodeInformation;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ThreadMembers extends MultiplyPropertyExpression<GuildThread, Member> {
+public class ThreadMembers extends MultiplyPropertyExpression<ThreadChannel, Member> {
 
     static {
         register(
@@ -37,7 +37,7 @@ public class ThreadMembers extends MultiplyPropertyExpression<GuildThread, Membe
         if (delta == null || delta.length == 0 || delta[0] == null)
             return;
         final Member[] members = (Member[]) delta;
-        final GuildThread thread = getExpr().getSingle(e);
+        final ThreadChannel thread = getExpr().getSingle(e);
         if (thread == null)
             return;
         for (Member member : members) {
@@ -67,7 +67,7 @@ public class ThreadMembers extends MultiplyPropertyExpression<GuildThread, Membe
     }
 
     @Override
-    protected Member[] convert(GuildThread t) {
+    protected Member[] convert(ThreadChannel t) {
         return t.getMembers().toArray(new Member[0]);
     }
 }

@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.slashcommand.api;
+package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.lang.Expression;
 import info.itsthesky.disky3.DiSky;
@@ -22,6 +22,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class SlashUtils {
+
+    public static List<OptionData> parseArguments(List<SlashArgument> args) {
+        return args.stream().map(SlashUtils::parseArgument).collect(Collectors.toList());
+    }
+
+    public static OptionData parseArgument(SlashArgument arg) {
+        final OptionData option = new OptionData(arg.getType(), arg.getName(), arg.getDesc())
+                .setRequired(!arg.isOptional());
+        for (SlashArgument.SlashPreset o : arg.getPresets()) {
+            if (arg.getType().equals(OptionType.STRING)) {
+                option.addChoice(o.getName(), o.getAsText());
+            } else if (arg.getType().equals(OptionType.INTEGER)) {
+                option.addChoice(o.getName(), o.getAsInt());
+            }
+        }
+        return option;
+    }
 
     public static Class<?> convert(OptionType type) {
         switch (type) {
@@ -61,6 +78,25 @@ public final class SlashUtils {
         }
     }
 
+    public static List<CommandPrivilege> parsePrivileges(
+            List<String> allowedRoles, List<String> allowedUsers,
+            List<String> disallowedRoles, List<String> disallowedUsers
+    ) {
+        final List<CommandPrivilege> privileges = new ArrayList<>();
+
+        for (String roleID : allowedRoles)
+            privileges.add(CommandPrivilege.enableRole(roleID));
+        for (String roleID : disallowedRoles)
+            privileges.add(CommandPrivilege.disableRole(roleID));
+
+        for (String userID : allowedUsers)
+            privileges.add(CommandPrivilege.enableUser(userID));
+        for (String userID : disallowedUsers)
+            privileges.add(CommandPrivilege.disableUser(userID));
+
+        return privileges;
+    }
+
     public static List<OptionData> parseOptions(List<Command.Option> options) {
         return options
                 .stream()
@@ -77,7 +113,7 @@ public final class SlashUtils {
         return formattedBots;
     }
 
-    public static List<CommandPrivilege> parsePrivileges(SlashObject cmd) {
+    /* public static List<CommandPrivilege> parsePrivileges(SlashObject cmd) {
         final List<CommandPrivilege> privileges = new ArrayList<>();
         for (Role d : parseRoles(cmd.getAllowedRoles()))
             privileges.add(CommandPrivilege.enable(d));
@@ -88,39 +124,7 @@ public final class SlashUtils {
         for (User d : parseUsers(cmd.getDisallowedUsers()))
             privileges.add(CommandPrivilege.disable(d));
         return privileges;
-    }
-
-    public static CommandData parseCommand(SlashObject cmd) {
-        try {
-            final Expression<String> desc = cmd.getDescription();
-            final String value = desc.getSingle(new SimpleDiSkyEvent<>());
-            CommandData command = new CommandData(cmd.getName(), value);
-
-            for (SlashArgument arg : cmd.getArguments()) {
-                OptionData option = new OptionData(
-                        arg.getType(),
-                        arg.getName(),
-                        arg.getDesc(),
-                        !arg.isOptional()
-                );
-                for (SlashArgument.SlashPreset o : arg.getPresets()) {
-                    if (arg.getType().equals(OptionType.STRING)) {
-                        option.addChoice(o.getName(), o.getAsText());
-                    } else if (arg.getType().equals(OptionType.INTEGER)) {
-                        option.addChoice(o.getName(), o.getAsInt());
-                    }
-                }
-                command.addOptions(
-                        option
-                );
-            }
-
-            return command;
-        } catch (Exception ex ) {
-            DiSky.exception(ex, null);
-            return null;
-        }
-    }
+    } */
 
     public static List<Guild> parseGuilds(List<String> asList, List<Bot> bots) {
         final List<Guild> guilds = new ArrayList<>();

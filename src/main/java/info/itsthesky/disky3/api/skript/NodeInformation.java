@@ -16,7 +16,11 @@ public class NodeInformation {
     private String lineContent;
 
     public NodeInformation() {
-        this.node = SkriptLogger.getNode();
+        this(SkriptLogger.getNode());
+    }
+
+    public NodeInformation(Node node) {
+        this.node = node;
         if (this.node == null)
             return;
         this.line = this.node.getLine();

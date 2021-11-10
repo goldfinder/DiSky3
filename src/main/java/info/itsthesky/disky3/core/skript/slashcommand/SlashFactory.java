@@ -1,31 +1,34 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
-import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.config.validate.SectionValidator;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
 import ch.njol.util.StringUtils;
+import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.section.EffectSection;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashData;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
-import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotGuildRegister;
-import info.itsthesky.disky3.core.skript.slashcommand.api.register.BotRegister;
-import info.itsthesky.disky3.core.skript.slashcommand.api.register.GuildRegister;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SlashFactory {
 
@@ -56,11 +59,12 @@ public class SlashFactory {
             .addEntry("allowed users", true)
             .addEntry("disallowed users", true)
 
+            .addEntry("restricted", true)
+
             .addSection("options", true)
 
             .addSection("trigger", false);
 
-    public HashMap<SlashData, SlashObject> commandMap = new HashMap<>();
     public List<SlashArgument> currentArguments;
 
     private SlashFactory() { }
@@ -69,18 +73,18 @@ public class SlashFactory {
         return INSTANCE;
     }
 
-    public SlashObject add(SectionNode node) {
+    public boolean add(SectionNode node) {
 
         this.currentArguments = new ArrayList<>();
         String command = node.getKey();
         if (command == null) {
-            return null;
+            return false;
         }
 
         command = ScriptLoader.replaceOptions(command);
         Matcher matcher = commandPattern.matcher(command);
         if (!matcher.matches()) {
-            return null;
+            return false;
         }
 
         int level = 0;
@@ -90,26 +94,17 @@ public class SlashFactory {
             } else if (command.charAt(i) == ']') {
                 if (level == 0) {
                     Skript.error("Invalid placement of [optional brackets]");
-                    return null;
+                    return false;
                 }
                 level--;
             }
         }
         if (level > 0) {
             Skript.error("Invalid amount of [optional brackets]");
-            return null;
+            return false;
         }
 
         command = matcher.group(2);
-
-        for (SlashData storage : this.commandMap.keySet()) {
-            SlashObject commandObject = storage.getCommand();
-            if (commandObject.getName().equalsIgnoreCase(command)) {
-                if (commandObject.getScript().equals(node.getConfig().getFile())) {
-                    Skript.error("A slash command with the name \"" + command + "\" is already defined in " + commandObject.getScript().getName());
-                }
-            }
-        }
 
         String arguments = matcher.group(4);
         if (arguments == null) {
@@ -133,7 +128,7 @@ public class SlashFactory {
                 argumentType = OptionType.valueOf(arg.replaceAll(" ", "_").toUpperCase(Locale.ROOT));
             } catch (Exception ex) {
                 Skript.error("Can't use " + arg + " as argument of a slash command.");
-                return null;
+                return false;
             }
 
             final SlashArgument argument = new SlashArgument(
@@ -142,18 +137,18 @@ public class SlashFactory {
             );
 
             if (argument == null)
-                return null;
+                return false;
             currentArguments.add(argument);
 
         }
 
         node.convertToEntries(0);
         if (!commandStructure.validate(node)) {
-            return null;
+            return false;
         }
 
         if (!(node.get("trigger") instanceof SectionNode))
-            return null;
+            return false;
 
         /*
         Option manager validation
@@ -171,12 +166,12 @@ public class SlashFactory {
             if (options == null) {
                 SkriptLogger.setNode(node);
                 Skript.error("You have at least one argument but didn't specified anything for it through the options section.");
-                return null;
+                return false;
             }
 
             options.convertToEntries(0);
             if (!optionListValidator.validate(options))
-                return null;
+                return false;
 
             i = 0;
             for (SlashArgument arg : currentArguments) {
@@ -194,7 +189,7 @@ public class SlashFactory {
 
                 if (optionValueNode.get("name", "").isEmpty() || optionValueNode.get("description", "").isEmpty()) {
                     Skript.error("The entry 'name' and 'description' is require in the " + StringUtils.fancyOrderNumber(i) + " argument options.");
-                    return null;
+                    return false;
                 }
 
                 final @NotNull String name = optionValueNode.get("name", null); // Should not be empty
@@ -225,7 +220,7 @@ public class SlashFactory {
                     preset = new SlashArgument.SlashPreset(presetName, presetValue, arg);
                     if (preset == null) {
                         Skript.error("Cannot use values " + presetValue + " with argument type " + arg.getType().name().toLowerCase(Locale.ROOT));
-                        return null;
+                        return false;
                     }
                     presets.add(preset);
                 }
@@ -239,6 +234,15 @@ public class SlashFactory {
          */
         SectionNode trigger = (SectionNode) node.get("trigger");
         List<String> aliases = Arrays.asList(ScriptLoader.replaceOptions(node.get("aliases", "")).split(listPattern));
+
+        String restrictedString = ScriptLoader.replaceOptions(node.get("restricted", "false"));
+        final boolean restricted;
+        try {
+            restricted = Boolean.parseBoolean(restrictedString);
+        } catch (Exception ex) {
+            Skript.error("Wrong value found in the restricted field, should be either 'true' or 'false', but got: " + restrictedString);
+            return false;
+        }
 
         String botString = ScriptLoader.replaceOptions(node.get("bots", ""));
         List<String> bots = botString.isEmpty() ? new ArrayList<>() : Arrays.asList(botString.split(listPattern));
@@ -261,7 +265,7 @@ public class SlashFactory {
         String rawDesc = ScriptLoader.replaceOptions(node.get("description", ""));
         if (rawDesc.isEmpty()) {
             Skript.error("The command description cannot be empty!");
-            return null;
+            return false;
         }
 
         // Unboxing the expression if people put ""
@@ -277,70 +281,89 @@ public class SlashFactory {
         if (description == null)
         {
             Skript.error("The command description cannot be null (this normally can't happen)");
-            return null;
+            return false;
         }
 
         RetainingLogHandler errors = SkriptLogger.startRetainingLog();
-        SlashObject slashObject;
         this.currentArguments = currentArguments;
+        final List<TriggerItem> items;
         try {
-            slashObject = new SlashObject(
-                    node.getConfig().getFile(), command, currentArguments, aliases,
-                    description, bots, ScriptLoader.loadItems(trigger), guilds,
-                    allowedRoles, disallowedRoles,
-                    allowedUsers, disallowedUsers
-            );
+            items = ScriptLoader.loadItems(trigger);
         } finally {
             EffectSection.stopLog(errors);
         }
 
-        try {
-            if (!guilds.isEmpty() && bots.isEmpty()) {
-
-                GuildRegister.getInstance().registerCommand(guilds, slashObject);
-
-            } else if (!guilds.isEmpty() && !bots.isEmpty()) {
-
-                BotGuildRegister.getInstance().registerCommand(guilds, bots, slashObject);
-
-            } else if (!bots.isEmpty()) {
-
-                BotRegister.getInstance().registerCommand(bots, slashObject);
-
-            } else {
-                Skript.error("Unable to get either bots or guilds to register the slash command on.");
-                return null;
-            }
-        } catch (Exception ex) {}
-
-        this.commandMap.put(new SlashData(command, slashObject), slashObject);
-        return slashObject;
-    }
-
-    public boolean remove(String name) {
-        for (SlashData commandData : commandMap.keySet()) {
-            SlashObject commandObject = commandData.getCommand();
-            if (commandObject.getName().equalsIgnoreCase(name)) {
-
-                if (commandObject.isGlobalRegister()) {
-                    GuildRegister.getInstance().unregister(
-                            commandObject.getGuilds(),
-                            commandObject
-                    );
-                } else {
-                    BotRegister.getInstance().unregister(
-                            commandObject.getBots(),
-                            commandObject
-                    );
-                }
-                commandMap.remove(commandData);
-                return true;
-            }
+        if (guilds.isEmpty() && bots.isEmpty()) {
+            Skript.error("Unable to find either bots or guild in the slash command '"+command+"'");
+            return false;
         }
-        return false;
-    }
 
-    public Collection<SlashData> getCommands() {
-        return commandMap.keySet();
+        final boolean isGlobal = guilds.isEmpty();
+        final CommandData data;
+        try {
+
+            data = new CommandData(command, description.getSingle(null))
+                    .addOptions(SlashUtils.parseArguments(currentArguments))
+                    .setDefaultEnabled(!restricted);
+        } catch (Exception ex) {
+            DiSky.exception(ex, node);
+            return false;
+        }
+
+        final String finalCommand = command;
+        Bukkit
+                .getScheduler()
+                .runTaskLater(DiSky.getInstance(), () -> {
+                    final List<CommandPrivilege> privileges;
+                    privileges = SlashUtils.parsePrivileges(
+                            allowedRoles, allowedUsers,
+                            disallowedRoles, disallowedUsers
+                    );
+                    try {
+                        if (isGlobal) {
+                            for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
+                                bot
+                                        .getCore()
+                                        .upsertCommand(data)
+                                        .queue(cmd -> SlashObject.register(new SlashObject(
+                                                finalCommand, currentArguments, cmd.getId(), bot.getName(), items
+                                        )));
+                            }
+                        } else {
+                            List<Guild> parsedGuilds = new ArrayList<>();
+                            if (bots.isEmpty()) {
+                                parsedGuilds = guilds.stream().map(id -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(id))).collect(Collectors.toList());
+                            } else {
+                                for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
+                                    for (String guildID : guilds) {
+                                        final Guild guild = bot.getCore().getGuildById(guildID);
+                                        if (guild == null)
+                                            continue;
+                                        parsedGuilds.add(guild);
+                                    }
+                                }
+                            }
+                            for (Guild guild : parsedGuilds) {
+                                guild
+                                        .upsertCommand(data)
+                                        .queue(cmd -> {
+                                            guild.updateCommandPrivilegesById(cmd.getId(), privileges).queue(ps -> {
+                                                for (CommandPrivilege p : ps)
+                                                    DiSky.debug("Privilege type " + p.getType().name() + " with input " + p.getId() + " on command " + cmd.getName());
+                                            });
+                                            SlashObject.register(new SlashObject(
+                                                    finalCommand, currentArguments, cmd.getId(),
+                                                    BotManager.searchFromJDA(guild.getJDA()).getName(),
+                                                    items, guild.getId()
+                                            ));
+                                        });
+                            }
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }, 200);
+
+        return true;
     }
 }

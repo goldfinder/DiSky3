@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript.slashcommand.api;
+package info.itsthesky.disky3.core.skript.slashcommand;
 
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;

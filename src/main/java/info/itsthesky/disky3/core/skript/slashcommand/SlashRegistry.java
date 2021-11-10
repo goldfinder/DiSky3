@@ -1,7 +1,5 @@
 package info.itsthesky.disky3.core.skript.slashcommand;
 
-import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
@@ -14,23 +12,21 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
-import info.itsthesky.disky3.core.commands.CommandFactory;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashObject;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class SlashRegistry extends SelfRegisteringSkriptEvent {
 
     static {
-        // Skript.registerEvent("Slash Command", SlashRegistry.class, SlashEvent.class, "slash command <([^\\s]+)( .+)?$>");
+        Skript.registerEvent("Slash Command", SlashRegistry.class, SlashEvent.class, "slash command <([^\\s]+)( .+)?$>");
 
         EventValues.registerEventValue(SlashEvent.class, SlashObject.class, new Getter<SlashObject, SlashEvent>() {
                     @Override
@@ -104,32 +100,28 @@ public class SlashRegistry extends SelfRegisteringSkriptEvent {
         Kleenean originalDelay = SkriptAdapter.getInstance().getHasDelayedBefore();
         ScriptLoader.setCurrentEvent("slash command", SlashEvent.class);
 
-        SlashObject cmd = SlashFactory.getInstance().add(sectionNode);
-        command = cmd == null ? command : cmd.getName();
+        boolean passed = SlashFactory.getInstance().add(sectionNode);
 
         ScriptLoader.setCurrentEvent(originalName, originalEvents);
         SkriptAdapter.getInstance().setHasDelayedBefore(originalDelay);
         nukeSectionNode(sectionNode);
 
-        return cmd != null;
+        return passed;
     }
 
     @Override
-    public void register(@NotNull Trigger t) {
-    }
+    public void register(@NotNull Trigger t) { }
 
     @Override
     public void unregister(@NotNull Trigger t) {
         DiSky.debug("Removing command " + command);
-        SlashFactory.getInstance().remove(command);
+        if (SlashObject.get(command) == null)
+            return;
+        SlashObject.get(command).delete();
     }
 
     @Override
-    public void unregisterAll() {
-        DiSky.debug("Removing all command " + command);
-        CommandFactory.getInstance().commandMap.clear();
-    }
-
+    public void unregisterAll() { }
 
     @Override
     public @NotNull String toString(final Event e, final boolean debug) {
@@ -138,8 +130,8 @@ public class SlashRegistry extends SelfRegisteringSkriptEvent {
 
     public void nukeSectionNode(SectionNode sectionNode) {
         List<Node> nodes = new ArrayList<>();
-        for (Iterator<Node> iterator = sectionNode.iterator(); iterator.hasNext(); ) {
-            nodes.add(iterator.next());
+        for (Node node : sectionNode) {
+            nodes.add(node);
         }
         for (Node n : nodes) {
             sectionNode.remove(n);

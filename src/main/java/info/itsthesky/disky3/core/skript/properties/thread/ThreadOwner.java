@@ -7,13 +7,13 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.changers.ChangeablePropertyExpression;
-import net.dv8tion.jda.api.entities.GuildThread;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ThreadOwner extends ChangeablePropertyExpression<GuildThread, Member> {
+public class ThreadOwner extends ChangeablePropertyExpression<ThreadChannel, Member> {
 
     static {
         register(
@@ -33,7 +33,7 @@ public class ThreadOwner extends ChangeablePropertyExpression<GuildThread, Membe
     public void change(Event e, Object[] delta, Bot bot, Changer.ChangeMode mode) { }
 
     @Override
-    protected Member @NotNull [] get(@NotNull Event e, GuildThread @NotNull [] source) {
+    protected Member @NotNull [] get(@NotNull Event e, ThreadChannel @NotNull [] source) {
         return new Member[] {source[0].getOwner()};
     }
 
@@ -49,7 +49,7 @@ public class ThreadOwner extends ChangeablePropertyExpression<GuildThread, Membe
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends GuildThread>) exprs[0]);
+        setExpr((Expression<? extends ThreadChannel>) exprs[0]);
         return true;
     }
 }

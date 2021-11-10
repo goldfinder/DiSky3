@@ -7,7 +7,9 @@ import info.itsthesky.disky3.api.skript.events.EventListener;
 import info.itsthesky.disky3.api.wrapper.InviteTracking;
 import info.itsthesky.disky3.core.commands.CommandListener;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashListener;
+import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
@@ -109,6 +111,10 @@ public final class BotManager {
     public static boolean remove(Bot bot) {
         if (!isLoaded(bot.getName()))
             return false;
+        bot.getCore().updateCommands().complete();
+        for (Guild guild : bot.getCore().getGuilds()) {
+            guild.updateCommands().complete();
+        }
         getLoadedBots().remove(bot);
         DiSky.warn("Shutdown of bot " + bot.getName() + " ...");
         bot.getCore().shutdownNow();

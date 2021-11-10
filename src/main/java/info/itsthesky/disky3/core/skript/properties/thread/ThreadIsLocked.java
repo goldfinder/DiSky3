@@ -1,10 +1,10 @@
 package info.itsthesky.disky3.core.skript.properties.thread;
 
 import info.itsthesky.disky3.api.skript.PropertyCondition;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import org.jetbrains.annotations.NotNull;
 
-public class ThreadIsLocked extends PropertyCondition<GuildThread> {
+public class ThreadIsLocked extends PropertyCondition<ThreadChannel> {
 
     static {
         register(
@@ -16,7 +16,7 @@ public class ThreadIsLocked extends PropertyCondition<GuildThread> {
     }
 
     @Override
-    public boolean check(@NotNull GuildThread thread) {
+    public boolean check(@NotNull ThreadChannel thread) {
         return thread.isLocked();
     }
 

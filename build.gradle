@@ -38,7 +38,7 @@ dependencies {
     compile 'club.minnced:discord-webhooks:0.5.5-rc'
     // Commits: com.github.dv8fromtheworld:jda
     // Stable: net.dv8tion:JDA
-    compile('com.github.dv8fromtheworld:jda:8a79a01') {
+    compile('com.github.dv8fromtheworld:jda:a365d01') {
         exclude module: "opus-java"
     }
     // compile('com.github.dv8fromtheworld:jda:1b6677e') {

@@ -1,12 +1,11 @@
 package info.itsthesky.disky3.core.skript.properties.channels;
 
-import info.itsthesky.disky3.api.skript.action.NewAction;
+import info.itsthesky.disky3.api.skript.action.GuildAction;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.StageChannel;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.jetbrains.annotations.NotNull;
 
-public class NewStageChannel extends NewAction<ChannelAction> {
+public class NewStageChannel extends GuildAction<ChannelAction> {
 
     static {
         register(

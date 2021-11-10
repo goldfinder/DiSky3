@@ -2,7 +2,6 @@ package info.itsthesky.disky3.core.skript.slashcommand;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
-import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -14,8 +13,6 @@ import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.Utils;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashArgument;
-import info.itsthesky.disky3.core.skript.slashcommand.api.SlashUtils;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;

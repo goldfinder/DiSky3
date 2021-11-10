@@ -34,18 +34,17 @@ public class EffUnbanMember extends RestExceptionSection<Void> {
 
     @Override
     public RestAction<Void> runRestAction(Event e) {
-        final User user = exprUser.getSingle(e);
-        final Guild guild = exprGuild.getSingle(e);
+        User user = exprUser.getSingle(e);
+        Guild guild = exprGuild.getSingle(e);
         final Bot bot = exprBot.getSingle(e);
 
-        if (guild == null || bot == null || user == null)
+        if (guild == null || user == null)
             return null;
 
-        return guild
-                .unban(bot
-                        .getCore()
-                        .getUserById(user.getId())
-                );
+        if (bot != null)
+            guild = bot.getCore().getGuildById(guild.getId());
+
+        return guild.unban(user.getId());
     }
 
     @Override
@@ -56,11 +55,6 @@ public class EffUnbanMember extends RestExceptionSection<Void> {
         exprBot = (Expression<Bot>) exprs[2];
         if (exprBot == null)
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
-        if (exprBot == null)
-        {
-            Skript.error("Unable to get the bot in an unban effect.");
-            return false;
-        }
 
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }

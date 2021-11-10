@@ -109,7 +109,7 @@ public class Types {
 		new DiSkyType<>(TextChannel.class, "textchannel", "textchannels?", TextChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getTextChannelById(input)), false).register();
 		new DiSkyType<>(NewsChannel.class, "newschannel", "newschannels?", NewsChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getNewsChannelById(input)), false).register();
 		new DiSkyType<>(GuildChannel.class, "channel", "channels?", GuildChannel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildChannelById(input)), false).register();
-		new DiSkyType<>(GuildThread.class, "thread", "threads?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getGuildThreadById(input)), false).register();
+		new DiSkyType<>(ThreadChannel.class, "thread", "threads?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getThreadChannelById(input)), false).register();
 		new DiSkyType<>(StageChannel.class, "stagechannel", "stagechannels?", Channel::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getStageChannelById(input)), false).register();
 
 		/*
@@ -170,7 +170,7 @@ public class Types {
 
 	public static @Nullable Member parseMember(String input, Guild guild) {
 		if (guild == null) {
-			DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."), null);
+			DiSky.exception(new DiSkyException("DiSky tried to parse a member argument, however the event-guild cannot be found."));
 			return null;
 		} else {
 			return guild.getMemberById(Utils.parseLong(input, false, true));
