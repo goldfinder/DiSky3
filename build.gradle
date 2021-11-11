@@ -53,7 +53,7 @@ dependencies {
 }
 
 jar {
-    archiveName 'DiSky ' + version + ".jar"
+    archiveName 'DiSky ' + version + '.jar'
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
