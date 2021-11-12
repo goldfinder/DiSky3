@@ -14,15 +14,15 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -301,7 +301,6 @@ public class SlashFactory {
         final boolean isGlobal = guilds.isEmpty();
         final CommandData data;
         try {
-
             data = new CommandData(command, description.getSingle(null))
                     .addOptions(SlashUtils.parseArguments(currentArguments))
                     .setDefaultEnabled(!restricted);
@@ -311,59 +310,91 @@ public class SlashFactory {
         }
 
         final String finalCommand = command;
-        Bukkit
-                .getScheduler()
-                .runTaskLater(DiSky.getInstance(), () -> {
-                    final List<CommandPrivilege> privileges;
-                    privileges = SlashUtils.parsePrivileges(
-                            allowedRoles, allowedUsers,
-                            disallowedRoles, disallowedUsers
-                    );
-                    try {
-                        if (isGlobal) {
-                            for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
-                                bot
-                                        .getCore()
-                                        .upsertCommand(data)
-                                        .queue(cmd -> SlashObject.register(new SlashObject(
-                                                finalCommand, currentArguments, cmd.getId(), bot.getName(), items
-                                        )));
-                            }
-                        } else {
-                            List<Guild> parsedGuilds = new ArrayList<>();
-                            if (bots.isEmpty()) {
-                                parsedGuilds = guilds.stream().map(id -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(id))).collect(Collectors.toList());
-                            } else {
-                                for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
-                                    for (String guildID : guilds) {
-                                        final Guild guild = bot.getCore().getGuildById(guildID);
-                                        if (guild == null)
-                                            continue;
-                                        parsedGuilds.add(guild);
-                                    }
-                                }
-                            }
-                            for (Guild guild : parsedGuilds) {
-                                guild
-                                        .upsertCommand(data)
-                                        .queue(cmd -> {
-                                            guild.updateCommandPrivilegesById(cmd.getId(), privileges).queue(ps -> {
-                                                for (CommandPrivilege p : ps)
-                                                    DiSky.debug("Privilege type " + p.getType().name() + " with input " + p.getId() + " on command " + cmd.getName());
-                                            });
-                                            SlashObject.register(new SlashObject(
-                                                    finalCommand, currentArguments, cmd.getId(),
-                                                    BotManager.searchFromJDA(guild.getJDA()).getName(),
-                                                    items, guild.getId()
-                                            ));
-                                        });
+
+        SlashQueue.currentQueue.add(new SlashQueue(() -> {
+            final List<CommandPrivilege> privileges;
+            privileges = SlashUtils.parsePrivileges(
+                    allowedRoles, allowedUsers,
+                    disallowedRoles, disallowedUsers
+            );
+            try {
+                if (isGlobal) {
+                    for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
+                        bot
+                                .getCore()
+                                .upsertCommand(data)
+                                .queue(cmd -> SlashObject.register(new SlashObject(
+                                        finalCommand, currentArguments, cmd.getId(), bot.getName(), items
+                                )));
+                    }
+                } else {
+                    List<Guild> parsedGuilds = new ArrayList<>();
+                    if (bots.isEmpty()) {
+                        parsedGuilds = guilds.stream().map(id -> BotManager.globalSearch(bot -> bot.getCore().getGuildById(id))).collect(Collectors.toList());
+                    } else {
+                        for (Bot bot : bots.stream().map(BotManager::searchFromName).collect(Collectors.toList())) {
+                            for (String guildID : guilds) {
+                                final Guild guild = bot.getCore().getGuildById(guildID);
+                                if (guild == null)
+                                    continue;
+                                parsedGuilds.add(guild);
                             }
                         }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
                     }
-                }, 200);
+                    for (Guild guild : parsedGuilds) {
+                        guild
+                                .upsertCommand(data)
+                                .queue(cmd -> {
+                                    guild.updateCommandPrivilegesById(cmd.getId(), privileges).queue(ps -> {
+                                        for (CommandPrivilege p : ps)
+                                            DiSky.debug("Privilege type " + p.getType().name() + " with input " + p.getId() + " on command " + cmd.getName());
+                                    });
+                                    SlashObject.register(new SlashObject(
+                                            finalCommand, currentArguments, cmd.getId(),
+                                            BotManager.searchFromJDA(guild.getJDA()).getName(),
+                                            items, guild.getId()
+                                    ));
+                                });
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }));
 
         return true;
+    }
+
+    public static class SlashQueueListener extends ListenerAdapter {
+
+        @Override
+        public void onReady(@NotNull ReadyEvent event) {
+            SlashFactory.SlashQueue.executeAll();
+        }
+
+    }
+
+    public static class SlashQueue {
+        private final static List<SlashQueue> currentQueue = new ArrayList<>();
+
+        public static void executeAll() {
+            currentQueue
+                    .stream()
+                    .map(SlashQueue::getConsumer)
+                    .forEach(Runnable::run);
+            currentQueue.clear();
+        }
+
+        private final Runnable consumer;
+
+        public SlashQueue(Runnable consumer) {
+            this.consumer = consumer;
+            if (BotManager.anyBotLoaded())
+                consumer.run();
+        }
+
+        public Runnable getConsumer() {
+            return consumer;
+        }
     }
 }
