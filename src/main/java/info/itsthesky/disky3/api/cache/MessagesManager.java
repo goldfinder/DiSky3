@@ -89,7 +89,7 @@ public class MessagesManager extends ListenerAdapter {
                             }
                         });
                     } catch (MissingAccessException ex) {
-                        DiSky.getInstance().getLogger().warning("DiSky cannot cache message for the message edit event since the bot doesn't have the " + ex.getPermission().getName() + " permission!");
+                        DiSky.getInstance().getLogger().warning("DiSky cannot cache message for the message edit event since the bot doesn't have the " + ex.getPermission().getName() + " permission in "+ guild.getName() +"!");
                     }
                 }
             });

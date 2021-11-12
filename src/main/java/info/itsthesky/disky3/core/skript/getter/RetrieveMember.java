@@ -13,6 +13,8 @@ import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +60,11 @@ public class RetrieveMember extends WaiterEffect<Member> {
         Guild guild = exprGuild.getSingle(e);
         if (id == null || bot == null || guild == null) return;
 
-        bot.getCore().getGuildById(guild.getId()).retrieveMemberById(id).queue(this::restart, ex -> DiSky.exception(ex, getNode()));
+        bot.getCore().getGuildById(guild.getId()).retrieveMemberById(id).queue(this::restart, ex -> {
+            if (ex instanceof ErrorResponseException && ((ErrorResponseException) ex).getErrorResponse().equals(ErrorResponse.UNKNOWN_USER))
+                return;
+            DiSky.exception(ex, getNode());
+        });
     }
 
     @Override
