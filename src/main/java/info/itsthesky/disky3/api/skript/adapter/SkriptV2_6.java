@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript.adapter;
 
+import ch.njol.skript.config.Config;
 import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.log.HandlerList;
 import ch.njol.skript.log.SkriptLogger;
@@ -9,6 +10,9 @@ import info.itsthesky.disky3.api.ReflectionUtils;
 import org.bukkit.event.Event;
 
 public class SkriptV2_6 implements SkriptAdapter {
+
+    @Override
+    public void setCurrentScript(Config script) { ParserInstance.get().setCurrentScript(script); }
 
     @Override
     public void setHasDelayedBefore(Kleenean value) {

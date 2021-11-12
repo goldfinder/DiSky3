@@ -16,7 +16,7 @@ public class MemberCanInteract extends EasyPropertyCondition<Member> {
         register(
                 MemberCanInteract.class,
                 PropertyCondition.PropertyType.CAN,
-                "(manage|interact) [(with|to)] [the] [(member|role)] %member/role%",
+                "(manage|interact) (with|to) [the] [(member|role)] %member/role%",
                 "member"
         );
     }

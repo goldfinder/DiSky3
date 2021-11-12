@@ -15,7 +15,7 @@ import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
 import net.dv8tion.jda.api.entities.BaseGuildMessageChannel;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
         "If you create a private thread, then you cannot specify a message. ",
         "Else, the Thread will be created based on the specified message.",
         "Creating private thread need the guild to be level 2 or more, else it'll throw an exception."})
-public class CreateThread extends WaiterEffect<GuildThread> {
+public class CreateThread extends WaiterEffect<ThreadChannel> {
 
     static {
         Skript.registerEffect(
@@ -54,7 +54,7 @@ public class CreateThread extends WaiterEffect<GuildThread> {
         exprChannel = (Expression<BaseGuildMessageChannel>) exprs[1];
         exprMessage = (Expression<UpdatingMessage>) exprs[2];
         exprBot = Utils.verifyDefaultToEvent(exprs[3], exprBot, Bot.class);
-        setChangedVariable((Variable<GuildThread>) exprs[4]);
+        setChangedVariable((Variable<ThreadChannel>) exprs[4]);
 
         isPrivate = parseResult.expr.contains("private thread");
 
@@ -79,14 +79,14 @@ public class CreateThread extends WaiterEffect<GuildThread> {
         }
         channel = bot.getCore().getTextChannelById(channel.getId());
 
-        final RestAction<GuildThread> action;
+        final RestAction<ThreadChannel> action;
         if (isPrivate) {
-            action = channel.createThread(name, isPrivate);
+            action = channel.createThreadChannel(name, isPrivate);
         } else {
             if (message == null) {
-                action = channel.createThread(name);
+                action = channel.createThreadChannel(name);
             } else {
-                action = channel.createThread(name, message.getMessage().getId());
+                action = channel.createThreadChannel(name, message.getMessage().getId());
             }
         }
         action.queue(this::restart);

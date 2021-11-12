@@ -14,7 +14,7 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
 import info.itsthesky.disky3.api.skript.events.MultipleWaiterEffect;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.entities.Invite;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 @Name("Retrieve Threads")
 @Description({"Retrieve every threads (and cache them) from a specific guild.",
 "This effect will only get back the ACTIVE thread, and will pass on the archived ones."})
-public class RetrieveThreads extends MultipleWaiterEffect<GuildThread> {
+public class RetrieveThreads extends MultipleWaiterEffect<ThreadChannel> {
 
     static {
         Skript.registerEffect(
@@ -39,7 +39,7 @@ public class RetrieveThreads extends MultipleWaiterEffect<GuildThread> {
     public boolean initEffect(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         exprGuild = (Expression<Guild>) exprs[0];
         exprBot = (Expression<Bot>) exprs[1];
-        setChangedVariable((Variable<GuildThread>) exprs[2]);
+        setChangedVariable((Variable<ThreadChannel>) exprs[2]);
 
         if (exprBot == null)
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
@@ -58,7 +58,7 @@ public class RetrieveThreads extends MultipleWaiterEffect<GuildThread> {
         Guild guild = exprGuild.getSingle(e);
         if (bot == null || guild == null) return;
 
-        bot.getCore().getGuildById(guild.getId()).retrieveActiveThreads().queue(threads -> restart(threads.toArray(new GuildThread[0])), ex -> DiSky.exception(ex, getNode()));
+        bot.getCore().getGuildById(guild.getId()).retrieveActiveThreads().queue(threads -> restart(threads.toArray(new ThreadChannel[0])), ex -> DiSky.exception(ex, getNode()));
     }
 
     @Override

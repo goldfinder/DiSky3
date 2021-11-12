@@ -8,7 +8,7 @@ import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.PropertyCondition;
 import info.itsthesky.disky3.api.skript.properties.base.EasyPropertyCondition;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +27,12 @@ public class BotMemberIsInThread extends EasyPropertyCondition<Object> {
         );
     }
 
-    private Expression<GuildThread> exprThread;
+    private Expression<ThreadChannel> exprThread;
 
     @Override
     public boolean check(Event e, Object entity) {
         final String id = entity instanceof Member ? ((Member) entity).getId() : ((Bot) entity).getId();
-        final GuildThread thread = exprThread.getSingle(e);
+        final ThreadChannel thread = exprThread.getSingle(e);
         if (id == null || thread == null)
             return false;
         final boolean contains = thread
@@ -46,7 +46,7 @@ public class BotMemberIsInThread extends EasyPropertyCondition<Object> {
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull SkriptParser.ParseResult parseResult) {
-        exprThread = (Expression<GuildThread>) exprs[0];
+        exprThread = (Expression<ThreadChannel>) exprs[0];
         return super.init(exprs, matchedPattern, isDelayed, parseResult);
     }
 }

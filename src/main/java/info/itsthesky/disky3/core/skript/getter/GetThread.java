@@ -11,18 +11,18 @@ import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.NodeInformation;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.entities.NewsChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GetThread extends SimpleExpression<GuildThread> {
+public class GetThread extends SimpleExpression<ThreadChannel> {
 
     static {
         Skript.registerExpression(
                 GetThread.class,
-                GuildThread.class,
+                ThreadChannel.class,
                 ExpressionType.SIMPLE,
                 "thread (with|from) id %string% [(with|using) [bot] %-bot%]"
         );
@@ -55,12 +55,12 @@ public class GetThread extends SimpleExpression<GuildThread> {
     }
 
     @Override
-    protected GuildThread @NotNull [] get(@NotNull Event e) {
+    protected ThreadChannel @NotNull [] get(@NotNull Event e) {
         String id = exprId.getSingle(e);
         Bot bot = exprBot.getSingle(e);
-        if (id == null || bot == null) return new GuildThread[0];
+        if (id == null || bot == null) return new ThreadChannel[0];
 
-        return new GuildThread[] {bot.getCore().getGuildThreadById(id)};
+        return new ThreadChannel[] {bot.getCore().getThreadChannelById(id)};
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GetThread extends SimpleExpression<GuildThread> {
     }
 
     @Override
-    public @NotNull Class<? extends GuildThread> getReturnType() {
-        return GuildThread.class;
+    public @NotNull Class<? extends ThreadChannel> getReturnType() {
+        return ThreadChannel.class;
     }
 }

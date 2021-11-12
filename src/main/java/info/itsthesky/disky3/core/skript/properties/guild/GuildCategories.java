@@ -17,6 +17,11 @@ public class GuildCategories extends MultipleGuildProperty<Category> {
     }
 
     @Override
+    public @NotNull Class<? extends Category> getReturnType() {
+        return Category.class;
+    }
+
+    @Override
     public @NotNull Category[] converting(Guild guild) {
         return guild.getCategories().toArray(new Category[0]);
     }

@@ -56,7 +56,7 @@ public class EffDestroy extends WaiterEffect {
 
     @Override
     public void runEffect(Event e) {
-        Object[] entities = exprEntity.getArray(e);
+        Object[] entities = exprEntity == null ? new Object[0] : exprEntity.getArray(e);
         Bot bot = exprBot.getSingle(e);
         if (bot == null || entities.length == 0) {
             restart();
@@ -86,6 +86,8 @@ public class EffDestroy extends WaiterEffect {
                 deleteQueue = ((Invite) entity).delete();
             } else if (entity instanceof ThreadChannel) {
                 deleteQueue = ((ThreadChannel) entity).delete();
+            } else if (entity instanceof Category) {
+                deleteQueue = ((Category) entity).delete();
             } else {
                 continue;
             }

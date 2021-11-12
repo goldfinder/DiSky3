@@ -9,6 +9,7 @@ import ch.njol.skript.log.LogEntry;
 import ch.njol.skript.log.RetainingLogHandler;
 import ch.njol.skript.log.SkriptLogger;
 import info.itsthesky.disky3.api.ReflectionUtils;
+import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import info.itsthesky.disky3.core.commands.Argument;
 import info.itsthesky.disky3.core.commands.CommandFactory;
 import org.bukkit.event.Event;
@@ -65,6 +66,7 @@ public final class ParserUtils {
 
             Config c = new Config(code, "DiSky/evaluate.sk", true, false, ":");
             ReflectionUtils.setField(c.getClass(), c, "file", new File("DiSky/evaluate.sk").toPath());
+            SkriptAdapter.getInstance().setCurrentScript(data.getScript());
             ScriptLoader.setCurrentEvent("evaluate effect", e.getClass());
 
             TriggerSection ts = new TriggerSection(c.getMainNode()) {
@@ -80,6 +82,7 @@ public final class ParserUtils {
             };
 
             ScriptLoader.deleteCurrentEvent();
+            SkriptAdapter.getInstance().setCurrentScript(null);
             Commands.currentArguments = null;
             CommandFactory.currentArguments = null;
             if (shouldExecute)

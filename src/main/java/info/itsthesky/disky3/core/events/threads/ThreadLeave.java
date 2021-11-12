@@ -7,8 +7,8 @@ import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.skript.events.DiSkyEvent;
 import info.itsthesky.disky3.api.skript.events.SimpleDiSkyEvent;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildThread;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import net.dv8tion.jda.api.events.thread.member.ThreadMemberJoinEvent;
 import net.dv8tion.jda.api.events.thread.member.ThreadMemberLeaveEvent;
 import org.jetbrains.annotations.NotNull;
@@ -30,9 +30,9 @@ public class ThreadLeave extends DiSkyEvent<ThreadMemberLeaveEvent> {
             }
         }, 0);
 
-        EventValues.registerEventValue(EvtThreadLeave.class, GuildThread.class, new Getter<GuildThread, EvtThreadLeave>() {
+        EventValues.registerEventValue(EvtThreadLeave.class, ThreadChannel.class, new Getter<ThreadChannel, EvtThreadLeave>() {
             @Override
-            public GuildThread get(@NotNull EvtThreadLeave event) {
+            public ThreadChannel get(@NotNull EvtThreadLeave event) {
                 return event.getJDAEvent().getThread();
             }
         }, 0);

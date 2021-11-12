@@ -10,7 +10,7 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.WaiterEffect;
-import net.dv8tion.jda.api.entities.GuildThread;
+import net.dv8tion.jda.api.entities.ThreadChannel;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,12 +28,12 @@ public class JoinThread extends WaiterEffect<Void> {
         );
     }
 
-    private Expression<GuildThread> exprThread;
+    private Expression<ThreadChannel> exprThread;
     private Expression<Bot> exprBot;
 
     @Override
     public boolean initEffect(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        exprThread = (Expression<GuildThread>) expressions[0];
+        exprThread = (Expression<ThreadChannel>) expressions[0];
         exprBot = (Expression<Bot>) expressions[1];
         if (exprBot == null)
             Utils.defaultToEventValue(exprBot, Bot.class);
@@ -44,7 +44,7 @@ public class JoinThread extends WaiterEffect<Void> {
 
     @Override
     public void runEffect(Event e) {
-        final GuildThread thread = exprThread.getSingle(e);
+        final ThreadChannel thread = exprThread.getSingle(e);
         final Bot bot = Utils.verifyVar(e, exprBot, null);
         if (thread == null)
         {
@@ -55,7 +55,7 @@ public class JoinThread extends WaiterEffect<Void> {
         if (bot != null && !bot.getId().equalsIgnoreCase(thread.getJDA().getSelfUser().getId())) {
             bot
                     .getCore()
-                    .getGuildThreadById(thread.getId())
+                    .getThreadChannelById(thread.getId())
                     .join()
                     .queue(this::restart, ex -> DiSky.exception(ex, getNode()));
         } else {

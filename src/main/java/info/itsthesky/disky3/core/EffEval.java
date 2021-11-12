@@ -14,6 +14,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Name("Eval")
@@ -38,7 +39,12 @@ public class EffEval extends Effect {
 
     @Override
     protected void execute(@NotNull Event e) {
-        final List<String> errors = ParserUtils.parse(input.getSingle(e), e, execute, data);
+        List<String> errors = new ArrayList<>();
+        try {
+            errors = ParserUtils.parse(input.getSingle(e), e, execute, data);
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+        }
         var.change(e, errors.toArray(new String[0]), Changer.ChangeMode.SET);
     }
 
