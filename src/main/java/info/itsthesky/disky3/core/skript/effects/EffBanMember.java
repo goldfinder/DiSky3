@@ -59,7 +59,7 @@ public class EffBanMember extends RestExceptionSection<Void> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         exprMember = (Expression<Member>) exprs[0];
         exprReason = (Expression<String>) exprs[1];
         exprDaysToRemove = (Expression<Number>) exprs[2];

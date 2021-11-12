@@ -81,11 +81,10 @@ public class EffRegisterBot extends WaiterEffect {
             }
             BotManager.add(bot);
             DiSky.success("The bot named " + name + " has been loaded! ("+bot.getCore().getGatewayIntents().size()+" intents enabled)");
-            restart();
         } else {
             DiSky.exception(new DiSkyException("The bot called " + name + " is already loaded!"), info);
-            restart();
         }
+        restart();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.section;
 
+import ch.njol.skript.lang.TriggerItem;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
@@ -42,9 +43,11 @@ public abstract class RestExceptionSection<T> extends EffectSection {
         Variables.setLocalVariables(e, lastMap);
         try {
             final RestAction<T> action = runRestAction(e);
-            if (action != null)
-                action.queue(successConsumer(), ex -> handle(e, ex));
-            handle(e, null);
+            if (action == null) {
+                handle(e, null);
+                return;
+            }
+            action.queue(successConsumer(), ex -> handle(e, ex));
         } catch (Throwable ex) {
             handle(e, ex);
         }
