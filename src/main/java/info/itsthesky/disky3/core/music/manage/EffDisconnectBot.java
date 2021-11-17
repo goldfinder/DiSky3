@@ -10,6 +10,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.Bot;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -32,15 +33,17 @@ public class EffDisconnectBot extends Effect {
 
     static {
         Skript.registerEffect(EffDisconnectBot.class,
-                "(close connection|disconnect) [the] bot of [the] [guild] %guild%");
+                "(close connection|disconnect) [the] [bot] [%-bot%] of [the] [guild] %guild%");
     }
 
+    Expression<Bot> exprBot;
     private Expression<Guild> exprGuild;
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        exprGuild = (Expression<Guild>) exprs[0];
+        exprBot = (Expression<Bot>) exprs[0];
+        exprGuild = (Expression<Guild>) exprs[1];
         return true;
     }
 

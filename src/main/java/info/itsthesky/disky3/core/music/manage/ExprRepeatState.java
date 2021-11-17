@@ -7,6 +7,8 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
+import info.itsthesky.disky3.api.bot.Bot;
+import info.itsthesky.disky3.api.changers.ChangeableSimplePropertyExpression;
 import info.itsthesky.disky3.api.music.AudioUtils;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
@@ -29,7 +31,7 @@ import javax.annotation.Nullable;
         "\t\t\tset {_name} to \"disable\"\n" +
         "\t\treply with \":v: **You have `%{_name}%` the repeating state of this guild!**\"")
 @Since("1.11")
-public class ExprRepeatState extends SimplePropertyExpression<Guild, Boolean> {
+public class ExprRepeatState extends ChangeableSimplePropertyExpression<Guild, Boolean> {
 
     static {
         register(ExprRepeatState.class, Boolean.class,
@@ -56,7 +58,7 @@ public class ExprRepeatState extends SimplePropertyExpression<Guild, Boolean> {
 
     @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
+    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode, boolean b) {
         if (mode == Changer.ChangeMode.SET) {
             return CollectionUtils.array(Boolean.class);
         }
@@ -64,12 +66,14 @@ public class ExprRepeatState extends SimplePropertyExpression<Guild, Boolean> {
     }
 
     @Override
-    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
+    public void change(@NotNull Event e, @Nullable Object[] delta, Bot bot, Changer.@NotNull ChangeMode mode) {
         if (delta == null || delta.length == 0) return;
-        Boolean state = Boolean.parseBoolean(delta[0].toString());
+        boolean state = Boolean.parseBoolean(delta[0].toString());
         if (mode == Changer.ChangeMode.SET) {
             for (Guild guild : getExpr().getArray(e)) {
-                 AudioUtils.getGuildAudioPlayer(guild).getScheduler().setRepeated(state);
+                if (bot != null)
+                    guild = bot.getCore().getGuildById(guild.getIdLong());
+                AudioUtils.getGuildAudioPlayer(guild).getScheduler().setRepeated(state);
             }
         }
     }

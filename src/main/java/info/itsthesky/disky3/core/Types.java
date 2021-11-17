@@ -78,6 +78,7 @@ public class Types {
 			Comparators.registerComparator(Category.class, Category.class, new DiSkyComparator<>());
 			Comparators.registerComparator(Role.class, Role.class, new DiSkyComparator<>());
 			Comparators.registerComparator(Webhook.class, Webhook.class, new DiSkyComparator<>());
+			Comparators.registerComparator(ThreadChannel.class, ThreadChannel.class, new DiSkyComparator<>());
 
 			/*
 			 * Custom entities which need a precise comparator
@@ -136,6 +137,7 @@ public class Types {
 		new DiSkyType<>(Message.Attachment.class, "attachment", "attachments?", Message.Attachment::getFileName, null, false).register();
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
 		new DiSkyType<>(Guild.Ban.class, "ban", "bans?", Guild.Ban::getReason, null, false).register();
+		new DiSkyType<>(User.Profile.class, "userprofile", "userprofiles?", User.Profile::getBannerUrl, null, false).register();
 
 		/*
 		 * Action / Manager types

@@ -22,6 +22,8 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
+import info.itsthesky.disky3.api.skript.docs.CustomScope;
+import info.itsthesky.disky3.api.skript.docs.ScopeNode;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;
@@ -31,18 +33,30 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@Name("Discord Command")
-@Description("Custom DiSky discord command system. Arguments works like the normal skript's one and accept both optional and require arguments.")
-@Examples("discord command move <member> <voicechannel>:\n" +
-        "\tprefixes: !\n" +
-        "\ttrigger:\n" +
-        "\t\treply with mention tag of arg-2\n" +
-        "\t\tmove arg-1 to arg-2")
-@Since("3.0")
 public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
     static {
-        Skript.registerEvent("Discord Command", CommandRegistry.class, CommandEvent.class, "discord command <([^\\s]+)( .+)?$>");
+        Skript.registerEvent("Discord Command", CommandRegistry.class, CommandEvent.class, "discord command <([^\\s]+)( .+)?$>")
+        .description("Custom DiSky discord command system. Arguments works like the normal skript's one and accept both optional and require arguments.",
+                "",
+                "Custom Scope Support following:",
+                "require section 'trigger': The code will be ran when the command is executed\n" +
+                        "optional entry 'description': The description of the command, only used in back-end\n" +
+                        "optional entry 'usage': The usage of the command, only used in back-end\n" +
+                        "optional entry 'roles': The needed roles ID to make the command execute\n" +
+                        "optional entry 'aliases': The possible aliases we can use instead of the default name\n" +
+                        "optional entry 'prefixes': The possible prefixes the command can have (support expressions)\n" +
+                        "optional entry 'category': The category of the command, only used in back-end\n" +
+                        "optional entry 'bots': The bots which will be able to execute the command\n" +
+                        "optional entry 'executable in': Where the command an be executed ? 'guild' or 'private' ?\n" +
+                        "optional entry 'permissions': The needed permission to execute the message\n" +
+                        "optional entry 'permission message': Message sent when the permissions required are not present")
+        .examples("discord command move <member> <voicechannel>:\n" +
+                "\tprefixes: !\n" +
+                "\ttrigger:\n" +
+                "\t\treply with mention tag of arg-2\n" +
+                "\t\tmove arg-1 to arg-2")
+        .since("3.0");
 
         EventValues.registerEventValue(CommandEvent.class, CommandObject.class, new Getter<CommandObject, CommandEvent>() {
                     @Override

@@ -50,7 +50,10 @@ public class RetrieveUser extends WaiterEffect<User> {
         String id = exprID.getSingle(e);
         if (id == null || bot == null) return;
 
-        bot.getCore().retrieveUserById(id).queue(this::restart, ex -> DiSky.exception(ex, getNode()));
+        bot.getCore().retrieveUserById(id).queue(this::restart, ex -> {
+            DiSky.exception(ex, getNode());
+            restart();
+        });
     }
 
     @Override

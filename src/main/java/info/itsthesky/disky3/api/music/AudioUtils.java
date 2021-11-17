@@ -31,10 +31,17 @@ public class AudioUtils {
     public static YoutubeAudioSourceManager YOUTUBE_MANAGER_SOURCE;
     public static final YoutubeSearchProvider YOUTUBE_MANAGER_SEARCH = new YoutubeSearchProvider();
     private static final SoundCloudAudioSourceManager SOUNDCLOUD_AUDIO_MANAGER = SoundCloudAudioSourceManager.createDefault();
-    public static Map<Long, GuildAudioManager> MUSIC_MANAGERS;
+    public static Map<String, GuildAudioManager> MUSIC_MANAGERS;
     private static final Map<Long, EffectData> GUILDS_EFFECTS = new HashMap<>();
     private final static DefaultAudioPlayerManager DEFAULT_MANAGER = new DefaultAudioPlayerManager();
     private final static LocalAudioSourceManager LOCAL_MANAGER = new LocalAudioSourceManager();
+
+    public static @Nullable AudioTrack getCurrentTrack(Guild guild) {
+        final @Nullable GuildAudioManager manager = MUSIC_MANAGERS.getOrDefault(guild.getId() + guild.getJDA().getSelfUser().getId(), null);
+        if (manager == null)
+            return null;
+        return manager.getPlayer().getPlayingTrack();
+    }
 
     public static EffectData getEffectData(Guild guild) {
         if (!GUILDS_EFFECTS.containsKey(guild.getIdLong())) {
@@ -104,12 +111,12 @@ public class AudioUtils {
     }
 
     public static synchronized GuildAudioManager getGuildAudioPlayer(Guild guild) {
-        long guildId = Long.parseLong(guild.getId());
-        GuildAudioManager musicManager = MUSIC_MANAGERS.get(guildId);
+        final String key = guild.getId().concat(guild.getJDA().getSelfUser().getId());
+        GuildAudioManager musicManager = MUSIC_MANAGERS.get(key);
 
         if (musicManager == null) {
             musicManager = new GuildAudioManager(guild, guild.getJDA());
-            MUSIC_MANAGERS.put(guildId, musicManager);
+            MUSIC_MANAGERS.put(key, musicManager);
         }
 
         guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());
