@@ -10,7 +10,7 @@ public class BotIsLoaded extends PropertyCondition<String> {
         register(
                 BotIsLoaded.class,
                 PropertyType.BE,
-                "[been] loaded",
+                "[been] loaded (in|on|from|over) discord",
                 "string"
         );
     }
