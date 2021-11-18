@@ -47,24 +47,6 @@ public class SlashFactory {
             .addEntry("name", false)
             .addEntry("value", false);
 
-    private final SectionValidator commandStructure = new SectionValidator()
-            .addEntry("description", false)
-
-            .addEntry("bots", true)
-            .addEntry("guilds", true)
-
-            .addEntry("allowed roles", true)
-            .addEntry("disallowed roles", true)
-
-            .addEntry("allowed users", true)
-            .addEntry("disallowed users", true)
-
-            .addEntry("restricted", true)
-
-            .addSection("options", true)
-
-            .addSection("trigger", false);
-
     public List<SlashArgument> currentArguments;
 
     private SlashFactory() { }
@@ -143,7 +125,7 @@ public class SlashFactory {
         }
 
         node.convertToEntries(0);
-        if (!commandStructure.validate(node)) {
+        if (!SlashRegistry.commandStructure.validate(node)) {
             return false;
         }
 

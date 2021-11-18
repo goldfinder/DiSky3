@@ -4,6 +4,7 @@ import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
+import ch.njol.skript.config.validate.SectionValidator;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -12,6 +13,8 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
+import fr.skylyxx.docsgenerator.api.OneWayScope;
+import fr.skylyxx.docsgenerator.api.ScopeField;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -23,10 +26,49 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@OneWayScope(false)
+@ScopeField("commandStructure")
 public class SlashRegistry extends SelfRegisteringSkriptEvent {
 
+    public static final SectionValidator commandStructure = new SectionValidator()
+            .addEntry("description", false)
+
+            .addEntry("bots", true)
+            .addEntry("guilds", true)
+
+            .addEntry("allowed roles", true)
+            .addEntry("disallowed roles", true)
+
+            .addEntry("allowed users", true)
+            .addEntry("disallowed users", true)
+
+            .addEntry("restricted", true)
+
+            .addSection("options", true)
+
+            .addSection("trigger", false);
+
     static {
-        Skript.registerEvent("Slash Command", SlashRegistry.class, SlashEvent.class, "slash command <([^\\s]+)( .+)?$>");
+        Skript.registerEvent("Slash Command", SlashRegistry.class, SlashEvent.class, "slash command <([^\\s]+)( .+)?$>")
+                .description("Custom slash command scope by DiSky, with a lot of possible options.",
+                        "Arguments are only slash command argument (check that type) and won't work for custom object.",
+                        "DiSky will automatically register the slash command once the script is reloaded, per guilds of bots according to:",
+                        "- If only 'bots' entry is specified, register on every bots specified",
+                        "- If only 'guilds' entry is specified, register on every guilds specified",
+                        "- If both 'bots' and 'guilds' are specified, register on every guilds specified through bots specified")
+                .examples(
+                        "slash command example <string>:\n" +
+                                "\tdescription: This command can only be executed by the specified user IDs! # REQUIRE entry! You cannot load command without description!\n" +
+                                "\trestricted: true\n" +
+                                "\tguilds: 000 # Where the slash command should be registered\n" +
+                                "\tallowed users: 000 # List your user ID here\n" +
+                                "\toptions: # REQUIRE section for argument data (called option in slash command)\n" +
+                                "\t\t1:\n" +
+                                "\t\t\tname: input # Must be in lowercase btw\n" +
+                                "\t\t\tdescription: Put anything here, it doesn't matter.\n" +
+                                "\ttrigger:\n" +
+                                "\t\treply with \"Hello %event-member%! You entered: %arg 1%\" # Simple reply"
+                );
 
         EventValues.registerEventValue(SlashEvent.class, SlashObject.class, new Getter<SlashObject, SlashEvent>() {
                     @Override

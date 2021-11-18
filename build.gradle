@@ -50,6 +50,7 @@ dependencies {
     compile 'net.objecthunter:exp4j:0.4.8'
     compile 'org.jsoup:jsoup:1.14.1'
     compile 'com.github.Steppschuh:Java-Markdown-Generator:master-SNAPSHOT'
+    implementation files('D:\\Projets InteliJ Idea\\SkriptDocsGenerator\\build\\libs\\SkriptDocsGenerator-Github.jar')
 }
 
 jar {

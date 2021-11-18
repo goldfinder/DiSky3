@@ -1,5 +1,8 @@
 package info.itsthesky.disky3.core.commands;
 
+import ch.njol.skript.config.validate.SectionValidator;
+import fr.skylyxx.docsgenerator.api.OneWayScope;
+import fr.skylyxx.docsgenerator.api.ScopeField;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -33,24 +36,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@OneWayScope(false)
+@ScopeField("commandStructure")
 public class CommandRegistry extends SelfRegisteringSkriptEvent {
+
+    public static final SectionValidator commandStructure = new SectionValidator()
+            .addEntry("usage", true)
+            .addEntry("description", true)
+            .addEntry("roles", true)
+            .addEntry("aliases", true)
+            .addEntry("prefixes", true)
+            .addEntry("category", true)
+            .addEntry("bots", true)
+            .addEntry("executable in", true)
+            .addEntry("permissions", true)
+            .addEntry("permission message", true)
+            .addSection("trigger", false);
 
     static {
         Skript.registerEvent("Discord Command", CommandRegistry.class, CommandEvent.class, "discord command <([^\\s]+)( .+)?$>")
-        .description("Custom DiSky discord command system. Arguments works like the normal skript's one and accept both optional and require arguments.",
-                "",
-                "Custom Scope Support following:",
-                "require section 'trigger': The code will be ran when the command is executed\n" +
-                        "optional entry 'description': The description of the command, only used in back-end\n" +
-                        "optional entry 'usage': The usage of the command, only used in back-end\n" +
-                        "optional entry 'roles': The needed roles ID to make the command execute\n" +
-                        "optional entry 'aliases': The possible aliases we can use instead of the default name\n" +
-                        "optional entry 'prefixes': The possible prefixes the command can have (support expressions)\n" +
-                        "optional entry 'category': The category of the command, only used in back-end\n" +
-                        "optional entry 'bots': The bots which will be able to execute the command\n" +
-                        "optional entry 'executable in': Where the command an be executed ? 'guild' or 'private' ?\n" +
-                        "optional entry 'permissions': The needed permission to execute the message\n" +
-                        "optional entry 'permission message': Message sent when the permissions required are not present")
+        .description("Custom DiSky discord command system. Arguments works like the normal skript's one and accept both optional and require arguments.")
         .examples("discord command move <member> <voicechannel>:\n" +
                 "\tprefixes: !\n" +
                 "\ttrigger:\n" +

@@ -36,21 +36,6 @@ public class CommandFactory {
     private final Pattern escape = Pattern.compile("[" + Pattern.quote("(|)<>%\\") + "]");
     private final String listPattern = "\\s*,\\s*|\\s+(and|or|, )\\s+";
 
-    private final SectionValidator commandStructure = new SectionValidator()
-            .addEntry("usage", true)
-            .addEntry("description", true)
-            .addEntry("roles", true)
-            .addEntry("aliases", true)
-            .addEntry("prefixes", true)
-            .addEntry("category", true)
-            .addEntry("bots", true)
-            .addEntry("executable in", true)
-            .addEntry("permissions", true)
-            .addEntry("permission message", true)
-            .addEntry("guild cooldown", true)
-            .addEntry("cooldown message", true)
-            .addSection("trigger", false);
-
     public HashMap<CommandData, CommandObject> commandMap = new HashMap<>();
     public static List<Argument<?>> currentArguments;
 
@@ -212,7 +197,7 @@ public class CommandFactory {
             pattern.append(']');
 
         node.convertToEntries(0);
-        if (!commandStructure.validate(node)) {
+        if (!CommandRegistry.commandStructure.validate(node)) {
             return null;
         }
 
