@@ -2,6 +2,7 @@ package info.itsthesky.disky3.core.skript.properties.channels;
 
 import ch.njol.skript.classes.Changer;
 import info.itsthesky.disky3.api.skript.action.ActionProperty;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.IPositionableChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -29,7 +30,7 @@ public class ChannelMaxUser extends ActionProperty<GuildChannel, ChannelAction, 
 
     @Override
     public void change(GuildChannel role, Number value) {
-        role.getManager().setUserLimit(value.intValue()).queue();
+        ((VoiceChannel) role).getManager().setUserLimit(value.intValue()).queue();
     }
 
     @Override

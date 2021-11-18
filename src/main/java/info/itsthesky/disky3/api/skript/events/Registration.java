@@ -10,7 +10,7 @@ import ch.njol.util.StringUtils;
 public class Registration {
 
     private String name;
-    private String desc;
+    private String[] desc;
     private String example;
     private String splitExample;
     private Class<?> clazz;
@@ -56,11 +56,11 @@ public class Registration {
         return apply();
     }
 
-    public String getDesc() {
+    public String[] getDesc() {
         return this.desc;
     }
 
-    public Registration setDesc(String s) {
+    public Registration setDesc(String... s) {
         this.desc = s;
         return apply();
     }

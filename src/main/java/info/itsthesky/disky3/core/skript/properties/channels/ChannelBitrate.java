@@ -29,7 +29,7 @@ public class ChannelBitrate extends ActionProperty<GuildChannel, ChannelAction, 
 
     @Override
     public void change(GuildChannel role, Number value) {
-        role.getManager().setBitrate(value.intValue()).queue();
+        ((AudioChannel) role).getManager().setBitrate(value.intValue()).queue();
     }
 
     @Override

@@ -5,6 +5,7 @@ import ch.njol.skript.classes.Changer;
 import info.itsthesky.disky3.api.skript.action.ActionProperty;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.AudioChannel;
+import net.dv8tion.jda.api.entities.BaseGuildMessageChannel;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.IPositionableChannel;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
@@ -31,7 +32,7 @@ public class ChannelRegion extends ActionProperty<GuildChannel, ChannelAction, R
 
     @Override
     public void change(GuildChannel role, Region value) {
-        role.getManager().setRegion(value).queue();
+        ((AudioChannel) role).getManager().setRegion(value).queue();
     }
 
     @Override

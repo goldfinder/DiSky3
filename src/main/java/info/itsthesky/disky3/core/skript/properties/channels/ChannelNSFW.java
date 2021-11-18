@@ -28,7 +28,7 @@ public class ChannelNSFW extends ActionProperty<GuildChannel, ChannelAction, Boo
 
     @Override
     public void change(GuildChannel role, Boolean value) {
-        role.getManager().setNSFW(value).queue();
+        ((BaseGuildMessageChannel) role).getManager().setNSFW(value).queue();
     }
 
     @Override

@@ -68,17 +68,23 @@ public class EffPermissions extends WaiterEffect {
         if (entity instanceof Role && channel != null) {
 
             if (isRevoke) {
-                channel.getManager().putRolePermissionOverride(
-                        ((Role) entity).getIdLong(),
-                        null,
-                        perms
-                ).queue(this::restart);
+                channel
+                        .getPermissionContainer()
+                        .getManager()
+                        .putRolePermissionOverride(
+                                ((Role) entity).getIdLong(),
+                                null,
+                                perms
+                        ).queue(this::restart);
             } else {
-                channel.getManager().putRolePermissionOverride(
-                        ((Role) entity).getIdLong(),
-                        perms,
-                        null
-                ).queue(this::restart);
+                channel
+                        .getPermissionContainer()
+                        .getManager()
+                        .putRolePermissionOverride(
+                                ((Role) entity).getIdLong(),
+                                perms,
+                                null
+                        ).queue(this::restart);
             }
 
         } else if (entity instanceof Role && channel == null) {
@@ -98,17 +104,23 @@ public class EffPermissions extends WaiterEffect {
             Member member = (Member) entity;
 
             if (isRevoke) {
-                channel.getManager().putMemberPermissionOverride(
-                        member.getIdLong(),
-                        null,
-                        perms
-                ).queue(this::restart);
+                channel
+                        .getPermissionContainer()
+                        .getManager()
+                        .putMemberPermissionOverride(
+                                member.getIdLong(),
+                                null,
+                                perms
+                        ).queue(this::restart);
             } else {
-                channel.getManager().putMemberPermissionOverride(
-                        member.getIdLong(),
-                        perms,
-                        null
-                ).queue(this::restart);
+                channel
+                        .getPermissionContainer()
+                        .getManager()
+                        .putMemberPermissionOverride(
+                                member.getIdLong(),
+                                perms,
+                                null
+                        ).queue(this::restart);
             }
 
         }

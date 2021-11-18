@@ -31,7 +31,7 @@ public class ChannelParent extends ActionProperty<GuildChannel, ChannelAction, C
 
     @Override
     public void change(GuildChannel role, Category value) {
-        role.getManager().setParent(value).queue();
+        ((ICategorizableChannel) role).getManager().setParent(value).queue();
     }
 
     @Override

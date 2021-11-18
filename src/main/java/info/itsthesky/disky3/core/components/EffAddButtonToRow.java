@@ -2,6 +2,7 @@ package info.itsthesky.disky3.core.components;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.util.coll.CollectionUtils;
 import info.itsthesky.disky3.api.skript.MultiplyPropertyExpression;
@@ -12,7 +13,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Name("Buttons of Row")
-@Description("Represent every buttons that a row can have, minimum one and maximum five. You can only add or set buttons inside the row. To clear it, just set a variable to another button row.")
+@Description({"Represent every buttons that a row can have, minimum one and maximum five. ",
+        "You can only add or set buttons inside the row.",
+        "To clear it, just set a variable to another button row."
+})
 public class EffAddButtonToRow extends MultiplyPropertyExpression<ButtonRow, Button> {
 
     static {

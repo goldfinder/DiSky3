@@ -28,7 +28,7 @@ public class ChannelPosition extends ActionProperty<GuildChannel, ChannelAction,
 
     @Override
     public void change(GuildChannel role, Number value) {
-        role.getManager().setPosition(value.intValue()).queue();
+        ((IPositionableChannel) role).getManager().setPosition(value.intValue()).queue();
     }
 
     @Override
