@@ -33,26 +33,24 @@ import java.util.stream.Collectors;
 public class ParsedString extends SimpleExpression<Object> {
 
     static {
-        final List<String> infos = Types.DISKY_TYPES
-                .stream()
-                .map(DiSkyType::getClassInfo)
-                .filter(info -> info.getParser() != null && (
-                        info.getParser().canParse(ParseContext.COMMAND) ||
-                                info.getParser().canParse(ParseContext.COMMAND) ||
-                                info.getParser().canParse(ParseContext.DEFAULT) ||
-                                info.getParser().canParse(ParseContext.SCRIPT) ||
-                                info.getParser().canParse(ParseContext.CONFIG) ||
-                                info.getParser().canParse(ParseContext.EVENT)
-
-                ))
-                .map(ClassInfo::getCodeName)
-                .filter(codeName -> !codeName.equalsIgnoreCase("member"))
-                .collect(Collectors.toList());
         Skript.registerExpression(
                 ParsedString.class,
                 Object.class,
                 ExpressionType.SIMPLE,
-                "%strings% parsed as ("+ StringUtils.join(infos.toArray(new String[0]), "|") +")",
+                "%strings% parsed as ("+ StringUtils.join(Types.DISKY_TYPES
+                        .stream()
+                        .map(DiSkyType::getClassInfo)
+                        .filter(info -> info.getParser() != null && (
+                                info.getParser().canParse(ParseContext.COMMAND) ||
+                                        info.getParser().canParse(ParseContext.COMMAND) ||
+                                        info.getParser().canParse(ParseContext.DEFAULT) ||
+                                        info.getParser().canParse(ParseContext.SCRIPT) ||
+                                        info.getParser().canParse(ParseContext.CONFIG) ||
+                                        info.getParser().canParse(ParseContext.EVENT)
+
+                        ))
+                        .map(ClassInfo::getCodeName)
+                        .filter(codeName -> !codeName.equalsIgnoreCase("member")).toArray(String[]::new), "|") +")",
                 "%strings% parsed as member in [the] [guild] %guild%"
         );
     }
@@ -71,7 +69,7 @@ public class ParsedString extends SimpleExpression<Object> {
 
         for (String s : input.getArray(e))
         {
-            if (isMember) {
+            if (!isMember) {
                 Object entity;
                 entity = classInfo.getParser().parse(s, ParseContext.DEFAULT);
                 if (entity != null) {
@@ -126,9 +124,11 @@ public class ParsedString extends SimpleExpression<Object> {
             return false;
         }
 
-        if (classInfo.getParser() == null || !classInfo.getParser().canParse(ParseContext.SCRIPT)) {
-            Skript.error("Cannot parse class info type: " + classInfoInput);
-            return false;
+        if (!isMember) {
+            if (classInfo.getParser() == null || !classInfo.getParser().canParse(ParseContext.SCRIPT)) {
+                Skript.error("Cannot parse class info type: " + classInfoInput);
+                return false;
+            }
         }
 
         return true;
