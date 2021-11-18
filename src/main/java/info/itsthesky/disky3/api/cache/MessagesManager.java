@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.MissingAccessException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +89,7 @@ public class MessagesManager extends ListenerAdapter {
                                 previousMessages.put(message.getId(), new CachedMessage(message));
                             }
                         });
-                    } catch (MissingAccessException ex) {
+                    } catch (InsufficientPermissionException ex) {
                         DiSky.getInstance().getLogger().warning("DiSky cannot cache message for the message edit event since the bot doesn't have the " + ex.getPermission().getName() + " permission in "+ guild.getName() +"!");
                     }
                 }
