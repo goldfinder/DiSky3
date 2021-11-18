@@ -39,7 +39,7 @@ public class VoiceLeave extends DiSkyEvent<GuildVoiceLeaveEvent> {
         EventValues.registerEventValue(EvtVoiceLeave.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceLeave>() {
             @Override
             public VoiceChannel get(@NotNull EvtVoiceLeave event) {
-                return (VoiceChannel) event.getJDAEvent().getNewValue();
+                return (VoiceChannel) event.getJDAEvent().getOldValue();
             }
         }, 0);
 

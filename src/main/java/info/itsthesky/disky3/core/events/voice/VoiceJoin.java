@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
 
     static {
-        DiSkyEvent.register("Voice Channel Leave", VoiceJoin.class, EvtVoiceJoin.class,
+        DiSkyEvent.register("Voice Channel Join", VoiceJoin.class, EvtVoiceJoin.class,
                 "[(user|member)] voice [channel] join")
                 .setName("Voice Channel Join")
                 .setDesc("Fired when someone joins in a voice channel.")
@@ -37,7 +37,7 @@ public class VoiceJoin extends DiSkyEvent<GuildVoiceJoinEvent> {
         EventValues.registerEventValue(EvtVoiceJoin.class, VoiceChannel.class, new Getter<VoiceChannel, EvtVoiceJoin>() {
             @Override
             public VoiceChannel get(@NotNull EvtVoiceJoin event) {
-                return (VoiceChannel) event.getJDAEvent().getChannelLeft();
+                return (VoiceChannel) event.getJDAEvent().getOldValue();
             }
         }, 0);
 
