@@ -23,11 +23,11 @@ public class PrivateReactionAdd extends DiSkyEvent<MessageReactionAddEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", PrivateReactionAdd.class, EvtPrivateReactionAdd.class,
+        DiSkyEvent.register("Private Reaction Add", PrivateReactionAdd.class, EvtPrivateReactionAdd.class,
                 "private reaction add[ed]")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Private Reaction Add")
+                .setDesc("Called when an reaction is added through an private channel.")
+                .setExample("on private reaction add:");
 
        EventValues.registerEventValue(EvtPrivateReactionAdd.class, MessageReaction.class, new Getter<MessageReaction, EvtPrivateReactionAdd>() {
             @Override
