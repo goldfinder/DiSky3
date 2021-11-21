@@ -4,6 +4,7 @@ import ch.njol.skript.classes.Changer;
 import ch.njol.skript.util.*;
 import ch.njol.skript.util.Date;
 import info.itsthesky.disky3.api.emojis.updated.Emojis;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -33,6 +34,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -61,6 +63,37 @@ public final class Utils {
 
     public static boolean areChangerMode(Changer.ChangeMode mode) {
         return mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.SET;
+    }
+
+    public static Icon parseIcon(String value, NodeInformation info) {
+        final InputStream iconStream;
+        if (Utils.isURL(value)) {
+            try {
+                iconStream = new URL(value).openStream();
+            } catch (IOException ioException) {
+                DiSky.exception(ioException, info);
+                return null;
+            }
+        } else {
+            final File iconFile = new File(value);
+            if (iconFile == null || !iconFile.exists())
+                return null;
+            try {
+                iconStream = new FileInputStream(iconFile);
+            } catch (FileNotFoundException ex) {
+                DiSky.exception(ex, info);
+                return null;
+            }
+        }
+
+        final Icon icon;
+        try {
+            icon = Icon.from(iconStream, Icon.IconType.PNG);
+        } catch (IOException ioException) {
+            DiSky.exception(ioException, info);
+            return null;
+        }
+        return icon;
     }
 
     public static String getName(Object name) {

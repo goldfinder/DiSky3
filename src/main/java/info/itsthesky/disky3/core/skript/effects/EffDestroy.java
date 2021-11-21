@@ -7,7 +7,6 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.api.Configuration;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
@@ -32,7 +31,7 @@ public class EffDestroy extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffDestroy.class,
-                "destroy [the] [discord] [entity] %messages/channels/roles/categories/threads/guild/invites% [(with|using) [bot] %-bot%]"
+                "destroy [the] [discord] [entity] %messages/channels/roles/categories/threads/guilds/emotes/invites% [(with|using) [bot] %-bot%]"
         );
     }
 
@@ -88,6 +87,8 @@ public class EffDestroy extends WaiterEffect {
                 deleteQueue = ((ThreadChannel) entity).delete();
             } else if (entity instanceof Category) {
                 deleteQueue = ((Category) entity).delete();
+            } else if (entity instanceof info.itsthesky.disky3.api.emojis.Emote && ((info.itsthesky.disky3.api.emojis.Emote) entity).isEmote()) {
+                deleteQueue = ((info.itsthesky.disky3.api.emojis.Emote) entity).getEmote().delete();
             } else {
                 continue;
             }
