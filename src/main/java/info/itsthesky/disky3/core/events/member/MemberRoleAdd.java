@@ -20,7 +20,6 @@ public class MemberRoleAdd extends DiSkyEvent<GuildMemberRoleAddEvent> {
                 .setDesc("Fired when someone add a role to another member. It's a log event, so use event-author to see who made the action.")
                 .setExample("on member role add:");
 
-
        EventValues.registerEventValue(EvtMemberRoleAdd.class, Role[].class, new Getter<Role[], EvtMemberRoleAdd>() {
             @Override
             public Role[] get(@NotNull EvtMemberRoleAdd event) {

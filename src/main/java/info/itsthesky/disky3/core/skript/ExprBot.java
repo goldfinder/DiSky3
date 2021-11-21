@@ -17,9 +17,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 @Name("Bot Named")
-@Description("Get a bot object from its name.")
+@Description("Get a bot object from its name. If it was not loaded, DiSky will throw a console exception and will return null.")
 @Examples("bot named \"hello\"")
-@Since("3.0")
 public class ExprBot extends SimpleExpression<Bot> {
 
 	static {

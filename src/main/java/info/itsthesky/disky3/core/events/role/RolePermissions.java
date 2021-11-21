@@ -21,7 +21,7 @@ public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
                 .setDesc("Fired when the permission of a role changes.")
                 .setExample("on role permissions change:");
 
-       EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
+        EventValues.registerEventValue(EvtRolePermissions.class, Permission[].class, new Getter<Permission[], EvtRolePermissions>() {
             @Override
             public Permission[] get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getOldPermissions().toArray(new Permission[0]);
@@ -42,21 +42,21 @@ public class RolePermissions extends DiSkyEvent<RoleUpdatePermissionsEvent> {
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtRolePermissions.class, Guild.class, new Getter<Guild, EvtRolePermissions>() {
+        EventValues.registerEventValue(EvtRolePermissions.class, Guild.class, new Getter<Guild, EvtRolePermissions>() {
             @Override
             public Guild get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getGuild();
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtRolePermissions.class, Role.class, new Getter<Role, EvtRolePermissions>() {
+        EventValues.registerEventValue(EvtRolePermissions.class, Role.class, new Getter<Role, EvtRolePermissions>() {
             @Override
             public Role get(@NotNull EvtRolePermissions event) {
                 return event.getJDAEvent().getRole();
             }
         }, 0);
 
-       EventValues.registerEventValue(EvtRolePermissions.class, Bot.class, new Getter<Bot, EvtRolePermissions>() {
+        EventValues.registerEventValue(EvtRolePermissions.class, Bot.class, new Getter<Bot, EvtRolePermissions>() {
             @Override
             public Bot get(@NotNull EvtRolePermissions event) {
                 return BotManager.searchFromJDA(event.getJDAEvent().getJDA());

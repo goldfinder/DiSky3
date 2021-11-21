@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript.properties.thread;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -15,6 +18,11 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Thread Name")
+@Description({"Return the name of this thread.",
+"This is a property that can be set."})
+@Examples({"set {_name} to thread name of event-thread",
+        "set thread name of thread with id \"000\" to \"Hello World\""})
 public class ThreadName extends ChangeablePropertyExpression<ThreadChannel, String> {
 
     static {

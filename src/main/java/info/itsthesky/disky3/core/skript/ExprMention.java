@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -14,6 +17,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
+@Name("Mention Tag")
+@Description({"Get the formatted mention tag of an entity, where the Discord's client will redirect the user or do special actions on click."})
+@Examples({"mention tag of event-user",
+"mention tag of channel with id \"000\""})
 public class ExprMention extends SimpleExpression<String> {
 
     static {

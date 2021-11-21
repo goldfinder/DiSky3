@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -13,6 +16,15 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Discord ID")
+@Description({
+        "Get the discord ID related to a discord object, such as user, emoji, channel and more.",
+        "The returned ID will always be a long value (like \"0326478972\"), except with Emoji where the ID returned is the emoji's name (like \"joy\")."
+})
+@Examples({"" +
+        "discord id of event-user",
+        "discord id of reaction \"joy\" # Will return 'joy' xD"
+})
 public class ExprID extends SimpleExpression<String> {
 
     static {

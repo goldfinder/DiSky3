@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.commands.values;
 
+import ch.njol.skript.doc.Examples;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Name("Used Prefix")
 @Description("Return the used prefix in a discord command trigger section.")
+@Examples("set {_p} to the used prefix")
 public class UsedPrefix extends SimpleExpression<String> {
 
     static {

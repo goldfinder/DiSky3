@@ -31,21 +31,8 @@ public class ExprName extends SimpleExpression<String> {
     @Override
     protected String @NotNull [] get(@NotNull Event e) {
         Object name = Utils.verifyVar(e, exprEntity, null);
-        try {
-            if (name instanceof Member)
-                name = ((Member) name).getUser();
-            String n = ReflectionUtils.invokeMethodEx(
-                    name.getClass(),
-                    "getName",
-                    name
-            );
-            if (n == null)
-                return new String[0];
-            return new String[] {n};
-        } catch (Exception ex) {
-            Skript.warning("Cannot get the discord name of a non-discord entity ("+name.getClass().toString()+")!");
-            return new String[0];
-        }
+        final String n = Utils.getName(name);
+        return n == null ? new String[0] : new String[] {n};
     }
 
     @Override

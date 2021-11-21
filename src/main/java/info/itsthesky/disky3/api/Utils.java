@@ -58,10 +58,36 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static String getName(Object name) {
+        try {
+            if (name instanceof Member)
+                name = ((Member) name).getUser();
+            String n = ReflectionUtils.invokeMethodEx(
+                    name.getClass(),
+                    "getName",
+                    name
+            );
+            if (n == null)
+                return "null";
+            return n;
+        } catch (Exception ex) {
+            Skript.warning("Cannot get the discord name of a non-discord entity ("+name.getClass().toString()+")!");
+            return "null";
+        }
+    }
+
     public static String join(final @Nullable Object[] strings, final String delimiter) {
         if (strings == null)
             return "";
         return join(strings, delimiter, 0, strings.length);
+    }
+
+    public static boolean isAnyNull(Object ... objects) {
+        for (Object o : objects) {
+            if (o == null)
+                return true;
+        }
+        return false;
     }
 
     public static String join(final @Nullable Object[] strings, final String delimiter, final int start, final int end) {

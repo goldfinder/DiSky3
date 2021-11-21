@@ -21,7 +21,7 @@ public abstract class BotTrackEvent extends SkriptEvent {
 
     @Override
     public boolean check(@NotNull Event e) {
-        return ((TrackEvent) e).getState().equals(validState()) && bot.equalsIgnoreCase(BotManager.searchFromJDA(((TrackEvent) e).getJDA()).getName());
+        return ((TrackEvent) e).getState().equals(validState()) && (bot == null || bot.equalsIgnoreCase(BotManager.searchFromJDA(((TrackEvent) e).getJDA()).getName()));
     }
 
 }

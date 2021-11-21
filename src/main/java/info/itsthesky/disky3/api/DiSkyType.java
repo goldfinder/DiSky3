@@ -98,7 +98,7 @@ public class DiSkyType<T> {
                 clazz,
                 typeName,
                 user,
-                entity -> ReflectionUtils.invokeMethod(entity.getClass(), "getName", entity),
+                Utils::getName,
                 parser,
                 false
         );
@@ -109,7 +109,7 @@ public class DiSkyType<T> {
                 clazz,
                 typeName,
                 user,
-                entity -> ReflectionUtils.invokeMethod(entity.getClass(), "getName", entity),
+                Utils::getName,
                 null,
                 false
         );

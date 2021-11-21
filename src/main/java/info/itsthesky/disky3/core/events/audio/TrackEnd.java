@@ -27,11 +27,6 @@ public class TrackEnd extends BotTrackEvent {
     }
 
     @Override
-    public boolean check(@NotNull Event event) {
-        return ((TrackEvent) event).getState() == TrackEvent.TrackState.END;
-    }
-
-    @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
         return "on track end";
     }

@@ -21,14 +21,10 @@ import static info.itsthesky.disky3.api.StaticData.LAST_GUILD_COMMAND;
 public class CommandListener extends ListenerAdapter {
     public static MessageReceivedEvent lastCommandEvent;
 
-
-    @Override
-    public void onMessageReceived(MessageReceivedEvent e) {
+    public static void exe(MessageReceivedEvent e, String content) {
         if (e.getAuthor().isBot()) {
             return;
         }
-
-        String content = e.getMessage().getContentRaw();
 
         for (CommandData storage : CommandFactory.getInstance().getCommands()) {
             CommandObject command = storage.getCommand();
@@ -110,10 +106,15 @@ public class CommandListener extends ListenerAdapter {
         }
     }
 
+    @Override
+    public void onMessageReceived(MessageReceivedEvent e) {
+        exe(e, e.getMessage().getContentRaw());
+    }
+
     /**
      * Checks if a string is null or the localized string form of null in Skript (usually <none>)
      */
-    public boolean nonNull(String s) {
+    public static boolean nonNull(String s) {
         if (s == null) {
             return false;
         }

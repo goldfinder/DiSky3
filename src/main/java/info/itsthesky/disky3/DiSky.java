@@ -93,7 +93,7 @@ public final class DiSky extends JavaPlugin {
             case LOWER:
                 warn("You are using an outdated DiSky version!");
                 warn("Latest is " + updater.getLatest() + ", but are are on " + getDescription().getVersion() + "!");
-                warn("Update it now: https://github.com/SkyCraft78/DiSky3/releases/tag/" + updater.getLatest());
+                warn("Update it now: " + Constants.GITHUB_LATEST);
                 break;
             case EQUAL:
                 success("You are on the latest DiSky version! Well done!");
@@ -149,7 +149,7 @@ public final class DiSky extends JavaPlugin {
         log("PayPal Mail: itsthesky78@gmail.com");
         ln();
         success("DiSky seems to be loaded correctly!");
-        success("If you found any bugs or have any suggestion, feel free to join our discord: https://discord.gg/whWuXwaVwM");
+        success("If you found any bugs or have any suggestion, feel free to join our discord: " + Constants.DISCORD_GUILD);
         ln();
     }
 

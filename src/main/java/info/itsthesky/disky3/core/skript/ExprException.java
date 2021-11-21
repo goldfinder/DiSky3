@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -12,6 +15,10 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Last Exception")
+@Description({"The message of the last exception occurred in an exception section.",
+"Some effect, like ban, unban, etc... can be converted into section to catch error, and make a more user-friendly answer."})
+@Examples("the last disky exception")
 public class ExprException extends SimpleExpression<String> {
 
     static {

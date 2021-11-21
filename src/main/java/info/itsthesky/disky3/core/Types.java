@@ -8,9 +8,11 @@ import ch.njol.skript.registrations.Comparators;
 import ch.njol.skript.registrations.Converters;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import fr.skylyxx.docsgenerator.utils.PatternGenerator;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.DiSkyType;
+import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -55,6 +57,8 @@ public class Types {
 			Converters.registerConverter(Bot.class, User.class, bot -> bot.getCore().getSelfUser());
 			Converters.registerConverter(Guild.Ban.class, User.class, Guild.Ban::getUser);
 			Converters.registerConverter(Guild.Ban.class, String.class, Guild.Ban::getReason);
+			Converters.registerConverter(User.class, String.class, User::getName);
+			Converters.registerConverter(SelfUser.class, String.class, SelfUser::getName);
 
 		}
 
@@ -101,7 +105,7 @@ public class Types {
 	}
 
 	static {
-
+		
 		/*
 		 * Channels types
 		 */

@@ -1,5 +1,8 @@
 package info.itsthesky.disky3.core.skript;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -13,6 +16,10 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Is Event Type")
+@Description("Check either the current event came from private message or from guild channels.")
+@Examples({"event is from a private channel",
+"current message is from guild"})
 public class CondIsEventType extends Condition {
 
     static {

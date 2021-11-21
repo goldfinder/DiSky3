@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript.properties.thread;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
@@ -14,13 +17,20 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Thread Members")
+@Description({"Get back every members that have currently joined this thread.",
+        "It also include the bot itself AND the Thread's owner!",
+        "This is a property, therefore you can add and remove members from this."})
+@Examples({"set {_m::*} to thread members of event-thread",
+        "add event-member to thread members of event-thread",
+        "remove event-member from thread members of thread with id \"000\""})
 public class ThreadMembers extends MultiplyPropertyExpression<ThreadChannel, Member> {
 
     static {
         register(
                 ThreadMembers.class,
                 Member.class,
-                "[discord] [thread] members",
+                "[discord] thread members",
                 "thread"
         );
     }

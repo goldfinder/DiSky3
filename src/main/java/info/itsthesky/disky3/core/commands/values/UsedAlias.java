@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.commands.values;
 
+import ch.njol.skript.doc.Examples;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -16,7 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Name("Used Alias")
-@Description("Return the used alias in a discord command trigger section.")
+@Description({"Return the used alias in a discord command trigger section.",
+        "It can only be used here, and will throw an error if not."})
+@Examples("set {_alias} to the used alias")
 public class UsedAlias extends SimpleExpression<String> {
 
     static {

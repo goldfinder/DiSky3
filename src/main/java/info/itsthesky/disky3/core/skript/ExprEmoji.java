@@ -1,11 +1,15 @@
 package info.itsthesky.disky3.core.skript;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.Constants;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
@@ -22,6 +26,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+@Name("Emoji / Emote")
+@Description({
+        "Get an emoji or an emote from its name, ID or unicode.",
+        "- An emoji is discord-side only, can be used everywhere, and don't have any attached guild.",
+        "- An emote is guild-side only, have a custom long ID and are attached to a guild.",
+        "It the specified reaction doesn't exist, DiSky will simply return null and say it in console.",
+        "We highly recommend the specification of the guild when retrieving an emote, to avoid conflicts with other that potentially have the same name."
+})
+@Examples({
+        "reaction \"joy\"",
+        "emoji \"sparkles\"",
+        "emote \"disky\" in event-guild",
+})
 public class ExprEmoji extends SimpleExpression<Emote> {
     static {
         Skript.registerExpression(ExprEmoji.class, Emote.class, ExpressionType.SIMPLE,
