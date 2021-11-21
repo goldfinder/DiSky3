@@ -7,17 +7,19 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.util.Timespan;
-import ch.njol.util.coll.CollectionUtils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import info.itsthesky.disky3.api.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 @Name("Track Position")
-@Description("Return the position of a specific track")
-@Examples("set {_position} to position of last played track.")
-@Since("1.6-pre2")
+@Description({"Return the position of a specific track",
+        "This property can eb changed to move the current position of the track.",
+        "It will only accept timespan (e.g. '1 second', '25 minutes', etc...)!"})
+@Examples({"set {_position} to track position of track event-bot is playing in event-guild",
+        "add 10 second to track position of track event-bot is playing in event-guild"})
 public class ExprTrackPosition extends SimplePropertyExpression<AudioTrack, Timespan> {
 
     static {
@@ -43,14 +45,30 @@ public class ExprTrackPosition extends SimplePropertyExpression<AudioTrack, Time
         return "position";
     }
 
-    @Nullable
     @Override
-    public Class<?>[] acceptChange(Changer.@NotNull ChangeMode mode) {
-        return CollectionUtils.array();
+    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
+        final AudioTrack track = getExpr().getSingle(e);
+        if (track == null || delta == null || delta.length == 0 || delta[0] == null)
+            return;
+        final Timespan time = (Timespan) delta[0];
+
+        switch (mode) {
+            case SET:
+                track.setPosition(time.getMilliSeconds());
+                return;
+            case ADD:
+                track.setPosition(track.getPosition() + time.getMilliSeconds());
+                return;
+            case REMOVE:
+                track.setPosition(track.getPosition() - time.getMilliSeconds());
+                return;
+        }
     }
 
     @Override
-    public void change(@NotNull Event e, @Nullable Object[] delta, Changer.@NotNull ChangeMode mode) {
-
+    public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
+        if (Utils.areChangerMode(mode))
+            return new Class[] {Timespan.class};
+        return new Class[0];
     }
 }

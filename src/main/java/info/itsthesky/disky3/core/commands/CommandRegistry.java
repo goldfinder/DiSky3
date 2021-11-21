@@ -25,8 +25,6 @@ import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.messages.UpdatingMessage;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
-import info.itsthesky.disky3.api.skript.docs.CustomScope;
-import info.itsthesky.disky3.api.skript.docs.ScopeNode;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import org.bukkit.event.Event;

@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.util.*;
 import ch.njol.skript.util.Date;
 import info.itsthesky.disky3.api.emojis.updated.Emojis;
@@ -56,6 +57,10 @@ public final class Utils {
 
     public static <T> T verifyVar(@NotNull Event e, @Nullable Expression<T> expression, T defaultValue) {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
+    }
+
+    public static boolean areChangerMode(Changer.ChangeMode mode) {
+        return mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.SET;
     }
 
     public static String getName(Object name) {
