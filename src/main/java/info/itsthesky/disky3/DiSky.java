@@ -3,9 +3,9 @@ package info.itsthesky.disky3;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.config.Node;
-import ch.njol.skript.expressions.ExprLoopValue;
 import ch.njol.skript.util.Version;
 import de.leonhard.storage.Json;
+import de.leonhard.storage.util.FileUtils;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
@@ -20,7 +20,6 @@ import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
@@ -110,8 +109,8 @@ public final class DiSky extends JavaPlugin {
             log("Saving emoji's file ...");
             try {
                 InputStream stream = getResource("emojis.json");
-                FileUtils.copyInputStreamToFile(stream, new File(getDataFolder(), "emojis.json"));
-            } catch (IOException e) {
+                FileUtils.writeToFile(new File(getDataFolder(), "emojis.json"), stream);
+            } catch (RuntimeException e) {
                 e.printStackTrace();
                 error("An error occurred while saving emojis file! Emojis will not be available.");
             }
@@ -128,8 +127,8 @@ public final class DiSky extends JavaPlugin {
 
         try {
             InputStream stream = getResource("migrations/disky2to3.yml");
-            FileUtils.copyInputStreamToFile(stream, new File(getDataFolder(), "migrations/disky2to3.yml"));
-        } catch (IOException e) {
+            FileUtils.writeToFile(new File(getDataFolder(), "migrations/disky2to3.yml"), stream);
+        } catch (RuntimeException e) {
             e.printStackTrace();
             error("An error occurred while saving migration files.");
         }
