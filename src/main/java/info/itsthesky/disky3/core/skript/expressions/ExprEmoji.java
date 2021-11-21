@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.expressions;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -9,8 +9,6 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.Constants;
-import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.Emote;
 import info.itsthesky.disky3.api.emojis.updated.Emojis;

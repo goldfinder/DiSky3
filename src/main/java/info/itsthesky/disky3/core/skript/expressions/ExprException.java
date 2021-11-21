@@ -1,38 +1,38 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.api.ReflectionUtils;
-import info.itsthesky.disky3.api.Utils;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.internal.entities.TextChannelImpl;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ExprName extends SimpleExpression<String> {
+@Name("Last Exception")
+@Description({"The message of the last exception occurred in an exception section.",
+"Some effect, like ban, unban, etc... can be converted into section to catch error, and make a more user-friendly answer."})
+@Examples("the last disky exception")
+public class ExprException extends SimpleExpression<String> {
 
     static {
         Skript.registerExpression(
-                ExprName.class,
+                ExprException.class,
                 String.class,
                 ExpressionType.SIMPLE,
-               "[the] discord name of [entity] %user/member%"
+                "[the] [last] [(discord|disky)] (error|exception)"
         );
     }
 
-    private Expression<Object> exprEntity;
+    public static Throwable lastException;
 
     @Override
     protected String @NotNull [] get(@NotNull Event e) {
-        Object name = Utils.verifyVar(e, exprEntity, null);
-        final String n = Utils.getName(name);
-        return n == null ? new String[0] : new String[] {n};
+        return lastException == null ? new String[0] : new String[] {lastException.getMessage()};
     }
 
     @Override
@@ -47,12 +47,11 @@ public class ExprName extends SimpleExpression<String> {
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "discord name of " + exprEntity.toString(e, debug);
+        return "the last exception";
     }
 
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        exprEntity = (Expression<Object>) exprs[0];
         return true;
     }
 }

@@ -1,9 +1,8 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.expressions;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;

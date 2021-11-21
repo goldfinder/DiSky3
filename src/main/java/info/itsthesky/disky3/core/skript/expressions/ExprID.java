@@ -1,4 +1,4 @@
-package info.itsthesky.disky3.core.skript;
+package info.itsthesky.disky3.core.skript.expressions;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -10,7 +10,6 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import info.itsthesky.disky3.api.Utils;
-import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;

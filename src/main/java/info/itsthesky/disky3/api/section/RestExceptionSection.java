@@ -1,17 +1,14 @@
 package info.itsthesky.disky3.api.section;
 
-import ch.njol.skript.lang.TriggerItem;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.core.skript.ExprException;
+import info.itsthesky.disky3.core.skript.expressions.ExprException;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 

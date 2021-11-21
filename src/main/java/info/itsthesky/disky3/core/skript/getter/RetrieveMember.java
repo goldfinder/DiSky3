@@ -61,8 +61,6 @@ public class RetrieveMember extends WaiterEffect<Member> {
         if (id == null || bot == null || guild == null) return;
 
         bot.getCore().getGuildById(guild.getId()).retrieveMemberById(id).queue(this::restart, ex -> {
-            if (ex instanceof ErrorResponseException && ((ErrorResponseException) ex).getErrorResponse().equals(ErrorResponse.UNKNOWN_MEMBER))
-                return;
             DiSky.exception(ex, getNode());
             restart();
         });
