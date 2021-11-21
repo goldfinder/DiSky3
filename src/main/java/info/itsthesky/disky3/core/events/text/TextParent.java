@@ -23,7 +23,7 @@ public class TextParent extends DiSkyEvent<ChannelUpdateParentEvent> {
     static {
         DiSkyEvent.register("Text Parent Change", TextParent.class, EvtTextParent.class,
                 "[discord] text [channel] parent (update|change)")
-                .setName("Text Channel gtParent Change")
+                .setName("Text Channel Parent Change")
                 .setDesc("Fired when the parent of a text channel changes.")
                 .setExample("on text parent change:");
 

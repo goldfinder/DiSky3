@@ -21,11 +21,11 @@ public class TextName extends DiSkyEvent<ChannelUpdateNameEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextName.class, EvtTextName.class,
+        DiSkyEvent.register("Text Channel Name Change", TextName.class, EvtTextName.class,
                 "[discord] text [channel] name (update|change)")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+                .setName("Text Channel Name Change")
+                .setDesc("Fired when the name of a text channel is changed.")
+                .setExample("on text channel name change:");
 
 
        EventValues.registerEventValue(EvtTextName.class, TextChannel.class, new Getter<TextChannel, EvtTextName>() {

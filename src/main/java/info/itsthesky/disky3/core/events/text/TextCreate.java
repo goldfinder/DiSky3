@@ -21,11 +21,11 @@ public class TextCreate extends DiSkyEvent<ChannelCreateEvent> {
     }
 
     static {
-        DiSkyEvent.register("Inner Event Name", TextCreate.class, EvtTextCreate.class,
-                "text [channel] create")
-                .setName("Docs Event Name")
-                .setDesc("Event description")
-                .setExample("Event Example");
+        DiSkyEvent.register("Text Channel Create", TextCreate.class, EvtTextCreate.class,
+                "[discord] text [channel] create")
+                .setName("Text Channel Create")
+                .setDesc("Fired when a text channel is created.")
+                .setExample("on text channel create:");
 
 
        EventValues.registerEventValue(EvtTextCreate.class, Guild.class, new Getter<Guild, EvtTextCreate>() {

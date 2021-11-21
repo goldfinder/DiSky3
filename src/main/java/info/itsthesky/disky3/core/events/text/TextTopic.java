@@ -25,7 +25,7 @@ public class TextTopic extends DiSkyEvent<ChannelUpdateTopicEvent> {
                 "[discord] text [channel] topic (update|change)")
                 .setName("Text Channel Topic Change")
                 .setDesc("Fired when the topic of a text channel changes.")
-                .setExample("on text topic change:");
+                .setExample("on text channel topic change:");
 
 
        EventValues.registerEventValue(EvtTextTopic.class, String.class, new Getter<String, EvtTextTopic>() {

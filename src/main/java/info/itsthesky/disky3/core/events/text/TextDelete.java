@@ -22,7 +22,7 @@ public class TextDelete extends DiSkyEvent<ChannelDeleteEvent> {
 
     static {
         DiSkyEvent.register("Text Channel Delete", TextDelete.class, EvtTextDelete.class,
-                "text [channel] delete")
+                "[discord] text [channel] delete")
                 .setName("Text Channel Delete")
                 .setDesc("Fired when a text channel is deleted")
                 .setExample("on text channel delete:");
