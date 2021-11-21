@@ -10,6 +10,8 @@ public class EffectData {
     private double depth;
     private double pitch;
     private double frequency;
+    private double rotation;
+    private float mono;
 
     public EffectData(Guild guild) {
         this.guildID = guild.getIdLong();
@@ -17,6 +19,8 @@ public class EffectData {
         this.speed = 1.0;
         this.pitch = 1.0;
         this.frequency = 0.001;
+        this.mono = 1.0F;
+        this.rotation = 1;
     }
 
     public Guild getGuild() {
@@ -83,5 +87,31 @@ public class EffectData {
     }
     public void setFrequency(double frequency) {
         this.frequency = frequency;
+    }
+
+    public double getMono() {
+        return mono;
+    }
+    public void addMono(float mono) {
+        this.mono = this.mono + mono;
+    }
+    public void removeMono(float mono) {
+        this.mono = this.mono - mono;
+    }
+    public void setMono(float mono) {
+        this.mono = mono;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+    public void addRotation(double rotation) {
+        this.rotation = this.rotation + rotation;
+    }
+    public void removeRotation(double rotation) {
+        this.rotation = this.rotation - rotation;
+    }
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 }
