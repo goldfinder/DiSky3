@@ -55,7 +55,7 @@ public class EffDeafenMember extends WaiterEffect {
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
         if (exprBot == null)
         {
-            Skript.error("Unable to get the bot in a ban effect.");
+            Skript.error("Unable to get the bot in a deafen member effect.");
             return false;
         }
 

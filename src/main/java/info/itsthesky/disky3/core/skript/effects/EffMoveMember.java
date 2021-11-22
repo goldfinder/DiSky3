@@ -76,7 +76,7 @@ public class EffMoveMember extends WaiterEffect {
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
         if (exprBot == null)
         {
-            Skript.error("Unable to get the bot in a ban effect.");
+            Skript.error("Unable to get the bot in a move member effect.");
             return false;
         }
 

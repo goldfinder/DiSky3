@@ -25,8 +25,8 @@ import java.util.Arrays;
 @Name("Defer Interaction")
 @Description({"Only usable in interaction event, currently button click & dropdown update event!",
 "\nThis will force the interaction to be acknowledge, sending a success message to Discord.",
-"\nKeep in mind replying in an interaction event will automatically deferring the interaction, and therefore you won't be abel to defr it another time.",
-"\nAn interaction can only be deferring once!"})
+"\nKeep in mind that replying in an interaction event will automatically defer the interaction, and therefore you don't need to defer it.",
+"\nAn interaction can only be deferred once!"})
 @Examples("defer the interaction")
 public class EffDeferInteraction extends Effect {
 
