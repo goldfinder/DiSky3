@@ -20,7 +20,7 @@ public class SelfMember extends SimpleExpression<Member> {
                 SelfMember.class,
                 Member.class,
                 ExpressionType.SIMPLE,
-                "[the] self member of [the] [bot] %bot% in [the] [guild] %guild%"
+                "[the] self member of [the] [bot] %bot% (in|from|of) [the] [guild] %guild%"
         );
     }
 
