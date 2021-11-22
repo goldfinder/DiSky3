@@ -6,11 +6,11 @@ import info.itsthesky.disky3.api.music.AudioUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 
-public class SkriptTrack extends AudioWaiterEffect<AudioTrack> {
+public class SkipTrack extends AudioWaiterEffect<AudioTrack> {
 
     static {
         register(
-                SkriptTrack.class,
+                SkipTrack.class,
                 "skip [current] track",
                 "[new] track"
         );
