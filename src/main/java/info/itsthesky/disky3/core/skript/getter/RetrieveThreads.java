@@ -28,7 +28,7 @@ public class RetrieveThreads extends MultipleWaiterEffect<ThreadChannel> {
     static {
         Skript.registerEffect(
                 RetrieveThreads.class,
-                "retrieve [the] thread[s] (from|in|of) [the] [guild] %guild% [with [the] [bot] %-bot%] and store (them|the invites) in %objects%"
+                "retrieve [the] thread[s] (from|in|of) [the] [guild] %guild% [with [the] [bot] %-bot%] and store (them|the threads) in %objects%"
         );
     }
 

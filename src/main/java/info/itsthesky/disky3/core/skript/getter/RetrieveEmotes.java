@@ -21,7 +21,7 @@ public class RetrieveEmotes extends MultipleWaiterEffect<Emote> {
     static {
         Skript.registerEffect(
                 RetrieveEmotes.class,
-                "retrieve [the] emotes (in|from|of) [the] [guild] %-guild% [with [the] [bot] %-bot%] and store (them|the members) in %objects%"
+                "retrieve [the] emotes (in|from|of) [the] [guild] %-guild% [with [the] [bot] %-bot%] and store (them|the emotes) in %objects%"
         );
     }
 
@@ -43,7 +43,7 @@ public class RetrieveEmotes extends MultipleWaiterEffect<Emote> {
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
 
         if (exprBot == null || exprGuild == null) {
-            DiSky.exception(new DiSkyException("The bot or the guild cannot be found in a retrieve members effect!"), getNode());
+            DiSky.exception(new DiSkyException("The bot or the guild cannot be found in a retrieve emotes effect!"), getNode());
             return false;
         }
 
@@ -71,6 +71,6 @@ public class RetrieveEmotes extends MultipleWaiterEffect<Emote> {
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "retrieve members from guild " + exprGuild.toString(e, debug);
+        return "retrieve emotes from guild " + exprGuild.toString(e, debug);
     }
 }

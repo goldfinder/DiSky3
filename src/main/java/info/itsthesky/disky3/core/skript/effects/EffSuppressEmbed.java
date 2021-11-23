@@ -29,7 +29,7 @@ public class EffSuppressEmbed extends WaiterBotEffect {
     static {
         register(
                 EffSuppressEmbed.class,
-                "(delete|suppress) [the] embed[s] of [the] [message] %message%"
+                "(delete|suppress) [the] embed[s] (from|in|of) [the] [message] %message%"
         );
     }
 

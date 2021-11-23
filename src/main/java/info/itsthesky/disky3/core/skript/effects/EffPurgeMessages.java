@@ -32,8 +32,8 @@ public class EffPurgeMessages extends RestExceptionSection<Void> {
 
     static {
         register(EffPurgeMessages.class,
-                "purge [all] last[est] %number% messages from [the] [channel] %channel/textchannel%",
-                "force purge [all] last[est] %number% messages from [the] [channel] %channel/textchannel%");
+                "purge [all] last[est] %number% messages (from|in|of) [the] [channel] %channel/textchannel%",
+                "force purge [all] last[est] %number% messages (from|in|of) [the] [channel] %channel/textchannel%");
     }
 
     private Expression<Number> exprAmount;

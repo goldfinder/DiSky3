@@ -26,7 +26,7 @@ public class EffMoveMember extends WaiterEffect {
     static {
         Skript.registerEffect(
                 EffMoveMember.class,
-                "move [the] [member] %member% in [the] [(audio|stage|voice)] [channel] %voicechannel% [(with|using) [bot] %-bot%]"
+                "move [the] [member] %member% (from|in|of) [the] [(audio|stage|voice)] [channel] %voicechannel% [(with|using) [bot] %-bot%]"
         );
     }
 
@@ -76,7 +76,7 @@ public class EffMoveMember extends WaiterEffect {
             exprBot = Utils.defaultToEventValue(exprBot, Bot.class);
         if (exprBot == null)
         {
-            Skript.error("Unable to get the bot in a ban effect.");
+            Skript.error("Unable to get the bot in a move member effect.");
             return false;
         }
 
