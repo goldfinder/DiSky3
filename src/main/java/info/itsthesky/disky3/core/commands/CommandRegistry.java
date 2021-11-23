@@ -1,8 +1,6 @@
 package info.itsthesky.disky3.core.commands;
 
 import ch.njol.skript.config.validate.SectionValidator;
-import fr.skylyxx.docsgenerator.api.OneWayScope;
-import fr.skylyxx.docsgenerator.api.ScopeField;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -34,8 +32,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@OneWayScope(false)
-@ScopeField("commandStructure")
 public class CommandRegistry extends SelfRegisteringSkriptEvent {
 
     public static final SectionValidator commandStructure = new SectionValidator()

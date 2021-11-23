@@ -13,8 +13,6 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
-import fr.skylyxx.docsgenerator.api.OneWayScope;
-import fr.skylyxx.docsgenerator.api.ScopeField;
 import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
@@ -26,8 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@OneWayScope(false)
-@ScopeField("commandStructure")
 public class SlashRegistry extends SelfRegisteringSkriptEvent {
 
     public static final SectionValidator commandStructure = new SectionValidator()

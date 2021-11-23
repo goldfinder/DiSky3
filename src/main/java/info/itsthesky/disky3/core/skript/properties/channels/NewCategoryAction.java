@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.core.skript.properties.channels;
 
+import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.skript.action.GuildAction;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;

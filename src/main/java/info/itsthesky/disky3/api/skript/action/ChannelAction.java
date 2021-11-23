@@ -18,7 +18,7 @@ public abstract class ChannelAction<T> extends AbstractNewAction<T, TextChannel>
                 clazz,
                 entityClazz,
                 ExpressionType.SIMPLE,
-                "[a] new "+actionName+" (action|manager) in [the] [channel] %textchannel%"
+                "[a] new "+actionName+" (action|manager) in [the] [channel] %textchannel% [(using|with) [the] [bot] %-bot%]"
         );
     }
 

@@ -25,7 +25,7 @@ public abstract class GuildAction<T> extends AbstractNewAction<T, Guild> {
                 clazz,
                 entityClazz,
                 ExpressionType.SIMPLE,
-                "[a] new "+actionName+" (action|manager) in [the] [guild] %guild%"
+                "[a] new "+actionName+" (action|manager) in [the] [guild] %guild% [(using|with) [the] [bot] %-bot%]"
         );
     }
 
