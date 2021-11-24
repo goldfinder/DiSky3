@@ -1,6 +1,9 @@
 package info.itsthesky.disky3.core.skript.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -11,6 +14,15 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Name("Discord Name")
+@Description({"Return the basic discord name of a specific entity.",
+        "It will return what the client will see in the Discord client (channel, guild, etc...) except for the member, who will be converted to an user before;",
+        "This mean 'discord id of %member%' will return the member's name on discord and not in a guild (even if a nickname could be present)."})
+@Examples({"discord name of event-user",
+        "discord name of event-member",
+        "channel name of event-channel",
+        "guild name of event-guild",
+        "# etc..."})
 public class ExprName extends SimpleExpression<String> {
 
     static {
@@ -27,7 +39,7 @@ public class ExprName extends SimpleExpression<String> {
     @Override
     protected String @NotNull [] get(@NotNull Event e) {
         Object name = Utils.verifyVar(e, exprEntity, null);
-        final String n = Utils.getName(name);
+        final String n = Utils.getName(name, true);
         return n == null ? new String[0] : new String[] {n};
     }
 
