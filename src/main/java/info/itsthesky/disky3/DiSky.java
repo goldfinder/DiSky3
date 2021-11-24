@@ -9,6 +9,7 @@ import de.leonhard.storage.util.FileUtils;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.bot.BotChangers;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.emojis.updated.EmojiStore;
 import info.itsthesky.disky3.api.music.AudioUtils;
@@ -132,6 +133,8 @@ public final class DiSky extends JavaPlugin {
             e.printStackTrace();
             error("An error occurred while saving migration files.");
         }
+
+        BotChangers.init();
 
         log("Starting audio module ...");
         AudioUtils.initializeAudio();

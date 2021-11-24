@@ -61,6 +61,15 @@ public final class Utils {
         return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
     }
 
+    public static boolean worked(Runnable code) {
+        try {
+            code.run();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public static boolean areChangerMode(Changer.ChangeMode mode) {
         return mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.SET;
     }
@@ -97,6 +106,12 @@ public final class Utils {
     }
 
     public static String getName(Object name) {
+        return getName(name, false);
+    }
+
+    public static String getName(Object name, boolean nulled) {
+        if (name == null)
+            return nulled ? null : "null";
         try {
             if (name instanceof Member)
                 name = ((Member) name).getUser();
@@ -106,11 +121,11 @@ public final class Utils {
                     name
             );
             if (n == null)
-                return "null";
+                return nulled ? null : "null";
             return n;
         } catch (Exception ex) {
             Skript.warning("Cannot get the discord name of a non-discord entity ("+name.getClass().toString()+")!");
-            return "null";
+            return nulled ? null : "null";
         }
     }
 
