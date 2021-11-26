@@ -35,7 +35,7 @@ dependencies {
 
     compile 'com.github.simplix-softworks:simplixstorage:3.2.3'
 
-    compile 'club.minnced:discord-webhooks:0.5.5-rc'
+    compile 'club.minnced:discord-webhooks:0.7.2'
     // Commits: com.github.dv8fromtheworld:jda
     // Stable: net.dv8tion:JDA
     compile('com.github.dv8fromtheworld:jda:67e2d34') {
@@ -50,7 +50,8 @@ dependencies {
     compile 'net.objecthunter:exp4j:0.4.8'
     compile 'org.jsoup:jsoup:1.14.1'
     compile 'com.github.Steppschuh:Java-Markdown-Generator:master-SNAPSHOT'
-    // implementation files('D:\\Projets InteliJ Idea\\SkriptDocsGenerator\\build\\libs\\SkriptDocsGenerator-Github.jar')
+    compile 'com.github.natanbc:native-loader:0.7.0'
+// implementation files('D:\\Projets InteliJ Idea\\SkriptDocsGenerator\\build\\libs\\SkriptDocsGenerator-Github.jar')
 }
 
 jar {

@@ -6,6 +6,7 @@ import ch.njol.skript.config.Node;
 import ch.njol.skript.util.Version;
 import de.leonhard.storage.Json;
 import de.leonhard.storage.util.FileUtils;
+import info.itsthesky.disky3.api.Configuration;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.ReflectionUtils;
 import info.itsthesky.disky3.api.Utils;
@@ -86,21 +87,25 @@ public final class DiSky extends JavaPlugin {
             success("Successfully loaded Skript adapter for " + (use26 ? "2.6+" : "2.5-") + " version!");
         }
 
-        log("Checking for updates ...");
-        final PluginUpdater updater = PluginUpdater.create(this, "SkyCraft78", "DiSky3");
-        final PluginUpdater.UpdateState state = updater.check();
-        switch (state) {
-            case LOWER:
-                warn("You are using an outdated DiSky version!");
-                warn("Latest is " + updater.getLatest() + ", but are are on " + getDescription().getVersion() + "!");
-                warn("Update it now: " + Constants.GITHUB_LATEST);
-                break;
-            case EQUAL:
-                success("You are on the latest DiSky version! Well done!");
-                break;
-            case GREATER:
-                warn("Detected a custom, tester or nighty DiSky version. Please report every bugs on DiSky's website!");
-                break;
+        if (Configuration.CHECK_FOR_UPDATE.get()) {
+            log("Checking for updates ...");
+            final PluginUpdater updater = PluginUpdater.create(this, "SkyCraft78", "DiSky3");
+            final PluginUpdater.UpdateState state = updater.check();
+            switch (state) {
+                case LOWER:
+                    warn("You are using an outdated DiSky version!");
+                    warn("Latest is " + updater.getLatest() + ", but are are on " + getDescription().getVersion() + "!");
+                    warn("Update it now: " + Constants.GITHUB_LATEST);
+                    break;
+                case EQUAL:
+                    success("You are on the latest DiSky version! Well done!");
+                    break;
+                case GREATER:
+                    warn("Detected a custom, tester or nighty DiSky version. Please report every bugs on DiSky's website!");
+                    break;
+            }
+        } else {
+            warn("Passing update checking, was not enabled in the configuration file.");
         }
 
         getCommand("disky").setExecutor(new DiSkyCommand());

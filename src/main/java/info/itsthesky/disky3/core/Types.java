@@ -6,6 +6,7 @@ import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.classes.Converter;
 import ch.njol.skript.registrations.Comparators;
 import ch.njol.skript.registrations.Converters;
+import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import info.itsthesky.disky3.DiSky;
@@ -130,9 +131,7 @@ public class Types {
 		new DiSkyType<>(Activity.class, "activity", "activities", a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(), input -> null, false).register();
 		new DiSkyType<>(Bot.class, "bot", "bots?", Bot::getName, null, false).register();
 		new DiSkyType<>(Emote.class, "emote", "emotes?", Emote::getName, null, false).register();
-		new DiSkyType<>(WebhookMessageBuilder.class, "webhookmessagebuilder", "webhookmessagebuilders?", null).register();
 		new DiSkyType<>(UpdatingMessage.class, "message", "messages?", msg -> msg.getMessage().getContentRaw(), null, false).register();
-		new DiSkyType<>(Webhook.class, "webhookbuilder", "webhookbuilders?", null).register();
 		new DiSkyType<>(EmbedBuilder.class, "embedbuilder", "embedbuilders?", embed -> embed.getDescriptionBuilder().toString(), null, false).register();
 		new DiSkyType<>(CommandObject.class, "discordcommand", "discordcommands?", CommandObject::getName, null, false).register();
 		new DiSkyType<>(Invite.class, "invite", "invites?", Invite::getUrl, null, false).register();
@@ -141,6 +140,13 @@ public class Types {
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
 		new DiSkyType<>(Guild.Ban.class, "ban", "bans?", Guild.Ban::getReason, null, false).register();
 		new DiSkyType<>(User.Profile.class, "userprofile", "userprofiles?", User.Profile::getBannerUrl, null, false).register();
+
+		/*
+		 * Webhooks
+		 */
+
+		new DiSkyType<>(WebhookClient.class, "webhookclient", "webhookclients?", WebhookClient::getUrl, null, false).register();
+		new DiSkyType<>(WebhookMessageBuilder.class, "webhookbuilder", "webhookbuilders?", builder -> builder.build().getUsername(), null, false).register();
 
 		/*
 		 * Action / Manager types

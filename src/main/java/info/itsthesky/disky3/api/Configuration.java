@@ -8,7 +8,8 @@ import java.io.File;
 public enum Configuration {
 
     PARSING_SEND_EFFECT(Boolean.class, false, "ParsingSendEffect"),
-    PARSING_TAG_PROPERTY(Boolean.class, false, "ParsingTagProperty")
+    PARSING_TAG_PROPERTY(Boolean.class, false, "ParsingTagProperty"),
+    CHECK_FOR_UPDATE(Boolean.class, true, "CheckForUpdate"),
     ;
 
     private final Class clazz;
