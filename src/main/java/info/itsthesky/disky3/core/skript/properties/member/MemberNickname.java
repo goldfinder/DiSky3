@@ -21,7 +21,7 @@ public class MemberNickname extends ChangeablePropertyExpression<Member, String>
         register(
                 MemberNickname.class,
                 String.class,
-                "[discord] nick( |-)name",
+                "[discord] nick[( |-)]name",
                 "member"
         );
     }
