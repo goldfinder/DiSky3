@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
-import sun.tools.jstat.ExpressionExecuter;
 
 public class MemberHasPermission extends EasyPropertyCondition<Member> {
 

@@ -22,6 +22,7 @@ import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
@@ -94,7 +95,7 @@ public final class DiSky extends JavaPlugin {
             switch (state) {
                 case LOWER:
                     warn("You are using an outdated DiSky version!");
-                    warn("Latest is " + updater.getLatest() + ", but are are on " + getDescription().getVersion() + "!");
+                    warn("Latest is " + updater.getLatest() + ", but you are on " + getDescription().getVersion() + "!");
                     warn("Update it now: " + Constants.GITHUB_LATEST);
                     break;
                 case EQUAL:
