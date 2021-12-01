@@ -343,9 +343,9 @@ public final class Utils {
 
 
     @SuppressWarnings("unchecked")
-    public static <T> Expression<T> defaultToEventValue(Expression<T> expr, Class<T> clazz) {
+    public static <T> Expression<T> defaultToEventValue(Expression expr, Class<T> clazz) {
         if (expr != null)
-            return expr;
+            return (Expression<T>) expr;
         Class<? extends Event>[] events = SkriptAdapter.getInstance().getCurrentEvents();
         for (Class<? extends Event> e : events == null ? new Class[0] : events) {
             Getter getter = EventValues.getEventValueGetter(e, clazz, 0);
