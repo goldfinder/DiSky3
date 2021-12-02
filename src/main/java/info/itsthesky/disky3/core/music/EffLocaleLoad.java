@@ -27,7 +27,7 @@ import java.io.File;
         "\t\tif {_track} is not set:\n" +
         "\t\t\treply with \":x: **Track not found!**\"\n" +
         "\t\t\tstop\n" +
-        "\t\tplay {_track} in voice channel of event-member")
+        "\t\tplay {_track} in event-guild")
 public class EffLocaleLoad extends Effect {
 
     static {
@@ -36,7 +36,7 @@ public class EffLocaleLoad extends Effect {
 
     private Expression<String> exprPath;
     private boolean isVarLocal;
-    private Variable exprVar;
+    private Variable var;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -46,7 +46,7 @@ public class EffLocaleLoad extends Effect {
             Expression<?> tempVar = exprs[1];
             if (tempVar instanceof Variable) {
                 if (!((Variable) tempVar).isList()) {
-                    exprVar = (Variable) tempVar;
+                    var = (Variable) tempVar;
                     return true;
                 }
             }
@@ -67,13 +67,13 @@ public class EffLocaleLoad extends Effect {
             return;
         }
         AudioTrack track = AudioUtils.loadFromFile(file);
-        if (exprVar == null) return;
-        exprPath.change(e, new AudioTrack[] {track}, Changer.ChangeMode.SET);
+        if (var == null) return;
+        var.change(e, new AudioTrack[] {track}, Changer.ChangeMode.SET);
     }
 
     @Override
     public @NotNull String toString(Event e, boolean debug) {
-        return "load locale file from " + exprPath.toString(e, debug) + " and store it in " + exprVar.toString(e, debug);
+        return "load locale file from " + exprPath.toString(e, debug) + " and store it in " + var.toString(e, debug);
     }
 
 }
