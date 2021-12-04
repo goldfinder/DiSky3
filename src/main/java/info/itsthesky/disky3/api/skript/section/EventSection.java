@@ -56,7 +56,7 @@ public abstract class EventSection<T extends GenericEvent> extends EffectSection
         if (checkIfCondition())
             return false;
         loadExpressions(exprs);
-        loadSection(getSectionName(), true, getSectionEvent());
+        loadSection(getSectionName(), false, getSectionEvent());
         isOneTime = parseResult.expr.endsWith("one time");
         return true;
     }

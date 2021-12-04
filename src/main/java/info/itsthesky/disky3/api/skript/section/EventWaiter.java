@@ -11,20 +11,22 @@ import java.util.function.Predicate;
 
 public class EventWaiter<T extends GenericEvent> extends ListenerAdapter {
 
-    private static final HashMap<Class<? extends GenericEvent>, EventWaiter<?>> REGISTERED_WAITERS = new HashMap<>();
+    private static final HashMap<String, EventWaiter<?>> REGISTERED_WAITERS = new HashMap<>();
 
+    private final String customID;
     private final Class<T> clazz;
     private final Consumer<T> executor;
     private final Predicate<T> validator;
     private boolean isOneTime = false;
 
-    public EventWaiter(Class<T> clazz, Consumer<T> executor, Predicate<T> validator) {
+    public EventWaiter(Class<T> clazz, Consumer<T> executor, Predicate<T> validator, String customID) {
         this.clazz = clazz;
         this.executor = executor;
         this.validator = validator;
-        if (REGISTERED_WAITERS.containsKey(clazz))
-            unregister(REGISTERED_WAITERS.get(clazz));
-        REGISTERED_WAITERS.put(clazz, this);
+        this.customID = customID;
+        if (REGISTERED_WAITERS.containsKey(customID))
+            unregister(REGISTERED_WAITERS.get(customID));
+        REGISTERED_WAITERS.put(customID, this);
         BotManager.registerEvent(this);
     }
 
@@ -48,13 +50,17 @@ public class EventWaiter<T extends GenericEvent> extends ListenerAdapter {
         return executor;
     }
 
+    public String getCustomID() {
+        return customID;
+    }
+
     public void unregister() {
         unregister(this);
     }
 
     public static void unregister(EventWaiter<?> waiter) {
         BotManager.removeEvent(waiter);
-        REGISTERED_WAITERS.remove(waiter.getClazz());
+        REGISTERED_WAITERS.remove(waiter.getCustomID());
     }
 
     private boolean alreadyExecuted = false;

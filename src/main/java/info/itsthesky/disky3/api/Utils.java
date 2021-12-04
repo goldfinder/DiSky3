@@ -53,7 +53,7 @@ public final class Utils {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
 
-    public static <T> T verifyVar(@NotNull Event e, @Nullable Expression<T> expression) {
+    public static <T> @Nullable T verifyVar(@NotNull Event e, @Nullable Expression<T> expression) {
         return verifyVar(e, expression, null);
     }
 
@@ -432,16 +432,22 @@ public final class Utils {
         if (expression == null)
             return null;
         if (expression instanceof Variable) {
-            if (shouldBeList && !((Variable<T>) expression).isList()) {
+            final Variable<?> var = (Variable<?>) expression;
+            if (!shouldBeList && var.isList()) {
                 if (showError)
-                    Skript.error("The specified variable must be a list!");
+                    Skript.error("The specified variable is not a list, but have to be one.");
+                return null;
+            } else if (shouldBeList && !var.isList()) {
+                if (showError)
+                    Skript.error("The specified variable is not single, but have to be.");
                 return null;
             }
             return (Variable<T>) expression;
+        } else {
+            if (showError)
+                Skript.error("You must specific a valid variable, but got " + expression);
+            return null;
         }
-        if (showError)
-            Skript.error("You must specific a valid variable, but got " + expression);
-        return null;
     }
 
     public static List<Permission> convertPerms(String... perms) {

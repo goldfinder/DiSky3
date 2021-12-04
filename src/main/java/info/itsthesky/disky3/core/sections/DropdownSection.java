@@ -5,11 +5,8 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Expression;
 import info.itsthesky.disky3.api.skript.section.EventSection;
 import info.itsthesky.disky3.api.skript.section.EventWaiter;
-import info.itsthesky.disky3.core.events.component.ButtonClick;
 import info.itsthesky.disky3.core.events.component.SelectionMenu;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
-import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
-import net.dv8tion.jda.api.interactions.components.Button;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +39,8 @@ public class DropdownSection extends EventSection<SelectionMenuEvent> {
                     if (event.isCancelled())
                         ev.deferEdit().queue();
                 },
-                ev -> ev.getComponent().getId().equalsIgnoreCase(dropdown.getId())
+                ev -> ev.getComponent().getId().equalsIgnoreCase(dropdown.getId()),
+                "dropdown-section-" + dropdown.getId()
         );
     }
 

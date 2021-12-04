@@ -55,7 +55,8 @@ public class ReactionSection extends EventSection<MessageReactionAddEvent> {
                     if (!ev.getMessageId().equalsIgnoreCase(idToCheck))
                         return false;
                     return !ev.getUserId().equalsIgnoreCase(message.getMessage().getJDA().getSelfUser().getId());
-                }
+                },
+                emote.getId()
         );
     }
 

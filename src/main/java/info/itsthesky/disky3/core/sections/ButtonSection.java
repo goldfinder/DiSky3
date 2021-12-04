@@ -51,7 +51,8 @@ public class ButtonSection extends EventSection<ButtonClickEvent> {
                     if (event.isCancelled())
                         ev.deferEdit().queue();
                 },
-                ev -> ev.getButton().getId().equalsIgnoreCase(button.getId())
+                ev -> ev.getButton().getId().equalsIgnoreCase(button.getId()),
+                "button-section-" + button.getId()
         );
     }
 
