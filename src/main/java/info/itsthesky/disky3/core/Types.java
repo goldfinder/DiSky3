@@ -51,6 +51,7 @@ public class Types {
 
 		static {
 
+			Converters.registerConverter(Message.class, UpdatingMessage.class, UpdatingMessage::from);
 			Converters.registerConverter(UpdatingMessage.class, String.class, message -> message.getMessage().getContentRaw());
 			Converters.registerConverter(Emote.class, String.class, Emote::getName);
 			Converters.registerConverter(Member.class, User.class, Member::getUser);
@@ -121,6 +122,7 @@ public class Types {
 		 * Other JDA / wrapper types
 		 */
 		new DiSkyType<>(MessageSticker.class, "sticker", "stickers?", MessageSticker::getName, null, false).register();
+		new DiSkyType<>(Message.class, "discordmessage", "discordmessages?", Message::getContentRaw, null, false).register();
 		new DiSkyType<>(User.class, "user", "users?", User::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getUserById(input)), false).register();
 		new DiSkyType<>(Role.class, "role", "roles?", Role::getName, input -> BotManager.globalSearch(bot -> bot.getCore().getRoleById(input)), false).register();
 		new DiSkyType<>(ButtonRow.class, "buttonrow", "buttonrows?", ButtonRow::toString, null, false).register();
@@ -131,6 +133,7 @@ public class Types {
 		new DiSkyType<>(Activity.class, "activity", "activities", a -> a.getType().name().toLowerCase(Locale.ROOT).replaceAll("_", " ") + ": " + a.getName(), input -> null, false).register();
 		new DiSkyType<>(Bot.class, "bot", "bots?", Bot::getName, null, false).register();
 		new DiSkyType<>(Emote.class, "emote", "emotes?", Emote::getName, null, false).register();
+		new DiSkyType<>(MessageReaction.class, "reaction", "reactions?", re -> Emote.fromReaction(re.getReactionEmote()).getName(), null, false).register();
 		new DiSkyType<>(UpdatingMessage.class, "message", "messages?", msg -> msg.getMessage().getContentRaw(), null, false).register();
 		new DiSkyType<>(EmbedBuilder.class, "embedbuilder", "embedbuilders?", embed -> embed.getDescriptionBuilder().toString(), null, false).register();
 		new DiSkyType<>(CommandObject.class, "discordcommand", "discordcommands?", CommandObject::getName, null, false).register();
