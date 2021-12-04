@@ -1,5 +1,6 @@
 package info.itsthesky.disky3.api.skript;
 
+import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.skript.adapter.SkriptAdapter;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Effect that can easily manage how the TriggerItem are executed.
@@ -47,6 +49,12 @@ public abstract class WaiterEffect<T> extends Effect {
     }
 
     public abstract void runEffect(Event e);
+
+    protected boolean validateVariable(final Expression<?> expr, boolean shouldBeList) {
+        final Variable<?> var = Utils.parseVar(expr, shouldBeList, true);
+        setChangedVariable((Variable<T>) var);
+        return var != null;
+    }
 
     public void setChangedVariable(@Nullable Variable<T> changedVariable) {
         this.changedVariable = changedVariable;
@@ -96,16 +104,22 @@ public abstract class WaiterEffect<T> extends Effect {
         runItems();
     }
 
+    protected void forceRestart(Object object) {
+        forceRunItems(object instanceof Void ? null : object);
+    }
+
     protected void restart(T object) {
         runItems(object instanceof Void ? null : object);
     }
 
     protected void changeVariable(Event e, Object object) {
+        if (object instanceof List)
+            object = ((List) object).toArray(new Object[0]);
         if (changedVariable != null)
             changedVariable.change(e, (object instanceof Object[] ? (Object[]) object : new Object[]{object}), Changer.ChangeMode.SET);
     }
 
-    protected void runItems(Event e, T object) {
+    protected void runItems(Event e, Object object) {
 
         isStopped = false;
 
@@ -139,6 +153,10 @@ public abstract class WaiterEffect<T> extends Effect {
     }
 
     protected void runItems(T object) {
+        runItems(this.event, object);
+    }
+
+    protected void forceRunItems(Object object) {
         runItems(this.event, object);
     }
 }
