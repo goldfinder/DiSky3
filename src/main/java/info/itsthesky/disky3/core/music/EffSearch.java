@@ -29,8 +29,8 @@ public class EffSearch extends Effect {
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         exprSite = (Expression<AudioSite>) exprs[0];
         exprQueries = (Expression<String>) exprs[1];
-        if (Utils.parseVar(exprs[2], true) == null) return false;
-        var = Utils.parseVar(exprs[2], true);
+        if (Utils.parseVar(exprs[2], true,true) == null) return false;
+        var = Utils.parseVar(exprs[2], true, true);
         return true;
     }
 
