@@ -433,7 +433,7 @@ public final class Utils {
             return null;
         if (expression instanceof Variable) {
             final Variable<?> var = (Variable<?>) expression;
-            if (shouldBeList && var.isList()) {
+            if (shouldBeList && !var.isList()) {
                 if (showError)
                     Skript.error("The specified variable is not a list variable, but has to be one.");
                 return null;
