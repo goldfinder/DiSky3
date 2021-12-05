@@ -8,8 +8,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import info.itsthesky.disky3.api.skript.AsyncEffect;
 import info.itsthesky.disky3.api.section.EffectSection;
+import info.itsthesky.disky3.api.skript.WaiterEffect;
 import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -35,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
         "        enable guild presences intent\n" +
         "        login to \"bot token\" with name \"bot name\"")
 @Since("3.0")
-public class EffManageBotBuilder extends AsyncEffect {
+public class EffManageBotBuilder extends WaiterEffect {
 
     static {
         Skript.registerEffect(EffManageBotBuilder.class,
@@ -63,7 +63,7 @@ public class EffManageBotBuilder extends AsyncEffect {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
+    public boolean initEffect(Expression @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
         if (!EffectSection.isCurrentSection(ScopeBotBuilder.class)) {
             Skript.error("The 'enable intent' effect can only be used in a create discord bot scope!");
             return false;
@@ -75,9 +75,12 @@ public class EffManageBotBuilder extends AsyncEffect {
     }
 
     @Override
-    protected void execute(@NotNull Event e) {
+    public void runEffect(@NotNull Event e) {
         GatewayIntent[] intents = defaultIntents ? defaults : exprIntent.getArray(e);
-        if (intents == null) return;
+        if (intents == null) {
+            restart();
+            return;
+        }
 
         for (GatewayIntent intent : intents) {
             if (enable) {
@@ -118,6 +121,7 @@ public class EffManageBotBuilder extends AsyncEffect {
                 }
             }
         }
+        restart();
     }
 
     @Override

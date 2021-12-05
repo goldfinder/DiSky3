@@ -17,13 +17,18 @@ import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
-import info.itsthesky.disky3.api.skript.AsyncEffect;
 import info.itsthesky.disky3.api.section.EffectSection;
 import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.core.skript.ScopeBotBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
 
 @Name("Login to Bot")
 @Description("Register and load a new discord bot from a token and with a specific Name." +
@@ -31,6 +36,8 @@ import org.jetbrains.annotations.NotNull;
 @Examples("login to \"TOKEN\" with name \"MyBot\"")
 @Since("1.0")
 public class EffRegisterBot extends WaiterEffect {
+
+    private static final HashMap<String, QueueInfo> QUEUE_EFFECTS = new HashMap<>();
 
     static {
         Skript.registerEffect(EffRegisterBot.class,
@@ -67,24 +74,70 @@ public class EffRegisterBot extends WaiterEffect {
             restart();
             return;
         }
-        final Bot bot;
         if (!BotManager.isLoaded(name)) {
             try {
-                bot = new Bot(
-                        (scope ? ScopeBotBuilder.lastBuilder.setToken(token) : JDABuilder.createDefault(token)).build(),
-                        name
-                );
+                final JDA jda = (scope ? ScopeBotBuilder.lastBuilder.setToken(token) : JDABuilder.createDefault(token)).build();
+                jda.addEventListener(new BotLoadingListener());
+                QUEUE_EFFECTS.put(jda.getSelfUser().getId(), new QueueInfo(jda, name, this));
             } catch (Exception ex) {
                 DiSky.exception(ex, info);
                 restart();
-                return;
             }
-            BotManager.add(bot);
-            DiSky.success("The bot named " + name + " has been loaded! ("+bot.getCore().getGatewayIntents().size()+" intents enabled)");
         } else {
             DiSky.exception(new DiSkyException("The bot called " + name + " is already loaded!"), info);
+            restart();
         }
-        restart();
+    }
+
+    public static class BotLoadingListener extends ListenerAdapter {
+
+        @Override
+        public void onReady(@NotNull ReadyEvent event) {
+            final @Nullable QueueInfo info = QUEUE_EFFECTS.getOrDefault(event.getJDA().getSelfUser().getId(), null);
+            if (info == null)
+                return;
+            final Bot bot = new Bot(info.getJda(), info.getName());
+            BotManager.add(bot);
+            DiSky.success("The bot named " + info.getName() + " has been loaded! ("+bot.getCore().getGatewayIntents().size()+" intents enabled)");
+            info.getEffect().restart();
+        }
+    }
+
+    public static class QueueInfo {
+
+        private JDA jda;
+        private String name;
+        private EffRegisterBot effect;
+
+        public QueueInfo(JDA jda, String name, EffRegisterBot effect) {
+            this.jda = jda;
+            this.name = name;
+            this.effect = effect;
+        }
+
+        public JDA getJda() {
+            return jda;
+        }
+
+        public void setJda(JDA jda) {
+            this.jda = jda;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public EffRegisterBot getEffect() {
+            return effect;
+        }
+
+        public void setEffect(EffRegisterBot effect) {
+            this.effect = effect;
+        }
     }
 
     @Override
