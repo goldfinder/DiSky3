@@ -16,7 +16,7 @@ public class MemberHasRole extends EasyPropertyCondition<Member> {
         register(
                 MemberHasRole.class,
                 PropertyCondition.PropertyType.HAVE,
-                "[the] role %role%",
+                "[the] [role] %role%",
                 "member"
         );
     }
