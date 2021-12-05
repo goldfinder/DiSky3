@@ -437,7 +437,7 @@ public final class Utils {
                 if (showError)
                     Skript.error("The specified variable is not a list variable, but has to be one.");
                 return null;
-            } else if (!shouldBeList && var.isList()) {
+            } else if (!shouldBeList && !var.isList()) {
                 if (showError)
                     Skript.error("The specified variable is not a single variable, but has to be one.");
                 return null;
