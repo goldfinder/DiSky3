@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SlashObject {
 
@@ -25,6 +26,28 @@ public class SlashObject {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static List<SlashObject> getLoaded() {
+        return Arrays.asList(getRegistered().values().toArray(new SlashObject[0]));
+    }
+
+    public static List<SlashObject> fromGuild(Guild guild) {
+        return REGISTERED
+                .values()
+                .stream()
+                .filter(slash -> !slash.isGlobal())
+                .filter(slash -> slash.getGuildID().equalsIgnoreCase(guild.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<SlashObject> fromBot(Bot bot) {
+        return REGISTERED
+                .values()
+                .stream()
+                .filter(SlashObject::isGlobal)
+                .filter(slash -> slash.getBotName().equalsIgnoreCase(bot.getName()))
+                .collect(Collectors.toList());
     }
 
     public static SlashObject get(String name) { return REGISTERED.get(name); }
