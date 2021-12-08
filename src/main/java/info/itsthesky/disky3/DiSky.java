@@ -21,6 +21,7 @@ import info.itsthesky.disky3.api.skript.adapter.SkriptV2_6;
 import info.itsthesky.disky3.api.updater.PluginUpdater;
 import info.itsthesky.disky3.core.DiSkyCommand;
 import info.itsthesky.disky3.core.EffChange;
+import info.itsthesky.disky3.core.oauth.OAuthManager;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import org.bukkit.Bukkit;
@@ -167,6 +168,7 @@ public final class DiSky extends JavaPlugin {
         SlashObject.clear();
         log("Disabling DiSky's bot & instance ...");
         // Check https://github.com/DV8FromTheWorld/JDA/issues/1761#issuecomment-892921634
+        OAuthManager.shutdown();
         try {
             BotManager.reset();
         } catch (Exception ex) {
@@ -250,7 +252,16 @@ public final class DiSky extends JavaPlugin {
     ) {
         lnError();
         bigError("You just got an error while using DiSky!");
-        bigError("Message: &4&n" + ex.getMessage());
+
+        final String[] msgs = ex.getMessage().split("\n");
+        if (msgs.length == 1) {
+            bigError("Message: &4&n" + ex.getMessage());
+        } else {
+            bigError("Messages:");
+            lnError();
+            for (String msg : msgs)
+                bigError("&4" + msg);
+        }
         lnError();
 
         if (!(ex instanceof DiSkyException)) {

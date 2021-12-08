@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.Utils;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotChangers;
@@ -60,11 +61,15 @@ public abstract class BaseMultipleRetrieveEffect<T extends List, E> extends Wait
         if (bot != null)
             entity = BotChangers.convert(entity, bot);
 
-        final RestAction<T> action = retrieve(entity);
-        action.queue(values -> {
-            final List<?> temp = convert(values);
-            forceRestart(temp);
-        });
+        try {
+            final RestAction<T> action = retrieve(entity);
+            action.queue(values -> {
+                final List<?> temp = convert(values);
+                forceRestart(temp);
+            }, ex -> DiSky.exception(ex, getNode()));
+        } catch (Exception ex) {
+            DiSky.exception(ex, getNode());
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 
 package info.itsthesky.disky3.core;
 
+import bell.oauth.discord.main.OAuthBuilder;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.classes.Converter;
@@ -22,6 +23,7 @@ import info.itsthesky.disky3.api.music.AudioSite;
 import info.itsthesky.disky3.api.skript.DiSkyComparator;
 import info.itsthesky.disky3.api.wrapper.ButtonRow;
 import info.itsthesky.disky3.core.commands.CommandObject;
+import info.itsthesky.disky3.core.oauth.OAuthWrapper;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -143,6 +145,7 @@ public class Types {
 		new DiSkyType<>(AudioTrack.class, "track", "tracks?", track -> track.getInfo().title, null, false).register();
 		new DiSkyType<>(Guild.Ban.class, "ban", "bans?", Guild.Ban::getReason, null, false).register();
 		new DiSkyType<>(User.Profile.class, "userprofile", "userprofiles?", User.Profile::getBannerUrl, null, false).register();
+		new DiSkyType<>(OAuthWrapper.class, "oauthmanager", "oauthmanagers?", oauth -> "oauth manager " + oauth.getId(), null, false).register();
 
 		/*
 		 * Webhooks

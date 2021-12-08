@@ -69,7 +69,9 @@ public final class BotManager {
         bot.getCore().addEventListener(new SlashFactory.SlashQueueListener());
         bot.getCore().addEventListener((Object[]) EventListener.listeners.toArray(new ListenerAdapter[0]));
         LOADED_BOTS.add(bot);
-        bot.getCore().updateCommands().queue();
+        try {
+            bot.getCore().updateCommands().queue();
+        } catch (Exception ignored) {}
         return true;
     }
 
@@ -113,10 +115,12 @@ public final class BotManager {
     public static boolean remove(Bot bot) {
         if (!isLoaded(bot.getName()))
             return false;
-        bot.getCore().updateCommands().complete();
-        for (Guild guild : bot.getCore().getGuilds()) {
-            guild.updateCommands().complete();
-        }
+        try {
+            bot.getCore().updateCommands().complete();
+            for (Guild guild : bot.getCore().getGuilds()) {
+                guild.updateCommands().complete();
+            }
+        } catch (Exception ignored) {}
         getLoadedBots().remove(bot);
         DiSky.warn("Shutdown of bot " + bot.getName() + " ...");
         bot.getCore().shutdownNow();

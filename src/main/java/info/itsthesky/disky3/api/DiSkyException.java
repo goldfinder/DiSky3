@@ -6,4 +6,8 @@ public class DiSkyException extends Exception {
         super(message);
     }
 
+    public DiSkyException(String... messages) {
+        this(String.join("\n", messages));
+    }
+
 }

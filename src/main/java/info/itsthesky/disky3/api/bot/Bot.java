@@ -4,23 +4,35 @@ import ch.njol.skript.util.Timespan;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Bot implements Comparable<Bot>, ISnowflake {
 
     private JDA core;
     private String name;
+    private final @Nullable BotApplication application;
     private final long uptime;
 
     public Bot() {
         this.uptime = System.currentTimeMillis();
         this.core = null;
         this.name = null;
+        this.application = null;
     }
 
-    public Bot(JDA core, String name) {
+    public Bot(JDA core, String name, BotApplication application) {
         this.uptime = System.currentTimeMillis();
         this.core = core;
         this.name = name;
+        this.application = application;
+    }
+
+    public boolean hasApplication() {
+        return application != null;
+    }
+
+    public @Nullable BotApplication getApplication() {
+        return application;
     }
 
     public Timespan getUptime() {

@@ -48,6 +48,9 @@ dependencies {
     compile 'org.jsoup:jsoup:1.14.1'
     compile 'com.github.Steppschuh:Java-Markdown-Generator:master-SNAPSHOT'
     compile 'com.github.natanbc:native-loader:0.7.0'
+
+    // Library for Java OAuth2
+    compile 'com.github.HayateLaTech:OAuth2Discord:-SNAPSHOT'
 // implementation files('D:\\Projets InteliJ Idea\\SkriptDocsGenerator\\build\\libs\\SkriptDocsGenerator-Github.jar')
 }
 

@@ -14,15 +14,20 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.StringMode;
 import ch.njol.util.StringUtils;
 import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotManager;
 import info.itsthesky.disky3.api.section.EffectSection;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.ContextException;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.exceptions.MissingAccessException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.privileges.CommandPrivilege;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -336,11 +341,23 @@ public class SlashFactory {
                                             BotManager.searchFromJDA(guild.getJDA()).getName(),
                                             items, guild.getId()
                                     ));
+                                }, ex -> {
+                                    if (!(ex instanceof ErrorResponseException)) {
+                                        DiSky.exception(ex, node);
+                                    } else {
+                                        if (((ErrorResponseException) ex).getErrorResponse().equals(ErrorResponse.MISSING_ACCESS))
+                                            DiSky.exception(new DiSkyException(
+                                                    "Cannot load slash command: " + finalCommand + ", doesn't have permission to add slash commands to guild: " + guild.getName() + " ["+guild.getId()+"]",
+                                                    "This is usually because you haven't enabled the 'application.commands' scope when inviting the bot!"
+                                            ), node);
+                                        else
+                                            DiSky.exception(ex, node);
+                                    }
                                 });
                     }
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                DiSky.exception(ex, node);
             }
         }));
 

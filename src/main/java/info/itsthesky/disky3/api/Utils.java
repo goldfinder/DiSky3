@@ -461,7 +461,11 @@ public final class Utils {
     }
 
     public static void sync(Runnable runnable) {
-        Bukkit.getScheduler().runTask(DiSky.getInstance(), runnable);
+        try {
+            Bukkit.getScheduler().runTask(DiSky.getInstance(), runnable);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void async(Runnable runnable) {

@@ -43,7 +43,7 @@ public class EffManageBotBuilder extends WaiterEffect {
                 "(enable|disable) [all] default intent[s]");
     }
 
-    private final GatewayIntent[] defaults = new GatewayIntent[] {
+    public static final GatewayIntent[] defaults = new GatewayIntent[] {
             GatewayIntent.GUILD_BANS,
             GatewayIntent.GUILD_EMOJIS,
             GatewayIntent.GUILD_WEBHOOKS,

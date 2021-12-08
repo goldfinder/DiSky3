@@ -82,8 +82,12 @@ public abstract class BaseRetrieveEffect<T, E> extends WaiterEffect<T> {
             return;
         }
 
-        final RestAction<T> action = retrieve(input, entity);
-        action.queue(this::restart);
+        try {
+            final RestAction<T> action = retrieve(input, entity);
+            action.queue(this::restart, ex -> DiSky.exception(ex, getNode()));
+        } catch (Exception ex) {
+            DiSky.exception(ex, getNode());
+        }
     }
 
     @Override

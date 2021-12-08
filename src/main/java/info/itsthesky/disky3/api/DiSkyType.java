@@ -115,6 +115,36 @@ public class DiSkyType<T> {
         );
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends Enum> Parser<T> createParser(Class<T> enumClass) {
+        return new Parser<T>() {
+            @Override
+            public @NotNull String toString(T o, int flags) {
+                return o.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
+            }
+
+            @Override
+            public @NotNull String toVariableNameString(T o) {
+                return toString(o, 0);
+            }
+
+            @Override
+            public @NotNull String getVariableNamePattern() {
+                return ".+";
+            }
+
+            @Override
+            public boolean canParse(@NotNull ParseContext context) {
+                return true;
+            }
+
+            @Override
+            public T parse(@NotNull String s, @NotNull ParseContext context) {
+                return (T) Enum.valueOf(enumClass, s.toUpperCase(Locale.ROOT).replaceAll(" ", "_"));
+            }
+        };
+    }
+
     public static <T extends Enum<?>> DiSkyType<T> fromEnum(Class<T> enumClass, String typeName, String user) {
         final DiSkyType<T> type = new DiSkyType<>(
                 enumClass,

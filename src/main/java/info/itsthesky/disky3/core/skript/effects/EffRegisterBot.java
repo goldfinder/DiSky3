@@ -96,7 +96,7 @@ public class EffRegisterBot extends WaiterEffect {
             final @Nullable QueueInfo info = QUEUE_EFFECTS.getOrDefault(event.getJDA().getSelfUser().getId(), null);
             if (info == null)
                 return;
-            final Bot bot = new Bot(info.getJda(), info.getName());
+            final Bot bot = new Bot(info.getJda(), info.getName(), null);
             BotManager.add(bot);
             DiSky.success("The bot named " + info.getName() + " has been loaded! ("+bot.getCore().getGatewayIntents().size()+" intents enabled)");
             info.getEffect().restart();
