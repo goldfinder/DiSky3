@@ -1,7 +1,7 @@
 package info.itsthesky.disky3.core.skript.botbuilder;
 
-import ch.njol.skript.lang.TriggerItem;
 import info.itsthesky.disky3.core.events.bot.BotLoad;
+import info.itsthesky.disky3.core.events.guild.GuildReady;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -31,6 +31,8 @@ public class BotListener extends ListenerAdapter {
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-
+        final GuildReady.EvtGuildReady e = new GuildReady.EvtGuildReady(new GuildReady());
+        e.setJDAEvent(event);
+        getInstance().onGuildReady(e);
     }
 }
