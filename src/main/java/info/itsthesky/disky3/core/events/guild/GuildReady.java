@@ -9,14 +9,8 @@ import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class GuildReady extends DiSkyEvent<GuildReadyEvent> {
+
     static {
-        DiSkyEvent.register("Guild Ready", GuildAFKChannel.class, GuildAFKChannel.EvtGuildAFKChannel.class,
-                        "[discord] guild (ready|load)")
-                .setName("Guild Load")
-                .setDesc("Fired when a guild finishes loading and is ready to receive any events.")
-                .setExample("on guild load:");
-
-
         EventValues.registerEventValue(EvtGuildReady.class, Guild.class, new Getter<Guild, EvtGuildReady>() {
             @Override
             public Guild get(@NotNull EvtGuildReady event) {
