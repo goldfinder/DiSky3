@@ -8,7 +8,6 @@ import info.itsthesky.disky3.api.wrapper.InviteTracking;
 import info.itsthesky.disky3.core.commands.CommandListener;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashFactory;
 import info.itsthesky.disky3.core.skript.slashcommand.SlashListener;
-import info.itsthesky.disky3.core.skript.slashcommand.SlashObject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,6 +17,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 
 public final class BotManager {
 
@@ -59,6 +59,9 @@ public final class BotManager {
     }
 
     public static boolean add(Bot bot) {
+        if (bot == null) {
+            return false;
+        }
         if (isLoaded(bot.getName()))
             return false;
         bot.getCore().addEventListener(new CommandListener());
