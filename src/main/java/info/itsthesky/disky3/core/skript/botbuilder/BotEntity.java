@@ -1,14 +1,15 @@
 package info.itsthesky.disky3.core.skript.botbuilder;
 
 import ch.njol.skript.lang.TriggerItem;
+import info.itsthesky.disky3.DiSky;
 import info.itsthesky.disky3.api.bot.Bot;
 import info.itsthesky.disky3.api.bot.BotApplication;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.event.Event;
 
-import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +34,22 @@ public class BotEntity {
         this.onGuildReady = onGuildReady;
     }
 
+
+
     public static BotEntity empty(String name) {
         return new BotEntity(name, null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     public Bot build() {
         final JDA core;
+        NodeInformation info = new NodeInformation();
         try {
             core = JDABuilder
                     .create(getToken(), getEnableIntents())
                     .addEventListeners(new BotListener(this))
                     .build();
-        } catch (LoginException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            DiSky.exception(ex, info);
             return null;
         }
         return new Bot(core, getName(), getApplication());
