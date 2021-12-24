@@ -3,12 +3,16 @@ package info.itsthesky.disky3.core.skript.properties.member;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.PropertyCondition;
 import info.itsthesky.disky3.api.skript.properties.base.EasyPropertyCondition;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
+
 
 public class MemberHasRole extends EasyPropertyCondition<Member> {
 
@@ -25,8 +29,16 @@ public class MemberHasRole extends EasyPropertyCondition<Member> {
 
     @Override
     public boolean check(Event e, Member entity) {
+        NodeInformation node = new NodeInformation();
         Role role = exprRole.getSingle(e);
-        if (role == null) return false;
+        if (role == null) {
+            DiSky.exception(new DiSkyException("Tried to get roles of an entity but the role is null!"), node);
+            return false;
+        }
+        if (entity == null) {
+            DiSky.exception(new DiSkyException("Tried to get roles of an entity but the entity is null!"), node);
+            return false;
+        }
         return entity.getRoles().stream().anyMatch(role1 -> role1.compareTo(role) == 0);
     }
 

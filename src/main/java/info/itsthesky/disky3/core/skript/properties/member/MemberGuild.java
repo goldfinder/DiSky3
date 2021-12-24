@@ -29,7 +29,7 @@ public class MemberGuild extends SimplePropertyExpression<Member, Guild> {
 
     @Override
     protected @NotNull String getPropertyName() {
-        return "discord id";
+        return "discord guild";
     }
 
     @Override

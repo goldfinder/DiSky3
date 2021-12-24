@@ -3,13 +3,15 @@ package info.itsthesky.disky3.core.skript.properties.member;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import info.itsthesky.disky3.DiSky;
+import info.itsthesky.disky3.api.DiSkyException;
 import info.itsthesky.disky3.api.Utils;
+import info.itsthesky.disky3.api.skript.NodeInformation;
 import info.itsthesky.disky3.api.skript.PropertyCondition;
 import info.itsthesky.disky3.api.skript.properties.base.EasyPropertyCondition;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,9 +31,14 @@ public class MemberHasPermission extends EasyPropertyCondition<Member> {
 
     @Override
     public boolean check(Event e, Member entity) {
+        NodeInformation node = new NodeInformation();
         final Permission[] perms = exprPerms.getArray(e);
         final @Nullable GuildChannel channel = Utils.verifyVar(e, exprChannel);
         if (perms.length == 0) return false;
+        if (entity == null) {
+            DiSky.exception(new DiSkyException("Tried to get permissions of an entity but the entity is null!"), node);
+            return false;
+        }
         return channel == null ? isNegated() != entity.hasPermission(perms) : isNegated() != entity.hasPermission(channel, perms);
     }
 
