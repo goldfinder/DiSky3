@@ -28,11 +28,10 @@ public class MemberHasPermission extends EasyPropertyCondition<Member> {
 
     private Expression<Permission> exprPerms;
     private Expression<GuildChannel> exprChannel;
-    private NodeInformation node;
 
     @Override
     public boolean check(Event e, Member entity) {
-        node = new NodeInformation();
+        NodeInformation node = new NodeInformation();
         final Permission[] perms = exprPerms.getArray(e);
         final @Nullable GuildChannel channel = Utils.verifyVar(e, exprChannel);
         if (perms.length == 0) return false;
