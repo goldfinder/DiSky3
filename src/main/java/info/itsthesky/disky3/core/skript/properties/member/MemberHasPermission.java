@@ -35,10 +35,7 @@ public class MemberHasPermission extends EasyPropertyCondition<Member> {
         final Permission[] perms = exprPerms.getArray(e);
         final @Nullable GuildChannel channel = Utils.verifyVar(e, exprChannel);
         if (perms.length == 0) return false;
-        if (entity == null) {
-            DiSky.exception(new DiSkyException("Tried to get permissions of an entity but the entity is null!"), node);
-            return false;
-        }
+        if (entity == null) return false;
         return channel == null ? isNegated() != entity.hasPermission(perms) : isNegated() != entity.hasPermission(channel, perms);
     }
 

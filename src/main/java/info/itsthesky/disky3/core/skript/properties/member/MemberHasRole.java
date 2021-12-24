@@ -31,14 +31,8 @@ public class MemberHasRole extends EasyPropertyCondition<Member> {
     public boolean check(Event e, Member entity) {
         NodeInformation node = new NodeInformation();
         Role role = exprRole.getSingle(e);
-        if (role == null) {
-            DiSky.exception(new DiSkyException("Tried to get roles of an entity but the role is null!"), node);
-            return false;
-        }
-        if (entity == null) {
-            DiSky.exception(new DiSkyException("Tried to get roles of an entity but the entity is null!"), node);
-            return false;
-        }
+        if (role == null) return false;
+        if (entity == null) return false;
         return entity.getRoles().stream().anyMatch(role1 -> role1.compareTo(role) == 0);
     }
 
