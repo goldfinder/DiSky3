@@ -1,9 +1,6 @@
 package info.itsthesky.disky3.api.bot;
 
 import ch.njol.skript.util.Timespan;
-import info.itsthesky.disky3.DiSky;
-import info.itsthesky.disky3.api.DiSkyException;
-import info.itsthesky.disky3.api.skript.NodeInformation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +12,6 @@ public class Bot implements Comparable<Bot>, ISnowflake {
     private String name;
     private final @Nullable BotApplication application;
     private final long uptime;
-    private NodeInformation node;
 
     public Bot() {
         this.uptime = System.currentTimeMillis();
@@ -24,7 +20,7 @@ public class Bot implements Comparable<Bot>, ISnowflake {
         this.application = null;
     }
 
-    public Bot(JDA core, String name, @Nullable BotApplication application) {
+    public Bot(JDA core, String name, BotApplication application) {
         this.uptime = System.currentTimeMillis();
         this.core = core;
         this.name = name;
@@ -49,19 +45,16 @@ public class Bot implements Comparable<Bot>, ISnowflake {
     }
 
     public JDA getCore() {
-       node = new NodeInformation();
-        if (!BotManager.anyBotLoaded() && core == null) {
-            DiSky.exception(new DiSkyException("Tried to get a bot but there arent any bot loaded in the server"), node);
-        }
+        if (!BotManager.anyBotLoaded() && core == null)
+            return null;
         if (core == null)
             load();
         return core;
     }
 
     public String getName() {
-        node = new NodeInformation();
         if (!BotManager.anyBotLoaded() && name == null)
-            DiSky.exception(new DiSkyException("Tried to get a bot but there arent any bot loaded in the server."), node);
+            return null;
         if (name == null)
             load();
         return name;
@@ -81,4 +74,5 @@ public class Bot implements Comparable<Bot>, ISnowflake {
     @Override
     public long getIdLong() {
         return getCore().getSelfUser().getIdLong();
-    }}
+    }
+}
